@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENEMDU Trimestral · Caracterización de Otro Empleo no Pleno</title>
+<link rel="stylesheet" href="../assets/css/shared.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
+<style>
+:root{
+  --azul:#4F449A; --azul-2:#4F449A; --azul-claro:#1d6fa8;
+  --dorado:#F1B620; --dorado-claro:#FEF7DC;
+  --gris-fondo:#f4f6f8; --gris-borde:#dbe1e8; --gris-texto:#4a5568; --texto:#1c2a3a;
+  --verde:#2f7d5a; --rojo:#b8433f;
+}
+*{box-sizing:border-box;}
+body{margin:0; font-family:Arial, sans-serif; background:var(--gris-fondo); color:var(--texto);}
+h1,h2,h3{font-family:'Arial Black', Arial, sans-serif; font-weight:600;}
+a{text-decoration:none; color:inherit;}
+
+.topbar{background:linear-gradient(135deg, var(--azul) 0%, var(--azul-2) 100%); color:#fff; padding:26px 32px; border-bottom:4px solid var(--dorado);}
+.topbar-inner{max-width:1280px; margin:0 auto;}
+.back-link{display:inline-block; margin-bottom:10px; font-size:13px; color:rgba(255,255,255,0.65);}
+.back-link:hover{color:#fff;}
+.eyebrow{font-family:'Arial Black', Arial, sans-serif; font-size:13px; letter-spacing:2px; text-transform:uppercase; color:var(--dorado-claro); font-weight:600;}
+.topbar h1{margin:6px 0 6px 0; font-size:30px; color:#fff;}
+.topbar p{font-size:14.5px; color:rgba(255,255,255,0.65); max-width:760px; margin:0;}
+
+main{max-width:1280px; margin:0 auto; padding:24px 32px 60px 32px;}
+
+.indicator-bar{background:#fff; border:1px solid var(--gris-borde); border-radius:12px; padding:18px 22px; margin-bottom:20px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;}
+.indicator-bar label{font-family:'Arial Black', Arial, sans-serif; font-size:13px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; color:var(--azul-claro);}
+#famSelect{
+  flex:1; min-width:280px; font-family:Arial, sans-serif; font-size:15.5px; font-weight:600; color:var(--azul);
+  padding:11px 14px; border:1px solid var(--gris-borde); border-radius:8px; background:#fff; cursor:pointer;
+}
+.ind-def{font-size:13.5px; color:var(--gris-texto); line-height:1.5; width:100%; margin-top:2px;}
+
+.kpi-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; margin-bottom:24px;}
+@media(max-width:900px){.kpi-grid{grid-template-columns:1fr;}}
+.kpi-card{background:#fff; border:1px solid var(--gris-borde); border-radius:12px; padding:16px 18px; border-top:4px solid var(--azul-claro);}
+.kpi-card.hi{border-top-color:var(--verde);}
+.kpi-card.lo{border-top-color:var(--rojo);}
+.kpi-lbl{font-family:'Arial Black', Arial, sans-serif; font-size:11.5px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; color:var(--gris-texto); margin-bottom:6px;}
+.kpi-val{font-family:'Arial Black', Arial, sans-serif; font-size:22px; font-weight:700; color:var(--azul); line-height:1.2;}
+.kpi-sub{font-size:12px; color:var(--gris-texto); margin-top:4px;}
+
+.panel{background:#fff; border:1px solid var(--gris-borde); border-radius:12px; padding:20px 22px; margin-bottom:20px;}
+.panel-title{font-family:'Arial Black', Arial, sans-serif; font-size:13px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--azul-claro); margin-bottom:14px;}
+.chart-wrap{position:relative; height:340px;}
+.chart-wrap.short{height:300px;}
+
+.insight-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+@media(max-width:800px){.insight-grid{grid-template-columns:1fr;}}
+.insight-box{border-radius:10px; padding:16px 18px;}
+.insight-box.bueno{background:#eef7f1; border-left:5px solid var(--verde);}
+.insight-box.malo{background:#fbedec; border-left:5px solid var(--rojo);}
+.insight-box .ib-title{font-family:'Arial Black', Arial, sans-serif; font-size:13px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; margin-bottom:10px; display:flex; align-items:center; gap:6px;}
+.insight-box.bueno .ib-title{color:var(--verde);}
+.insight-box.malo .ib-title{color:var(--rojo);}
+.insight-box ul{margin:0; padding-left:18px;}
+.insight-box li{font-size:13.5px; line-height:1.55; margin-bottom:8px; color:var(--texto);}
+.insight-box li:last-child{margin-bottom:0;}
+.insight-empty{font-size:13px; color:var(--gris-texto); font-style:italic;}
+
+.trim-select{font-family:Arial, sans-serif; font-size:14px; font-weight:600; color:var(--azul); padding:9px 14px; border:1px solid var(--gris-borde); border-radius:8px; background:#fff; cursor:pointer; margin-bottom:16px;}
+.snap-note{font-size:12.5px; color:var(--gris-texto); margin-bottom:14px;}
+.snap-note b{color:var(--azul);}
+
+details.tech-notes{background:#fff; border:1px solid var(--gris-borde); border-radius:12px; margin-bottom:20px; overflow:hidden;}
+details.tech-notes summary{padding:16px 22px; cursor:pointer; font-weight:700; font-size:14.5px; color:var(--azul); list-style:none; display:flex; align-items:center; justify-content:space-between; font-family:'Arial Black', Arial, sans-serif; letter-spacing:.4px;}
+details.tech-notes summary::-webkit-details-marker{display:none;}
+details.tech-notes summary:after{content:'▸'; transition:transform .15s; color:var(--azul-claro);}
+details.tech-notes[open] summary:after{transform:rotate(90deg);}
+.tn-body{padding:0 22px 20px 22px; font-size:13.5px; color:var(--gris-texto); line-height:1.65;}
+.tn-body h4{font-family:'Arial Black', Arial, sans-serif; font-size:12.5px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; color:var(--azul-claro); margin:16px 0 6px 0;}
+.tn-body h4:first-child{margin-top:0;}
+.tn-body ul{margin:4px 0; padding-left:20px;}
+.tn-body li{margin-bottom:5px;}
+.tn-body a{color:var(--azul-claro); text-decoration:underline;}
+.tn-body .cita{background:var(--gris-fondo); border-radius:8px; padding:10px 14px; font-size:12.5px; margin-top:6px;}
+
+footer{text-align:center; padding:26px; font-size:12.5px; color:var(--gris-texto);}
+.hidden{display:none;}
+
+/* ---- nuevo header institucional con trazabilidad y menú de indicadores ---- */
+.ind-header{background:var(--azul); padding:0 32px; display:flex; align-items:center; justify-content:space-between; height:64px; border-bottom:3px solid var(--dorado); flex-wrap:wrap; gap:8px; position:sticky; top:0; z-index:99;}
+.mega-nav{top:64px !important;}
+.ind-header-left{display:flex; align-items:center; gap:14px; padding:10px 0;}
+.header-logo{min-width:38px; height:38px; padding:0 6px; box-sizing:border-box; background:var(--dorado); border-radius:8px; display:flex; align-items:center; justify-content:center; font-family:'Arial Black', Arial, sans-serif; font-weight:700; font-size:12.5px; color:var(--azul); flex-shrink:0;}
+.ind-header-title{font-family:'Arial Black', Arial, sans-serif; font-weight:700; font-size:17px; color:#fff; line-height:1.25;}
+.ind-header-sub{font-size:11.5px; color:rgba(255,255,255,0.65); margin-top:1px;}
+.ind-header-right{display:flex; align-items:center; gap:10px; position:relative;}
+.nav-btn{background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.28); color:var(--azul-light); padding:7px 14px; border-radius:6px; font-size:12.5px; font-weight:600; cursor:pointer; text-decoration:none; font-family:Arial, sans-serif; white-space:nowrap; display:inline-block;}
+.nav-btn:hover{background:rgba(255,255,255,.18);}
+.menu-drop{position:absolute; top:calc(100% + 8px); right:0; background:#fff; border:1px solid var(--gris-borde); border-radius:10px; box-shadow:0 10px 30px rgba(11,45,82,.22); min-width:290px; padding:8px; display:none; z-index:80;}
+.menu-drop.open{display:block;}
+.menu-drop a{display:block; padding:9px 12px; border-radius:7px; font-size:13.5px; color:var(--azul); text-decoration:none; font-weight:600;}
+.menu-drop a:hover{background:var(--gris-fondo);}
+.menu-drop a.current{background:var(--dorado-claro); color:var(--amarillo-d);}
+.ind-breadcrumb{background:#fff; border-bottom:2px solid var(--gris-borde); padding:9px 32px; font-size:12.5px; color:var(--gris-texto);}
+.ind-breadcrumb a{color:var(--gris-texto); text-decoration:none; font-weight:600;}
+.ind-breadcrumb a:hover{color:var(--azul);}
+.ind-breadcrumb b{color:var(--texto); font-weight:700;}
+.page-intro{max-width:1280px; margin:0 auto; padding:20px 32px 0 32px; font-size:13.5px; color:var(--gris-texto); line-height:1.6;}
+
+</style>
+</head>
+<body>
+
+<div id="app-sidebar-mount"></div>
+
+<div class="ind-header">
+  <div class="ind-header-left">
+    <div class="header-logo">MTDH</div>
+    <div>
+      <div class="ind-header-title">Caracterización de Otro Empleo no Pleno</div>
+      <div class="ind-header-sub">Ministerio de Trabajo y Desarrollo Humano · ENEMDU Trimestral</div>
+    </div>
+  </div>
+  <div class="ind-header-right">
+    <button class="nav-btn" type="button" onclick="toggleMenu('menuTrimestral')">☰ Menú Trimestral</button>
+    <div id="menuTrimestral" class="menu-drop">
+      <a href="poblaciones_trimestral.html">Poblaciones</a>
+      <a href="tasas_trimestral.html">Tasas</a>
+      <a href="caracterizacion_empleados_trimestral.html">Caracterización de Empleados</a>
+      <a href="caracterizacion_adec_pleno_trimestral.html">Caracterización de Empleo Adecuado/Pleno</a>
+      <a href="caracterizacion_subempleo_trimestral.html">Caracterización de Subempleo</a>
+      <a href="caracterizacion_otro_no_pleno_trimestral.html" class="current">Caracterización de Otro Empleo no Pleno</a>
+      <a href="caracterizacion_desempleo_trimestral.html">Caracterización de Desempleo</a>
+      <a href="sectorizacion_empleo_trimestral.html">Sectorización del Empleo</a>
+    </div>
+    <a class="nav-btn" href="../index_ENEMDU.html">Inicio</a>
+  </div>
+</div>
+<nav class="ind-breadcrumb">
+  <a href="../index_ENEMDU.html">Inicio</a> › <a href="trimestral.html">Trimestral</a> › <b>Caracterización de Otro Empleo no Pleno</b>
+</nav>
+<p class="page-intro">Perfil sociodemográfico y laboral de las personas en la categoría "Otro Empleo no Pleno" a nivel nacional (IV-2020 a I-2026): sexo, tipo de empleado, tipo de trabajo, edad, etnia y sector. Estos datos vienen como composición directa de esta categoría, sin necesitar más desagregación.</p>
+
+<main>
+
+  <div class="indicator-bar">
+    <label for="famSelect">Característica</label>
+    <select id="famSelect"></select>
+    <div class="ind-def" id="famDef"></div>
+  </div>
+
+  <div class="kpi-grid" id="kpiGrid"></div>
+
+  <div class="panel">
+    <div class="panel-title">Lectura de los datos</div>
+    <div class="insight-grid" id="insightGrid"></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">Evolución histórica — IV-2020 a I-2026 (todas las categorías)</div>
+    <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">Corte por trimestre</div>
+    <div class="snap-note">Composición correspondiente a <b id="snapTrimLabel"></b> — elige otro trimestre específico:</div>
+    <select class="trim-select" id="trimSelect"></select>
+    <div class="chart-wrap short"><canvas id="snapChart"></canvas></div>
+  </div>
+
+  <details class="tech-notes">
+    <summary>⚠ Notas técnicas, fuente y metodología</summary>
+    <div class="tn-body">
+      <h4>Fuente</h4>
+      <p style="margin:0 0 4px 0;">Encuesta de Empleo, Desempleo y Subempleo (ENEMDU) — Acumulada Trimestral, Instituto Nacional de Estadística y Censos (INEC).</p>
+
+      <h4>Qué mide esta hoja</h4>
+      <p style="margin:0;">A diferencia de Poblaciones y Tasas, esta hoja no cruza indicadores contra Área/Sexo/Edad/Etnia: cada característica (Sexo, Tipo de Empleado, Etnia, etc.) ya es en sí misma una desagregación directa de la población en "Otro Empleo no Pleno", expresada como porcentaje de esa población. Al igual que en Subempleo, esta hoja no incluye Nivel de Instrucción ni Rama de Actividad.</p>
+
+      <h4>Corrección aplicada a los datos</h4>
+      <p style="margin:0;">La hoja original del Excel ("3.4 Caracterización Ot. no ple") trae la columna <b>II-2025 duplicada</b> (23 columnas de trimestre en vez de 22, con valores idénticos en ambas). Se eliminó la columna repetida para restaurar la serie de 22 trimestres consistente con el resto del tablero (IV-2020 a I-2026). Se recomienda validar esta anomalía contra el archivo fuente del INEC.</p>
+
+      <h4>Sobre las notas (1) y (2) del Excel original</h4>
+      <p style="margin:0;">El archivo fuente marca algunas características con estos superíndices, pero no incluye el texto de la nota correspondiente en la hoja. Con base en la terminología estándar de la ENEMDU: (1) Tipo de Empleado distingue si la persona trabaja en el sector público o privado; (2) Tipo de Trabajo distingue empleo asalariado (con relación de dependencia patronal) de empleo independiente (cuenta propia, empleador, etc.).</p>
+
+      <h4>Trimestres</h4>
+      <ul>
+        <li><b>I</b> — enero a marzo</li>
+        <li><b>II</b> — abril a junio</li>
+        <li><b>III</b> — julio a septiembre</li>
+        <li><b>IV</b> — octubre a diciembre</li>
+      </ul>
+
+      <h4>Comparabilidad histórica (2020–2021)</h4>
+      <p style="margin:0;">Desde 2020 hasta mayo de 2021 la ENEMDU implementó cambios metodológicos asociados al tamaño y distribución de la muestra, el nivel de representatividad de los estimadores y la construcción de factores de ponderación, lo que afectó la comparabilidad histórica de las cifras oficiales. Más información en la <a href="https://bit.ly/3hQMHRE" target="_blank" rel="noopener">nota técnica del INEC</a>.</p>
+
+      <h4>Cómo citar</h4>
+      <div class="cita">INEC. (2026). <i>Principales resultados mercado laboral trimestral-ENEMDU</i>. <a href="https://www.ecuadorencifras.gob.ec/enemdu-trimestral/" target="_blank" rel="noopener">https://www.ecuadorencifras.gob.ec/enemdu-trimestral/</a></div>
+    </div>
+  </details>
+
+  <div class="gov-close"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="Gobierno del Ecuador"></div>
+
+</main>
+
+<footer>ENEMDU · Instituto Nacional de Estadística y Censos (INEC) — Panel elaborado por la Dirección de Estudios y Análisis, Subsecretaría de Gestión de Datos y Estudio, Ministerio de Trabajo y Desarrollo Humano</footer>
+
+<script src="../assets/js/cargar-datos.js"></script>
+<script>
+// Datos de esta página (carpeta datos/). Ver datos/LEEME.md
+cargarDatos({
+  RAW: { archivo: '../datos/enemdu/trimestral/caracterizacion_otro_no_pleno.csv', forma: 'familias' }
+});
+</script>
+<script type="text/plain" data-tras-datos>
+const TRIMS = RAW.trimestres;
+const FAMILIES = RAW.families;
+
+const IS_HOURS = (fam) => false;
+
+const FAM_DEF = {
+  'Sexo':'Composición de "Otro Empleo no Pleno" según sexo.',
+  'Tipo de Empleado(1)':'Composición de "Otro Empleo no Pleno" según si la persona trabaja para el sector público o privado.',
+  'Tipo de Trabajo(2)':'Composición de "Otro Empleo no Pleno" según si es asalariado (con relación de dependencia) o independiente (cuenta propia, empleador, etc.).',
+  'Grupos de edad':'Composición de "Otro Empleo no Pleno" según grupo etario.',
+  'Etnia':'Composición de "Otro Empleo no Pleno" según autoidentificación étnica.',
+  'Sectorización de la Población':'Composición de "Otro Empleo no Pleno" según sector formal, informal, doméstico o no clasificado.',
+};
+
+const INSIGHTS = {
+  'Sexo':{
+    bueno:[],
+    malo:['Los hombres ganan peso dentro de "Otro Empleo no Pleno": de 58.7% (IV-2020) a 59.7% (I-2026), con un salto de +2.4 pp solo en el último año — la composición se masculiniza en el corto plazo.']
+  },
+  'Tipo de Empleado(1)':{
+    bueno:[],
+    malo:['Esta categoría es casi exclusivamente empleo privado (99.9%): el empleo público prácticamente no genera "Otro Empleo no Pleno".']
+  },
+  'Tipo de Trabajo(2)':{
+    bueno:['El empleo asalariado dentro de esta categoría sube de 31.1% a 37.4% desde 2020 (+6.3 pp) — una parte creciente de "Otro Empleo no Pleno" corresponde a personas con relación de dependencia, aunque en condiciones no plenas.'],
+    malo:['El empleo independiente sigue siendo mayoritario (62.6%), reflejando la persistencia de trabajo por cuenta propia en esta categoría no plena.']
+  },
+  'Grupos de edad':{
+    bueno:[],
+    malo:['La participación de los jóvenes (15-24 años) cae de 14.4% a 11.7% desde 2020 (-2.7 pp), la caída más marcada de todos los grupos etarios en esta categoría.']
+  },
+  'Etnia':{
+    bueno:[],
+    malo:['La población Indígena está sobrerrepresentada en "Otro Empleo no Pleno" (17.9% en I-2026, +1.3 pp desde 2020) frente a su peso en el empleo total — una señal más de la brecha étnica en la calidad del empleo.']
+  },
+  'Sectorización de la Población':{
+    bueno:[],
+    malo:['"Otro Empleo no Pleno" se concentra cada vez más en el sector informal: sube de 66.2% a 75.1% desde 2020 (+8.9 pp), mientras el sector formal cae de 26.8% a 20.4% (-6.4 pp) — la mayor caída del sector formal entre todas las categorías de empleo caracterizadas hasta ahora.']
+  },
+};
+
+let currentFamily = FAMILIES[0].family;
+let currentSnapTrim = TRIMS[TRIMS.length-1];
+let trendChart, snapChart;
+
+const PALETTE = ['#0b2d52','#1d6fa8','#c8992a','#2f7d5a','#b8433f','#7a5c9e'];
+
+Chart.register(ChartDataLabels);
+Chart.defaults.set('plugins.datalabels', {display:false});
+
+function famByName(name){
+  return FAMILIES.find(f => f.family === name);
+}
+
+function buildSelect(){
+  const sel = document.getElementById('famSelect');
+  sel.innerHTML = FAMILIES.map(f => {
+    const label = f.family.replace(/\(\d\)$/,'').replace(/\s*\*\*\n.*/,'').trim();
+    return `<option value="${f.family}" ${f.family===currentFamily?'selected':''}>${label}</option>`;
+  }).join('');
+  sel.addEventListener('change', () => {
+    currentFamily = sel.value;
+    renderAll();
+  });
+}
+
+function buildTrimSelect(){
+  const sel = document.getElementById('trimSelect');
+  sel.innerHTML = TRIMS.map(t => `<option value="${t}" ${t===currentSnapTrim?'selected':''}>${t.trim()}</option>`).reverse().join('');
+  sel.addEventListener('change', () => {
+    currentSnapTrim = sel.value;
+    renderSnap();
+  });
+}
+
+function fmtVal(v, fam){
+  if (v==null) return '—';
+  return IS_HOURS(fam) ? v.toFixed(1)+' h' : v.toFixed(1)+'%';
+}
+
+function renderDef(){
+  document.getElementById('famDef').textContent = FAM_DEF[currentFamily] || '';
+}
+
+function renderInsights(){
+  const ins = INSIGHTS[currentFamily] || {bueno:[], malo:[]};
+  const grid = document.getElementById('insightGrid');
+  const listHtml = (arr) => arr.length
+    ? `<ul>${arr.map(t=>`<li>${t}</li>`).join('')}</ul>`
+    : `<div class="insight-empty">Sin hallazgos destacados para este corte.</div>`;
+  grid.innerHTML = `
+    <div class="insight-box bueno">
+      <div class="ib-title">✓ Lo positivo</div>
+      ${listHtml(ins.bueno)}
+    </div>
+    <div class="insight-box malo">
+      <div class="ib-title">⚠ Lo que preocupa</div>
+      ${listHtml(ins.malo)}
+    </div>`;
+}
+
+function renderKpis(){
+  const fam = famByName(currentFamily);
+  const grid = document.getElementById('kpiGrid');
+  const lastIdx = TRIMS.length-1;
+
+  // categoría con mayor valor actual
+  let top = fam.items[0];
+  fam.items.forEach(it => { if ((it.values[lastIdx]||-Infinity) > (top.values[lastIdx]||-Infinity)) top = it; });
+
+  // mayor y menor cambio IV-2020 -> I-2026
+  let maxUp = null, maxDown = null;
+  fam.items.forEach(it => {
+    const first = it.values[0], last = it.values[lastIdx];
+    if (first==null || last==null) return;
+    const diff = last-first;
+    if (maxUp===null || diff > maxUp.diff) maxUp = {label:it.label, diff};
+    if (maxDown===null || diff < maxDown.diff) maxDown = {label:it.label, diff};
+  });
+
+  const unit = IS_HOURS(currentFamily) ? 'h' : 'pp';
+
+  grid.innerHTML = `
+    <div class="kpi-card">
+      <div class="kpi-lbl">Categoría con mayor peso (${TRIMS[lastIdx].trim()})</div>
+      <div class="kpi-val">${top.label}</div>
+      <div class="kpi-sub">${fmtVal(top.values[lastIdx], currentFamily)}</div>
+    </div>
+    <div class="kpi-card hi">
+      <div class="kpi-lbl">Mayor incremento desde IV-2020</div>
+      <div class="kpi-val">${maxUp?maxUp.label:'—'}</div>
+      <div class="kpi-sub">${maxUp?('▲ '+Math.abs(maxUp.diff).toFixed(2)+' '+unit):'—'}</div>
+    </div>
+    <div class="kpi-card lo">
+      <div class="kpi-lbl">Mayor caída desde IV-2020</div>
+      <div class="kpi-val">${maxDown?maxDown.label:'—'}</div>
+      <div class="kpi-sub">${maxDown?('▼ '+Math.abs(maxDown.diff).toFixed(2)+' '+unit):'—'}</div>
+    </div>`;
+}
+
+function renderTrend(){
+  const fam = famByName(currentFamily);
+  const labels = TRIMS.map(t=>t.trim());
+  const ctx = document.getElementById('trendChart').getContext('2d');
+  if (trendChart) trendChart.destroy();
+  const datasets = fam.items.map((it,i) => ({
+    label: it.label, data: it.values, borderColor: PALETTE[i%PALETTE.length],
+    backgroundColor: PALETTE[i%PALETTE.length], borderWidth: 2.5, tension:.3, pointRadius:2.5,
+  }));
+  trendChart = new Chart(ctx, {
+    type:'line',
+    data:{labels, datasets},
+    options:{responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom', labels:{boxWidth:12, font:{size:11.5}}},
+        tooltip:{callbacks:{label: c => `${c.dataset.label}: ${fmtVal(c.parsed.y, currentFamily)}`}}},
+      scales:{y:{ticks:{callback:v=> IS_HOURS(currentFamily) ? v+'h' : v+'%'}, grid:{color:'#eef1f4'}},
+              x:{grid:{display:false}, ticks:{autoSkip:true, maxRotation:0}}}}
+  });
+}
+
+function renderSnap(){
+  document.getElementById('snapTrimLabel').textContent = currentSnapTrim.trim();
+  const fam = famByName(currentFamily);
+  const idx = TRIMS.indexOf(currentSnapTrim);
+  const labels = fam.items.map(it=>it.label);
+  const vals = fam.items.map(it=>it.values[idx]);
+  const ctx = document.getElementById('snapChart').getContext('2d');
+  if (snapChart) snapChart.destroy();
+  snapChart = new Chart(ctx, {
+    type:'bar',
+    data:{labels, datasets:[{data:vals, backgroundColor:labels.map((_,i)=>PALETTE[i%PALETTE.length]), borderRadius:5}]},
+    options:{responsive:true, maintainAspectRatio:false,
+      layout:{padding:{top:22}},
+      plugins:{legend:{display:false},
+        tooltip:{callbacks:{label: c => fmtVal(c.parsed.y, currentFamily)}},
+        datalabels:{
+          display:true, anchor:'end', align:'top', offset:2,
+          color:'#1c2a3a', font:{family:"Arial, sans-serif", weight:700, size:12},
+          formatter: v => fmtVal(v, currentFamily)
+        }},
+      scales:{
+        y:{ticks:{callback:v=> IS_HOURS(currentFamily) ? v+'h' : v+'%'}, grid:{color:'#eef1f4'}},
+        x:{grid:{display:false}, ticks:{font:{size:11}, maxRotation:20, minRotation:0}}
+      }}
+  });
+}
+
+function renderAll(){
+  renderDef();
+  renderInsights();
+  renderKpis();
+  renderTrend();
+  renderSnap();
+}
+
+buildSelect();
+buildTrimSelect();
+renderAll();
+
+function toggleMenu(id){
+  document.getElementById(id).classList.toggle('open');
+}
+document.addEventListener('click', function(e){
+  document.querySelectorAll('.menu-drop.open').forEach(function(el){
+    if(!el.parentElement.contains(e.target)) el.classList.remove('open');
+  });
+});
+</script>
+<script type="text/plain" data-tras-datos data-src="../assets/js/shared.js"></script>
+<script type="text/plain" data-tras-datos>
+initSidebar({ activeId: 'pnd-trabajo', basePath: '../' });
+</script>
+
+<script type="text/plain" data-tras-datos data-src="../assets/js/export-utils.js"></script>
+</body>
+</html>

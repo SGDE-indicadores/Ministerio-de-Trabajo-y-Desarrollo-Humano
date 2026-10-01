@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compensación jubilar | KPIs MTDH</title>
+<link rel="stylesheet" href="../assets/css/shared.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="../assets/js/geojson_js.js"></script>
+<script src="../assets/js/ecuador-map.js"></script>
+<style>
+  /* KPI Trabajo · compensación jubilar. Sin cifras en el HTML: todo sale de datos/kpis/jubilados/
+     (generado por scripts/actualizar_jubilados.py a partir del Excel que entrega el área).
+     Colores: gama del portal (azul/morado MTDH + dorado); sexo con los colores y siluetas ya usados en el PND. */
+  :root{
+    --hombre:#1A5FA8; --mujer:#C0395A;
+    --r1:#4F449A; --r2:#C99200; --r3:#8C7BE8; --r4:#B3478F;
+    --parcial:#B8B2E3;
+  }
+  .toggle-bar{margin-top:4px}
+  .k-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-bottom:16px}
+  .k{background:#fff;border:1px solid var(--gris-bd);border-radius:10px;padding:14px 16px;border-top:3px solid var(--azul)}
+  .k .l{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--subtexto)}
+  .k .v{font-size:28px;font-weight:700;color:var(--azul);line-height:1.1;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+  .k .v small{font-size:14px;color:var(--subtexto);font-weight:600}
+  .k .s{font-size:12px;color:var(--subtexto);line-height:1.45}
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .card-b{background:#fff;border:1px solid var(--gris-bd);border-radius:10px;margin-bottom:16px;overflow:hidden}
+  .card-b .h{padding:12px 16px;border-bottom:1px solid var(--gris-bd);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+  .card-b .h b{color:var(--azul);font-size:13.5px}.card-b .h .sub{font-size:12px;color:var(--subtexto);margin-top:2px}
+  .card-b .c{padding:16px}
+  .chart-box{position:relative;height:260px}
+  .leyenda{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--texto);margin:0 0 10px}
+  .leyenda i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+  table.t{width:100%;border-collapse:collapse;font-size:12.5px}
+  table.t th{background:var(--azul-pale);color:var(--azul);text-align:left;padding:8px 12px;font-weight:700;white-space:nowrap;border-bottom:1px solid var(--gris-bd)}
+  table.t td{padding:8px 12px;border-bottom:1px solid var(--gris-bd)}
+  table.t td.n,table.t th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  table.t tr.tot td{font-weight:700;background:#FAFBFD}
+  .sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+  details.tabla summary{cursor:pointer;font-size:12.5px;font-weight:700;color:var(--azul);padding:10px 16px;border-top:1px solid var(--gris-bd)}
+  .notas{margin:0;padding:14px 16px 14px 34px;font-size:12.5px;line-height:1.6;color:var(--texto)}
+  .notas li{margin-bottom:4px}
+  .aviso-err{background:#FDECEA;border:1px solid #F3A8AC;color:#C4262E;border-radius:8px;padding:12px 16px;margin:14px 0}
+  .panel[hidden]{display:none}
+  /* siluetas por sexo (mismo diseño que PND) */
+  .siluetas{display:flex;justify-content:center;align-items:stretch;gap:0;padding:8px 0}
+  .silueta{flex:1;text-align:center;padding:6px 18px}
+  .silueta + .silueta{border-left:1px solid var(--gris-bd)}
+  .silueta img{width:84px;height:84px;object-fit:contain;display:block;margin:0 auto}
+  .silueta .val{font-size:30px;font-weight:700;line-height:1;margin-top:10px;font-variant-numeric:tabular-nums}
+  .silueta .lab{font-size:13px;font-weight:700;color:var(--texto);margin-top:4px}
+  .silueta .det{font-size:12px;color:var(--subtexto);margin-top:6px;line-height:1.55}
+  /* mapa provincial (mismo módulo que PND) */
+  .mapa-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;align-items:start}
+  #map-wrap{position:relative}
+  #ec-map{height:520px;border-radius:8px;background:#EAF2FB}
+  .leaflet-container{font-family:Arial,sans-serif}
+  .prov-tooltip{font-family:Arial,sans-serif;font-size:12px}.prov-tooltip b{color:var(--azul)}
+  #gal-inset{position:absolute;left:12px;bottom:12px;width:140px;background:#fff;border:2px solid var(--gris-bd);border-radius:8px;box-shadow:0 4px 16px rgba(13,43,85,.18);overflow:hidden;z-index:500}
+  .inset-label{font-size:10px;font-weight:700;color:var(--azul);text-transform:uppercase;letter-spacing:.4px;padding:5px 8px 3px;border-bottom:1px solid var(--gris-bd)}
+  #ec-map-gal{height:86px;cursor:pointer}
+  .legend-box{display:flex;align-items:center;gap:8px;padding:10px 4px 2px;font-size:11px;color:var(--subtexto)}
+  .legend-scale{flex:1;height:10px;border-radius:6px;background:linear-gradient(90deg,#F5F6F8,#4F449A)}
+  #prov-lista{display:flex;flex-direction:column;gap:3px;max-height:380px;overflow-y:auto}
+  .prov-row{display:flex;align-items:center;gap:9px;padding:6px 8px;border-radius:8px;cursor:pointer;font-size:12.5px}
+  .prov-row:hover,.prov-row.sel{background:var(--azul-pale)}
+  .prov-row .rank{width:18px;font-weight:700;color:var(--subtexto);font-size:11px}
+  .prov-row .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+  .prov-row .nom{flex:1}.prov-row .val{font-weight:700;color:var(--azul);font-variant-numeric:tabular-nums}
+  .prov-detalle{border:1px solid var(--gris-bd);border-radius:10px;padding:12px 14px;margin-top:10px;background:var(--azul-pale)}
+  .prov-detalle .pd-nombre{font-size:13px;font-weight:700;color:var(--azul);margin-bottom:6px}
+  .prov-detalle .pd-fila{display:flex;justify-content:space-between;font-size:12px;color:var(--subtexto);padding:3px 0;border-bottom:1px dashed var(--gris-bd)}
+  .prov-detalle .pd-fila:last-child{border-bottom:none}.prov-detalle .pd-fila b{color:var(--texto)}
+  .toggle-group.sm .toggle-btn{padding:6px 14px;font-size:12px}
+  @media (max-width:860px){.g2,.mapa-grid{grid-template-columns:1fr}.k .v{font-size:24px}#ec-map{height:420px}}
+  @media (max-width:720px){.toggle-group{display:flex;flex-wrap:wrap;border-radius:16px}.toggle-btn{padding:8px 14px}.siluetas{flex-direction:column}.silueta + .silueta{border-left:0;border-top:1px solid var(--gris-bd)}}
+</style>
+</head>
+<body>
+<div id="app-sidebar-mount"></div>
+<div class="logo-bar"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="El Nuevo Ecuador" style="height:34px;"></div>
+<header class="header">
+  <div class="header-left">
+    <div class="header-logo">MTDH</div>
+    <div>
+      <div class="header-title">Ministerio de Trabajo y Desarrollo Humano</div>
+      <div class="header-sub">Dirección de Estudios y Análisis · Subsecretaría de Gestión de Datos y Estudios</div>
+    </div>
+  </div>
+  <div class="header-badge">Trabajo</div>
+</header>
+<nav class="breadcrumb">
+  <a href="../index.html">Inicio</a><span class="bc-sep">›</span><a href="kpis.html#/kpis">KPIs</a><span class="bc-sep">›</span>
+  <a href="kpis.html#/kpis-trabajo">Trabajo</a><span class="bc-sep">›</span><span class="bc-current">Compensación jubilar</span>
+</nav>
+<main class="main">
+  <section class="page active">
+    <div class="hero">
+      <div class="hero-eyebrow">KPIs · Trabajo · Compensación jubilar</div>
+      <h1 id="titulo">Cargando…</h1>
+      <p id="quemide"></p>
+      <div class="hero-chips" id="chips"></div>
+    </div>
+
+    <div class="toggle-bar">
+      <div class="toggle-group" role="tablist" aria-label="Secciones del indicador">
+        <button class="toggle-btn active" data-tab="resumen" role="tab">Resumen y evolución</button>
+        <button class="toggle-btn" data-tab="sexo" role="tab">Por sexo</button>
+        <button class="toggle-btn" data-tab="regimen" role="tab">Por régimen laboral</button>
+        <button class="toggle-btn" data-tab="provincial" role="tab">Provincial</button>
+        <button class="toggle-btn" data-tab="ficha" role="tab">Ficha del indicador</button>
+      </div>
+      <div class="filter-field" id="filtro-anio"><label for="anio">Año</label><select id="anio"></select></div>
+    </div>
+
+    <!-- ───────── Resumen y evolución ───────── -->
+    <div class="panel" id="p-resumen">
+      <div class="k-grid" id="kpis"></div>
+      <div class="g2">
+        <div class="card-b"><div class="h"><div><b>Expedientes por año</b><div class="sub" id="sub-e"></div></div></div>
+          <div class="c"><div class="chart-box"><canvas id="g-exp" role="img" aria-label="Expedientes por año"></canvas></div></div></div>
+        <div class="card-b"><div class="h"><div><b>Monto por año</b><div class="sub">Millones de dólares corrientes</div></div></div>
+          <div class="c"><div class="chart-box"><canvas id="g-monto" role="img" aria-label="Monto por año en millones de dólares"></canvas></div></div></div>
+      </div>
+      <div class="card-b" id="bloque-mensual" hidden><div class="h"><div><b>Expedientes pagados por mes</b><div class="sub">Según mes de pago</div></div></div>
+        <div class="c"><div class="chart-box"><canvas id="g-mes" role="img" aria-label="Expedientes pagados por mes"></canvas></div></div></div>
+      <div class="card-b"><div class="h"><div><b>Notas para la lectura</b><div class="sub">Pendientes de confirmar con el área responsable</div></div></div>
+        <ul class="notas" id="notas"></ul></div>
+    </div>
+
+    <!-- ───────── Por sexo ───────── -->
+    <div class="panel" id="p-sexo" hidden>
+      <div class="card-b"><div class="h"><div><b id="tit-sexo">Expedientes por sexo</b><div class="sub">Número de expedientes, participación y monto</div></div></div>
+        <div class="c"><div class="siluetas" id="siluetas"></div></div></div>
+      <div class="g2">
+        <div class="card-b"><div class="h"><div><b>Participación por año</b><div class="sub">Porcentaje de los expedientes de cada año</div></div></div>
+          <div class="c"><div class="leyenda" id="ley-sexo"></div><div class="chart-box" style="height:230px"><canvas id="g-sexo" role="img" aria-label="Participación de hombres y mujeres por año"></canvas></div></div></div>
+        <div class="card-b"><div class="h"><div><b>Detalle del año</b><div class="sub" id="sub-tsexo"></div></div></div>
+          <div style="overflow-x:auto"><table class="t" id="t-sexo"></table></div></div>
+      </div>
+    </div>
+
+    <!-- ───────── Por régimen laboral ───────── -->
+    <div class="panel" id="p-regimen" hidden>
+      <div class="g2">
+        <div class="card-b"><div class="h"><div><b>Expedientes por régimen y año</b><div class="sub">Barras apiladas</div></div></div>
+          <div class="c"><div class="leyenda" id="ley-reg"></div><div class="chart-box" style="height:280px"><canvas id="g-reg" role="img" aria-label="Expedientes por régimen y año"></canvas></div></div></div>
+        <div class="card-b"><div class="h"><div><b>Monto promedio por expediente</b><div class="sub" id="sub-preg"></div></div></div>
+          <div class="c"><div class="chart-box" style="height:280px"><canvas id="g-preg" role="img" aria-label="Monto promedio por expediente según régimen"></canvas></div></div></div>
+      </div>
+      <div class="card-b"><div class="h"><div><b>Detalle del año</b><div class="sub" id="sub-treg"></div></div></div>
+        <div style="overflow-x:auto"><table class="t" id="t-reg"></table></div></div>
+    </div>
+
+    <!-- ───────── Provincial ───────── -->
+    <div class="panel" id="p-provincial" hidden>
+      <div class="card-b">
+        <div class="h"><div><b>Distribución provincial</b><div class="sub" id="sub-p"></div></div>
+          <div class="toggle-group sm" role="group" aria-label="Medida">
+            <button class="toggle-btn active" data-m="expedientes">Expedientes</button>
+            <button class="toggle-btn" data-m="monto">Monto</button>
+            <button class="toggle-btn" data-m="promedio">Promedio por expediente</button>
+          </div></div>
+        <div class="c">
+          <div class="mapa-grid">
+            <div id="map-wrap"><div id="ec-map"></div>
+              <div id="gal-inset"><div class="inset-label">Galápagos</div><div id="ec-map-gal"></div></div></div>
+            <div>
+              <div id="prov-lista"></div>
+              <div class="legend-box"><span id="leg-min"></span><div class="legend-scale"></div><span id="leg-max"></span></div>
+              <div class="prov-detalle" id="prov-detalle" hidden></div>
+            </div>
+          </div>
+        </div>
+        <details class="tabla"><summary>Ver tabla por provincia</summary><div style="overflow-x:auto"><table class="t" id="t-prov"></table></div></details>
+      </div>
+    </div>
+
+    <!-- ───────── Ficha ───────── -->
+    <div class="panel" id="p-ficha" hidden><div id="ficha"></div></div>
+
+    <div class="gov-close"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="Gobierno del Ecuador"></div>
+  </section>
+</main>
+<footer class="dashboard-footer"><strong>Ministerio de Trabajo y Desarrollo Humano</strong> · Subsecretaría de Gestión de Datos y Estudios · Portal de Indicadores</footer>
+
+<script src="../assets/js/shared.js"></script>
+<script>
+(function(){
+  const RAIZ = '../datos/kpis/jubilados/';
+  const MES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const MESC = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const C = { azul: '#4F449A', parcial: css('--parcial'), hombre: css('--hombre'), mujer: css('--mujer'),
+              reg: { 'Código del Trabajo': css('--r1'), 'LOEI': css('--r2'), 'LOSEP': css('--r3'), 'LOSE': css('--r4') } };
+  const ORD_REG = ['Código del Trabajo', 'LOEI', 'LOSEP', 'LOSE'];
+  const SEXO = [['Hombres', 'Hombre', C.hombre, '../imagenes/hombre.png'], ['Mujeres', 'Mujer', C.mujer, '../imagenes/mujer.png']];
+  const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const fI = v => Math.round(v).toLocaleString('es-EC');
+  const fUSD = v => '$' + Math.round(v).toLocaleString('es-EC');
+  const fM = v => '$' + (v / 1e6).toLocaleString('es-EC', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' M';
+  const fP = v => v.toLocaleString('es-EC', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' %';
+  let G = [], corte, anios, sel, tab = 'resumen', medida = 'expedientes', charts = {}, mapa = null, filasProv = [];
+
+  initSidebar({ activeId: 'kpis-trabajo', basePath: '../' });
+
+  Promise.all([fetchCSV(RAIZ + 'gestion.csv'), fetchCSV(RAIZ + 'corte.csv'), fetchCSV(RAIZ + 'mensual.csv').catch(() => [])])
+    .then(([g, c, m]) => {
+      G = g.map(r => ({ ...r, anio: +r.anio, mes_fin: +r.mes_fin, parcial: r.parcial === 'TRUE', expedientes: +r.expedientes, monto: +r.monto_usd }));
+      corte = c[0]; anios = [...new Set(G.map(r => r.anio))].sort();
+      sel = anios[anios.length - 1];
+      encabezado(); evolucion(); mensual(m); notas(); ficha();
+      const s = document.getElementById('anio');
+      s.innerHTML = anios.slice().reverse().map(a => `<option value="${a}">${etiqueta(a)}</option>`).join('');
+      s.addEventListener('change', () => { sel = +s.value; pintarAnio(); });
+      document.querySelectorAll('.toggle-group[role="tablist"] .toggle-btn').forEach(b => b.addEventListener('click', () => irA(b.dataset.tab)));
+      document.querySelectorAll('[data-m]').forEach(b => b.addEventListener('click', () => {
+        medida = b.dataset.m; document.querySelectorAll('[data-m]').forEach(x => x.classList.toggle('active', x === b)); provincias(); }));
+      pintarAnio();
+      const h = location.hash.slice(1); if (['sexo', 'regimen', 'provincial', 'ficha'].includes(h)) irA(h);
+    })
+    .catch(e => document.querySelector('.page').insertAdjacentHTML('afterbegin', `<div class="aviso-err">No se pudieron cargar los datos (${esc(e.message)}). El portal debe servirse por HTTP.</div>`));
+
+  function irA(t){
+    tab = t;
+    document.querySelectorAll('.toggle-group[role="tablist"] .toggle-btn').forEach(b => { b.classList.toggle('active', b.dataset.tab === t); b.setAttribute('aria-selected', String(b.dataset.tab === t)); });
+    document.querySelectorAll('.panel').forEach(p => p.hidden = p.id !== 'p-' + t);
+    document.getElementById('filtro-anio').style.visibility = t === 'ficha' ? 'hidden' : 'visible';
+    history.replaceState(null, '', t === 'resumen' ? location.pathname + location.search : '#' + t);
+    if (t === 'provincial') provincias();              // Leaflet solo se dibuja con el panel visible
+    Object.values(charts).forEach(c => c.resize());
+  }
+
+  const tot = a => G.find(r => r.anio === a && r.dimension === 'total');
+  const dim = (a, d) => G.filter(r => r.anio === a && r.dimension === d);
+  const esParcial = a => (tot(a) || {}).parcial;
+  const etiqueta = a => esParcial(a) ? `${a} (enero–${MES[tot(a).mes_fin - 1]})` : String(a);
+  const corto = a => esParcial(a) ? `${a} (ene–${MESC[tot(a).mes_fin - 1].toLowerCase()})` : String(a);
+  const bajo = a => a === anios[0] && anios.length > 1 && tot(a).expedientes < 0.3 * Math.max(...anios.map(x => tot(x).expedientes));
+  const ejes = (y = {}, x = {}) => ({ x: { grid: { display: false }, ticks: { color: '#446381' }, ...x }, y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { color: '#446381' }, ...y } });
+  const opc = (extra = {}) => ({ responsive: true, maintainAspectRatio: false, animation: false,
+    plugins: { legend: { display: false }, tooltip: { backgroundColor: '#1A1E2E', padding: 10 } }, scales: ejes(), ...extra });
+  const nuevo = (id, cfg) => { if (charts[id]) charts[id].destroy(); charts[id] = new Chart(document.getElementById(id), cfg); };
+
+  function encabezado(){
+    const m = kpiMetadata['1'];
+    document.getElementById('titulo').textContent = m.nombre;
+    document.getElementById('quemide').textContent = m.queMide;
+    document.getElementById('chips').innerHTML =
+      `<span class="hero-chip">Corte: <strong>${MES[+corte.corte.slice(5) - 1]} ${corte.corte.slice(0, 4)}</strong></span>` +
+      `<span class="hero-chip">Periodo: <strong>${anios[0]} – ${etiqueta(anios[anios.length - 1])}</strong></span>` +
+      `<span class="hero-chip">Desagregación: <strong>sexo, régimen y provincia</strong></span>`;
+  }
+
+  function pintarAnio(){
+    const t = tot(sel), prev = tot(sel - 1);
+    const acE = anios.reduce((s, a) => s + tot(a).expedientes, 0), acM = anios.reduce((s, a) => s + tot(a).monto, 0);
+    const comp = prev && !t.parcial ? (bajo(sel - 1) ? `${fI(prev.expedientes)} en ${sel - 1} (cobertura de ${sel - 1} por confirmar)`
+               : `${t.expedientes >= prev.expedientes ? '▲' : '▼'} ${fP(Math.abs(t.expedientes / prev.expedientes - 1) * 100)} frente a ${sel - 1}`)
+               : t.parcial ? `Año en curso: enero–${MES[t.mes_fin - 1]} (no comparable con años completos)` : 'Primer año de la serie';
+    document.getElementById('kpis').innerHTML = `
+      <div class="k"><div class="l">Expedientes · ${esc(etiqueta(sel))}</div><div class="v">${fI(t.expedientes)}</div><div class="s">${comp}</div></div>
+      <div class="k" style="border-top-color:var(--amarillo)"><div class="l">Monto · ${esc(etiqueta(sel))}</div><div class="v">${fM(t.monto)}</div><div class="s">${fUSD(t.monto)}</div></div>
+      <div class="k" style="border-top-color:#8C84D6"><div class="l">Monto promedio por expediente</div><div class="v">${fUSD(t.monto / t.expedientes)}</div><div class="s">${esc(etiqueta(sel))}</div></div>
+      <div class="k" style="border-top-color:#9AA5B4"><div class="l">Acumulado ${anios[0]} – ${esc(corto(anios[anios.length - 1]))}</div><div class="v">${fI(acE)} <small>exp.</small></div><div class="s">${fM(acM)}</div></div>`;
+    sexo(); regimen(); if (tab === 'provincial') provincias();
+  }
+
+  // ─────────── Resumen y evolución
+  function evolucion(){
+    const lbl = anios.map(corto), col = anios.map(a => esParcial(a) ? C.parcial : C.azul), ult = anios[anios.length - 1];
+    document.getElementById('sub-e').textContent = esParcial(ult) ? `Barra clara: ${etiqueta(ult)}, año en curso` : 'Años completos';
+    const bar = (id, vals, fmt, lab) => nuevo(id, { type: 'bar',
+      data: { labels: lbl, datasets: [{ label: lab, data: vals, backgroundColor: col, borderRadius: 4, maxBarThickness: 56 }] },
+      options: opc({ plugins: { legend: { display: false }, tooltip: { callbacks: { label: it => ` ${lab}: ${fmt(it.raw)}` } } }, scales: ejes({ ticks: { color: '#446381', callback: v => fmt(v) } }) }) });
+    bar('g-exp', anios.map(a => tot(a).expedientes), fI, 'Expedientes');
+    bar('g-monto', anios.map(a => tot(a).monto / 1e6), v => '$' + v.toLocaleString('es-EC', { maximumFractionDigits: 1 }) + ' M', 'Monto');
+
+    // sexo: participación por año
+    document.getElementById('ley-sexo').innerHTML = SEXO.map(([k, , c]) => `<span><i style="background:${c}"></i>${k}</span>`).join('');
+    const share = s => anios.map(a => { const r = dim(a, 'sexo').find(x => x.categoria === s); return r ? r.expedientes / tot(a).expedientes * 100 : 0; });
+    nuevo('g-sexo', { type: 'bar', data: { labels: lbl, datasets: SEXO.map(([k, l, c], i) => ({ label: k, data: share(k), backgroundColor: c,
+        borderColor: '#fff', borderWidth: i ? { left: 2 } : { right: 2 }, borderSkipped: false })) },
+      options: opc({ indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { callbacks: { label: it => ` ${it.dataset.label}: ${fP(it.raw)}` } } },
+        scales: { x: { stacked: true, max: 100, grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { color: '#446381', callback: v => v + ' %' } }, y: { stacked: true, grid: { display: false }, ticks: { color: '#446381' } } } }) });
+
+    // régimen: expedientes por año
+    const regs = ORD_REG.filter(r => G.some(x => x.dimension === 'regimen' && x.categoria === r));
+    document.getElementById('ley-reg').innerHTML = regs.map(r => `<span><i style="background:${C.reg[r]}"></i>${esc(r)}</span>`).join('');
+    nuevo('g-reg', { type: 'bar', data: { labels: lbl, datasets: regs.map(r => ({ label: r,
+        data: anios.map(a => (dim(a, 'regimen').find(x => x.categoria === r) || {}).expedientes || 0),
+        backgroundColor: C.reg[r], borderColor: '#fff', borderWidth: { top: 2 }, borderSkipped: false, maxBarThickness: 56 })) },
+      options: opc({ interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: it => ` ${it.dataset.label}: ${fI(it.raw)}` } } },
+        scales: { x: { stacked: true, grid: { display: false }, ticks: { color: '#446381' } }, y: { stacked: true, grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { color: '#446381', callback: v => fI(v) } } } }) });
+  }
+
+  function tabla(id, filas, color, icono){
+    const t = tot(sel);
+    document.getElementById(id).innerHTML = `<thead><tr><th>${esc(etiqueta(sel))}</th><th class="n">Expedientes</th><th class="n">%</th><th class="n">Monto</th><th class="n">Promedio</th></tr></thead><tbody>` +
+      filas.map(r => `<tr><td>${icono ? icono(r.categoria) : `<span class="sw" style="background:${color(r.categoria)}"></span>`}${esc(r.categoria)}</td><td class="n">${fI(r.expedientes)}</td>
+        <td class="n">${fP(r.expedientes / t.expedientes * 100)}</td><td class="n">${fM(r.monto)}</td><td class="n">${fUSD(r.monto / r.expedientes)}</td></tr>`).join('') +
+      `<tr class="tot"><td>Total</td><td class="n">${fI(t.expedientes)}</td><td class="n">100,0 %</td><td class="n">${fM(t.monto)}</td><td class="n">${fUSD(t.monto / t.expedientes)}</td></tr></tbody>`;
+  }
+
+  // ─────────── Por sexo
+  function sexo(){
+    const t = tot(sel), filas = dim(sel, 'sexo');
+    document.getElementById('tit-sexo').textContent = 'Expedientes por sexo · ' + etiqueta(sel);
+    document.getElementById('sub-tsexo').textContent = etiqueta(sel);
+    document.getElementById('siluetas').innerHTML = SEXO.map(([k, l, c, img]) => {
+      const r = filas.find(x => x.categoria === k); if (!r) return '';
+      return `<div class="silueta"><img src="${img}" alt="${l}"><div class="val" style="color:${c}">${fI(r.expedientes)}</div>
+        <div class="lab">${k}</div>
+        <div class="det">${fP(r.expedientes / t.expedientes * 100)} de los expedientes<br>Monto: ${fM(r.monto)} · promedio ${fUSD(r.monto / r.expedientes)}</div></div>`;
+    }).join('');
+    tabla('t-sexo', SEXO.map(([k]) => filas.find(x => x.categoria === k)).filter(Boolean), null, cat => generoIcon(cat));
+  }
+
+  // ─────────── Por régimen
+  function regimen(){
+    const filas = dim(sel, 'regimen').sort((a, b) => ORD_REG.indexOf(a.categoria) - ORD_REG.indexOf(b.categoria));
+    document.getElementById('sub-treg').textContent = etiqueta(sel);
+    document.getElementById('sub-preg').textContent = etiqueta(sel) + ' · dólares por expediente';
+    tabla('t-reg', filas, c => C.reg[c] || '#9AA5B4');
+    nuevo('g-preg', { type: 'bar', data: { labels: filas.map(r => r.categoria), datasets: [{ label: 'Promedio', data: filas.map(r => r.monto / r.expedientes),
+        backgroundColor: filas.map(r => C.reg[r.categoria] || '#9AA5B4'), borderRadius: 4, barPercentage: 0.6 }] },
+      options: opc({ indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { callbacks: { label: it => { const r = filas[it.dataIndex]; return [` Promedio: ${fUSD(it.raw)}`, ` Expedientes: ${fI(r.expedientes)}`]; } } } },
+        scales: { x: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { color: '#446381', callback: v => fUSD(v) } }, y: { grid: { display: false }, ticks: { color: '#1A1E2E' } } } }) });
+  }
+
+  // ─────────── Provincial (mapa)
+  function provincias(){
+    const t = tot(sel);
+    const val = r => medida === 'expedientes' ? r.expedientes : medida === 'monto' ? r.monto : r.monto / r.expedientes;
+    const fmt = v => medida === 'expedientes' ? fI(v) : medida === 'monto' ? fM(v) : fUSD(v);
+    document.getElementById('sub-p').textContent = `${etiqueta(sel)} · ${ {expedientes: 'número de expedientes', monto: 'monto total', promedio: 'monto promedio por expediente'}[medida] } · haz clic en una provincia`;
+    filasProv = dim(sel, 'provincia').map(r => ({ p: r.categoria, value: val(r), r,
+      tooltip: `${fI(r.expedientes)} expedientes · ${fM(r.monto)}<br>Promedio ${fUSD(r.monto / r.expedientes)}` })).sort((a, b) => b.value - a.value);
+    document.getElementById('t-prov').innerHTML = `<thead><tr><th>Provincia</th><th class="n">Expedientes</th><th class="n">% del total</th><th class="n">Monto</th><th class="n">Promedio</th></tr></thead><tbody>` +
+      filasProv.map(({ r }) => `<tr><td>${esc(r.categoria)}</td><td class="n">${fI(r.expedientes)}</td><td class="n">${fP(r.expedientes / t.expedientes * 100)}</td>
+        <td class="n">${fUSD(r.monto)}</td><td class="n">${fUSD(r.monto / r.expedientes)}</td></tr>`).join('') +
+      `<tr class="tot"><td>Total</td><td class="n">${fI(t.expedientes)}</td><td class="n">100,0 %</td><td class="n">${fUSD(t.monto)}</td><td class="n">${fUSD(t.monto / t.expedientes)}</td></tr></tbody>`;
+    if (tab !== 'provincial') return;
+    if (!mapa) mapa = crearMapaEcuador({ mapId: 'ec-map', galId: 'ec-map-gal',
+      overrides: { 'SANTO DOMINGO': 'Santo Domingo de los Tsáchilas' }, onSelect: p => detalle(p) });
+    const maxV = mapa.render(filasProv, C.azul);
+    setTimeout(() => { if (tab === 'provincial') mapa.invalidateSize(); }, 40);   // no reencuadrar si el panel ya se ocultó
+    document.getElementById('leg-min').textContent = fmt(0);
+    document.getElementById('leg-max').textContent = fmt(maxV);
+    document.getElementById('prov-lista').innerHTML = filasProv.map((d, i) => {
+      const color = _ecmapInterpola('#D9D2E8', C.azul, Math.sqrt(maxV > 0 ? d.value / maxV : 0));
+      return `<div class="prov-row" data-p="${esc(d.p)}"><span class="rank">${i + 1}</span><span class="dot" style="background:${color}"></span>
+        <span class="nom">${esc(d.p)}</span><span class="val">${fmt(d.value)}</span></div>`;
+    }).join('');
+    document.querySelectorAll('#prov-lista .prov-row').forEach(el => el.addEventListener('click', () => detalle(el.dataset.p)));
+    document.getElementById('prov-detalle').hidden = true;
+  }
+  function detalle(p){
+    const d = filasProv.find(f => f.p === p); if (!d) return;
+    const t = tot(sel), r = d.r, rank = filasProv.indexOf(d) + 1;
+    mapa.highlight(p);
+    document.querySelectorAll('#prov-lista .prov-row').forEach(el => el.classList.toggle('sel', el.dataset.p === p));
+    const el = document.getElementById('prov-detalle'); el.hidden = false;
+    el.innerHTML = `<div class="pd-nombre">${esc(p)} · ${esc(etiqueta(sel))}</div>
+      <div class="pd-fila"><span>Expedientes</span><b>${fI(r.expedientes)} (${fP(r.expedientes / t.expedientes * 100)})</b></div>
+      <div class="pd-fila"><span>Monto</span><b>${fUSD(r.monto)}</b></div>
+      <div class="pd-fila"><span>Promedio por expediente</span><b>${fUSD(r.monto / r.expedientes)}</b></div>
+      <div class="pd-fila"><span>Posición en la medida elegida</span><b>${rank} de ${filasProv.length}</b></div>`;
+  }
+
+  function mensual(m){
+    if (!m || !m.length) return;           // solo con el formato de entrega nuevo (opción A o B)
+    document.getElementById('bloque-mensual').hidden = false;
+    const u = m.slice(-24);
+    nuevo('g-mes', { type: 'bar', data: { labels: u.map(r => MESC[+r.periodo.slice(5) - 1] + ' ' + r.periodo.slice(2, 4)),
+      datasets: [{ label: 'Expedientes', data: u.map(r => +r.expedientes), backgroundColor: C.azul, borderRadius: 4, maxBarThickness: 32 }] },
+      options: opc({ plugins: { legend: { display: false }, tooltip: { callbacks: { label: it => ` Expedientes: ${fI(it.raw)} · ${fM(+u[it.dataIndex].monto_usd)}` } } } }) });
+  }
+
+  function notas(){
+    const ult = anios[anios.length - 1], n = [];
+    if (esParcial(ult)) n.push(`<b>${ult} es un año en curso</b> (enero–${MES[tot(ult).mes_fin - 1]}); sus cifras no son comparables con los años completos.`);
+    n.push('Las cifras corresponden a <b>expedientes (EXP.)</b> del reporte de gestión. Falta confirmar si cada expediente equivale a una persona y si corresponde a un pago efectivamente realizado, como exige la definición del indicador («compensados económicamente»).');
+    if (G.some(r => r.categoria === 'LOSE')) n.push('El régimen <b>«LOSE»</b> (2025–2026) está pendiente de confirmar: puede ser la Ley Orgánica del Servicio Exterior o un error de digitación de LOSEP.');
+    if (bajo(anios[0])) n.push(`<b>${anios[0]}</b> registra muchos menos expedientes que los años siguientes: por confirmar si es un año parcial o el inicio del proyecto.`);
+    n.push('Montos en dólares corrientes, sin ajuste por inflación. Sexo, régimen y provincia vienen como totales separados: no se pueden cruzar entre sí (por ejemplo, mujeres por provincia).');
+    n.push(`Fuente: ${esc(corte.archivo)} · cargado el ${esc(corte.fecha_carga)} con scripts/actualizar_jubilados.py.`);
+    document.getElementById('notas').innerHTML = n.map(x => `<li>${x}</li>`).join('');
+  }
+
+  function ficha(){
+    const m = kpiMetadata['1'];
+    document.getElementById('ficha').innerHTML = renderFichaIndicador({
+      queMide: m.queMide, paraQue: m.decision, formula: m.formula,
+      unidad: m.unidad, tipo: m.tipo, periodicidad: m.periodicidad, desagregacion: 'NACIONAL, PROVINCIAL, SEXO Y RÉGIMEN',
+      fuente: `Reporte de gestión de compensación jubilar por género, provincia y régimen (${corte.archivo}), corte ${MES[+corte.corte.slice(5) - 1]} ${corte.corte.slice(0, 4)}.`,
+      sistema: m.sistema, recurso: m.recurso, acceso: m.acceso,
+      calidad: m.calidad, prioridad: m.prioridad, disponibilidad: m.estado, genera: m.responsable, valida: m.validacion,
+      observacion: m.observacion
+    });
+  }
+})();
+</script>
+</body>
+</html>

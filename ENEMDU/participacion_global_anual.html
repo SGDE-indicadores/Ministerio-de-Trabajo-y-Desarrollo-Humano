@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENEMDU · Participación Global</title>
+<link rel="stylesheet" href="../assets/css/shared.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --azul:#4F449A; --azul-2:#4F449A; --azul-claro:#1d6fa8;
+  --dorado:#F1B620; --dorado-claro:#FEF7DC;
+  --gris-fondo:#f4f6f8; --gris-borde:#dbe1e8; --gris-texto:#4a5568; --texto:#1c2a3a;
+  --verde:#2f7d5a; --verde-claro:#eaf5ef; --rojo:#b8433f; --rojo-claro:#fbeceb; --blanco:#ffffff;
+}
+*{box-sizing:border-box;}
+body{margin:0; font-family:Arial, sans-serif; background:var(--gris-fondo); color:var(--texto);}
+h1,h2,h3,h4{font-family:'Arial Black', Arial, sans-serif; font-weight:600;}
+a{color:inherit;}
+
+.topbar{background:linear-gradient(135deg, var(--azul) 0%, var(--azul-2) 100%); color:#fff; padding:16px 32px 0 32px; border-bottom:4px solid var(--dorado);}
+.topbar-inner{max-width:1280px; margin:0 auto;}
+.back-link{font-size:13.5px; color:rgba(255,255,255,0.65); text-decoration:none;}
+.back-link:hover{color:#fff;}
+
+/* Nivel 1: periodicidad */
+.per-tabs{display:flex; gap:4px; margin-top:14px;}
+.p-tab{padding:11px 22px; cursor:pointer; font-family:'Arial Black', Arial, sans-serif; font-size:16px; font-weight:600; letter-spacing:.4px; color:rgba(255,255,255,0.65); border-radius:8px 8px 0 0; background:rgba(255,255,255,.06);}
+.p-tab.active{background:var(--gris-fondo); color:var(--azul);}
+.p-tab:hover:not(.active){background:rgba(255,255,255,.16); color:#fff;}
+
+.header-band{background:#fff; border-bottom:1px solid var(--gris-borde); padding:20px 32px;}
+.header-inner{max-width:1280px; margin:0 auto;}
+.header-inner h1{margin:0 0 6px 0; font-size:30px; color:var(--azul);}
+.badge{display:inline-block; font-size:11px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; padding:3px 9px; border-radius:20px; background:var(--dorado-claro); color:var(--amarillo-d); margin-left:10px; vertical-align:middle;}
+.def-text{font-size:14.5px; color:var(--gris-texto); max-width:880px; line-height:1.55; margin:0;}
+
+/* Nivel 2: total/hombres/mujeres */
+.sex-bar{background:transparent;}
+.sex-tabs{max-width:1280px; margin:0 auto; display:flex; gap:2px; padding:0 32px;}
+.s-tab{padding:13px 20px; cursor:pointer; font-size:14.5px; font-weight:600; color:var(--gris-texto); border-bottom:3px solid transparent; display:flex; align-items:center; gap:6px;}
+.s-tab:hover{color:var(--azul);}
+.s-tab.active{color:var(--azul); border-bottom-color:var(--dorado);}
+.s-tab .dot{width:8px; height:8px; border-radius:50%; background:var(--gris-borde);}
+.s-tab.active .dot{background:var(--dorado);}
+
+main{max-width:1280px; margin:0 auto; padding:24px 32px 60px 32px;}
+.hidden{display:none !important;}
+.placeholder-box{background:#fff; border:1px dashed var(--gris-borde); border-radius:10px; padding:60px 30px; text-align:center; color:var(--gris-texto);}
+.placeholder-box .icon{font-size:34px; margin-bottom:8px;}
+.placeholder-box h3{color:var(--azul); margin:0 0 6px 0;}
+
+/* Nivel 3: sub-tabs dentro de Total general */
+.sub-tabs{display:flex; gap:6px; margin-bottom:20px; flex-wrap:wrap;}
+.sub-tab{padding:10px 18px; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer; border:1px solid var(--gris-borde); background:#fff; color:var(--gris-texto);}
+.sub-tab.active{background:var(--azul); border-color:var(--azul); color:#fff;}
+.sub-tab:hover:not(.active){border-color:var(--azul-claro); color:var(--azul);}
+
+/* Bueno / Malo */
+.eval-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:22px;}
+@media(max-width:800px){.eval-grid{grid-template-columns:1fr;}}
+.eval-card{border-radius:10px; padding:18px 20px;}
+.eval-card.bueno{background:var(--verde-claro); border:1px solid #b9dfc8; border-left:5px solid var(--verde);}
+.eval-card.malo{background:var(--rojo-claro); border:1px solid #edc6c3; border-left:5px solid var(--rojo);}
+.eval-card h3{margin:0 0 10px 0; font-size:16px; display:flex; align-items:center; gap:7px;}
+.eval-card.bueno h3{color:#245c42;} .eval-card.malo h3{color:#8f322e;}
+.eval-card ul{margin:0; padding-left:20px;}
+.eval-card li{font-size:13.8px; line-height:1.55; margin-bottom:8px; color:var(--texto);}
+
+.kpi-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:14px; margin-bottom:20px;}
+.kpi-card{background:#fff; border:1px solid var(--gris-borde); border-radius:10px; padding:16px 18px; border-top:4px solid var(--azul);}
+.kpi-card .k-lbl{font-family:'Arial Black', Arial, sans-serif; font-size:12px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--gris-texto);}
+.kpi-card .k-val{font-family:'Arial Black', Arial, sans-serif; font-size:32px; font-weight:700; color:var(--azul); margin-top:2px;}
+.kpi-card .k-delta{font-size:12.5px; font-weight:600; margin-top:3px;}
+.k-delta.good{color:var(--verde);} .k-delta.bad{color:var(--rojo);}
+
+.card{background:#fff; border:1px solid var(--gris-borde); border-radius:10px; padding:20px 22px; margin-bottom:20px;}
+.card h3{margin:0 0 14px 0; font-size:19px; color:var(--azul);}
+.chart-wrap{position:relative; height:320px;}
+
+.sd-tabs{display:flex; gap:6px; margin-bottom:16px; flex-wrap:wrap;}
+.sd-tab{padding:8px 15px; border-radius:7px; font-size:13.5px; font-weight:600; cursor:pointer; border:1px solid var(--gris-borde); background:#fff; color:var(--gris-texto);}
+.sd-tab.active{background:var(--azul); border-color:var(--azul); color:#fff;}
+.sd-tab:hover:not(.active){border-color:var(--azul-claro);}
+
+.mode-toggle{display:flex; gap:10px; margin:18px 0 22px 0;}
+.mode-btn{flex:1; text-align:center; padding:13px 18px; border-radius:10px; font-family:'Arial Black', Arial, sans-serif; font-size:16px; font-weight:700; letter-spacing:.3px; text-transform:uppercase; cursor:pointer; border:1px solid var(--gris-borde); background:#fff; color:var(--gris-texto);}
+.mode-btn.active{background:var(--azul); border-color:var(--azul); color:#fff;}
+.mode-btn:hover:not(.active){border-color:var(--azul-claro); color:var(--azul-claro);}
+.mode-note{margin:-14px 0 20px 0; font-size:12.5px; color:var(--gris-texto);}
+
+.sd-select{padding:9px 12px; border:1px solid var(--gris-borde); border-radius:7px; font-family:Arial, sans-serif; font-size:13.5px; font-weight:600; color:var(--texto); background:#fff; margin-bottom:16px; min-width:220px;}
+
+.cv-tag{display:inline-block; font-size:11px; font-weight:700; letter-spacing:.4px; text-transform:uppercase; padding:3px 10px; border-radius:20px; margin-left:8px;}
+.cv-tag.cv-ok{background:#e4f2ea; color:var(--verde);}
+.cv-tag.cv-warn{background:#faf1de; color:#8a6a1f;}
+.cv-tag.cv-bad{background:#f8e6e5; color:var(--rojo);}
+
+.estim-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:20px;}
+@media(max-width:800px){.estim-grid{grid-template-columns:1fr 1fr;}}
+.estim-card{background:#fff; border:1px solid var(--gris-borde); border-radius:10px; padding:16px 18px;}
+.estim-card .e-lbl{font-size:11.5px; text-transform:uppercase; letter-spacing:.5px; color:var(--gris-texto); font-weight:700; margin-bottom:6px;}
+.estim-card .e-val{font-family:'Arial Black', Arial, sans-serif; font-size:26px; font-weight:700; color:var(--azul);}
+.estim-card .e-sub{font-size:12.5px; color:var(--gris-texto); margin-top:4px;}
+
+.map-layout{display:grid; grid-template-columns:minmax(280px,380px) 1fr; gap:22px;}
+@media(max-width:820px){.map-layout{grid-template-columns:1fr;}}
+.map-svg-wrap{display:flex; justify-content:center;}
+.map-svg-wrap svg{width:100%; max-width:340px; height:auto;}
+.prov-tile{stroke:#fff; stroke-width:2px; cursor:pointer;}
+.prov-tile:hover{opacity:.8;}
+.prov-tile.selected{stroke:var(--dorado); stroke-width:3px;}
+.prov-label{font-family:'Arial Black', Arial, sans-serif; font-size:9px; fill:#fff; pointer-events:none; text-anchor:middle; font-weight:600;}
+.gal-box{stroke:var(--gris-borde); stroke-width:1.5px; stroke-dasharray:3,2; fill:none;}
+.gal-label{font-family:'Arial Black', Arial, sans-serif; font-size:8px; fill:var(--gris-texto); text-anchor:middle;}
+.legend{display:flex; align-items:center; gap:8px; margin-top:12px; font-size:12px; color:var(--gris-texto); justify-content:center;}
+.legend-grad{width:120px; height:10px; border-radius:5px; background:linear-gradient(90deg, #F5F6F8, #3d6d94);}
+.prov-panel{background:var(--gris-fondo); border:1px solid var(--gris-borde); border-radius:10px; padding:18px 20px;}
+.prov-panel .p-name{font-family:'Arial Black', Arial, sans-serif; font-size:22px; font-weight:700; color:var(--azul);}
+.prov-panel .p-val{font-family:'Arial Black', Arial, sans-serif; font-size:40px; font-weight:700; margin:6px 0;}
+.prov-panel .p-rank{font-size:13px; color:var(--gris-texto); margin-bottom:14px;}
+.prov-bars{display:flex; flex-direction:column; gap:6px; max-height:280px; overflow-y:auto;}
+.prov-bar-row{display:grid; grid-template-columns:90px 1fr 46px; align-items:center; gap:8px; font-size:12px; cursor:pointer;}
+.prov-bar-row.active-row{font-weight:700; color:var(--azul);}
+.prov-bar-track{height:7px; background:var(--gris-borde); border-radius:4px; overflow:hidden;}
+.prov-bar-fill{height:100%; border-radius:4px;}
+
+footer{text-align:center; padding:26px; font-size:12.5px; color:var(--gris-texto);}
+
+/* ===== Pantalla selectora de periodicidad ===== */
+.selector-wrap{max-width:1280px; margin:0 auto; padding:26px 32px 22px 32px;}
+.sel-banner{position:relative; overflow:hidden; background:linear-gradient(135deg, var(--azul) 0%, var(--azul-2) 100%); color:#fff; border-radius:14px; padding:24px 30px 28px 30px; margin-bottom:18px; box-shadow:0 6px 16px rgba(11,45,82,.15);}
+.sel-banner:after{content:''; position:absolute; left:0; right:0; bottom:0; height:5px; background:var(--dorado);}
+.sel-banner h1{margin:0 0 6px 0; font-size:26px; color:#fff;}
+.sel-banner p{margin:0; font-size:14.5px; color:#cfdaea;}
+.sel-banner .back-link{display:inline-block; margin-bottom:10px; font-size:13px; color:rgba(255,255,255,0.65); text-decoration:none;}
+.sel-banner .back-link:hover{color:#fff;}
+
+.sel-box{background:#fff; border:1px solid var(--gris-borde); border-left:5px solid var(--azul-claro); border-radius:10px; padding:16px 20px; margin-bottom:14px;}
+.sel-box .sb-title{font-weight:700; font-size:14.5px; color:var(--azul); margin-bottom:6px; display:flex; align-items:center; gap:7px;}
+.sel-box p{margin:0; font-size:14px; color:var(--gris-texto); line-height:1.55;}
+
+details.sel-limits{background:var(--dorado-claro); border:1px solid #e8cd8a; border-left:5px solid var(--dorado); border-radius:10px; margin-bottom:0; overflow:hidden;}
+details.sel-limits summary{padding:14px 20px; cursor:pointer; font-weight:700; font-size:14.5px; color:var(--amarillo-d); list-style:none; display:flex; align-items:center; justify-content:space-between;}
+details.sel-limits summary::-webkit-details-marker{display:none;}
+details.sel-limits summary:after{content:'▸'; transition:transform .15s;}
+details.sel-limits[open] summary:after{transform:rotate(90deg);}
+details.sel-limits .sl-body{padding:0 20px 16px 20px; font-size:13.8px; color:#5c4a1a; line-height:1.6;}
+details.sel-limits .sl-body ul{margin:6px 0 0 0; padding-left:20px;}
+details.sel-limits .sl-body li{margin-bottom:6px;}
+
+.sel-cards{display:grid; grid-template-columns:repeat(3, 1fr); gap:18px;}
+@media(max-width:820px){.sel-cards{grid-template-columns:1fr;}}
+.sel-card{background:#fff; border:1px solid var(--gris-borde); border-radius:12px; padding:26px 22px; text-align:center; display:flex; flex-direction:column;}
+.sel-card .sc-icon{width:56px; height:56px; border-radius:50%; margin:0 auto 14px auto; display:flex; align-items:center; justify-content:center; font-size:24px; color:#fff;}
+.sel-card.disponible .sc-icon{background:var(--azul);}
+.sel-card.pendiente .sc-icon{background:var(--dorado);}
+.sel-card h3{margin:0 0 8px 0; font-size:19px; color:var(--azul);}
+.sel-card .sc-desc{font-size:13.5px; color:var(--gris-texto); margin-bottom:14px;}
+.sel-card ul{text-align:left; margin:0 0 20px 0; padding-left:18px; font-size:12.8px; color:var(--gris-texto); flex:1;}
+.sel-card li{margin-bottom:7px; line-height:1.45;}
+.sc-btn{border:none; border-radius:8px; padding:12px 16px; font-family:'Arial Black', Arial, sans-serif; font-size:15px; font-weight:700; letter-spacing:.3px; cursor:pointer; color:#fff;}
+.sel-card.disponible .sc-btn{background:var(--azul);}
+.sel-card.disponible .sc-btn:hover{background:var(--azul-2);}
+.sel-card.pendiente .sc-btn{background:var(--dorado); color:#4a380c;}
+.sel-card.pendiente .sc-btn:hover{background:#b6872a;}
+
+.content-back{display:inline-flex; align-items:center; gap:6px; font-size:13.5px; color:var(--azul-claro); cursor:pointer; margin:14px 32px 0 32px; font-weight:600;}
+.content-back:hover{color:var(--azul);}
+
+/* ===== Mapa real de provincias (Leaflet) ===== */
+.year-pills{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px;}
+.year-pill{padding:7px 15px; border:1px solid var(--gris-borde); border-radius:20px; font-size:13.5px; font-weight:600; cursor:pointer; color:var(--gris-texto); background:#fff;}
+.year-pill:hover{border-color:var(--azul-claro); color:var(--azul);}
+.year-pill.active{background:var(--azul); border-color:var(--azul); color:#fff;}
+.ec-map-outer{display:grid; grid-template-columns:minmax(280px,1fr) 340px; gap:22px;}
+@media(max-width:900px){.ec-map-outer{grid-template-columns:1fr;}}
+.ec-map-wrap{position:relative;}
+#ecMapCont, #estimMapCont{height:460px; border-radius:10px; border:1px solid var(--gris-borde); background:#eef1f4;}
+.ec-gal-box{position:absolute; bottom:90px; left:12px; width:160px; height:110px; border:2px solid #fff; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,.18); background:#eef1f4; overflow:hidden;}
+#ecMapGal, #estimMapGal{width:100%; height:100%;}
+.ec-gal-label{position:absolute; top:2px; left:6px; font-family:'Arial Black', Arial, sans-serif; font-size:10px; font-weight:700; color:var(--azul); background:rgba(255,255,255,.85); padding:1px 5px; border-radius:4px; z-index:1000;}
+.prov-select{width:100%; padding:9px 11px; border:1px solid var(--gris-borde); border-radius:7px; font-family:Arial, sans-serif; font-size:13.5px; color:var(--texto); margin-bottom:14px; background:#fff;}
+.prov-tooltip{font-family:Arial, sans-serif; font-size:12.5px;}
+
+.geo-year-layout{display:grid; grid-template-columns:1.3fr 1fr; gap:22px; margin-top:18px;}
+@media(max-width:800px){.geo-year-layout{grid-template-columns:1fr;}}
+.annual-compare{margin-top:22px; padding-top:18px; border-top:1px solid var(--gris-borde);}
+.annual-compare-title{font-family:'Arial Black', Arial, sans-serif; font-size:13px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; color:var(--azul-claro); margin-bottom:4px;}
+.annual-compare-note{margin:0 0 14px 0; font-size:12.5px; color:var(--gris-texto);}
+.geo-year-desc{background:var(--gris-fondo); border:1px solid var(--gris-borde); border-radius:10px; padding:16px 18px; font-size:13.8px; color:var(--texto); line-height:1.65;}
+.geo-year-desc b{color:var(--azul);}
+.geo-year-desc .gyd-title{font-family:'Arial Black', Arial, sans-serif; font-size:13px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; color:var(--azul-claro); margin-bottom:8px;}
+.geo-year-desc ul{margin:0; padding-left:18px;}
+.geo-year-desc li{margin-bottom:8px;}
+
+/* ---- nuevo header institucional con trazabilidad y menú de indicadores ---- */
+.ind-header{background:var(--azul); padding:0 32px; display:flex; align-items:center; justify-content:space-between; height:64px; border-bottom:3px solid var(--dorado); flex-wrap:wrap; gap:8px; position:sticky; top:0; z-index:99;}
+.mega-nav{top:64px !important;}
+.ind-header-left{display:flex; align-items:center; gap:14px; padding:10px 0;}
+.header-logo{min-width:38px; height:38px; padding:0 6px; box-sizing:border-box; background:var(--dorado); border-radius:8px; display:flex; align-items:center; justify-content:center; font-family:'Arial Black', Arial, sans-serif; font-weight:700; font-size:12.5px; color:var(--azul); flex-shrink:0;}
+.ind-header-title{font-family:'Arial Black', Arial, sans-serif; font-weight:700; font-size:17px; color:#fff; line-height:1.25;}
+.ind-header-sub{font-size:11.5px; color:rgba(255,255,255,0.65); margin-top:1px;}
+.ind-header-right{display:flex; align-items:center; gap:10px; position:relative;}
+.nav-btn{background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.28); color:var(--azul-light); padding:7px 14px; border-radius:6px; font-size:12.5px; font-weight:600; cursor:pointer; text-decoration:none; font-family:Arial, sans-serif; white-space:nowrap; display:inline-block;}
+.nav-btn:hover{background:rgba(255,255,255,.18);}
+.menu-drop{position:absolute; top:calc(100% + 8px); right:0; background:#fff; border:1px solid var(--gris-borde); border-radius:10px; box-shadow:0 10px 30px rgba(11,45,82,.22); min-width:290px; padding:8px; display:none; z-index:80;}
+.menu-drop.open{display:block;}
+.menu-drop a{display:block; padding:9px 12px; border-radius:7px; font-size:13.5px; color:var(--azul); text-decoration:none; font-weight:600;}
+.menu-drop a:hover{background:var(--gris-fondo);}
+.menu-drop a.current{background:var(--dorado-claro); color:var(--amarillo-d);}
+.ind-breadcrumb{background:#fff; border-bottom:2px solid var(--gris-borde); padding:9px 32px; font-size:12.5px; color:var(--gris-texto);}
+.ind-breadcrumb a{color:var(--gris-texto); text-decoration:none; font-weight:600;}
+.ind-breadcrumb a:hover{color:var(--azul);}
+.ind-breadcrumb b{color:var(--texto); font-weight:700;}
+.page-intro{max-width:1280px; margin:0 auto; padding:20px 32px 0 32px; font-size:13.5px; color:var(--gris-texto); line-height:1.6;}
+</style>
+</head>
+<body>
+
+<div id="app-sidebar-mount"></div>
+
+<div class="ind-header">
+  <div class="ind-header-left">
+    <div class="header-logo">MTDH</div>
+    <div>
+      <div class="ind-header-title">Participación Global</div>
+      <div class="ind-header-sub">Ministerio de Trabajo y Desarrollo Humano · ENEMDU Anual</div>
+    </div>
+  </div>
+  <div class="ind-header-right">
+    <button class="nav-btn" type="button" onclick="toggleMenu('menuAnual')">☰ Menú Anual</button>
+    <div id="menuAnual" class="menu-drop">
+      <a href="empleo_adecuado_anual.html">Empleo Adecuado / Pleno</a>
+      <a href="desempleo_anual.html">Desempleo</a>
+      <a href="sector_informal_anual.html">Sector Informal</a>
+      <a href="subempleo_anual.html">Subempleo</a>
+      <a href="otro_empleo_no_pleno_anual.html">Otro Empleo no Pleno</a>
+      <a href="empleo_no_remunerado_anual.html">Empleo no Remunerado</a>
+      <a href="empleo_bruto_anual.html">Empleo Bruto</a>
+      <a href="empleo_global_anual.html">Empleo Global</a>
+      <a href="participacion_global_anual.html" class="current">Participación Global</a>
+      <a href="participacion_bruta_anual.html">Participación Bruta</a>
+    </div>
+    <a class="nav-btn" href="../index_ENEMDU.html">Inicio</a>
+  </div>
+</div>
+<nav class="ind-breadcrumb">
+  <a href="../index_ENEMDU.html">Inicio</a> › <a href="anual.html">Anual</a> › <b>Participación Global</b>
+</nav>
+<div class="selector-wrap">
+<p class="page-intro"></p>
+
+<div class="sel-box">
+  <div class="sb-title">📘 Definición del indicador</div>
+  <p>Población Económicamente Activa (PEA) como porcentaje de la Población en Edad de Trabajar (PET: personas de 15 años y más). Mide qué proporción de la población en edad de trabajar está empleada o buscando activamente empleo.</p>
+</div>
+
+<div class="mode-toggle">
+  <div class="mode-btn active" data-mode="tasas">Tasas</div>
+  <div class="mode-btn" data-mode="estimadores">Estimadores</div>
+</div>
+<p class="mode-note" id="modeNote">Valor puntual del indicador con toda su desagregación geográfica y sociodemográfica disponible en la fuente.</p>
+
+</div>
+
+<div id="contentView">
+
+<div class="sex-bar">
+  <div class="sex-tabs" id="sexTabs">
+    <div class="s-tab active" data-sex="total"><span class="dot"></span>Total general</div>
+    <div class="s-tab" data-sex="hombres"><span class="dot"></span>Hombres</div>
+    <div class="s-tab" data-sex="mujeres"><span class="dot"></span>Mujeres</div>
+  </div>
+</div>
+
+<main>
+
+  <!-- ===== ANUAL ===== -->
+  <div id="per-anual">
+
+    <!-- Total general -->
+    <div id="sex-total">
+      <div class="sub-tabs">
+        <div class="sub-tab active" data-sub="serie">Serie histórica</div>
+        <div class="sub-tab" data-sub="geo">Desagregación geográfica</div>
+        <div class="sub-tab" data-sub="carac">Características sociodemográficas</div>
+      </div>
+
+      <div id="sub-serie">
+        <div class="eval-grid">
+          <div class="eval-card bueno">
+            <h3>✔ Lo bueno</h3>
+            <ul id="buenoList"></ul>
+          </div>
+          <div class="eval-card malo">
+            <h3>⚠ Lo que hay que abordar</h3>
+            <ul id="maloList"></ul>
+          </div>
+        </div>
+        <div class="kpi-grid" id="kpiGrid"></div>
+        <div class="card">
+          <h3>Evolución nacional 2018 – 2025</h3>
+          <p id="trendCiNote" style="margin:-8px 0 14px 0; font-size:12.5px; color:var(--gris-texto);">Valores puntuales de la tasa. Para ver el intervalo de confianza y el coeficiente de variación, cambia a la vista "Estimadores".</p>
+          <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
+        </div>
+      </div>
+
+      <div id="sub-geo" class="hidden">
+        <select class="sd-select" id="geoTypeSelect"></select>
+
+        <div class="card" id="geoTrendCard">
+          <h3 id="geoTrendTitle">Evolución 2018 – 2025 por ciudad</h3>
+          <p style="margin:-8px 0 14px 0; font-size:12.5px; color:var(--gris-texto);" id="geoTrendNote">Haz clic en la leyenda para aislar o comparar categorías.</p>
+          <div class="chart-wrap"><canvas id="geoTrendChart"></canvas></div>
+
+          <div class="annual-compare">
+            <div class="annual-compare-title">Comparativo por año</div>
+            <p class="annual-compare-note">Elige un año para ver el detalle en el gráfico de barras y en el resumen de la derecha.</p>
+            <div class="year-pills" id="geoYearPills"></div>
+
+            <div class="geo-year-layout">
+              <div class="chart-wrap" style="height:280px;"><canvas id="geoBarChart"></canvas></div>
+              <div class="geo-year-desc" id="geoYearDesc"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="placeholder-box hidden" id="mapNoData">
+          <div class="icon">ℹ️</div><h3>Sin datos provinciales por sexo</h3>
+          <p>La desagregación provincial no está disponible cruzada por sexo en la fuente. Prueba con Ciudades, Región natural o Zona de planificación.</p>
+        </div>
+
+        <div class="card hidden" id="mapCard">
+          <h3>Mapa provincial</h3>
+          <p style="margin:-8px 0 14px 0; font-size:12.5px; color:var(--gris-texto);">Selecciona el año y luego una provincia (en el mapa o en la lista) para ver su detalle.</p>
+          <div class="year-pills" id="mapYearPills"></div>
+          <div class="ec-map-outer">
+            <div class="ec-map-wrap">
+              <div id="ecMapCont"></div>
+              <div class="ec-gal-box">
+                <div class="ec-gal-label">Galápagos</div>
+                <div id="ecMapGal"></div>
+              </div>
+              <div class="legend"><span>Valor más bajo</span><div class="legend-grad" id="ecLegendGrad"></div><span>Valor más alto</span></div>
+            </div>
+            <div class="prov-panel">
+              <select class="prov-select" id="provSelect"></select>
+              <div id="provDefault">
+                <div class="p-name">Ecuador (Nacional)</div>
+                <div class="p-val" id="provNacVal">—</div>
+                <div class="p-rank">Selecciona una provincia en el mapa o en la lista para ver su detalle.</div>
+              </div>
+              <div id="provSelected" class="hidden">
+                <div class="p-name" id="provName"></div>
+                <div class="p-val" id="provVal"></div>
+                <div class="p-rank" id="provRank"></div>
+              </div>
+              <div class="prov-bars" id="provBars"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="sub-carac" class="hidden">
+        <select class="sd-select" id="sdSelect"></select>
+
+        <div class="card">
+          <h3 id="sdTrendTitle">Evolución 2018 – 2025 por grupo de edad</h3>
+          <p style="margin:-8px 0 14px 0; font-size:12.5px; color:var(--gris-texto);">Haz clic en la leyenda para aislar o comparar categorías.</p>
+          <div class="chart-wrap"><canvas id="sdTrendChart"></canvas></div>
+
+          <div class="annual-compare">
+            <div class="annual-compare-title">Comparativo por año</div>
+            <p class="annual-compare-note">Elige un año para ver el detalle en el gráfico de barras y en el resumen de la derecha.</p>
+            <div class="year-pills" id="sdYearPills"></div>
+
+            <div class="geo-year-layout">
+              <div class="chart-wrap" style="height:280px;"><canvas id="sdBarChart"></canvas></div>
+              <div class="geo-year-desc" id="sdYearDesc"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="gov-close"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="Gobierno del Ecuador"></div>
+
+</main>
+
+</div>
+
+<div id="estimadoresPanel" class="hidden">
+  <main>
+    <div class="sel-box" style="margin-bottom:18px;">
+      <div class="sb-title">📊 Sobre esta vista</div>
+      <p>Esta sección usa los valores reportados en "Estimadores": valor puntual, error estándar, intervalo de confianza (IC) al 95% y coeficiente de variación (CV). Solo cubre Nacional, Urbano, Rural, 5 ciudades autorrepresentadas y las 24 provincias — no incluye región natural, zona de planificación ni características sociodemográficas, porque la fuente no reporta esos cruces con estadística de precisión.</p>
+      <p style="margin-top:8px;">El CV mide la confiabilidad de la estimación: <span class="cv-tag cv-ok">Confiable</span> (menor a 15%), <span class="cv-tag cv-warn">Precaución</span> (15%–20%), <span class="cv-tag cv-bad">No confiable</span> (mayor a 20%), según el criterio estándar del INEC.</p>
+    </div>
+
+    <div class="card">
+      <h3>Evolución 2018 – 2025 — Nacional, Urbano y Rural</h3>
+      <p style="margin:-8px 0 14px 0; font-size:12.5px; color:var(--gris-texto);">Las bandas sombreadas muestran el intervalo de confianza al 95% de cada serie.</p>
+      <div class="chart-wrap"><canvas id="estimTrendChart"></canvas></div>
+    </div>
+
+    <div class="card">
+      <h3>Detalle por desagregación geográfica</h3>
+      <p style="margin:-8px 0 14px 0; font-size:12.5px; color:var(--gris-texto);">Elige un año y un nivel geográfico. En Provincias, el mapa se atenúa automáticamente donde el CV es 15% o más (menor confiabilidad).</p>
+      <div class="year-pills" id="estimYearPills"></div>
+      <select class="sd-select" id="estimTypeSelect"></select>
+
+      <div id="estimSimpleView">
+        <select class="sd-select" id="estimGeoSelect"></select>
+        <div class="estim-grid" id="estimDetailGrid"></div>
+      </div>
+
+      <div id="estimMapView" class="hidden">
+        <div class="ec-map-outer">
+          <div class="ec-map-wrap">
+            <div id="estimMapCont"></div>
+            <div class="ec-gal-box">
+              <div class="ec-gal-label">Galápagos</div>
+              <div id="estimMapGal"></div>
+            </div>
+            <div class="legend"><span>Valor más bajo</span><div class="legend-grad" id="estimLegendGrad"></div><span>Valor más alto</span></div>
+          </div>
+          <div class="prov-panel">
+            <select class="prov-select" id="estimProvSelect"></select>
+            <div id="estimProvDefault">
+              <div class="p-name">Ecuador (Nacional)</div>
+              <div class="p-val" id="estimProvNacVal">—</div>
+              <div class="p-rank">Selecciona una provincia en el mapa o en la lista para ver su detalle estadístico.</div>
+            </div>
+            <div id="estimProvSelected" class="hidden">
+              <div class="p-name" id="estimProvName"></div>
+              <div class="p-val" id="estimProvVal"></div>
+              <div class="p-rank" id="estimProvRank"></div>
+              <div class="estim-grid" id="estimProvStatsGrid" style="grid-template-columns:1fr 1fr; margin-top:10px;"></div>
+            </div>
+            <div class="prov-bars" id="estimProvBars"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+
+<footer>ENEMDU · Instituto Nacional de Estadística y Censos (INEC) — Panel elaborado por la Dirección de Estudios y Análisis de la Subsecretaría de Gestión de Datos y Estudios, Ministerio de Trabajo y Desarrollo Humano</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="../assets/js/geojson_js.js"></script>
+<script src="../assets/js/ecuador-map.js"></script>
+<script src="../assets/js/cargar-datos.js"></script>
+<script>
+// Datos de esta página (carpeta datos/). Ver datos/LEEME.md
+cargarDatos({
+  DATA: { archivo: '../datos/enemdu/anual/participacion_global.csv', forma: 'arbol' }
+});
+</script>
+<script type="text/plain" data-tras-datos>
+const HIGHER_BETTER = true;
+const BUENO = ["La caída se detuvo en el último año: 64.3% (2024) → 64.3% (2025), sin variación. Es la primera estabilización tras varios años de descenso continuo."];
+const MALO = ["Tendencia de caída sostenida desde 2019: de 67.3% a 64.3% en 2025, -3.0 pp en seis años, sin recuperación plena.", "No recupera el nivel prepandemia: 66.9% (2018) vs 64.3% (2025), -2.6 pp acumulados.", "Brecha urbano-rural amplia y persistente: en 2025, el área Rural (71.0%) supera al área Urbana (61.2%) por 9.8 pp."];
+const BUENO_HOMBRES = [
+  'Único corte con un repunte en el último año: 77.4% (2024) → 77.7% (2025), +0.3 pp, mientras Mujeres siguió cayendo y el Total general se mantuvo estancado.',
+];
+const MALO_HOMBRES = [
+  'Descenso acumulado desde 2018: 79.2% → 77.7% en 2025, -1.5 pp, sin recuperar el nivel prepandemia pese al repunte reciente.',
+];
+const BUENO_MUJERES = [
+  'El ritmo de caída se desaceleró: de -0.8 pp en 2023-2024 a -0.3 pp en 2024-2025.',
+];
+const MALO_MUJERES = [
+  'Los valores para Mujeres siguieron cayendo en el último año, mientras Hombres repuntó (+0.3 pp) y el Total general se estabilizó.',
+  'Brecha de género amplia y persistente: en 2025, Hombres (77.7%) supera a Mujeres (52.1%) por 25.6 pp.',
+];
+
+function renderEval(){
+  const bueno = currentSexScope==='hombres' ? BUENO_HOMBRES : (currentSexScope==='mujeres' ? BUENO_MUJERES : BUENO);
+  const malo = currentSexScope==='hombres' ? MALO_HOMBRES : (currentSexScope==='mujeres' ? MALO_MUJERES : MALO);
+  const bl = document.getElementById('buenoList'); bl.innerHTML='';
+  bueno.forEach(t => { const li=document.createElement('li'); li.textContent=t; bl.appendChild(li); });
+  const ml = document.getElementById('maloList'); ml.innerHTML='';
+  malo.forEach(t => { const li=document.createElement('li'); li.textContent=t; ml.appendChild(li); });
+}
+
+const AZUL='#0b2d52', AZUL_CLARO='#1d6fa8', DORADO='#c8992a';
+
+// Plugin: dibuja el valor fijo encima de cada barra en todos los gráficos de barra,
+// para que el dato sea visible sin necesidad de pasar el mouse por encima.
+Chart.register({
+  id: 'barValueLabels',
+  afterDatasetsDraw(chart){
+    if (chart.config.type !== 'bar') return;
+    const {ctx} = chart;
+    chart.data.datasets.forEach((ds, dsIndex) => {
+      const meta = chart.getDatasetMeta(dsIndex);
+      if (meta.hidden || !meta.data) return;
+      meta.data.forEach((bar, i) => {
+        const value = ds.data[i];
+        if (value === null || value === undefined || isNaN(value)) return;
+        ctx.save();
+        ctx.fillStyle = '#1c2733';
+        ctx.font = "600 11.5px Arial, sans-serif";
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+        ctx.fillText(value.toFixed(1) + '%', bar.x, bar.y - 6);
+        ctx.restore();
+      });
+    });
+  }
+});
+
+let currentSexScope = 'total'; // 'total' | 'hombres'
+
+function TERR(){
+  if (currentSexScope === 'hombres') return DATA.territorio_hombre;
+  if (currentSexScope === 'mujeres') return DATA.territorio_mujer;
+  return DATA.territorio;
+}
+function CARAC(){
+  if (currentSexScope === 'hombres') return DATA.caracteristicas_hombre;
+  if (currentSexScope === 'mujeres') return DATA.caracteristicas_mujer;
+  return DATA.caracteristicas;
+}
+
+const GEO_TYPES = {
+  ciudades: {label:'Ciudades', items:['Quito','Guayaquil','Cuenca','Machala','Ambato']},
+  provincias: {label:'Provincias', items:['Azuay','Bolívar','Cañar','Carchi','Cotopaxi','Chimborazo','El Oro','Esmeraldas','Guayas','Imbabura','Loja','Los Ríos','Manabí','Morona Santiago','Napo','Pastaza','Pichincha','Tungurahua','Zamora Chinchipe','Galápagos','Sucumbíos','Orellana','Santo Domingo','Santa Elena']},
+  region: {label:'Región natural', items:['Sierra','Costa','Amazonia','Insular']},
+  zona: {label:'Zona de planificación', items:['Zona 1','Zona 2','Zona 3','Zona 4','Zona 5','Zona 6','Zona 7','Zona 8','Zona 9']},
+};
+const PALETTE = ['#0b2d52','#1d6fa8','#c8992a','#2f7d5a','#b8433f','#7a5c9e','#3d8f8a','#c1638d','#5a7a3a','#8a5a2a',
+  '#4a6fa5','#a8763a','#6b8e4e','#9c4f6e','#2e6b6b','#8c6239','#5e4b8c','#3a7d5c','#a04e3a','#6a5acd',
+  '#4a8b8b','#c17a3a','#5a8c6e','#8c4a6a'];
+const MAP_COLOR = '#3d6d94'; // color neutro para el mapa, distinto del verde/amarillo/rojo usado en los badges de confiabilidad (CV)
+
+let currentYear = '2025';
+let currentSD = 'Grupos de edad';
+let currentSdYear = '2025';
+let selectedProv = null;
+let currentMapYear = '2025';
+let trendChart=null, sdTrendChart=null, sdBarChart=null;
+let currentGeoType = 'ciudades';
+let geoTrendChart = null;
+let currentGeoYear = '2025';
+let geoBarChart = null;
+let ecuadorMap = null;
+
+function fmtVal(v){ return v===undefined||v===null ? '—' : (v*100).toFixed(1)+'%'; }
+
+function colorFor(val, min, max){
+  if (val===undefined || val===null) return '#e2e6ea';
+  let t = (max>min) ? (val-min)/(max-min) : 0.5;
+  if (HIGHER_BETTER === false) t = 1 - t;
+  const rojo=[184,67,63], dorado=[200,153,42], verde=[47,125,90];
+  let rgb;
+  if (t<0.5){ const k=t/0.5; rgb = rojo.map((c,i)=>Math.round(c+(dorado[i]-c)*k)); }
+  else { const k=(t-0.5)/0.5; rgb = dorado.map((c,i)=>Math.round(c+(verde[i]-c)*k)); }
+  return `rgb(${rgb.join(',')})`;
+}
+
+function buildGeoTypeTabs(){
+  const wrap = document.getElementById('geoTypeSelect');
+  const entries = Object.entries(GEO_TYPES).filter(([key]) => key !== 'provincias' || currentSexScope === 'total');
+  if (currentGeoType === 'provincias' && currentSexScope !== 'total') currentGeoType = 'ciudades';
+  wrap.innerHTML = entries.map(([key, cfg]) => `<option value="${key}"${key===currentGeoType?' selected':''}>${cfg.label}</option>`).join('');
+  wrap.onchange = () => {
+    currentGeoType = wrap.value;
+    renderGeoSection();
+  };
+}
+
+function renderGeoSection(){
+  const esProvincias = currentGeoType === 'provincias';
+  const provinciasSinDatos = esProvincias && currentSexScope !== 'total';
+  document.getElementById('geoTrendCard').classList.toggle('hidden', esProvincias);
+  document.getElementById('mapCard').classList.toggle('hidden', !esProvincias || provinciasSinDatos);
+  document.getElementById('mapNoData').classList.toggle('hidden', !provinciasSinDatos);
+  if (provinciasSinDatos){
+    return;
+  }
+  if (esProvincias){
+    ensureEcMapInit();
+    buildYearPills();
+    buildProvSelect();
+    renderProvinciaMap();
+    resizeCharts();
+  } else {
+    const cfg = GEO_TYPES[currentGeoType];
+    document.getElementById('geoTrendTitle').textContent = `Evolución 2018 – 2025 por ${cfg.label.toLowerCase()}`;
+    const years = Object.keys(TERR()).sort();
+    if (!years.includes(currentGeoYear)) currentGeoYear = years[years.length-1];
+    buildGeoYearPills();
+    renderGeoTrend();
+    renderGeoYearBar();
+  }
+}
+
+function buildGeoYearPills(){
+  const years = Object.keys(TERR()).sort();
+  const wrap = document.getElementById('geoYearPills');
+  wrap.innerHTML = '';
+  years.forEach(y => {
+    const p = document.createElement('div');
+    p.className = 'year-pill' + (y===currentGeoYear ? ' active':'');
+    p.textContent = y;
+    p.addEventListener('click', () => {
+      currentGeoYear = y;
+      document.querySelectorAll('#geoYearPills .year-pill').forEach(t=>t.classList.toggle('active', t.textContent===y));
+      renderGeoYearBar();
+    });
+    wrap.appendChild(p);
+  });
+}
+
+function renderGeoTrend(){
+  const cfg = GEO_TYPES[currentGeoType];
+  const years = Object.keys(TERR()).sort();
+  const mk = name => years.map(y => TERR()[y][name]!==undefined ? TERR()[y][name]*100 : null);
+  const datasets = cfg.items.map((name, i) => ({
+    label: name, data: mk(name), borderColor: PALETTE[i % PALETTE.length],
+    backgroundColor: PALETTE[i % PALETTE.length], borderWidth: 2, tension:.3,
+    pointRadius: 3,
+  }));
+  datasets.push({label:'Nacional', data: mk('Total'), borderColor:'#8a97a8', borderDash:[3,3], borderWidth:2, tension:.3, pointRadius:0, order:0});
+  const ctx = document.getElementById('geoTrendChart').getContext('2d');
+  if (geoTrendChart) geoTrendChart.destroy();
+  geoTrendChart = new Chart(ctx, {
+    type:'line',
+    data:{labels:years, datasets},
+    options:{responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom', labels:{boxWidth:12, font:{size:11}}}},
+      scales:{y:{ticks:{callback:v=>v+'%'}, grid:{color:'#eef1f4'}}, x:{grid:{display:false}}}}
+  });
+}
+
+function renderGeoYearBar(){
+  const cfg = GEO_TYPES[currentGeoType];
+  const yd = TERR()[currentGeoYear] || {};
+  const pairs = cfg.items.filter(n => yd[n]!==undefined).map((n,i) => [n, yd[n]*100, PALETTE[cfg.items.indexOf(n) % PALETTE.length]]);
+  pairs.sort((a,b) => b[1]-a[1]);
+  const ctx = document.getElementById('geoBarChart').getContext('2d');
+  if (geoBarChart) geoBarChart.destroy();
+  geoBarChart = new Chart(ctx, {
+    type:'bar',
+    data:{labels:pairs.map(p=>p[0]), datasets:[{label:currentGeoYear, data:pairs.map(p=>p[1]), backgroundColor:pairs.map(p=>p[2]), borderRadius:4}]},
+    options:{responsive:true, maintainAspectRatio:false, layout:{padding:{top:22}},
+      plugins:{legend:{display:false}},
+      scales:{y:{ticks:{callback:v=>v+'%'}, grid:{color:'#eef1f4'}}, x:{grid:{display:false}, ticks:{font:{size:10.5}}}}}
+  });
+
+  // ---- Descripción de lo más relevante ----
+  const nac = yd['Total']!==undefined ? yd['Total']*100 : null;
+  const max = pairs[0], min = pairs[pairs.length-1];
+  const avg = pairs.reduce((s,p)=>s+p[1],0) / pairs.length;
+  const gap = max[1] - min[1];
+  const vsNac = nac!==null ? (avg - nac) : null;
+  const sentidoVsNac = vsNac===null ? '' : (vsNac >= 0 ? 'por encima' : 'por debajo');
+
+  const desc = document.getElementById('geoYearDesc');
+  desc.innerHTML = `
+    <div class="gyd-title">Lo más relevante — ${currentGeoYear}</div>
+    <ul>
+      <li><b>${max[0]}</b> tiene el valor más alto (<b>${max[1].toFixed(1)}%</b>) y <b>${min[0]}</b> el más bajo (<b>${min[1].toFixed(1)}%</b>) — una brecha de <b>${gap.toFixed(1)} pp</b> entre ambos.</li>
+      <li>El promedio de ${cfg.label.toLowerCase()} es <b>${avg.toFixed(1)}%</b>, ${sentidoVsNac} del nacional (${nac!==null?nac.toFixed(1):'—'}%)${vsNac!==null?` por ${Math.abs(vsNac).toFixed(1)} pp`:''}.</li>
+    </ul>`;
+}
+
+// ---- Mapa real de provincias (Leaflet + geojson) ----
+function buildYearPills(){
+  const years = Object.keys(TERR()).sort();
+  const wrap = document.getElementById('mapYearPills');
+  wrap.innerHTML = '';
+  years.forEach(y => {
+    const p = document.createElement('div');
+    p.className = 'year-pill' + (y===currentMapYear ? ' active':'');
+    p.textContent = y;
+    p.addEventListener('click', () => {
+      currentMapYear = y;
+      document.querySelectorAll('#mapYearPills .year-pill').forEach(t=>t.classList.toggle('active', t.textContent===y));
+      renderProvinciaMap();
+    });
+    wrap.appendChild(p);
+  });
+}
+
+function buildProvSelect(){
+  const sel = document.getElementById('provSelect');
+  sel.innerHTML = '<option value="">— Selecciona una provincia —</option>' +
+    GEO_TYPES.provincias.items.slice().sort().map(p => `<option value="${p}">${p}</option>`).join('');
+  sel.onchange = () => {
+    if (sel.value){ selectedProv = sel.value; ecuadorMap.highlight(sel.value); updateProvPanel(); }
+  };
+}
+
+function ensureEcMapInit(){
+  if (ecuadorMap) return;
+  ecuadorMap = crearMapaEcuador({
+    mapId: 'ecMapCont', galId: 'ecMapGal',
+    onSelect: (prov) => {
+      selectedProv = prov;
+      document.getElementById('provSelect').value = prov;
+      updateProvPanel();
+    }
+  });
+  const grad = document.getElementById('ecLegendGrad');
+  grad.style.background = `linear-gradient(90deg, #F5F6F8, ${MAP_COLOR})`;
+}
+
+function renderProvinciaMap(){
+  const yd = TERR()[currentMapYear] || {};
+  const data = GEO_TYPES.provincias.items
+    .filter(p => yd[p] !== undefined)
+    .map(p => ({ p, value: yd[p], tooltip: fmtVal(yd[p]) }));
+  ecuadorMap.render(data, MAP_COLOR);
+  if (selectedProv) ecuadorMap.highlight(selectedProv);
+  updateProvPanel();
+}
+
+function updateProvPanel(){
+  const yd = TERR()[currentMapYear] || {};
+  document.getElementById('provNacVal').textContent = fmtVal(yd['Total']);
+  const allProv = GEO_TYPES.provincias.items.map(p => [p, yd[p]]).filter(x => x[1]!==undefined && x[1]!==null);
+  allProv.sort((a,b) => b[1]-a[1]);
+
+  if (selectedProv && yd[selectedProv]!==undefined){
+    document.getElementById('provDefault').classList.add('hidden');
+    document.getElementById('provSelected').classList.remove('hidden');
+    document.getElementById('provName').textContent = selectedProv;
+    document.getElementById('provVal').textContent = fmtVal(yd[selectedProv]);
+    const rank = allProv.findIndex(x => x[0]===selectedProv) + 1;
+    document.getElementById('provRank').textContent = `Puesto ${rank} de ${allProv.length} provincias (${currentMapYear})`;
+  } else {
+    document.getElementById('provDefault').classList.remove('hidden');
+    document.getElementById('provSelected').classList.add('hidden');
+  }
+
+  const maxV = Math.max(...allProv.map(x=>x[1]), 0.0001);
+  const bars = document.getElementById('provBars');
+  bars.innerHTML = '';
+  allProv.forEach(([name,val]) => {
+    const pct = val/maxV*100;
+    const active = name===selectedProv;
+    const row = document.createElement('div');
+    row.className = 'prov-bar-row' + (active?' active-row':'');
+    row.innerHTML = `<span>${name}</span><div class="prov-bar-track"><div class="prov-bar-fill" style="width:${pct}%; background:${active?DORADO:AZUL_CLARO}"></div></div><span>${fmtVal(val)}</span>`;
+    row.addEventListener('click', () => {
+      selectedProv = name;
+      document.getElementById('provSelect').value = name;
+      ecuadorMap.highlight(name);
+      updateProvPanel();
+    });
+    bars.appendChild(row);
+  });
+}
+
+function renderKpis(){
+  const years = Object.keys(TERR()).sort();
+  const y0=years[0], y1=years[years.length-1];
+  const v0=TERR()[y0]['Total'], v1=TERR()[y1]['Total'];
+  const delta=(v1-v0)*100;
+  const isGood = HIGHER_BETTER===false ? delta<0 : delta>0;
+  const nacLbl = currentSexScope==='hombres' ? 'Hombres' : (currentSexScope==='mujeres' ? 'Mujeres' : 'Nacional');
+  const grid = document.getElementById('kpiGrid');
+  grid.innerHTML = `
+    <div class="kpi-card"><div class="k-lbl">${nacLbl} ${y1}</div><div class="k-val">${fmtVal(v1)}</div></div>
+    <div class="kpi-card"><div class="k-lbl">Variación ${y0}–${y1}</div><div class="k-val">${delta>=0?'+':''}${delta.toFixed(1)} pp</div>
+      <div class="k-delta ${isGood?'good':'bad'}">${isGood?'Mejora':'Empeora'}</div></div>
+    <div class="kpi-card"><div class="k-lbl">Urbano ${y1}</div><div class="k-val">${fmtVal(TERR()[y1]['Urbano'])}</div></div>
+    <div class="kpi-card"><div class="k-lbl">Rural ${y1}</div><div class="k-val">${fmtVal(TERR()[y1]['Rural'])}</div></div>
+  `;
+}
+
+function renderTrend(){
+  const years = Object.keys(TERR()).sort();
+  const mk = k => years.map(y => TERR()[y][k]!==undefined ? TERR()[y][k]*100 : null);
+
+  const ctx = document.getElementById('trendChart').getContext('2d');
+  if (trendChart) trendChart.destroy();
+  trendChart = new Chart(ctx, {
+    type:'line',
+    data:{labels:years, datasets:[
+      {label:'Nacional', data:mk('Total'), borderColor:AZUL, backgroundColor:AZUL, borderWidth:3, tension:.3, pointRadius:4, order:2},
+      {label:'Urbano', data:mk('Urbano'), borderColor:AZUL_CLARO, borderWidth:2, borderDash:[4,2], tension:.3, pointRadius:3, order:2},
+      {label:'Rural', data:mk('Rural'), borderColor:DORADO, borderWidth:2, borderDash:[4,2], tension:.3, pointRadius:3, order:2},
+    ]},
+    options:{responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom', labels:{boxWidth:12, font:{size:11}}},
+        tooltip:{callbacks:{
+          label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}%`
+        }}
+      },
+      scales:{y:{ticks:{callback:v=>v+'%'}, grid:{color:'#eef1f4'}}, x:{grid:{display:false}}}}
+  });
+}
+
+const CARAC_TYPES = {
+  'Grupos de edad': {items:['15 a 17 años','18 a 29 años','30 a 44 años','45 a 64 años','65 años y más']},
+  'Etnia': {items:['Indígena','Afroecuatoriano','Montubio','Mestizo','Blanco']},
+  'Estado civil/conyugal': {items:['Casado','Unión libre','Soltero','Otro']},
+  'Nivel de instrucción': {items:['Ninguno','Centro de alfabetización','Básica','Bachillerato','Superior']},
+  'Quintiles de ingreso': {items:['Quintil 1','Quintil 2','Quintil 3','Quintil 4','Quintil 5']},
+};
+// La hoja "Características y Sexo" no trae Quintiles de ingreso, y usa una
+// ortografía ligeramente distinta en un par de categorías.
+const CARAC_TYPES_HOMBRE = {
+  'Grupos de edad': {items:['15 a 17 años','18 a 29 años','30 a 44 años','45 a 64 años','65 años y más']},
+  'Etnia': {items:['Indígena','Afroecuatoriano','Montubio','Mestizo','Blanco']},
+  'Estado civil/conyugal': {items:['Casado','Unión libre','Soltero','Otros']},
+  'Nivel de instrucción': {items:['Ninguno','Centro de Alfabetización','Básica','Bachillerato','Superior']},
+};
+function getCaracTypes(){ return (currentSexScope === 'hombres' || currentSexScope === 'mujeres') ? CARAC_TYPES_HOMBRE : CARAC_TYPES; }
+
+function buildSdTabs(){
+  const groups = Object.keys(getCaracTypes());
+  if (!groups.includes(currentSD)) currentSD = groups[0];
+  const wrap = document.getElementById('sdSelect');
+  wrap.innerHTML = groups.map(g => `<option value="${g}"${g===currentSD?' selected':''}>${g}</option>`).join('');
+  wrap.onchange = () => {
+    currentSD = wrap.value;
+    renderSdSection();
+  };
+}
+
+function renderSdSection(){
+  const years = Object.keys(CARAC()).sort();
+  if (!years.includes(currentSdYear)) currentSdYear = years[years.length-1];
+  document.getElementById('sdTrendTitle').textContent = `Evolución 2018 – 2025 por ${currentSD.toLowerCase()}`;
+  buildSdYearPills();
+  renderSdTrend();
+  renderSdYearBar();
+}
+
+function buildSdYearPills(){
+  const years = Object.keys(CARAC()).sort();
+  const wrap = document.getElementById('sdYearPills');
+  wrap.innerHTML = '';
+  years.forEach(y => {
+    const p = document.createElement('div');
+    p.className = 'year-pill' + (y===currentSdYear ? ' active':'');
+    p.textContent = y;
+    p.addEventListener('click', () => {
+      currentSdYear = y;
+      document.querySelectorAll('#sdYearPills .year-pill').forEach(t=>t.classList.toggle('active', t.textContent===y));
+      renderSdYearBar();
+    });
+    wrap.appendChild(p);
+  });
+}
+
+function renderSdTrend(){
+  const cfg = getCaracTypes()[currentSD];
+  const years = Object.keys(CARAC()).sort();
+  const mk = name => years.map(y => {
+    const v = (CARAC()[y][currentSD] || {})[name];
+    return v!==undefined ? v*100 : null;
+  });
+  const mkNac = () => years.map(y => TERR()[y] && TERR()[y]['Total']!==undefined ? TERR()[y]['Total']*100 : null);
+  const datasets = cfg.items.map((name, i) => ({
+    label: name, data: mk(name), borderColor: PALETTE[i % PALETTE.length],
+    backgroundColor: PALETTE[i % PALETTE.length], borderWidth: 2, tension:.3,
+    pointRadius: 3,
+  }));
+  datasets.push({label:'Nacional', data: mkNac(), borderColor:'#8a97a8', borderDash:[3,3], borderWidth:2, tension:.3, pointRadius:0, order:0});
+  const ctx = document.getElementById('sdTrendChart').getContext('2d');
+  if (sdTrendChart) sdTrendChart.destroy();
+  sdTrendChart = new Chart(ctx, {
+    type:'line',
+    data:{labels:years, datasets},
+    options:{responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom', labels:{boxWidth:12, font:{size:11}}}},
+      scales:{y:{ticks:{callback:v=>v+'%'}, grid:{color:'#eef1f4'}}, x:{grid:{display:false}}}}
+  });
+}
+
+function renderSdYearBar(){
+  const cfg = getCaracTypes()[currentSD];
+  const yd = (CARAC()[currentSdYear] || {})[currentSD] || {};
+  const pairs = cfg.items.filter(n => yd[n]!==undefined).map(n => [n, yd[n]*100, PALETTE[cfg.items.indexOf(n) % PALETTE.length]]);
+  pairs.sort((a,b) => b[1]-a[1]);
+  const ctx = document.getElementById('sdBarChart').getContext('2d');
+  if (sdBarChart) sdBarChart.destroy();
+  sdBarChart = new Chart(ctx, {
+    type:'bar',
+    data:{labels:pairs.map(p=>p[0]), datasets:[{label:currentSdYear, data:pairs.map(p=>p[1]), backgroundColor:pairs.map(p=>p[2]), borderRadius:4}]},
+    options:{responsive:true, maintainAspectRatio:false, layout:{padding:{top:22}},
+      plugins:{legend:{display:false}},
+      scales:{y:{ticks:{callback:v=>v+'%'}, grid:{color:'#eef1f4'}}, x:{grid:{display:false}, ticks:{font:{size:10.5}}}}}
+  });
+
+  const nacY = TERR()[currentSdYear] ? TERR()[currentSdYear]['Total']*100 : null;
+  const max = pairs[0], min = pairs[pairs.length-1];
+  const avg = pairs.reduce((s,p)=>s+p[1],0) / pairs.length;
+  const gap = max[1] - min[1];
+  const vsNac = nacY!==null ? (avg - nacY) : null;
+  const sentidoVsNac = vsNac===null ? '' : (vsNac >= 0 ? 'por encima' : 'por debajo');
+
+  const desc = document.getElementById('sdYearDesc');
+  desc.innerHTML = `
+    <div class="gyd-title">Lo más relevante — ${currentSdYear}</div>
+    <ul>
+      <li><b>${max[0]}</b> tiene el valor más alto (<b>${max[1].toFixed(1)}%</b>) y <b>${min[0]}</b> el más bajo (<b>${min[1].toFixed(1)}%</b>) — una brecha de <b>${gap.toFixed(1)} pp</b> entre ambos.</li>
+      <li>El promedio de ${currentSD.toLowerCase()} es <b>${avg.toFixed(1)}%</b>, ${sentidoVsNac} del nacional (${nacY!==null?nacY.toFixed(1):'—'}%)${vsNac!==null?` por ${Math.abs(vsNac).toFixed(1)} pp`:''}.</li>
+    </ul>`;
+}
+
+function resizeCharts(){
+  requestAnimationFrame(() => {
+    if (trendChart) trendChart.resize();
+    if (sdTrendChart) sdTrendChart.resize();
+    if (sdBarChart) sdBarChart.resize();
+    if (geoTrendChart) geoTrendChart.resize();
+    if (geoBarChart) geoBarChart.resize();
+  });
+  // El mapa Leaflet necesita más tiempo: el contenedor debe terminar de
+  // reflow-earse (display:none -> visible) antes de recalcular tamaño y zoom,
+  // si no, queda con el encuadre viejo (zoom incorrecto / recortado).
+  if (ecuadorMap && currentGeoType === 'provincias'){
+    setTimeout(() => { renderProvinciaMap(); }, 80);
+  }
+}
+
+// ---- Navegación Nivel 2: total/hombres/mujeres ----
+document.querySelectorAll('.s-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.s-tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    currentSexScope = tab.dataset.sex;
+    renderEval();
+    renderKpis();
+    renderTrend();
+    buildGeoTypeTabs();
+    renderGeoSection();
+    buildSdTabs();
+    renderSdSection();
+    resizeCharts();
+  });
+});
+
+// ---- Navegación Nivel 3: serie/geo/carac (dentro de Total general) ----
+document.querySelectorAll('.sub-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.sub-tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    const sub = tab.dataset.sub;
+    ['serie','geo','carac'].forEach(s => document.getElementById('sub-'+s).classList.toggle('hidden', s!==sub));
+    resizeCharts();
+  });
+});
+
+renderEval();
+renderKpis();
+renderTrend();
+buildGeoTypeTabs();
+renderGeoSection();
+buildSdTabs();
+renderSdSection();
+
+// ---- Modo Tasas / Estimadores ----
+const ESTIM_GROUPS = {
+  nacional: {label:'Nacional / Área', items:['Total','Urbano','Rural']},
+  ciudades: {label:'Ciudades', items:['Quito','Guayaquil','Cuenca','Machala','Ambato']},
+  provincias: {label:'Provincias', items:['Azuay','Bolívar','Cañar','Carchi','Cotopaxi','Chimborazo','El Oro','Esmeraldas','Guayas','Imbabura','Loja','Los Ríos','Manabí','Morona Santiago','Napo','Pastaza','Pichincha','Tungurahua','Zamora Chinchipe','Galápagos','Sucumbíos','Orellana','Santo Domingo','Santa Elena']},
+};
+let currentEstimYear = '2025';
+let currentEstimType = 'nacional';
+let currentEstimGeo = 'Total';
+let estimTrendChart = null;
+let estimMap = null;
+let estimSelectedProv = null;
+
+function cvTag(cv){
+  if (cv===undefined || cv===null) return '<span class="cv-tag cv-warn">Sin dato</span>';
+  if (cv < 15) return '<span class="cv-tag cv-ok">Confiable</span>';
+  if (cv <= 20) return '<span class="cv-tag cv-warn">Precaución</span>';
+  return '<span class="cv-tag cv-bad">No confiable</span>';
+}
+
+function buildEstimYearPills(){
+  const years = Object.keys(DATA.estimadores).sort();
+  const wrap = document.getElementById('estimYearPills');
+  wrap.innerHTML = '';
+  years.forEach(y => {
+    const p = document.createElement('div');
+    p.className = 'year-pill' + (y===currentEstimYear ? ' active':'');
+    p.textContent = y;
+    p.addEventListener('click', () => {
+      currentEstimYear = y;
+      document.querySelectorAll('#estimYearPills .year-pill').forEach(t=>t.classList.toggle('active', t.textContent===y));
+      renderEstimGeoSection();
+    });
+    wrap.appendChild(p);
+  });
+}
+
+// Fuerza que el mapa se reconstruya desde cero la próxima vez que se
+// muestre (en vez de reutilizar la instancia). Solo se llama en los
+// momentos reales de transición de oculto a visible -no en cada clic de
+// año-, porque ahí es donde Leaflet puede medir mal el contenedor.
+function forceRebuildEstimMap(){
+  if (estimMap){ estimMap.destroy(); estimMap = null; }
+}
+
+function buildEstimTypeSelect(){
+  const wrap = document.getElementById('estimTypeSelect');
+  wrap.innerHTML = Object.entries(ESTIM_GROUPS).map(([key, cfg]) =>
+    `<option value="${key}"${key===currentEstimType?' selected':''}>${cfg.label}</option>`
+  ).join('');
+  wrap.onchange = () => {
+    currentEstimType = wrap.value;
+    currentEstimGeo = ESTIM_GROUPS[currentEstimType].items[0];
+    if (currentEstimType === 'provincias') forceRebuildEstimMap();
+    renderEstimGeoSection();
+  };
+}
+
+function buildEstimGeoSelect(){
+  const wrap = document.getElementById('estimGeoSelect');
+  const items = ESTIM_GROUPS[currentEstimType].items;
+  if (!items.includes(currentEstimGeo)) currentEstimGeo = items[0];
+  wrap.innerHTML = items.map(name => `<option value="${name}"${name===currentEstimGeo?' selected':''}>${name}</option>`).join('');
+  wrap.onchange = () => {
+    currentEstimGeo = wrap.value;
+    renderEstimDetail();
+  };
+}
+
+function renderEstimGeoSection(){
+  const esProvincias = currentEstimType === 'provincias';
+  document.getElementById('estimSimpleView').classList.toggle('hidden', esProvincias);
+  document.getElementById('estimMapView').classList.toggle('hidden', !esProvincias);
+  if (esProvincias){
+    ensureEstimMapInit();
+    buildEstimProvSelect();
+    renderEstimProvinciaMap();
+    refreshEstimMapSize();
+  } else {
+    buildEstimGeoSelect();
+    renderEstimDetail();
+  }
+}
+
+// El mapa Leaflet se crea mientras su contenedor puede no tener aún el
+// tamaño final (viene de display:none). Forzamos invalidateSize() -para
+// que Leaflet vuelva a medir el contenedor real- y luego re-renderizamos
+// las capas para que fitBounds recalcule el zoom con el tamaño correcto.
+// Se repite dos veces (tras el próximo frame y con un pequeño retraso de
+// respaldo) porque en algunos dispositivos el primer intento aún mide mal.
+function refreshEstimMapSize(){
+  const doRefresh = () => {
+    if (!estimMap) return;
+    estimMap.invalidateSize();
+    renderEstimProvinciaMap();
+  };
+  requestAnimationFrame(() => requestAnimationFrame(doRefresh));
+  setTimeout(doRefresh, 250);
+}
+
+function renderEstimTrend(){
+  const years = Object.keys(DATA.estimadores).sort();
+  const mk = (region, field) => years.map(y => {
+    const d = DATA.estimadores[y] && DATA.estimadores[y][region];
+    return d && d[field]!==undefined ? d[field]*100 : null;
+  });
+  const band = (region, color, name) => ([
+    {label:`__band_${name}`, data:mk(region,'ls'), borderColor:'transparent', backgroundColor:color, fill:'+1', pointRadius:0, tension:.3, order:1},
+    {label:`IC 95% ${name}`, data:mk(region,'li'), borderColor:'transparent', backgroundColor:color, fill:false, pointRadius:0, tension:.3, order:1,
+      ciPair:{upper:mk(region,'ls'), lower:mk(region,'li')}},
+  ]);
+  const ctx = document.getElementById('estimTrendChart').getContext('2d');
+  if (estimTrendChart) estimTrendChart.destroy();
+  estimTrendChart = new Chart(ctx, {
+    type:'line',
+    data:{labels:years, datasets:[
+      ...band('Total', 'rgba(11,45,82,0.14)', 'Nacional'),
+      ...band('Urbano', 'rgba(29,111,168,0.14)', 'Urbano'),
+      ...band('Rural', 'rgba(200,153,42,0.16)', 'Rural'),
+      {label:'Nacional', data:mk('Total','valor'), borderColor:AZUL, backgroundColor:AZUL, borderWidth:3, tension:.3, pointRadius:4, order:2},
+      {label:'Urbano', data:mk('Urbano','valor'), borderColor:AZUL_CLARO, borderWidth:2, borderDash:[4,2], tension:.3, pointRadius:3, order:2},
+      {label:'Rural', data:mk('Rural','valor'), borderColor:DORADO, borderWidth:2, borderDash:[4,2], tension:.3, pointRadius:3, order:2},
+    ]},
+    options:{responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom', labels:{filter: item => !item.text.startsWith('__band_') && !item.text.startsWith('IC 95%')}},
+        tooltip:{callbacks:{
+          label: ctx => {
+            if (ctx.dataset.ciPair) return `${ctx.dataset.label}: ${ctx.dataset.ciPair.lower[ctx.dataIndex].toFixed(1)}% – ${ctx.dataset.ciPair.upper[ctx.dataIndex].toFixed(1)}%`;
+            if (ctx.dataset.label.startsWith('__band_')) return null;
+            return `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}%`;
+          }
+        }}
+      },
+      scales:{y:{ticks:{callback:v=>v+'%'}, grid:{color:'#eef1f4'}}, x:{grid:{display:false}}}}
+  });
+}
+
+function renderEstimDetail(){
+  const d = (DATA.estimadores[currentEstimYear] || {})[currentEstimGeo];
+  const grid = document.getElementById('estimDetailGrid');
+  if (!d){
+    grid.innerHTML = `<div class="estim-card"><div class="e-lbl">${currentEstimGeo} — ${currentEstimYear}</div><div class="e-sub">Sin dato disponible en la fuente para esta combinación.</div></div>`;
+    return;
+  }
+  grid.innerHTML = `
+    <div class="estim-card"><div class="e-lbl">${currentEstimGeo} · ${currentEstimYear}</div><div class="e-val">${(d.valor*100).toFixed(1)}%</div><div class="e-sub">Valor puntual</div></div>
+    <div class="estim-card"><div class="e-lbl">Error estándar</div><div class="e-val">${(d.error*100).toFixed(2)} pp</div></div>
+    <div class="estim-card"><div class="e-lbl">Intervalo de confianza 95%</div><div class="e-val" style="font-size:19px;">${(d.li*100).toFixed(1)}% – ${(d.ls*100).toFixed(1)}%</div></div>
+    <div class="estim-card"><div class="e-lbl">Coeficiente de variación</div><div class="e-val">${d.cv.toFixed(1)}%</div><div class="e-sub">${cvTag(d.cv)}</div></div>
+  `;
+}
+
+// ---- Mapa provincial en modo Estimadores (valor + error + IC + CV) ----
+function ensureEstimMapInit(){
+  if (estimMap) return;
+  estimMap = crearMapaEcuador({
+    mapId: 'estimMapCont', galId: 'estimMapGal',
+    onSelect: (prov) => {
+      estimSelectedProv = prov;
+      document.getElementById('estimProvSelect').value = prov;
+      updateEstimProvPanel();
+    }
+  });
+  const grad = document.getElementById('estimLegendGrad');
+  grad.style.background = `linear-gradient(90deg, #F5F6F8, ${MAP_COLOR})`;
+}
+
+function buildEstimProvSelect(){
+  const sel = document.getElementById('estimProvSelect');
+  sel.innerHTML = '<option value="">— Selecciona una provincia —</option>' +
+    ESTIM_GROUPS.provincias.items.slice().sort().map(p => `<option value="${p}">${p}</option>`).join('');
+  sel.onchange = () => {
+    if (sel.value){ estimSelectedProv = sel.value; estimMap.highlight(sel.value); updateEstimProvPanel(); }
+  };
+}
+
+function renderEstimProvinciaMap(){
+  const yd = DATA.estimadores[currentEstimYear] || {};
+  const data = ESTIM_GROUPS.provincias.items
+    .filter(p => yd[p] !== undefined)
+    .map(p => ({
+      p, value: yd[p].valor,
+      tooltip: `${(yd[p].valor*100).toFixed(1)}% · IC 95%: ${(yd[p].li*100).toFixed(1)}–${(yd[p].ls*100).toFixed(1)}% · CV: ${yd[p].cv.toFixed(1)}%`,
+      cvAlto: yd[p].cv >= 15,
+    }));
+  estimMap.render(data, MAP_COLOR);
+  if (estimSelectedProv) estimMap.highlight(estimSelectedProv);
+  updateEstimProvPanel();
+}
+
+function updateEstimProvPanel(){
+  const yd = DATA.estimadores[currentEstimYear] || {};
+  document.getElementById('estimProvNacVal').textContent = fmtVal(yd['Total'] ? yd['Total'].valor : undefined);
+  const allProv = ESTIM_GROUPS.provincias.items.map(p => [p, yd[p]]).filter(x => x[1]!==undefined);
+  allProv.sort((a,b) => b[1].valor-a[1].valor);
+
+  if (estimSelectedProv && yd[estimSelectedProv]){
+    const d = yd[estimSelectedProv];
+    document.getElementById('estimProvDefault').classList.add('hidden');
+    document.getElementById('estimProvSelected').classList.remove('hidden');
+    document.getElementById('estimProvName').textContent = estimSelectedProv;
+    document.getElementById('estimProvVal').textContent = fmtVal(d.valor);
+    const rank = allProv.findIndex(x => x[0]===estimSelectedProv) + 1;
+    document.getElementById('estimProvRank').textContent = `Puesto ${rank} de ${allProv.length} provincias (${currentEstimYear})`;
+    document.getElementById('estimProvStatsGrid').innerHTML = `
+      <div class="estim-card"><div class="e-lbl">Error estándar</div><div class="e-val" style="font-size:19px;">${(d.error*100).toFixed(2)} pp</div></div>
+      <div class="estim-card"><div class="e-lbl">IC 95%</div><div class="e-val" style="font-size:16px;">${(d.li*100).toFixed(1)}–${(d.ls*100).toFixed(1)}%</div></div>
+      <div class="estim-card" style="grid-column:1/-1;"><div class="e-lbl">Coeficiente de variación</div><div class="e-val" style="font-size:19px;">${d.cv.toFixed(1)}% ${cvTag(d.cv)}</div></div>
+    `;
+  } else {
+    document.getElementById('estimProvDefault').classList.remove('hidden');
+    document.getElementById('estimProvSelected').classList.add('hidden');
+  }
+
+  const maxV = Math.max(...allProv.map(x=>x[1].valor), 0.0001);
+  const bars = document.getElementById('estimProvBars');
+  bars.innerHTML = '';
+  allProv.forEach(([name,d]) => {
+    const pct = d.valor/maxV*100;
+    const active = name===estimSelectedProv;
+    const row = document.createElement('div');
+    row.className = 'prov-bar-row' + (active?' active-row':'');
+    row.innerHTML = `<span>${name}</span><div class="prov-bar-track"><div class="prov-bar-fill" style="width:${pct}%; background:${active?DORADO:AZUL_CLARO}"></div></div><span>${fmtVal(d.valor)} ${cvTag(d.cv)}</span>`;
+    row.addEventListener('click', () => {
+      estimSelectedProv = name;
+      document.getElementById('estimProvSelect').value = name;
+      estimMap.highlight(name);
+      updateEstimProvPanel();
+    });
+    bars.appendChild(row);
+  });
+}
+
+function renderEstimadoresPanel(){
+  buildEstimYearPills();
+  buildEstimTypeSelect();
+  renderEstimTrend();
+  renderEstimGeoSection();
+}
+
+document.querySelectorAll('.mode-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const mode = btn.dataset.mode;
+    document.getElementById('contentView').classList.toggle('hidden', mode!=='tasas');
+    document.getElementById('estimadoresPanel').classList.toggle('hidden', mode!=='estimadores');
+    document.getElementById('modeNote').textContent = mode==='estimadores'
+      ? 'Valor con error estándar, intervalo de confianza y coeficiente de variación (Hoja "Estimadores" de la fuente). Solo Nacional, Urbano, Rural, ciudades y provincias.'
+      : 'Valor puntual del indicador con toda su desagregación geográfica y sociodemográfica disponible en la fuente.';
+    if (mode==='estimadores'){
+      if (currentEstimType === 'provincias') forceRebuildEstimMap();
+      renderEstimadoresPanel();
+    } else {
+      resizeCharts();
+    }
+  });
+});
+
+function toggleMenu(id){
+  document.getElementById(id).classList.toggle('open');
+}
+document.addEventListener('click', function(e){
+  document.querySelectorAll('.menu-drop.open').forEach(function(el){
+    if(!el.parentElement.contains(e.target)) el.classList.remove('open');
+  });
+});
+</script>
+<script type="text/plain" data-tras-datos data-src="../assets/js/shared.js"></script>
+<script type="text/plain" data-tras-datos>
+initSidebar({ activeId: 'pnd-trabajo', basePath: '../' });
+</script>
+
+<script type="text/plain" data-tras-datos data-src="../assets/js/export-utils.js"></script>
+</body>
+</html>

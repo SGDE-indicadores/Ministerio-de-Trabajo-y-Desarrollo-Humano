@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisión interna · Acciones PND Protección Social | MTDH</title>
+<link rel="stylesheet" href="../assets/css/shared.css">
+<style>
+  .pv-ctrl{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;background:#fff;border:1px solid var(--gris-bd);border-radius:10px;padding:12px 16px;margin:18px 0}
+  .pv-ctrl label{display:block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--subtexto);margin-bottom:3px}
+  .pv-ctrl select{font:inherit;font-size:13px;padding:7px 10px;border:1px solid var(--gris-bd);border-radius:8px;background:#fff;min-width:220px}
+  .pv-ctrl .chk{display:flex;align-items:center;gap:6px;font-size:13px;padding-bottom:7px}
+  .pv-nota{font-size:12px;color:var(--subtexto);margin-top:-6px;margin-bottom:14px}
+</style>
+</head>
+<body>
+<div id="app-sidebar-mount"></div>
+<div class="logo-bar"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="El Nuevo Ecuador" style="height:34px;"></div>
+<header class="header">
+  <div class="header-left">
+    <div class="header-logo">MTDH</div>
+    <div>
+      <div class="header-title">Ministerio de Trabajo y Desarrollo Humano</div>
+      <div class="header-sub">Dirección de Estudios y Análisis · Subsecretaría de Gestión de Datos y Estudios</div>
+    </div>
+  </div>
+  <div class="header-badge">Revisión interna</div>
+</header>
+<main class="main">
+  <section class="page active">
+    <div class="hero">
+      <div class="hero-eyebrow">PND · Protección Social e Inclusión Económica</div>
+      <h1>Acciones y seguimiento mensual — revisión antes de publicar</h1>
+      <p>Muestra lo mismo que las páginas públicas del PND, con las marcas del reporte de validación del mes. No está enlazada en el menú. Datos: datos/pnd/proteccion_social/ (generados por scripts/actualizar_pnd_ps.py).</p>
+    </div>
+    <div class="pv-ctrl">
+      <div><label for="pv-ind">Indicador</label><select id="pv-ind"></select></div>
+      <label class="chk"><input type="checkbox" id="pv-val" checked> Mostrar marcas de validación (uso interno)</label>
+    </div>
+    <div class="pv-nota">En las páginas públicas el componente se monta sin marcas de validación. El detalle de cada código está en reportes/pnd_ps/validacion_AAAA-MM.md.</div>
+    <div id="acciones-ps"></div>
+    <div class="gov-close"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="Gobierno del Ecuador"></div>
+  </section>
+</main>
+<footer class="dashboard-footer"><strong>Ministerio de Trabajo y Desarrollo Humano</strong> · Subsecretaría de Gestión de Datos y Estudios · Seguimiento PND 2025–2029</footer>
+<script src="../assets/js/shared.js"></script>
+<script src="../assets/js/pnd_ps_acciones.js"></script>
+<script>
+initSidebar({ activeId: 'pnd-proteccion', basePath: '../' });
+const q = new URLSearchParams(location.search);
+const $ind = document.getElementById('pv-ind'), $val = document.getElementById('pv-val');
+fetchCSV('../datos/pnd/proteccion_social/pnd_ps_indicadores.csv').then(rows => {
+  $ind.innerHTML = rows.sort((a,b)=>a.orden-b.orden).map(r => `<option value="${r.indicador_id}">${r.nombre_corto}</option>`).join('');
+  if (q.get('indicador')) $ind.value = q.get('indicador');
+  if (q.get('validacion') === '0') $val.checked = false;
+  montar();
+});
+function montar(){
+  PndPsAcciones.montar('#acciones-ps', { indicador: $ind.value, mostrarValidacion: $val.checked, periodo: q.get('periodo') });
+}
+[$ind, $val].forEach(x => x.addEventListener('change', montar));
+</script>
+</body>
+</html>

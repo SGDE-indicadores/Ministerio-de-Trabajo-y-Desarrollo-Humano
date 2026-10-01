@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desnutrición Crónica Infantil | PND 2025–2029</title>
+<link rel="stylesheet" href="../assets/css/shared.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+// Plugin genérico de valores en gráfico: dibuja el valor de cada punto/barra
+// usando el mismo formateador que ya tiene el eje Y de ese gráfico (%, $, o
+// número plano), así cada gráfico muestra sus valores con el formato correcto
+// sin tener que configurarlo gráfico por gráfico. Aplica a barras y líneas;
+// las líneas de "meta" (pointRadius:0) no se etiquetan para no saturar.
+const valueLabelPlugin={id:'valueLabelPlugin',afterDatasetsDraw(chart){
+  if(chart.config.type!=='bar'&&chart.config.type!=='line')return;
+  const{ctx}=chart;ctx.save();ctx.font='700 10px Segoe UI, Arial';ctx.textBaseline='middle';
+  const yScale=chart.options.scales&&chart.options.scales.y;
+  const tickCb=yScale&&yScale.ticks&&typeof yScale.ticks.callback==='function'?yScale.ticks.callback:null;
+  const fmt=v=>{if(v===null||v===undefined||!Number.isFinite(Number(v)))return '';const n=Math.round(Number(v)*100)/100;if(tickCb){try{return String(tickCb(n));}catch(e){}}return n.toLocaleString('es-EC');};
+  chart.data.datasets.forEach((ds,i)=>{
+    const meta=chart.getDatasetMeta(i);
+    if(meta.hidden)return;
+    if(chart.config.type==='line'&&ds.pointRadius===0)return;
+    meta.data.forEach((el,j)=>{
+      const raw=ds.data[j];
+      const num=(raw&&typeof raw==='object')?raw.y:raw;
+      const txt=fmt(num);
+      if(!txt)return;
+      const p=el.tooltipPosition();
+      ctx.fillStyle=ds.borderColor||ds.backgroundColor||'#4F449A';
+      if(chart.config.type==='bar'&&chart.options.indexAxis==='y'){ctx.textAlign='left';ctx.fillText(txt,p.x+8,p.y);}
+      else{ctx.textAlign='center';ctx.fillText(txt,p.x,p.y-10);}
+    });
+  });
+  ctx.restore();
+}};
+if(typeof Chart!=='undefined') Chart.register(valueLabelPlugin);
+</script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="../assets/js/geojson_js.js"></script>
+<script src="../assets/js/ecuador-map.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="../assets/js/export-utils.js"></script>
+<script src="../assets/js/pnd_ps_acciones.js"></script>
+<style>
+/* ── VARIABLES Y RESET TPM ── */
+:root{
+  --azul:#4F449A; --azul-med:#37306C; --azul-light:#E8EEF8; --azul-pale:#F2F5FB;
+  --amarillo:#F1B620; --amarillo-d:#C99200; --amarillo-l:#FEF7DC;
+  --rojo:#DE232D; --rojo-l:#FDECEA; --verde:#81A382; --verde-l:#E6F4EC;
+  --gris:#F5F6F8; --gris-bd:#DDE2EE; --texto:#1A1E2E; --subtexto:#5A6180;
+  --blanco:#FFFFFF; --shadow:0 2px 12px rgba(79,68,154,0.10);
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:Arial, sans-serif; font-size:14px; color:var(--texto); }
+
+/* ── HEADER NUEVO (sticky, encima de todo) ── */
+.tpm-header {
+  background:var(--azul); padding:0 32px;
+  display:flex; align-items:center; justify-content:space-between;
+  height:60px; position:sticky; top:0; z-index:999;
+  border-bottom:3px solid var(--amarillo); font-family:Arial, sans-serif;
+}
+.tpm-header-left { display:flex; align-items:center; gap:14px; }
+.tpm-logo {
+  min-width:34px; height:34px; padding:0 5px; box-sizing:border-box; background:var(--amarillo);
+  border-radius:8px; display:flex; align-items:center; justify-content:center;
+  font-family:'Arial Black', Arial, sans-serif;
+  font-weight:700; font-size:12.5px; color:var(--azul); letter-spacing:0.2px; flex-shrink:0;
+}
+.tpm-title {
+  font-family:'Arial Black', Arial, sans-serif;
+  font-weight:600; font-size:16px; color:white; letter-spacing:0.3px;
+  line-height:1.2;
+}
+.tpm-sub { font-size:11px; color:rgba(255,255,255,0.55); margin-top:1px; }
+.tpm-right { display:flex; align-items:center; gap:10px; }
+.tpm-badge {
+  background:rgba(244,180,0,0.18); border:1px solid rgba(244,180,0,0.40);
+  color:var(--amarillo); padding:4px 12px; border-radius:20px;
+  font-size:11px; font-weight:600; letter-spacing:0.5px;
+  font-family:Arial, sans-serif;
+}
+.tpm-back {
+  color:rgba(255,255,255,.7); font-size:12px; text-decoration:none;
+  border:1px solid rgba(255,255,255,.25); padding:4px 12px;
+  border-radius:20px; font-family:Arial, sans-serif;
+}
+.tpm-back:hover { color:white; border-color:rgba(255,255,255,.5); }
+
+/* ── CSS ORIGINAL DEL DASHBOARD ── */
+
+:root{--azul:#4F449A;--azul-med:#37306C;--azul-claro:#2563A8;--dorado:#F1B620;--dorado-clr:#F0C040;--dorado-bg:#FDF3D7;--blanco:#FFFFFF;--gris-bg:#F4F6FA;--gris-borde:#D1D9E6;--gris-texto:#4A5568;--rojo:#C0392B;--verde:#81A382;--nac:#6B3FA0;--urb:#1A3A6B;--rur:#C0622D;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--gris-bg);color:#1A2A3A;min-height:100vh;}
+.topbar{background:var(--azul);border-bottom:3px solid var(--dorado);padding:0 2rem;display:flex;align-items:center;gap:1rem;height:60px;}
+.topbar-escudo{width:36px;height:36px;background:var(--dorado);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--azul);flex-shrink:0;}
+.topbar-title{color:var(--blanco);font-size:13px;font-weight:600;}
+.topbar-sub{color:var(--dorado-clr);font-size:11px;}
+.topbar-right{margin-left:auto;color:var(--dorado-clr);font-size:11px;opacity:.85;}
+.btn-inicio{display:inline-flex;align-items:center;gap:.4rem;padding:.4rem 1rem;background:rgba(255,255,255,.1);border:1px solid rgba(201,168,76,.5);border-radius:6px;color:var(--dorado-clr);font-size:12px;font-weight:600;text-decoration:none;margin-left:.75rem;transition:all .2s;}
+.btn-inicio:hover{background:rgba(255,255,255,.18);}
+.breadcrumb{background:var(--azul-med);padding:.5rem 2rem;display:flex;align-items:center;gap:.4rem;font-size:12px;color:rgba(255,255,255,.7);}
+.breadcrumb span{color:var(--dorado-clr);}
+.breadcrumb a{color:rgba(255,255,255,.7);cursor:pointer;text-decoration:none;}
+.breadcrumb a:hover{color:var(--dorado-clr);}
+.main-wrap{max-width:1600px;margin:0 auto;padding:2rem 1.5rem;}
+.dash-header{background:var(--azul);border-radius:12px;padding:1.5rem 2rem;margin-bottom:1.5rem;border-bottom:4px solid var(--dorado);display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.dash-header-left h2{color:var(--blanco);font-size:17px;font-weight:700;margin-bottom:.3rem;line-height:1.35;}
+.dash-header-left p{color:rgba(255,255,255,.65);font-size:12px;}
+.dash-header-right{display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;}
+.pill{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;}
+.pill-freq{background:var(--dorado);color:var(--azul);}
+.pill-cod{background:rgba(255,255,255,.12);color:rgba(255,255,255,.85);}
+.metricas-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:1.5rem;}
+.metrica-card{background:var(--blanco);border:1px solid var(--gris-borde);border-radius:10px;padding:1rem 1.1rem;position:relative;overflow:hidden;}
+.metrica-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:var(--nac);}
+.metrica-card.meta::before{background:var(--dorado);}
+.metrica-card.verde::before{background:var(--verde);}
+.metrica-card.rojo::before{background:var(--rojo);}
+.metrica-label{font-size:11px;color:var(--gris-texto);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.35rem;}
+.metrica-valor{font-size:28px;font-weight:700;color:var(--azul);line-height:1;margin-bottom:.2rem;}
+.metrica-sub{font-size:11px;color:var(--gris-texto);}
+.metrica-var{font-size:12px;font-weight:600;margin-top:.25rem;}
+.metrica-var.sube{color:var(--rojo);}
+.metrica-var.baja{color:var(--verde);}
+.periodo-selector{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:1.25rem;}
+.periodo-selector label{font-size:12px;font-weight:700;color:var(--azul);text-transform:uppercase;letter-spacing:.06em;}
+.modo-btn{padding:.4rem 1rem;border:2px solid var(--gris-borde);border-radius:6px;font-size:12px;font-weight:600;color:var(--gris-texto);background:var(--blanco);cursor:pointer;transition:all .2s;}
+.modo-btn.active{background:var(--azul);border-color:var(--azul);color:var(--blanco);}
+.periodo-selector select{padding:.4rem .85rem;border:2px solid var(--azul);border-radius:6px;font-size:13px;font-weight:600;color:var(--azul);background:var(--blanco);cursor:pointer;}
+.tabs-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.25rem;}
+.tab-btn{padding:.45rem 1rem;border:1.5px solid var(--gris-borde);border-radius:20px;background:var(--blanco);font-size:12px;font-weight:600;color:var(--gris-texto);cursor:pointer;transition:all .2s;}
+.tab-btn:hover{border-color:var(--azul-claro);color:var(--azul);}
+.tab-btn.active{background:var(--azul);border-color:var(--azul);color:var(--blanco);}
+.tab-panel{display:none;}.tab-panel.active{display:block;}
+.chart-card{background:var(--blanco);border:1px solid var(--gris-borde);border-radius:10px;padding:1.25rem 1.5rem;margin-bottom:1rem;}
+.chart-card-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.75rem;flex-wrap:wrap;gap:.5rem;}
+.chart-title{font-size:14px;font-weight:700;color:var(--azul);}
+.chart-subtitle{font-size:11px;color:var(--gris-texto);margin-top:2px;}
+.chart-source{font-size:10px;color:#9AA5B4;font-style:italic;}
+
+/* ── MAPA PROVINCIAL ── */
+.mapa-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;align-items:start;}
+@media(max-width:820px){.mapa-grid{grid-template-columns:1fr;}}
+#map-wrap-dci{position:relative;}
+#ec-map-dci{height:500px;border-radius:8px;background:#EAF2FB;}
+.leaflet-container{font-family:Arial, sans-serif;}
+.prov-tooltip{font-family:Arial, sans-serif;font-size:12px;}
+.prov-tooltip b{color:var(--azul);}
+#galapagos-inset-dci{
+  position:absolute;left:12px;bottom:12px;width:140px;background:var(--blanco);
+  border:2px solid var(--gris-borde);border-radius:8px;box-shadow:0 4px 16px rgba(13,43,85,.18);
+  overflow:hidden;z-index:500;
+}
+.inset-label{font-size:10px;font-weight:700;color:var(--azul);text-transform:uppercase;letter-spacing:.4px;padding:5px 8px 3px;border-bottom:1px solid var(--gris-borde);}
+#ec-map-gal-dci{height:86px;cursor:pointer;}
+.legend-box{display:flex;align-items:center;gap:8px;padding:10px 4px 2px;font-size:11px;color:var(--gris-texto);}
+.legend-scale{flex:1;height:10px;border-radius:6px;}
+#prov-lista-dci{padding:2px 2px;display:flex;flex-direction:column;gap:3px;max-height:270px;overflow-y:auto;}
+.prov-row{display:flex;align-items:center;gap:9px;padding:6px 8px;border-radius:8px;cursor:pointer;transition:background .15s;font-size:12.5px;}
+.prov-row:hover,.prov-row.sel{background:var(--gris-bg);}
+.prov-row .rank{width:18px;font-weight:700;color:var(--gris-texto);font-size:11px;}
+.prov-row .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.prov-row .nom{flex:1;}
+.prov-row .val{font-weight:700;color:var(--azul);}
+.prov-detalle{border:1px solid var(--gris-borde);border-radius:10px;padding:12px 14px;margin-top:10px;background:var(--gris-bg);}
+.prov-detalle .pd-nombre{font-size:13px;font-weight:700;color:var(--azul);margin-bottom:6px;}
+.prov-detalle .pd-fila{display:flex;justify-content:space-between;font-size:12px;color:var(--gris-texto);padding:3px 0;border-bottom:1px dashed var(--gris-borde);}
+.prov-detalle .pd-fila:last-child{border-bottom:none;}
+.prov-detalle .pd-fila b{color:var(--texto,#1A2A3A);}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
+.toggle-series{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem;}
+.ts-btn{display:flex;align-items:center;gap:6px;padding:.35rem .85rem;border-radius:20px;border:2px solid transparent;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;background:var(--blanco);}
+.ts-btn.off{opacity:.3;filter:grayscale(1);}
+.ts-swatch{width:12px;height:12px;border-radius:2px;flex-shrink:0;}
+/* siluetas */
+.silueta-wrap{display:flex;justify-content:center;align-items:flex-end;gap:3rem;padding:1.5rem 1rem .5rem;}
+.silueta-item{text-align:center;}
+.silueta-val{font-size:24px;font-weight:700;line-height:1;margin-top:.5rem;}
+.silueta-label{font-size:13px;font-weight:600;color:#1A2A3A;margin-top:.2rem;}
+.silueta-ic{font-size:11px;color:#4A5568;margin-top:2px;}
+.silueta-cv{font-size:11px;margin-top:2px;}
+/* tarjetas período */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:1rem;}
+/* tabla */
+.filtros-bar{background:var(--blanco);border:1px solid var(--gris-borde);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.filtros-bar label{font-size:12px;font-weight:600;color:var(--gris-texto);}
+.filtros-bar select,.filtros-bar input{padding:.35rem .7rem;border:1.5px solid var(--gris-borde);border-radius:6px;font-size:12px;color:var(--azul);background:var(--blanco);}
+.btn-reset{padding:.35rem .9rem;background:transparent;border:1.5px solid var(--gris-borde);border-radius:6px;font-size:12px;font-weight:600;color:var(--gris-texto);cursor:pointer;}
+.btn-reset:hover{border-color:var(--rojo);color:var(--rojo);}
+.filtros-count{margin-left:auto;font-size:11px;color:var(--gris-texto);font-style:italic;}
+.tabla-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+thead tr{background:var(--azul);}
+thead th{padding:.6rem .85rem;color:var(--blanco);font-weight:600;text-align:left;white-space:nowrap;font-size:12px;cursor:pointer;user-select:none;}
+thead th:hover{background:var(--azul-med);}
+thead th::after{content:' ↕';opacity:.4;font-size:10px;}
+thead th.sort-asc::after{content:' ↑';opacity:1;}
+thead th.sort-desc::after{content:' ↓';opacity:1;}
+tbody tr:nth-child(even){background:var(--gris-bg);}
+tbody tr:hover{background:#EBF0F8;}
+tbody td{padding:.55rem .85rem;color:#1A2A3A;border-bottom:1px solid var(--gris-borde);white-space:nowrap;}
+.td-num{text-align:right;font-variant-numeric:tabular-nums;}
+.td-verde{color:var(--verde);font-weight:600;}
+.td-rojo{color:var(--rojo);font-weight:600;}
+.td-ambar{color:#8B6A00;font-weight:600;}
+.no-rows{text-align:center;color:var(--gris-texto);padding:2rem;font-style:italic;}
+.alerta{background:var(--dorado-bg);border:1px solid #E0C060;border-left:4px solid var(--dorado);border-radius:8px;padding:.85rem 1rem;font-size:12px;color:#5A4200;line-height:1.5;margin-bottom:1rem;}
+.alerta-roja{background:#FEF2F2;border:1px solid #FCA5A5;border-left:4px solid var(--rojo);border-radius:8px;padding:.85rem 1rem;font-size:12px;color:#7F1D1D;line-height:1.5;margin-bottom:1rem;}
+.badge-fuente{background:#EEF2FF;color:#4338CA;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;border:1px solid #A5B4FC;white-space:nowrap;}
+.badge-proy{background:#F0FDF4;color:#166534;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;border:1px solid #86EFAC;}
+@media(max-width:680px){.two-col{grid-template-columns:1fr;}.freq-cards-d{grid-template-columns:1fr;}}
+
+
+.page{display:none;}.page.active{display:block;}
+.pg-wrap{max-width:1600px;margin:0 auto;padding:2rem 1.5rem;}
+.freq-header-d{background:var(--azul,#4F449A);border-radius:12px;padding:2rem 2.5rem;margin-bottom:2rem;border-bottom:4px solid var(--dorado,#F1B620);}
+.freq-header-d h2{font-size:22px;font-weight:700;color:white;margin-bottom:.5rem;}
+.freq-header-d p{font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;}
+.def-box-d{background:white;border:1px solid var(--gris-borde,#D1D9E6);border-left:4px solid var(--azul-med,#37306C);border-radius:12px;
+  padding:1.4rem 1.6rem;margin-bottom:1.5rem;}
+.def-box-d-title{font-size:15px;font-weight:700;color:var(--azul,#4F449A);margin-bottom:.6rem;}
+.def-box-d-text{font-size:13px;color:var(--gris-texto,#4A5568);line-height:1.65;}
+.limit-box-d{background:white;border:1px solid var(--gris-borde,#D1D9E6);border-radius:12px;margin-bottom:1.5rem;overflow:hidden;}
+.limit-box-d summary{cursor:pointer;list-style:none;padding:1rem 1.5rem;display:flex;align-items:center;gap:.6rem;
+  font-size:13px;font-weight:700;color:var(--azul,#4F449A);background:var(--dorado-bg,#FDF3D7);border-left:4px solid var(--dorado,#F1B620);}
+.limit-box-d summary::-webkit-details-marker{display:none;}
+.limit-box-d summary:after{content:'▸';margin-left:auto;font-size:11px;color:var(--azul,#4F449A);transition:transform .2s;}
+.limit-box-d[open] summary:after{transform:rotate(90deg);}
+.limit-box-d ol{padding:1rem 1.5rem 1.25rem 2.5rem;}
+.limit-box-d li{font-size:12.5px;color:var(--gris-texto,#4A5568);line-height:1.6;margin-bottom:.6rem;}
+.limit-box-d li:last-child{margin-bottom:0;}
+.interp-box-d{background:var(--azul,#4F449A);border-radius:10px;border-bottom:4px solid var(--dorado,#F1B620);
+  padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:flex-start;gap:.7rem;}
+.interp-box-d-icon{font-size:18px;line-height:1.4;}
+.interp-box-d-text{font-size:13.5px;color:rgba(255,255,255,.92);line-height:1.6;}
+.interp-box-d-text b{color:var(--dorado-clr,#F0C040);}
+.freq-cards-d{display:grid;grid-template-columns:300px 300px;justify-content:center;gap:1.25rem;margin-bottom:1.5rem;}
+.freq-card-d{display:flex;flex-direction:column;background:white;border:2px solid var(--gris-borde,#D1D9E6);border-radius:12px;padding:2rem 1.5rem;
+  cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .15s;text-align:center;}
+.freq-card-d:hover{border-color:var(--azul,#4F449A);box-shadow:0 6px 24px rgba(13,43,85,.15);transform:translateY(-3px);}
+.freq-icon-d{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  margin:0 auto 1rem;font-size:24px;background:var(--azul,#4F449A);}
+.freq-card-d h3{font-size:18px;font-weight:700;color:var(--azul,#4F449A);margin-bottom:.5rem;}
+.freq-card-d p{font-size:13px;color:#4A5568;margin-bottom:1rem;line-height:1.5;}
+.freq-card-d ul{list-style:none;font-size:12px;color:#4A5568;text-align:left;margin-bottom:1.25rem;}
+.freq-card-d ul li{padding:3px 0 3px 1rem;position:relative;}
+.freq-card-d ul li::before{content:'▸';position:absolute;left:0;color:var(--dorado,#F1B620);}
+.btn-freq-d{display:block;margin-top:auto;width:100%;padding:.75rem;border-radius:8px;border:none;
+  background:var(--azul,#4F449A);color:white;font-size:14px;font-weight:600;cursor:pointer;}
+.btn-freq-d.dorado{background:var(--dorado,#F1B620);color:#4F449A;}
+.acc-filtro{padding:4px 12px;border:1.5px solid #D1D9E6;border-radius:20px;background:white;
+  font-size:11px;font-weight:600;color:#4A5568;cursor:pointer;transition:all .2s;}
+.acc-filtro.active{background:#4F449A;border-color:#4F449A;color:white;}
+.acc-tipo-pp{background:#EEF2FF;color:#4338CA;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;}
+.acc-tipo-act{background:#F3F4F6;color:#374151;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;}
+.acc-estado{background:#FEF3C7;color:#92400E;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;}
+.acc-rol-rect{background:#DBEAFE;color:#1E40AF;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;}
+.acc-rol-ejec{background:#EDE9FE;color:#5B21B6;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;}
+.acc-rol-corr{background:#FEF3C7;color:#92400E;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;}
+.acc-inc-alta{background:#D1FAE5;color:#065F46;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;}
+
+
+/* ─────────────────────────────────────────────────────────────
+   HOMOLOGACIÓN MTDH: colores de tarjetas de acceso + footer único
+   Regla visual:
+   - Anual / Trimestral / Resultados: azul institucional
+   - Acciones planificadas: amarillo institucional
+   - Cronograma de gestión: verde institucional
+   ───────────────────────────────────────────────────────────── */
+:root{
+  --mdh-blue:#4F449A;
+  --mdh-yellow:#F1B620;
+  --mdh-green:#81A382;
+}
+.card-blue .freq-icon,
+.card-blue .freq-icon-ps,
+.card-blue .freq-icon-d,
+.card-blue .freq-icon-g,
+.card-blue .freq-icon-pi,
+.card-blue .inicio-icon{
+  background:var(--mdh-blue) !important;
+  color:#FFFFFF !important;
+}
+.card-blue .btn-freq,
+.card-blue .btn-freq-ps,
+.card-blue .btn-freq-d,
+.card-blue .btn-freq-g,
+.card-blue .btn-freq-pi,
+.card-blue .btn-inicio-card{
+  background:var(--mdh-blue) !important;
+  border-color:var(--mdh-blue) !important;
+  color:#FFFFFF !important;
+}
+.card-blue:hover{
+  border-color:var(--mdh-blue) !important;
+}
+.card-yellow .freq-icon,
+.card-yellow .freq-icon-ps,
+.card-yellow .freq-icon-d,
+.card-yellow .freq-icon-g,
+.card-yellow .freq-icon-pi,
+.card-yellow .inicio-icon{
+  background:var(--mdh-yellow) !important;
+  color:var(--mdh-blue) !important;
+}
+.card-yellow .btn-freq,
+.card-yellow .btn-freq-ps,
+.card-yellow .btn-freq-d,
+.card-yellow .btn-freq-g,
+.card-yellow .btn-freq-pi,
+.card-yellow .btn-inicio-card{
+  background:var(--mdh-yellow) !important;
+  border-color:var(--mdh-yellow) !important;
+  color:var(--mdh-blue) !important;
+}
+.card-yellow:hover{
+  border-color:var(--mdh-yellow) !important;
+}
+.card-green .freq-icon,
+.card-green .freq-icon-ps,
+.card-green .freq-icon-d,
+.card-green .freq-icon-g,
+.card-green .freq-icon-pi,
+.card-green .inicio-icon{
+  background:var(--mdh-green) !important;
+  color:#FFFFFF !important;
+}
+.card-green .btn-freq,
+.card-green .btn-freq-ps,
+.card-green .btn-freq-d,
+.card-green .btn-freq-g,
+.card-green .btn-freq-pi,
+.card-green .btn-inicio-card{
+  background:var(--mdh-green) !important;
+  border-color:var(--mdh-green) !important;
+  color:#FFFFFF !important;
+}
+.card-green:hover{
+  border-color:var(--mdh-green) !important;
+}
+.dashboard-footer{
+  width:100%;
+  background:var(--mdh-blue);
+  color:rgba(255,255,255,.62);
+  text-align:center;
+  font-family:Arial, Arial, sans-serif;
+  font-size:11px;
+  line-height:1.45;
+  padding:14px 24px;
+  margin-top:32px;
+  box-shadow:0 -1px 8px rgba(79,68,154,.10);
+}
+.dashboard-footer strong{
+  color:rgba(255,255,255,.84);
+  font-weight:700;
+}
+@media(max-width:760px){
+  .dashboard-footer{font-size:10.5px;padding:12px 16px;}
+}
+
+
+
+/* =========================================================
+   HOMOLOGACIÓN MTDH V3 — Migas de navegación y pie de página
+   ========================================================= */
+:root{
+  --mdh-blue:#4F449A;
+  --mdh-blue-2:#37306C;
+  --mdh-yellow:#F1B620;
+  --mdh-footer-h:44px;
+}
+html{min-height:100%;}
+body{
+  min-height:100vh !important;
+  padding-bottom:var(--mdh-footer-h) !important;
+}
+.mdh-breadcrumb,
+.breadcrumb.mdh-breadcrumb{
+  width:100% !important;
+  min-height:34px !important;
+  background:var(--blanco) !important; border-bottom:2px solid var(--gris-bd) !important;
+  padding:8px 32px !important;
+  display:flex !important;
+  align-items:center !important;
+  gap:7px !important;
+  flex-wrap:wrap !important;
+  font-family:Arial, Arial, sans-serif !important;
+  font-size:12px !important;
+  line-height:1.35 !important;
+  color:var(--subtexto) !important;
+  border:0 !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+  margin:0 !important;
+  position:sticky !important;
+  top:105px !important;
+  z-index:96 !important;
+}
+.mdh-breadcrumb a,
+.mdh-breadcrumb .mdh-bc-base{
+  color:var(--subtexto) !important;
+  text-decoration:none !important;
+  font-weight:500 !important;
+  cursor:pointer !important;
+}
+.mdh-breadcrumb a:hover,
+.mdh-breadcrumb .mdh-bc-base:hover{
+  color:var(--azul) !important;
+}
+.mdh-breadcrumb .mdh-bc-sep{
+  color:#9AA5B4 !important;
+  font-weight:600 !important;
+}
+.mdh-breadcrumb .mdh-bc-current{
+  color:var(--texto) !important;
+  font-weight:700 !important;
+}
+.dashboard-footer{
+  position:fixed !important;
+  left:0 !important;
+  right:0 !important;
+  bottom:0 !important;
+  z-index:950 !important;
+  width:100% !important;
+  min-height:var(--mdh-footer-h) !important;
+  background:var(--mdh-blue) !important;
+  color:rgba(255,255,255,.66) !important;
+  text-align:center !important;
+  font-family:Arial, Arial, sans-serif !important;
+  font-size:11px !important;
+  line-height:1.45 !important;
+  padding:14px 24px !important;
+  margin:0 !important;
+  border:0 !important;
+  box-shadow:0 -1px 8px rgba(79,68,154,.14) !important;
+}
+.dashboard-footer strong{
+  color:rgba(255,255,255,.88) !important;
+  font-weight:700 !important;
+}
+@media(max-width:760px){
+  :root{--mdh-footer-h:54px;}
+  .mdh-breadcrumb,
+  .breadcrumb.mdh-breadcrumb{padding:8px 16px !important;font-size:11.5px !important;}
+  .dashboard-footer{font-size:10.5px !important;padding:11px 16px !important;}
+}
+
+
+/* Espacio para franja de navegacion lateral */
+body.has-sidebar { margin-left: var(--sidebar-w); }
+@media (max-width: 900px){ body.has-sidebar { margin-left: 0; } }
+</style>
+</head>
+<body>
+
+<div id="app-sidebar-mount"></div>
+
+<!-- NUEVO HEADER TPM -->
+<div class="tpm-header">
+  <div class="tpm-header-left">
+    <div class="tpm-logo">MTDH</div>
+    <div>
+      <div class="tpm-title">Prevalencia de desnutrición crónica en niñas y niños menores de 2 años</div>
+      <div class="tpm-sub">Ministerio de Trabajo y Desarrollo Humano · ENSANUT · ECV · ENDI · STECSDI</div>
+    </div>
+  </div>
+  <div class="tpm-right">
+    <div class="tpm-badge">ENDI R2: 19,27%</div>
+    
+  </div>
+</div>
+<nav class="breadcrumb mdh-breadcrumb" id="mdh-breadcrumb" aria-label="Ruta de navegación"><a href="../index_PND.html">Inicio</a><span class="mdh-bc-sep">›</span><span class="mdh-bc-base">Desnutrición crónica infantil</span><span class="mdh-bc-sep">›</span><span class="mdh-bc-current">Menú del indicador</span></nav>
+
+
+
+
+
+
+<div id="pg-inicio" class="page active">
+  <div class="pg-wrap">
+    <div class="freq-header-d">
+      <h2>Prevalencia de desnutrición crónica en niñas y niños menores de 2 años</h2>
+      <p>Selecciona la información que deseas consultar sobre el Plan Nacional de Desarrollo 2025–2029.</p>
+    </div>
+
+    <div class="def-box-d">
+      <div class="def-box-d-title">📖 Definición del indicador</div>
+      <p class="def-box-d-text">Número de niñas y niños menores de dos años de edad que presentan un retraso en la longitud/talla en relación a los estándares esperados para su edad y sexo, de acuerdo a los Patrones de Crecimiento Infantil establecidos por la Organización Mundial de la Salud (OMS); expresado como porcentaje de niñas y niños menores de dos años.</p>
+    </div>
+
+    <details class="limit-box-d">
+      <summary>⚠️ Limitaciones técnicas del indicador</summary>
+      <ol>
+        <li>En las encuestas previas al año 2012, únicamente se registraba una sola medición para el peso, por lo tanto, no se puede aplicar la metodología de las tres mediciones.</li>
+        <li>Para el 2018 existe un nuevo factor de expansión y una imputación de talla para niños y niñas menores de 2 años.</li>
+      </ol>
+    </details>
+
+    <div class="freq-cards-d">
+      <div class="freq-card-d card-blue" onclick="irPaginaD('pg-datos')">
+        <div class="freq-icon-d">📊</div>
+        <h3>Resultados por período</h3>
+        <p>Datos de prevalencia DCI por fuente y desagregaciones disponibles</p>
+        <ul>
+          <li>Fuentes: ENSANUT 2012/2018 · ECV 2014 · ENDI R1/R2</li>
+          <li>Desagregación: área, sexo, etnia, provincia</li>
+          <li>Línea base PND: ENDI R2 · 19,27%</li>
+        </ul>
+        <button class="btn-freq-d">Ver resultados →</button>
+      </div>
+      <div class="freq-card-d card-yellow" onclick="irPaginaD('pg-acciones-d')">
+        <div class="freq-icon-d">📋</div>
+        <h3>Acciones planificadas 2026</h3>
+        <p>Cronograma del MTDH para contribuir a la reducción de la DCI</p>
+        <ul>
+          <li><span data-pps-resumen="dci">Acciones y seguimiento mensual</span></li>
+          <li>Presupuesto inversión: $2,99M · Crédito</li>
+          <li>4 Política Pública · 2 Actividad relevante</li>
+        </ul>
+        <button class="btn-freq-d dorado">Ver acciones →</button>
+      </div>
+    </div>
+    <div style="background:#F4F6FA;border-radius:8px;padding:.85rem 1rem;font-size:12px;color:#4A5568;line-height:1.6;">
+      <strong style="color:#4F449A;">Nota:</strong> Sin dato 2025 (Oficio INEC-2025-0268-O). Los períodos ENDI corresponden a ventanas bianuales móviles de 12 meses, no comparables directamente con ENSANUT/ECV.
+    </div>
+  </div>
+</div>
+
+<div id="pg-datos" class="page">
+<div class="main-wrap">
+  <div class="dash-header">
+    <div class="dash-header-left">
+      <h2>Prevalencia de desnutrición crónica en niñas y niños menores de dos años</h2>
+      <p>ENSANUT 2012/2018 · ECV 2014 · ENDI R1 (2022–2023) · ENDI R2 (2023–2024) · Código 1.6.1</p>
+    </div>
+    <div class="dash-header-right">
+      <span class="pill pill-freq">Bianual</span>
+      <span class="pill pill-cod">PND 2025–2029</span>
+    </div>
+  </div>
+
+  <div class="alerta">
+    <strong>Períodos bianuales móviles:</strong> A partir de la ENDI (2022), los datos corresponden a períodos de 12 meses consecutivos que abarcan parte de dos años. Las comparaciones entre los cortes ENSANUT/ECV y ENDI deben hacerse con cautela dado el cambio metodológico de fuente. No existe dato 2025 por razones operativas del INEC (Oficio INEC-2025-0268-O).
+  </div>
+
+  <div class="alerta-roja">
+    <strong>Sin dato 2025:</strong> El INEC comunicó oficialmente que no se contará con información estadística del período agosto 2024–agosto 2025. La próxima medición disponible será la correspondiente al período 2024–2025.
+  </div>
+
+  <!-- SELECTOR PERÍODO -->
+  <div class="periodo-selector">
+    <label>Ver:</label>
+    <button class="modo-btn active" id="modo-serie" onclick="setModo('serie')">Toda la serie</button>
+    <button class="modo-btn" id="modo-per" onclick="setModo('per')">Un período específico</button>
+    <span id="wrap-per" style="display:none;align-items:center;gap:.4rem;">
+      <label style="font-size:12px;font-weight:600;color:var(--azul);">Período:</label>
+      <select id="sel-per" onchange="filtrarPer()">
+        <option value="Jul_23-Ago_24">ENDI R2 (Jul 23–Ago 24) — línea base</option>
+        <option value="Jul_22-Jul_23">ENDI R1 (Jul 22–Jul 23)</option>
+        <option value="Dic_18">ENSANUT 2018</option>
+        <option value="Dic_14">ECV 2014</option>
+        <option value="Dic_12">ENSANUT 2012</option>
+      </select>
+    </span>
+  </div>
+
+  <!-- MÉTRICAS -->
+  <div class="metricas-grid" id="metricas-box"></div>
+
+  <!-- INTERPRETACIÓN -->
+  <div class="interp-box-d">
+    <div class="interp-box-d-icon">💡</div>
+    <div class="interp-box-d-text" id="interp-texto">En el periodo <b>ENDI R2 (jul 2023 – ago 2024)</b>, el <b>19,27%</b> de niñas y niños menores de 2 años de edad presentan desnutrición crónica.</div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs-row">
+    <button class="tab-btn active" onclick="activarTab('nacional',this)">Serie histórica</button>
+    <button class="tab-btn" onclick="activarTab('area',this)">Por área</button>
+    <button class="tab-btn" onclick="activarTab('sexo',this)">Por sexo</button>
+    <button class="tab-btn" onclick="activarTab('etnia',this)">Por etnia</button>
+    <button class="tab-btn" onclick="activarTab('provincial',this)">Provincial</button>
+    <button class="tab-btn" onclick="activarTab('tabla',this)">Tabla de datos</button>
+  </div>
+
+  <!-- PANEL: Serie histórica -->
+  <div id="tab-nacional" class="tab-panel active">
+    <div class="chart-card">
+      <div class="chart-card-header">
+        <div>
+          <div class="chart-title" id="title-serie">Prevalencia DCI — niños menores de 2 años · Nacional (%)</div>
+          <div class="chart-subtitle">Serie histórica observada y trayectoria de metas 2025–2029 · Punto dorado = período seleccionado</div>
+        </div>
+        <div class="chart-source">ENSANUT 2012/2018 · ECV 2014 · ENDI R1/R2 · STECSDI</div>
+      </div>
+      <div class="toggle-series">
+        <button class="ts-btn" id="ts-obs" onclick="toggleL('obs')"><div class="ts-swatch" style="background:#6B3FA0"></div>Observado</button>
+        <button class="ts-btn" id="ts-meta" onclick="toggleL('meta')"><div class="ts-swatch" style="background:#C0392B;border:2px dashed #C0392B"></div>Trayectoria meta</button>
+      </div>
+      <div style="position:relative;height:360px;"><canvas id="chart-serie"></canvas></div>
+    </div>
+  </div>
+
+  <!-- PANEL: Por área -->
+  <div id="tab-area" class="tab-panel">
+    <!-- Modo serie -->
+    <div id="area-serie">
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <div><div class="chart-title">DCI por área — Nacional, Urbano, Rural (%)</div><div class="chart-subtitle">Disponible en todos los períodos excepto ECV 2014 (solo nacional)</div></div>
+          <div class="chart-source">ENSANUT 2012/2018 · ENDI R1/R2</div>
+        </div>
+        <div class="toggle-series">
+          <button class="ts-btn" id="ts-nac" onclick="toggleA('nac')"><div class="ts-swatch" style="background:#6B3FA0"></div>Nacional</button>
+          <button class="ts-btn" id="ts-urb" onclick="toggleA('urb')"><div class="ts-swatch" style="background:#1A3A6B"></div>Urbano</button>
+          <button class="ts-btn" id="ts-rur" onclick="toggleA('rur')"><div class="ts-swatch" style="background:#C0622D"></div>Rural</button>
+          <button class="ts-btn" id="ts-ameta" onclick="toggleA('ameta')"><div class="ts-swatch" style="background:#C0392B;border:2px dashed #C0392B"></div>Meta 2029</button>
+        </div>
+        <div style="position:relative;height:320px;"><canvas id="chart-area"></canvas></div>
+      </div>
+    </div>
+    <!-- Modo período -->
+    <div id="area-cards" style="display:none;">
+      <div class="cards-grid" id="area-cards-grid"></div>
+      <div class="chart-card">
+        <div class="chart-card-header"><div><div class="chart-title" id="title-brecha-area">Urbano vs Rural</div></div></div>
+        <div style="position:relative;height:220px;"><canvas id="chart-brecha-area"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL: Por sexo -->
+  <div id="tab-sexo" class="tab-panel">
+    <div class="alerta"><strong>Disponibilidad:</strong> La desagregación por sexo solo está disponible en ENDI R1 (Jul 22–Jul 23) y ENDI R2 (Jul 23–Ago 24).</div>
+    <div id="sexo-serie-view">
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <div><div class="chart-title">DCI por sexo — serie ENDI (%)</div><div class="chart-subtitle">Hombre / Mujer · Nacional</div></div>
+          <div class="chart-source">ENDI R1 y R2</div>
+        </div>
+        <div class="toggle-series">
+          <button class="ts-btn" id="ts-h" onclick="toggleS('h')"><div class="ts-swatch" style="background:#1A5FA8"></div>Hombre</button>
+          <button class="ts-btn" id="ts-m" onclick="toggleS('m')"><div class="ts-swatch" style="background:#C0395A"></div>Mujer</button>
+        </div>
+        <div style="position:relative;height:280px;"><canvas id="chart-sexo"></canvas></div>
+      </div>
+    </div>
+    <div id="sexo-cards-view" style="display:none;">
+      <div class="chart-card">
+        <div class="chart-card-header"><div><div class="chart-title" id="sexo-cards-titulo">DCI por sexo</div><div class="chart-subtitle">Nacional</div></div><div class="chart-source">ENDI</div></div>
+        <div class="silueta-wrap" id="sexo-siluetas"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL: Por etnia -->
+  <div id="tab-etnia" class="tab-panel">
+    <div class="alerta"><strong>Disponibilidad:</strong> La desagregación por etnia solo está disponible en ENDI R1 (Jul 22–Jul 23) y ENDI R2 (Jul 23–Ago 24).</div>
+    <!-- Sin datos -->
+    <div id="etnia-sin-datos" style="display:none;">
+      <div style="background:#fff;border:1px solid var(--gris-borde);border-radius:10px;padding:2.5rem;text-align:center;color:#9AA5B4;">
+        <div style="font-size:2rem;margin-bottom:.75rem;">📊</div>
+        <div style="font-size:14px;font-weight:600;color:#4A5568;margin-bottom:.3rem;">Sin datos de etnia para este período</div>
+        <div style="font-size:12px;">La desagregación por etnia solo está disponible en <strong>ENDI R1</strong> y <strong>ENDI R2</strong>.<br>Selecciona uno de esos períodos o "Toda la serie" para ver el gráfico.</div>
+      </div>
+    </div>
+    <!-- Con datos -->
+    <div id="etnia-con-datos">
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <div><div class="chart-title" id="title-etnia">DCI por etnia — ENDI R1 y R2 (%)</div></div>
+          <div class="chart-source" id="src-etnia">ENDI R1 (2022–23) y ENDI R2 (2023–24)</div>
+        </div>
+        <div id="etnia-legend" style="display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:#4A5568;margin-bottom:8px;">
+          <div style="display:flex;align-items:center;gap:5px;"><div style="width:12px;height:12px;border-radius:2px;background:#6B3FA0;opacity:.8;"></div>ENDI R1 (2022–23)</div>
+          <div style="display:flex;align-items:center;gap:5px;"><div style="width:12px;height:12px;border-radius:2px;background:#6B3FA0;"></div>ENDI R2 (2023–24)</div>
+        </div>
+        <div style="position:relative;height:320px;"><canvas id="chart-etnia"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL: Provincial -->
+  <div id="tab-provincial" class="tab-panel">
+    <div class="chart-card">
+      <div class="chart-card-header">
+        <div><div class="chart-title" id="title-prov">DCI provincial (%)</div><div class="chart-subtitle">Clic en una provincia para ver su estimador, CV y brecha vs. la meta 2029 · color transparente en el detalle = CV &gt;15%</div></div>
+        <span class="export-btn-group">
+          <button type="button" class="export-btn" onclick="exportarProvincialCSV_DCI()">⬇ Datos CSV</button>
+        </span>
+      </div>
+      <div class="chart-source" style="margin-bottom:8px;">ENSANUT · ENDI · Sin datos provinciales en ECV 2014</div>
+      <div id="prov-sin-datos" style="display:none;height:200px;align-items:center;justify-content:center;flex-direction:column;gap:.5rem;color:#9AA5B4;font-size:13px;">
+        <div style="font-size:2rem;">📊</div>
+        <div id="prov-sin-datos-msg">Sin datos provinciales para este período</div>
+      </div>
+      <div id="prov-con-datos" style="position:relative;">
+        <div class="mapa-grid">
+          <div id="map-wrap-dci">
+            <div id="ec-map-dci"></div>
+            <div id="galapagos-inset-dci">
+              <div class="inset-label">Galápagos</div>
+              <div id="ec-map-gal-dci"></div>
+            </div>
+          </div>
+          <div>
+            <div id="prov-lista-dci"></div>
+            <div class="legend-box">
+              <span id="leg-min-dci">0.00%</span>
+              <div class="legend-scale" id="leg-scale-dci"></div>
+              <span id="leg-max-dci">0.00%</span>
+            </div>
+            <div class="prov-detalle" id="prov-detalle-dci" style="display:none;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="alerta"><strong>CV alto:</strong> Provincias con relleno más tenue en el mapa (⚠ en la lista y el detalle) indican CV &gt;15% — estimaciones con menor precisión estadística. Interpretar con cautela.</div>
+  </div>
+
+  <!-- PANEL: Tabla -->
+  <div id="tab-tabla" class="tab-panel">
+    <div class="filtros-bar">
+      <label>Filtrar:</label>
+      <select id="ft-per" onchange="renderTabla()">
+        <option value="">Todos los períodos</option>
+        <option value="Jul_23-Ago_24">ENDI R2 (Jul 23–Ago 24)</option>
+        <option value="Jul_22-Jul_23">ENDI R1 (Jul 22–Jul 23)</option>
+        <option value="Dic_18">ENSANUT 2018</option>
+        <option value="Dic_14">ECV 2014</option>
+        <option value="Dic_12">ENSANUT 2012</option>
+      </select>
+      <select id="ft-grupo" onchange="renderTabla()">
+        <option value="">Todos los grupos</option>
+        <option>Nacional</option><option>Urbano</option><option>Rural</option>
+        <option>Hombre</option><option>Mujer</option>
+        <option>Indígena</option><option>Mestiza/o</option>
+        <option>Afroecuatoriana/o</option><option>Montubia/o</option><option>Blanca/o u Otra/o</option>
+      </select>
+      <input type="text" id="ft-texto" placeholder="Buscar provincia..." oninput="renderTabla()" style="width:140px;">
+      <button class="btn-reset" onclick="resetTabla()">✕ Limpiar</button>
+      <span class="filtros-count" id="ft-count"></span>
+    </div>
+    <div class="chart-card" style="padding:0;overflow:hidden;">
+      <div class="tabla-wrap"><table>
+        <thead><tr>
+          <th onclick="sortT(0)">Período</th>
+          <th onclick="sortT(1)">Fuente</th>
+          <th onclick="sortT(2)">Grupo</th>
+          <th onclick="sortT(3)">Estimador</th>
+          <th onclick="sortT(4)">L. Inferior</th>
+          <th onclick="sortT(5)">L. Superior</th>
+          <th onclick="sortT(6)">CV</th>
+          <th onclick="sortT(7)">vs Meta 2029</th>
+        </tr></thead>
+        <tbody id="tbody-tabla"></tbody>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<script src="../assets/js/cargar-datos.js"></script>
+<script>
+// Datos de esta página (carpeta datos/). Ver datos/LEEME.md
+cargarDatos({
+  GEO: { archivo: '../datos/pnd/proteccion_social/dci/territorio.csv', forma: 'filas', texto: ['per', 'area'] },
+  SEXO: { archivo: '../datos/pnd/proteccion_social/dci/sexo.csv', forma: 'filas', texto: ['per', 'sexo'] },
+  ETNIA: { archivo: '../datos/pnd/proteccion_social/dci/etnia.csv', forma: 'filas', texto: ['per', 'etnia'] },
+  METAS_PROY: { archivo: '../datos/pnd/proteccion_social/dci/meta_proyectada.csv', forma: 'filas', texto: ['per'] },
+  PROV: { archivo: '../datos/pnd/proteccion_social/dci/provincias.csv', forma: 'grupos', clave: 'per', texto: ['p'] }
+});
+</script>
+<script type="text/plain" data-tras-datos>
+
+const META=METAS_PROY[METAS_PROY.length-1].est;  // meta 2029 (meta_proyectada.csv)
+const pct=v=>(v*100).toFixed(2)+'%';
+const C={nac:'#6B3FA0',urb:'#1A3A6B',rur:'#C0622D',meta:'#C0392B',h:'#1A5FA8',m:'#C0395A',dorado:'#F0C040'};
+
+const FUENTES={'Dic_12':'ENSANUT 2012','Dic_14':'ECV 2014','Dic_18':'ENSANUT 2018','Jul_22-Jul_23':'ENDI R1','Jul_23-Ago_24':'ENDI R2'};
+const LABELS={'Dic_12':'2012','Dic_14':'2014','Dic_18':'2018','Jul_22-Jul_23':'ENDI R1\n(22-23)','Jul_23-Ago_24':'ENDI R2\n(23-24)'};
+const ENDI_PERS=['Jul_22-Jul_23','Jul_23-Ago_24'];
+const TODOS_PERS=['Dic_12','Dic_14','Dic_18','Jul_22-Jul_23','Jul_23-Ago_24'];
+
+/* DATOS */
+
+/* ESTADO */
+let modoVis='serie', perSel='Jul_23-Ago_24';
+const lineOn={obs:true,meta:true};
+const areaOn={nac:true,urb:true,rur:true,ameta:true};
+const sexoOn={h:true,m:true};
+let chartSerie=null,chartArea=null,chartBrecha=null,chartSexo=null,chartEtnia=null,chartProv=null;
+let sortCol=-1,sortDir=1;
+
+window.onload=()=>{
+  buildCharts();
+  renderMetricas();
+  actualizarInterp();
+  renderTabla();
+};
+
+function setModo(m){
+  modoVis=m;
+  document.getElementById('modo-serie').classList.toggle('active',m==='serie');
+  document.getElementById('modo-per').classList.toggle('active',m==='per');
+  document.getElementById('wrap-per').style.display=m==='per'?'inline-flex':'none';
+  if(m==='per') perSel=document.getElementById('sel-per').value;
+  actualizarVista();
+}
+function filtrarPer(){
+  perSel=document.getElementById('sel-per').value;
+  actualizarVista();
+}
+function actualizarVista(){
+  const esSerie=modoVis==='serie';
+  // área
+  document.getElementById('area-serie').style.display=esSerie?'block':'none';
+  document.getElementById('area-cards').style.display=esSerie?'none':'block';
+  // sexo
+  const tieneS=ENDI_PERS.includes(perSel);
+  document.getElementById('sexo-serie-view').style.display=(esSerie||!tieneS)?'block':'none';
+  document.getElementById('sexo-cards-view').style.display=(!esSerie&&tieneS)?'block':'none';
+  // actualizar gráficos
+  actualizarChartSerie();
+  if(!esSerie){
+    renderGeoCards(perSel);
+    if(tieneS) renderSiluetas(perSel);
+  }
+  // Provincial: sincronizar con período seleccionado
+  const perProv = esSerie ? 'Jul_23-Ago_24' : (PROV[perSel] ? perSel : null);
+  const titProv = document.getElementById('title-prov');
+  const provSin = document.getElementById('prov-sin-datos');
+  const provCon = document.getElementById('prov-con-datos');
+  const provMsg = document.getElementById('prov-sin-datos-msg');
+  const etiqProv = {'Dic_12':'ENSANUT 2012','Dic_18':'ENSANUT 2018','Jul_22-Jul_23':'ENDI R1 (2022–23)','Jul_23-Ago_24':'ENDI R2 (2023–24)'};
+  if(perProv){
+    if(provSin){provSin.style.display='none';}
+    if(provCon){provCon.style.display='block';}
+    if(titProv) titProv.textContent='DCI provincial — '+(etiqProv[perProv]||perProv)+' (%)';
+    renderProv(perProv);
+  } else {
+    if(provSin){provSin.style.display='flex';}
+    if(provCon){provCon.style.display='none';}
+    if(chartProv){chartProv.destroy();chartProv=null;}
+    if(titProv) titProv.textContent='DCI provincial (%)';
+    if(provMsg) provMsg.textContent='Sin datos provinciales para ECV 2014';
+  }
+
+  // Etnia: en modo serie mostrar ambas rondas con leyenda completa
+  if(esSerie){
+    const sinDatos=document.getElementById('etnia-sin-datos');
+    const conDatos=document.getElementById('etnia-con-datos');
+    const legend=document.getElementById('etnia-legend');
+    const titulo=document.getElementById('title-etnia');
+    const src=document.getElementById('src-etnia');
+    if(sinDatos) sinDatos.style.display='none';
+    if(conDatos) conDatos.style.display='block';
+    if(titulo) titulo.textContent='DCI por etnia — ENDI R1 y R2 (%)';
+    if(src) src.textContent='ENDI R1 (2022–23) y ENDI R2 (2023–24)';
+    if(legend) legend.innerHTML=
+      '<div style="display:flex;align-items:center;gap:5px;"><div style="width:12px;height:12px;border-radius:2px;background:rgba(107,63,160,0.55);"></div>ENDI R1 (2022–23)</div>'+
+      '<div style="display:flex;align-items:center;gap:5px;"><div style="width:12px;height:12px;border-radius:2px;background:rgba(107,63,160,1);"></div>ENDI R2 (2023–24)</div>';
+    if(chartEtnia){chartEtnia.data.datasets[0].hidden=false;chartEtnia.data.datasets[1].hidden=false;chartEtnia.update();}
+  } else {
+    actualizarEtniaPer(perSel);
+  }
+  renderMetricas();
+  actualizarInterp();
+}
+
+/* INTERPRETACIÓN */
+const PERLBL_INTERP={
+  'Dic_12':'ENSANUT 2012',
+  'Dic_14':'ECV 2014',
+  'Dic_18':'ENSANUT 2018',
+  'Jul_22-Jul_23':'ENDI R1 (jul 2022 – jul 2023)',
+  'Jul_23-Ago_24':'ENDI R2 (jul 2023 – ago 2024)',
+};
+function actualizarInterp(){
+  const per=modoVis==='per'?perSel:'Jul_23-Ago_24';
+  const d=GEO.find(g=>g.per===per&&g.area==='Nacional');
+  const el=document.getElementById('interp-texto');
+  if(!el||!d)return;
+  el.innerHTML='En el periodo <b>'+(PERLBL_INTERP[per]||per)+'</b>, el <b>'+pct(d.est)+'</b> de niñas y niños menores de 2 años de edad presentan desnutrición crónica.';
+}
+
+/* MÉTRICAS */
+function renderMetricas(){
+  const r2=GEO.find(d=>d.per==='Jul_23-Ago_24'&&d.area==='Nacional');
+  const r1=GEO.find(d=>d.per==='Jul_22-Jul_23'&&d.area==='Nacional');
+  const diff=r1&&r2?((r2.est-r1.est)*100).toFixed(2):null;
+  document.getElementById('metricas-box').innerHTML=
+    '<div class="metrica-card"><div class="metrica-label">ENDI R2 (2023–2024) · Nacional</div><div class="metrica-valor">19,27%</div><div class="metrica-sub">Línea base PND · IC: [17,97%–20,63%]</div>'+(diff?'<div class="metrica-var baja">▼ '+Math.abs(diff)+' pp vs ENDI R1</div>':'')+'</div>'+
+    '<div class="metrica-card meta"><div class="metrica-label">Meta 2029</div><div class="metrica-valor">15,27%</div><div class="metrica-sub">Reducir 4,0 pp desde 2024</div><div class="metrica-var baja">▼ 0,8 pp/año proyectado</div></div>'+
+    '<div class="metrica-card verde"><div class="metrica-label">ENDI R1 (2022–2023)</div><div class="metrica-valor">20,05%</div><div class="metrica-sub">IC: [18,66%–21,52%]</div></div>'+
+    '<div class="metrica-card rojo"><div class="metrica-label">Sin dato 2025</div><div class="metrica-valor">—</div><div class="metrica-sub">INEC: razones operativas</div><div class="metrica-var" style="color:#C0392B;">Oficio INEC-2025-0268-O</div></div>';
+}
+
+/* CHART SERIE */
+function buildChartSerie(){
+  const labsObs=['2012','2014','2018','ENDI R1\n(22-23)','ENDI R2\n(23-24)'];
+  // Serie observada nacional (territorio.csv) y trayectoria de la meta (meta_proyectada.csv), en %
+  const valsObs=GEO.filter(d=>d.area==='Nacional').map(d=>+(d.est*100).toFixed(2));
+  // Para el gráfico de tendencia: etiquetas completas del eje x
+  const labsTodos=['2012','2014','2018','ENDI R1\n(22-23)','ENDI R2\n(23-24)','2024-25','2025-26','2026-27','2027-28','2028-29'];
+  const metaData=[null,null,null,null].concat(METAS_PROY.map(d=>+(d.est*100).toFixed(2)));
+
+  chartSerie=new Chart(document.getElementById('chart-serie'),{
+    type:'line',
+    data:{labels:labsTodos,datasets:[
+      {
+        label:'Observado',
+        data:valsObs.concat([null,null,null,null,null]),
+        borderColor:C.nac,borderWidth:2.5,
+        pointRadius:labsTodos.map((_,i)=>i<5?(modoVis==='per'&&['Dic_12','Dic_14','Dic_18','Jul_22-Jul_23','Jul_23-Ago_24'][i]===perSel?9:5):0),
+        pointBackgroundColor:labsTodos.map((_,i)=>i<5?(modoVis==='per'&&['Dic_12','Dic_14','Dic_18','Jul_22-Jul_23','Jul_23-Ago_24'][i]===perSel?C.dorado:C.nac):'transparent'),
+        pointBorderColor:labsTodos.map((_,i)=>i<5?(modoVis==='per'&&['Dic_12','Dic_14','Dic_18','Jul_22-Jul_23','Jul_23-Ago_24'][i]===perSel?'#4F449A':C.nac):'transparent'),
+        fill:false,tension:.3,spanGaps:false
+      },
+      {
+        label:'Trayectoria meta',
+        data:metaData,
+        borderColor:C.meta,borderDash:[6,4],borderWidth:2,
+        pointRadius:labsTodos.map((_,i)=>i>=4?4:0),
+        pointBackgroundColor:C.meta,fill:false,tension:.3,spanGaps:false
+      }
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>{
+        const tipo=ctx.datasetIndex===0?'Observado':'Proyectado';
+        return tipo+': '+ctx.parsed.y.toFixed(2)+'%';
+      }}}},
+      scales:{y:{min:12,max:28,ticks:{callback:v=>v+'%',font:{size:11}},grid:{color:'rgba(0,0,0,0.06)'}},x:{grid:{display:false},ticks:{font:{size:10},autoSkip:false}}}}
+  });
+}
+
+function actualizarChartSerie(){
+  if(!chartSerie)return;
+  const pers=['Dic_12','Dic_14','Dic_18','Jul_22-Jul_23','Jul_23-Ago_24'];
+  chartSerie.data.datasets[0].pointRadius=chartSerie.data.labels.map((_,i)=>i<5?(modoVis==='per'&&pers[i]===perSel?9:5):0);
+  chartSerie.data.datasets[0].pointBackgroundColor=chartSerie.data.labels.map((_,i)=>i<5?(modoVis==='per'&&pers[i]===perSel?C.dorado:C.nac):'transparent');
+  chartSerie.data.datasets[0].pointBorderColor=chartSerie.data.labels.map((_,i)=>i<5?(modoVis==='per'&&pers[i]===perSel?'#4F449A':C.nac):'transparent');
+  chartSerie.data.datasets[0].hidden=!lineOn.obs;
+  chartSerie.data.datasets[1].hidden=!lineOn.meta;
+  chartSerie.update();
+}
+function toggleL(k){
+  lineOn[k]=!lineOn[k];
+  document.getElementById('ts-'+k).classList.toggle('off',!lineOn[k]);
+  if(chartSerie){chartSerie.data.datasets[{obs:0,meta:1}[k]].hidden=!lineOn[k];chartSerie.update();}
+}
+
+/* CHART ÁREA */
+function buildChartArea(){
+  const labs=TODOS_PERS.filter(p=>p!=='Dic_14').map(p=>LABELS[p]||p);
+  const pers=TODOS_PERS.filter(p=>p!=='Dic_14');
+  chartArea=new Chart(document.getElementById('chart-area'),{
+    type:'line',data:{labels:labs,datasets:[
+      {label:'Nacional',data:pers.map(p=>{const r=GEO.find(d=>d.per===p&&d.area==='Nacional');return r?+(r.est*100).toFixed(4):null;}),borderColor:C.nac,borderWidth:2.5,pointRadius:5,pointBackgroundColor:C.nac,fill:false,tension:.3},
+      {label:'Urbano',  data:pers.map(p=>{const r=GEO.find(d=>d.per===p&&d.area==='Urbano'); return r?+(r.est*100).toFixed(4):null;}),borderColor:C.urb,borderWidth:2,borderDash:[5,3],pointRadius:4,pointBackgroundColor:C.urb,fill:false,tension:.3},
+      {label:'Rural',   data:pers.map(p=>{const r=GEO.find(d=>d.per===p&&d.area==='Rural');  return r?+(r.est*100).toFixed(4):null;}),borderColor:C.rur,borderWidth:2.5,pointRadius:5,pointBackgroundColor:C.rur,fill:false,tension:.3},
+      {label:'Meta 2029',data:pers.map(()=>META*100),borderColor:C.meta,borderDash:[8,4],borderWidth:1.5,pointRadius:0,fill:false},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.parsed.y.toFixed(2)+'%'}}},
+      scales:{y:{min:12,max:35,ticks:{callback:v=>v+'%',font:{size:11}},grid:{color:'rgba(0,0,0,0.06)'}},x:{grid:{display:false},ticks:{font:{size:10},autoSkip:false}}}}
+  });
+  chartBrecha=new Chart(document.getElementById('chart-brecha-area'),{
+    type:'bar',data:{labels:['Urbano','Rural'],datasets:[{data:[17.60,22.05],backgroundColor:[C.urb,C.rur],borderRadius:6}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.parsed.y.toFixed(2)+'%'}}},
+      scales:{y:{min:10,max:30,ticks:{callback:v=>v+'%',font:{size:11}},grid:{color:'rgba(0,0,0,0.06)'}},x:{grid:{display:false}}}}
+  });
+}
+function toggleA(k){
+  areaOn[k]=!areaOn[k];
+  document.getElementById('ts-'+k).classList.toggle('off',!areaOn[k]);
+  if(chartArea){chartArea.data.datasets[{nac:0,urb:1,rur:2,ameta:3}[k]].hidden=!areaOn[k];chartArea.update();}
+}
+function renderGeoCards(per){
+  const cols={Nacional:C.nac,Urbano:C.urb,Rural:C.rur};
+  document.getElementById('area-cards-grid').innerHTML=Object.entries(cols).map(([area,color])=>{
+    const d=GEO.find(r=>r.per===per&&r.area===area);if(!d)return '<div style="background:#fff;border:1px solid #D1D9E6;border-radius:10px;padding:1rem;text-align:center;color:#9AA5B4;font-size:12px;">Sin dato '+area+'</div>';
+    const cumple=d.est<=META;
+    const cvCls=d.cv>.15?'color:#C0392B;font-weight:700':d.cv>.10?'color:#8B6A00;font-weight:700':'color:#4A5568';
+    return '<div style="background:#fff;border:1px solid #D1D9E6;border-radius:10px;overflow:hidden;">'+
+      '<div style="height:4px;background:'+color+';"></div>'+
+      '<div style="padding:1rem 1.1rem;">'+
+      '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#4A5568;margin-bottom:.4rem;">'+area+'</div>'+
+      '<div style="font-size:26px;font-weight:700;color:'+color+';line-height:1;">'+pct(d.est)+'</div>'+
+      '<div style="font-size:11px;color:#4A5568;margin-top:.3rem;">IC: ['+pct(d.li)+' – '+pct(d.ls)+']</div>'+
+      '<div style="font-size:11px;margin-top:.25rem;'+cvCls+'">CV: '+(d.cv*100).toFixed(1)+'%</div>'+
+      '<div style="font-size:11px;margin-top:.5rem;font-weight:600;'+(cumple?'color:#81A382':'color:#C0392B')+'">'+(cumple?'✓ Cumple meta':'✗ Por reducir')+'</div>'+
+      '</div></div>';
+  }).join('');
+  document.getElementById('title-brecha-area').textContent='Urbano vs Rural — '+FUENTES[per];
+  const u=GEO.find(r=>r.per===per&&r.area==='Urbano');
+  const ru=GEO.find(r=>r.per===per&&r.area==='Rural');
+  if(u&&ru&&chartBrecha){chartBrecha.data.datasets[0].data=[+(u.est*100).toFixed(2),+(ru.est*100).toFixed(2)];chartBrecha.update();}
+}
+
+/* CHART SEXO */
+function buildChartSexo(){
+  chartSexo=new Chart(document.getElementById('chart-sexo'),{
+    type:'bar',data:{labels:['ENDI R1 (2022–23)','ENDI R2 (2023–24)'],datasets:[
+      {label:'Hombre',data:ENDI_PERS.map(p=>{const r=SEXO.find(d=>d.per===p&&d.sexo==='Hombre');return r?+(r.est*100).toFixed(4):null;}),backgroundColor:C.h,borderRadius:5},
+      {label:'Mujer', data:ENDI_PERS.map(p=>{const r=SEXO.find(d=>d.per===p&&d.sexo==='Mujer'); return r?+(r.est*100).toFixed(4):null;}),backgroundColor:C.m,borderRadius:5},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>{const ronda=ctx.datasetIndex===0?'ENDI R1 (2022–23)':'ENDI R2 (2023–24)';return ronda+' · '+ctx.label+': '+ctx.parsed.y.toFixed(2)+'%';}}}},
+      scales:{y:{min:10,max:30,ticks:{callback:v=>v+'%',font:{size:11}},grid:{color:'rgba(0,0,0,0.06)'}},x:{grid:{display:false}}}}
+  });
+}
+function toggleS(k){
+  sexoOn[k]=!sexoOn[k];
+  document.getElementById('ts-'+k).classList.toggle('off',!sexoOn[k]);
+  if(chartSexo){chartSexo.data.datasets[{h:0,m:1}[k]].hidden=!sexoOn[k];chartSexo.update();}
+}
+function renderSiluetas(per){
+  const wrap=document.getElementById('sexo-siluetas');
+  const titulo=document.getElementById('sexo-cards-titulo');
+  if(!wrap)return;
+  const h=SEXO.find(r=>r.per===per&&r.sexo==='Hombre');
+  const m=SEXO.find(r=>r.per===per&&r.sexo==='Mujer');
+  if(!h||!m){wrap.innerHTML='<p style="color:#9AA5B4;font-size:12px;">Sin datos de sexo para este período</p>';return;}
+  if(titulo) titulo.textContent='DCI por sexo — '+FUENTES[per];
+  const tarjeta=(d,label,color,img)=>'<div class="silueta-item"><img src="'+img+'" alt="'+label+'" style="width:90px;height:90px;object-fit:contain;display:block;margin:0 auto;"><div class="silueta-val" style="color:'+color+';margin-top:.5rem;">'+pct(d.est)+'</div><div class="silueta-label">'+label+'</div><div class="silueta-ic">IC: ['+pct(d.li)+' – '+pct(d.ls)+']</div><div class="silueta-cv" style="'+(d.cv>.15?'color:#C0392B;font-weight:700':'color:#4A5568')+'">CV: '+(d.cv*100).toFixed(1)+'%</div></div>';
+  wrap.innerHTML=tarjeta(h,'Hombre','#1A5FA8','../imagenes/hombre.png')+'<div style="width:1px;height:130px;background:#D1D9E6;align-self:center;"></div>'+tarjeta(m,'Mujer','#C0395A','../imagenes/mujer.png');
+}
+
+/* CHART ETNIA */
+function buildChartEtnia(){
+  const etnias=['Indígena','Afroecuatoriana/o','Montubia/o','Mestiza/o','Blanca/o u Otra/o'];
+  chartEtnia=new Chart(document.getElementById('chart-etnia'),{
+    type:'bar',
+    data:{labels:etnias,datasets:[
+      {label:'ENDI R1 (2022–23)',data:etnias.map(e=>{const r=ETNIA.find(d=>d.per==='Jul_22-Jul_23'&&d.etnia===e);return r?+(r.est*100).toFixed(4):null;}),backgroundColor:'rgba(107,63,160,0.55)',borderRadius:4},
+      {label:'ENDI R2 (2023–24)',data:etnias.map(e=>{const r=ETNIA.find(d=>d.per==='Jul_23-Ago_24'&&d.etnia===e);return r?+(r.est*100).toFixed(4):null;}),backgroundColor:'rgba(107,63,160,1)',borderRadius:4},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.parsed.y.toFixed(2)+'%'}}},
+      scales:{y:{min:0,max:40,ticks:{callback:v=>v+'%',font:{size:11}},grid:{color:'rgba(0,0,0,0.06)'}},x:{grid:{display:false},ticks:{font:{size:10}}}}}
+  });
+}
+function actualizarEtniaPer(per){
+  const sinDatos=document.getElementById('etnia-sin-datos');
+  const conDatos=document.getElementById('etnia-con-datos');
+  const legend=document.getElementById('etnia-legend');
+  const titulo=document.getElementById('title-etnia');
+  const src=document.getElementById('src-etnia');
+
+  // Sin datos de etnia para este período
+  if(!per||!ENDI_PERS.includes(per)){
+    if(sinDatos) sinDatos.style.display='block';
+    if(conDatos) conDatos.style.display='none';
+    return;
+  }
+
+  // Sí hay datos — mostrar gráfico
+  if(sinDatos) sinDatos.style.display='none';
+  if(conDatos) conDatos.style.display='block';
+
+  if(!chartEtnia) return;
+
+  const esR1=per==='Jul_22-Jul_23';
+  const esR2=per==='Jul_23-Ago_24';
+  const esSerie=!per; // nunca true aquí, solo en modo serie
+
+  if(esR1){
+    chartEtnia.data.datasets[0].hidden=false;
+    chartEtnia.data.datasets[1].hidden=true;
+    if(titulo) titulo.textContent='DCI por etnia — ENDI R1 (2022–2023) (%)';
+    if(src) src.textContent='ENDI R1 (Jul 22–Jul 23)';
+    if(legend) legend.innerHTML='<div style="display:flex;align-items:center;gap:5px;"><div style="width:12px;height:12px;border-radius:2px;background:rgba(107,63,160,0.55);"></div>ENDI R1 (2022–23)</div>';
+  } else if(esR2){
+    chartEtnia.data.datasets[0].hidden=true;
+    chartEtnia.data.datasets[1].hidden=false;
+    if(titulo) titulo.textContent='DCI por etnia — ENDI R2 (2023–2024) (%)';
+    if(src) src.textContent='ENDI R2 (Jul 23–Ago 24)';
+    if(legend) legend.innerHTML='<div style="display:flex;align-items:center;gap:5px;"><div style="width:12px;height:12px;border-radius:2px;background:rgba(107,63,160,1);"></div>ENDI R2 (2023–24)</div>';
+  }
+  chartEtnia.update();
+}
+
+/* PROVINCIAL — mapa coroplético */
+let mapaDCI = null;
+function initMapaDCI(){
+  if (mapaDCI) return;
+  mapaDCI = crearMapaEcuador({
+    mapId: 'ec-map-dci', galId: 'ec-map-gal-dci',
+    overrides: { 'SANTO DOMINGO': 'Sto Domingo' },
+    onSelect: (prov) => mostrarDetalleProv(prov)
+  });
+}
+
+function mostrarDetalleProv(prov){
+  const fila = _filasProvDCI.find(f => f.p === prov) || null;
+  document.querySelectorAll('#prov-lista-dci .prov-row').forEach(r=>r.classList.toggle('sel', r.dataset.p===prov));
+  mapaDCI.highlight(prov);
+  const el = document.getElementById('prov-detalle-dci');
+  if (!fila){ el.style.display='none'; return; }
+  const valor = fila.est*100;
+  const brecha = valor - META*100;
+  const cumplida = brecha<=0;
+  el.style.display='block';
+  el.innerHTML = `
+    <div class="pd-nombre">${prov}</div>
+    <div class="pd-fila"><span>Estimador</span><b>${valor.toFixed(2)}%</b></div>
+    <div class="pd-fila"><span>Coef. de variación</span><b>${(fila.cv*100).toFixed(1)}%${fila.cv>.15?' ⚠':''}</b></div>
+    <div class="pd-fila"><span>Meta nacional 2029</span><b>${(META*100).toFixed(2)}%</b></div>
+    <div class="pd-fila"><span>Brecha vs. meta</span><b style="color:${cumplida?'var(--verde)':'var(--rojo)'}">${brecha>0?'+':''}${brecha.toFixed(2)} pp</b></div>
+  `;
+}
+
+let _filasProvDCI = [];
+let _ultimoPerProvDCI = 'Jul_23-Ago_24';
+
+function renderProv(per){
+  _ultimoPerProvDCI = per;
+  // No dibujar Leaflet mientras la pestaña "Provincial" está oculta (display:none) —
+  // con contenedor de tamaño cero el mapa queda mal encuadrado. Se dibuja cuando se muestre.
+  if (!document.getElementById('tab-provincial').classList.contains('active')) return;
+  initMapaDCI();
+  const datos = (PROV[per]||[]).slice().sort((a,b)=>b.est-a.est);
+  const filas = datos.map(d => ({
+    p: d.p, value: d.est, cvAlto: d.cv>.15,
+    est: d.est, cv: d.cv,
+    tooltip: (d.est*100).toFixed(2)+'%  (CV: '+(d.cv*100).toFixed(1)+'%'+(d.cv>.15?' ⚠':'')+')'
+  }));
+  _filasProvDCI = filas;
+  const maxV = mapaDCI.render(filas, '#6B3FA0');
+
+  document.getElementById('leg-scale-dci').style.background = 'linear-gradient(90deg, #F5F6F8, #6B3FA0)';
+  document.getElementById('leg-min-dci').textContent = '0.00%';
+  document.getElementById('leg-max-dci').textContent = (maxV*100).toFixed(2)+'%';
+
+  document.getElementById('prov-lista-dci').innerHTML = filas.map((d,i)=>{
+    const t = maxV>0 ? d.value/maxV : 0;
+    const color = _ecmapInterpola('#D9D2E8','#6B3FA0', Math.sqrt(t));
+    return `<div class="prov-row" data-p="${d.p}" onclick="mostrarDetalleProv('${d.p.replace(/'/g,"\\'")}')">
+      <span class="rank">${i+1}</span>
+      <span class="dot" style="background:${color};"></span>
+      <span class="nom">${d.p}</span>
+      <span class="val">${(d.est*100).toFixed(2)}%${d.cvAlto?' ⚠':''}</span>
+    </div>`;
+  }).join('');
+
+  document.getElementById('prov-detalle-dci').style.display='none';
+  mapaDCI.clearHighlight();
+}
+
+function exportarProvincialCSV_DCI(){
+  const filas = [..._filasProvDCI].sort((a,b)=>b.est-a.est)
+    .map(d => [d.p, (d.est*100).toFixed(3), (d.cv*100).toFixed(2)]);
+  descargarCSV('dci_provincial_'+_ultimoPerProvDCI, ['Provincia','DCI (%)','CV (%)'], filas);
+}
+
+/* BUILD ALL */
+function buildCharts(){
+  buildChartSerie();
+  buildChartArea();
+  buildChartSexo();
+  buildChartEtnia();
+  renderProv('Jul_23-Ago_24');
+  buildTablaData();
+  renderTabla();
+}
+
+/* TABS */
+function activarTab(name,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  if (name==='provincial'){
+    if (!mapaDCI) renderProv(_ultimoPerProvDCI);
+    else setTimeout(()=>mapaDCI.invalidateSize(), 30);
+  }
+}
+
+/* TABLA */
+let TABLA_DATA=[];
+function buildTablaData(){
+  TABLA_DATA=[];
+  TODOS_PERS.forEach(per=>{
+    GEO.filter(d=>d.per===per).forEach(d=>TABLA_DATA.push([per,FUENTES[per],d.area,d.est,d.li,d.ls,d.cv]));
+    SEXO.filter(d=>d.per===per).forEach(d=>TABLA_DATA.push([per,FUENTES[per],d.sexo,d.est,d.li,d.ls,d.cv]));
+    ETNIA.filter(d=>d.per===per).forEach(d=>TABLA_DATA.push([per,FUENTES[per],d.etnia,d.est,d.li,d.ls,d.cv]));
+    (PROV[per]||[]).forEach(d=>TABLA_DATA.push([per,FUENTES[per],d.p,d.est,null,null,d.cv]));
+  });
+}
+function resetTabla(){['ft-per','ft-grupo'].forEach(id=>document.getElementById(id).value='');document.getElementById('ft-texto').value='';renderTabla();}
+function renderTabla(){
+  let data=[...TABLA_DATA];
+  const fp=document.getElementById('ft-per').value;
+  const fg=document.getElementById('ft-grupo').value;
+  const ft=document.getElementById('ft-texto').value.toLowerCase();
+  if(fp)data=data.filter(r=>r[0]===fp);
+  if(fg)data=data.filter(r=>r[2]===fg);
+  if(ft)data=data.filter(r=>r[2].toLowerCase().includes(ft)||r[0].toLowerCase().includes(ft));
+  if(sortCol>=0)data.sort((a,b)=>{const av=a[sortCol],bv=b[sortCol];if(av==null)return 1;if(bv==null)return -1;return(av<bv?-1:av>bv?1:0)*sortDir;});
+  document.getElementById('ft-count').textContent=data.length+' filas';
+  const tbody=document.getElementById('tbody-tabla');
+  if(!data.length){tbody.innerHTML='<tr><td colspan="8" class="no-rows">Sin resultados</td></tr>';return;}
+  tbody.innerHTML=data.map(r=>{
+    const cvCls=r[6]>.20?'td-rojo':r[6]>.15?'td-ambar':'';
+    const cumple=r[3]<=META;
+    return '<tr><td>'+r[0]+'</td><td><span class="badge-fuente">'+r[1]+'</span></td><td>'+r[2]+'</td>'+
+      '<td class="td-num">'+pct(r[3])+'</td>'+
+      '<td class="td-num">'+(r[4]?pct(r[4]):'—')+'</td>'+
+      '<td class="td-num">'+(r[5]?pct(r[5]):'—')+'</td>'+
+      '<td class="td-num '+cvCls+'">'+(r[6]*100).toFixed(1)+'%</td>'+
+      '<td style="text-align:center">'+(cumple?'<span class="td-verde">✓</span>':'<span class="td-rojo">✗</span>')+'</td></tr>';
+  }).join('');
+}
+function sortT(col){
+  if(sortCol===col)sortDir*=-1;else{sortCol=col;sortDir=1;}
+  document.querySelectorAll('thead th').forEach((th,i)=>{th.classList.remove('sort-asc','sort-desc');if(i===col)th.classList.add(sortDir===1?'sort-asc':'sort-desc');});
+  renderTabla();
+}
+
+
+/* ── NAVEGACIÓN DCI ── */
+function irPaginaD(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  if(id==='pg-acciones-d') setTimeout(buildAccD,50);
+}
+// Acciones y seguimiento: se leen de datos/pnd/proteccion_social/ con pnd_ps_acciones.js
+// (se actualizan cada mes con scripts/actualizar_pnd_ps.py; aquí no hay datos incrustados)
+function buildAccD(){
+  if(window._ppsMontado) return;
+  window._ppsMontado = true;
+  PndPsAcciones.montar('#acciones-ps', { indicador: 'dci' });
+}
+</script>
+</div><!-- fin pg-datos -->
+<div id="pg-acciones-d" class="page">
+  <div style="max-width:1400px;margin:0 auto;padding:1.5rem;">
+    <div id="acciones-ps"></div>
+  </div>
+</div>
+
+<div class="gov-close"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="Gobierno del Ecuador"></div>
+
+<footer class="dashboard-footer">
+  <strong>Ministerio de Trabajo y Desarrollo Humano</strong> · Subsecretaría de Gestión de Datos y Estudios · Seguimiento PND 2025–2029
+</footer>
+
+<script type="text/plain" data-tras-datos>
+(function(){
+  const cfg = {"base": "Desnutrición crónica infantil", "default": "Menú del indicador", "items": [{"id": "pg-inicio", "label": "Menú del indicador"}, {"id": "pg-datos", "label": "Resultados por período"}, {"id": "pg-acciones-d", "label": "Acciones 2026"}]};
+  function visible(el){
+    if(!el) return false;
+    const cs = window.getComputedStyle(el);
+    return cs.display !== 'none' && cs.visibility !== 'hidden';
+  }
+  function activeLabel(){
+    const items = cfg.items || [];
+    for(const item of items){
+      const el = document.getElementById(item.id);
+      if(!el) continue;
+      if(el.classList.contains('active') && visible(el)) return item.label;
+    }
+    for(const item of items){
+      const el = document.getElementById(item.id);
+      if(el && el.classList.contains('active')) return item.label;
+    }
+    return cfg.default || '';
+  }
+  function render(){
+    const bc = document.getElementById('mdh-breadcrumb');
+    if(!bc) return;
+    const label = activeLabel();
+    if(label){
+      bc.innerHTML = '<a href="../index_PND.html">Inicio</a>' +
+        '<span class="mdh-bc-sep">›</span>' +
+        '<a href="javascript:void(0)" class="mdh-bc-base" onclick="irPaginaD(&#39;pg-inicio&#39;)" title="Volver a: '+cfg.base+'">' + cfg.base + '</a>' +
+        '<span class="mdh-bc-sep">›</span>' +
+        '<span class="mdh-bc-current">' + label + '</span>';
+    } else {
+      bc.innerHTML = '<a href="../index_PND.html">Inicio</a>' +
+        '<span class="mdh-bc-sep">›</span>' +
+        '<span class="mdh-bc-current">' + cfg.base + '</span>';
+    }
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    render();
+    document.body.addEventListener('click', function(){ setTimeout(render, 80); }, true);
+    document.body.addEventListener('change', function(){ setTimeout(render, 80); }, true);
+    setTimeout(render, 120);
+  });
+  window.addEventListener('load', render);
+  window.mdhActualizarBreadcrumb = render;
+})();
+</script>
+
+<script type="text/plain" data-tras-datos data-src="../assets/js/shared.js"></script>
+<script type="text/plain" data-tras-datos>
+initSidebar({ activeId: 'pnd-dci', basePath: '../' });
+</script>
+
+</body>
+</html>

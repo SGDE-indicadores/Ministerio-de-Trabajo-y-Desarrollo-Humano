@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pobreza Extrema por Ingresos | PND 2025–2029</title>
+<link rel="stylesheet" href="../assets/css/shared.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+// Plugin genérico de valores en gráfico: dibuja el valor de cada punto/barra
+// usando el mismo formateador que ya tiene el eje Y de ese gráfico (%, $, o
+// número plano), así cada gráfico muestra sus valores con el formato correcto
+// sin tener que configurarlo gráfico por gráfico. Aplica a barras y líneas;
+// las líneas de "meta" (pointRadius:0) no se etiquetan para no saturar.
+const valueLabelPlugin={id:'valueLabelPlugin',afterDatasetsDraw(chart){
+  if(chart.config.type!=='bar'&&chart.config.type!=='line')return;
+  const{ctx}=chart;ctx.save();ctx.font='700 10px Segoe UI, Arial';ctx.textBaseline='middle';
+  const yScale=chart.options.scales&&chart.options.scales.y;
+  const tickCb=yScale&&yScale.ticks&&typeof yScale.ticks.callback==='function'?yScale.ticks.callback:null;
+  const fmt=v=>{if(v===null||v===undefined||!Number.isFinite(Number(v)))return '';const n=Math.round(Number(v)*100)/100;if(tickCb){try{return String(tickCb(n));}catch(e){}}return n.toLocaleString('es-EC');};
+  chart.data.datasets.forEach((ds,i)=>{
+    const meta=chart.getDatasetMeta(i);
+    if(meta.hidden)return;
+    if(chart.config.type==='line'&&ds.pointRadius===0)return;
+    meta.data.forEach((el,j)=>{
+      const raw=ds.data[j];
+      const num=(raw&&typeof raw==='object')?raw.y:raw;
+      const txt=fmt(num);
+      if(!txt)return;
+      const p=el.tooltipPosition();
+      ctx.fillStyle=ds.borderColor||ds.backgroundColor||'#4F449A';
+      if(chart.config.type==='bar'&&chart.options.indexAxis==='y'){ctx.textAlign='left';ctx.fillText(txt,p.x+8,p.y);}
+      else{ctx.textAlign='center';ctx.fillText(txt,p.x,p.y-10);}
+    });
+  });
+  ctx.restore();
+}};
+if(typeof Chart!=='undefined') Chart.register(valueLabelPlugin);
+</script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="../assets/js/geojson_js.js"></script>
+<script src="../assets/js/ecuador-map.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="../assets/js/export-utils.js"></script>
+<script src="../assets/js/pnd_ps_acciones.js"></script>
+<style>
+/* ── VARIABLES Y RESET TPM ── */
+:root{
+  --azul:#4F449A; --azul-med:#37306C; --azul-light:#E8EEF8; --azul-pale:#F2F5FB;
+  --amarillo:#F1B620; --amarillo-d:#C99200; --amarillo-l:#FEF7DC;
+  --rojo:#DE232D; --rojo-l:#FDECEA; --verde:#81A382; --verde-l:#E6F4EC;
+  --gris:#F5F6F8; --gris-bd:#DDE2EE; --texto:#1A1E2E; --subtexto:#5A6180;
+  --blanco:#FFFFFF; --shadow:0 2px 12px rgba(79,68,154,0.10);
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:Arial, sans-serif; font-size:14px; color:var(--texto); }
+
+/* ── HEADER NUEVO (sticky, encima de todo) ── */
+.tpm-header {
+  background:var(--azul); padding:0 28px;
+  display:flex; align-items:center; justify-content:space-between;
+  height:56px; position:sticky; top:0; z-index:999;
+  box-shadow:0 2px 16px rgba(0,0,0,0.25);
+  font-family:Arial, sans-serif;
+}
+.tpm-header-left { display:flex; align-items:center; gap:14px; }
+.tpm-logo {
+  min-width:34px; height:34px; padding:0 5px; box-sizing:border-box; background:var(--amarillo);
+  border-radius:8px; display:flex; align-items:center; justify-content:center;
+  font-family:'Arial Black', Arial, sans-serif;
+  font-weight:700; font-size:12.5px; color:var(--azul); letter-spacing:0.2px; flex-shrink:0;
+}
+.tpm-title {
+  font-family:'Arial Black', Arial, sans-serif;
+  font-weight:600; font-size:16px; color:white; letter-spacing:0.3px;
+  line-height:1.2;
+}
+.tpm-sub { font-size:11px; color:rgba(255,255,255,0.55); margin-top:1px; }
+.tpm-right { display:flex; align-items:center; gap:10px; }
+.tpm-badge {
+  background:rgba(244,180,0,0.18); border:1px solid rgba(244,180,0,0.40);
+  color:var(--amarillo); padding:4px 12px; border-radius:20px;
+  font-size:11px; font-weight:600; letter-spacing:0.5px;
+  font-family:Arial, sans-serif;
+}
+.tpm-back {
+  color:rgba(255,255,255,.7); font-size:12px; text-decoration:none;
+  border:1px solid rgba(255,255,255,.25); padding:4px 12px;
+  border-radius:20px; font-family:Arial, sans-serif;
+}
+.tpm-back:hover { color:white; border-color:rgba(255,255,255,.5); }
+
+/* ── CSS ORIGINAL DEL DASHBOARD ── */
+
+
+:root{--azul:#4F449A;--azul-med:#37306C;--azul-claro:#2563A8;--dorado:#F1B620;--dorado-clr:#F0C040;--dorado-bg:#FDF3D7;--blanco:#FFFFFF;--gris-bg:#F4F6FA;--gris-borde:#D1D9E6;--gris-texto:#4A5568;--rojo:#C0392B;--verde:#81A382;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--gris-bg);color:#1A2A3A;min-height:100vh;}
+.topbar{background:var(--azul);border-bottom:3px solid var(--dorado);padding:0 2rem;display:flex;align-items:center;gap:1rem;height:60px;}
+.topbar-escudo{width:36px;height:36px;background:var(--dorado);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--azul);flex-shrink:0;}
+.topbar-title{color:var(--blanco);font-size:13px;font-weight:600;}
+.topbar-sub{color:var(--dorado-clr);font-size:11px;}
+.topbar-right{margin-left:auto;color:var(--dorado-clr);font-size:11px;opacity:.85;}
+.page{display:none;}.page.active{display:block;}
+.breadcrumb{background:var(--azul-med);padding:.5rem 2rem;display:flex;align-items:center;gap:.4rem;font-size:12px;color:rgba(255,255,255,.7);flex-wrap:wrap;}
+.breadcrumb span{color:var(--dorado-clr);}
+.breadcrumb a{color:rgba(255,255,255,.7);cursor:pointer;text-decoration:none;}
+.breadcrumb a:hover{color:var(--dorado-clr);}
+.main-wrap{max-width:1600px;margin:0 auto;padding:2rem 1.5rem;}
+.hero{background:var(--azul);border-radius:12px;padding:2.5rem 2rem 2rem;margin-bottom:2rem;border-bottom:4px solid var(--dorado);position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(201,168,76,.08);}
+.hero-eyebrow{font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--dorado-clr);text-transform:uppercase;margin-bottom:.6rem;}
+.hero h1{font-size:26px;font-weight:700;color:var(--blanco);line-height:1.3;max-width:680px;margin-bottom:.75rem;}
+.hero p{font-size:14px;color:rgba(255,255,255,.72);max-width:620px;line-height:1.6;}
+.hero-meta{margin-top:1.25rem;display:flex;gap:1.5rem;flex-wrap:wrap;}
+.hero-meta-item{background:rgba(255,255,255,.08);border:1px solid rgba(201,168,76,.3);border-radius:6px;padding:.4rem .85rem;font-size:12px;color:rgba(255,255,255,.8);}
+.hero-meta-item strong{color:var(--dorado-clr);}
+.section-label{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--azul-claro);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;}
+.section-label::after{content:'';flex:1;height:1px;background:var(--gris-borde);}
+.indicadores-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem;}
+.ind-btn{background:var(--blanco);border:1.5px solid var(--gris-borde);border-radius:10px;padding:1.25rem 1.25rem 1rem;cursor:pointer;text-align:left;transition:border-color .2s,box-shadow .2s,transform .15s;position:relative;overflow:hidden;}
+.ind-btn:hover{border-color:var(--azul-claro);box-shadow:0 4px 16px rgba(13,43,85,.12);transform:translateY(-2px);}
+.ind-btn.disabled{opacity:.45;cursor:not-allowed;pointer-events:none;}
+.ind-btn-accent{position:absolute;top:0;left:0;width:4px;height:100%;background:var(--azul);border-radius:10px 0 0 10px;}
+.ind-btn.activo .ind-btn-accent{background:var(--dorado);}
+.ind-btn-tag{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--azul-claro);margin-bottom:.4rem;padding-left:.75rem;}
+.ind-btn.activo .ind-btn-tag{color:var(--dorado);}
+.ind-btn-nombre{font-size:14px;font-weight:600;color:var(--azul);line-height:1.4;padding-left:.75rem;margin-bottom:.5rem;}
+.ind-btn-meta{font-size:12px;color:var(--gris-texto);padding-left:.75rem;line-height:1.4;}
+.ind-btn-footer{margin-top:.75rem;padding-left:.75rem;display:flex;align-items:center;justify-content:space-between;}
+.badge-disponible{font-size:10px;font-weight:600;background:#E8F5EE;color:var(--verde);padding:2px 8px;border-radius:20px;border:1px solid #A8D5B8;}
+.badge-pronto{font-size:10px;font-weight:600;background:var(--dorado-bg);color:#8B6A00;padding:2px 8px;border-radius:20px;border:1px solid #E0C060;}
+.ind-btn-arrow{font-size:16px;color:var(--azul-claro);font-weight:700;}
+.freq-wrap{max-width:1600px;margin:0 auto;padding:2rem 1.5rem;}
+.freq-header{background:var(--azul);border-radius:12px;padding:2rem;margin-bottom:2rem;border-bottom:4px solid var(--dorado);}
+.freq-header h2{color:var(--blanco);font-size:20px;font-weight:700;margin-bottom:.5rem;}
+.freq-header p{color:rgba(255,255,255,.7);font-size:13px;line-height:1.5;}
+.freq-cards{display:grid;grid-template-columns:repeat(3,300px);justify-content:center;gap:1.25rem;}
+.freq-card{display:flex;flex-direction:column;background:var(--blanco);border:2px solid var(--gris-borde);border-radius:12px;padding:2rem 1.5rem;cursor:pointer;text-align:center;transition:border-color .2s,box-shadow .2s,transform .15s;}
+.freq-card:hover{border-color:var(--azul);box-shadow:0 6px 24px rgba(13,43,85,.15);transform:translateY(-3px);}
+.freq-icon{width:56px;height:56px;background:var(--azul);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:24px;}
+.freq-card h3{font-size:18px;font-weight:700;color:var(--azul);margin-bottom:.5rem;}
+.freq-card p{font-size:13px;color:var(--gris-texto);line-height:1.5;margin-bottom:1rem;}
+.freq-card ul{list-style:none;font-size:12px;color:var(--gris-texto);text-align:left;margin-bottom:1.25rem;}
+.freq-card ul li{padding:3px 0 3px 1rem;position:relative;}
+.freq-card ul li::before{content:'▸';position:absolute;left:0;color:var(--dorado);}
+.btn-freq{margin-top:auto;width:100%;padding:.75rem;background:var(--azul);color:var(--blanco);border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s;}
+.btn-freq:hover{background:var(--azul-claro);}
+.freq-nota{margin-top:1.5rem;background:var(--dorado-bg);border:1px solid #E0C060;border-left:4px solid var(--dorado);border-radius:8px;padding:.9rem 1rem;font-size:12px;color:#5A4200;line-height:1.5;}
+.def-box{background:var(--blanco);border:1px solid var(--gris-borde);border-left:4px solid var(--azul-claro);border-radius:10px;padding:1.25rem 1.5rem;margin-bottom:2rem;}
+.def-box-title{font-size:13px;font-weight:700;color:var(--azul);margin-bottom:.6rem;}
+.def-box-sub{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--azul-claro);margin:.9rem 0 .4rem;}
+.def-box-text{font-size:13px;color:var(--gris-texto);line-height:1.6;}
+.interp-box{background:var(--azul);border-radius:10px;border-bottom:4px solid var(--dorado);padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;align-items:flex-start;gap:.7rem;}
+.interp-box-icon{font-size:18px;line-height:1.4;}
+.interp-box-text{font-size:13.5px;color:rgba(255,255,255,.92);line-height:1.6;}
+.interp-box-text b{color:var(--dorado-clr);}
+.dash-header{background:var(--azul);border-radius:12px;padding:1.5rem 2rem;margin-bottom:1.5rem;border-bottom:4px solid var(--dorado);display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.dash-header-left h2{color:var(--blanco);font-size:18px;font-weight:700;margin-bottom:.3rem;}
+.dash-header-left p{color:rgba(255,255,255,.65);font-size:12px;}
+.dash-header-right{display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;}
+.pill-freq{background:var(--dorado);color:var(--azul);font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:.06em;}
+.pill-codigo{background:rgba(255,255,255,.12);color:rgba(255,255,255,.85);font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;}
+.btn-back{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1rem;background:transparent;border:1.5px solid rgba(255,255,255,.4);border-radius:6px;color:rgba(255,255,255,.85);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;}
+.btn-back:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.7);color:var(--blanco);}
+.metricas-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:1.5rem;}
+.metrica-card{background:var(--blanco);border:1px solid var(--gris-borde);border-radius:10px;padding:1rem 1.1rem;position:relative;overflow:hidden;}
+.metrica-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:var(--azul);}
+.metrica-card.meta::before{background:var(--dorado);}
+.metrica-card.up::before{background:var(--rojo);}
+.metrica-card.down::before{background:var(--verde);}
+.metrica-label{font-size:11px;color:var(--gris-texto);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.35rem;}
+.metrica-valor{font-size:28px;font-weight:700;color:var(--azul);line-height:1;margin-bottom:.2rem;}
+.metrica-sub{font-size:11px;color:var(--gris-texto);}
+.metrica-var{font-size:12px;font-weight:600;margin-top:.25rem;}
+.metrica-var.sube{color:var(--rojo);}
+.metrica-var.baja{color:var(--verde);}
+.tabs-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.25rem;}
+.tab-btn{padding:.45rem 1rem;border:1.5px solid var(--gris-borde);border-radius:20px;background:var(--blanco);font-size:12px;font-weight:600;color:var(--gris-texto);cursor:pointer;transition:all .2s;}
+.tab-btn:hover{border-color:var(--azul-claro);color:var(--azul);}
+.tab-btn.active{background:var(--azul);border-color:var(--azul);color:var(--blanco);}
+.tab-panel{display:none;}.tab-panel.active{display:block;}
+.chart-card{background:var(--blanco);border:1px solid var(--gris-borde);border-radius:10px;padding:1.25rem 1.5rem;margin-bottom:1rem;}
+.chart-card-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.75rem;flex-wrap:wrap;gap:.5rem;}
+.chart-title{font-size:14px;font-weight:700;color:var(--azul);}
+.chart-subtitle{font-size:11px;color:var(--gris-texto);margin-top:2px;}
+.chart-source{font-size:10px;color:#9AA5B4;font-style:italic;}
+.limit-box-ps{background:white;border:1px solid #DDE2EE;border-radius:12px;margin-bottom:1.5rem;overflow:hidden;}
+.limit-box-ps summary{cursor:pointer;list-style:none;padding:1rem 1.5rem;display:flex;align-items:center;gap:.6rem;
+  font-size:13px;font-weight:700;color:#4F449A;background:#FDF3D7;border-left:4px solid #F1B620;}
+.limit-box-ps summary::-webkit-details-marker{display:none;}
+.limit-box-ps summary:after{content:'▸';margin-left:auto;font-size:11px;color:#4F449A;transition:transform .2s;}
+.limit-box-ps[open] summary:after{transform:rotate(90deg);}
+.limit-box-ps ol{padding:1rem 1.5rem 1.25rem 2.5rem;}
+.limit-box-ps li{font-size:12.5px;color:#5A6180;line-height:1.6;margin-bottom:.6rem;}
+.limit-box-ps li:last-child{margin-bottom:0;}
+.limit-box-ps li b{color:#4F449A;}
+/* ── MAPA PROVINCIAL ── */
+.mapa-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;align-items:start;}
+@media(max-width:820px){.mapa-grid{grid-template-columns:1fr;}}
+#map-wrap-pe{position:relative;}
+#ec-map-pe{height:500px;border-radius:8px;background:#EAF2FB;}
+.leaflet-container{font-family:Arial, sans-serif;}
+.prov-tooltip{font-family:Arial, sans-serif;font-size:12px;}
+.prov-tooltip b{color:var(--azul);}
+#galapagos-inset-pe{
+  position:absolute;left:12px;bottom:12px;width:140px;background:var(--blanco);
+  border:2px solid var(--gris-borde);border-radius:8px;box-shadow:0 4px 16px rgba(13,43,85,.18);
+  overflow:hidden;z-index:500;
+}
+.inset-label{font-size:10px;font-weight:700;color:var(--azul);text-transform:uppercase;letter-spacing:.4px;padding:5px 8px 3px;border-bottom:1px solid var(--gris-borde);}
+#ec-map-gal-pe{height:86px;cursor:pointer;}
+.legend-box{display:flex;align-items:center;gap:8px;padding:10px 4px 2px;font-size:11px;color:var(--gris-texto);}
+.legend-scale{flex:1;height:10px;border-radius:6px;}
+#prov-lista-pe{padding:2px 2px;display:flex;flex-direction:column;gap:3px;max-height:270px;overflow-y:auto;}
+.prov-row{display:flex;align-items:center;gap:9px;padding:6px 8px;border-radius:8px;cursor:pointer;transition:background .15s;font-size:12.5px;}
+.prov-row:hover,.prov-row.sel{background:var(--gris-bg);}
+.prov-row .rank{width:18px;font-weight:700;color:var(--gris-texto);font-size:11px;}
+.prov-row .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.prov-row .nom{flex:1;}
+.prov-row .val{font-weight:700;color:var(--azul);}
+.prov-detalle{border:1px solid var(--gris-borde);border-radius:10px;padding:12px 14px;margin-top:10px;background:var(--gris-bg);}
+.prov-detalle .pd-nombre{font-size:13px;font-weight:700;color:var(--azul);margin-bottom:6px;}
+.prov-detalle .pd-fila{display:flex;justify-content:space-between;font-size:12px;color:var(--gris-texto);padding:3px 0;border-bottom:1px dashed var(--gris-borde);}
+.prov-detalle .pd-fila:last-child{border-bottom:none;}
+.prov-detalle .pd-fila b{color:#1A2A3A;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
+
+/* ── TOGGLE SERIES ── */
+.toggle-series{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem;}
+.ts-btn{display:flex;align-items:center;gap:6px;padding:.35rem .85rem;border-radius:20px;border:2px solid transparent;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;background:var(--blanco);}
+.ts-btn.off{opacity:.35;filter:grayscale(1);}
+.ts-btn .ts-swatch{width:12px;height:12px;border-radius:2px;flex-shrink:0;}
+
+/* ── FILTROS ── */
+.filtros-bar{background:var(--blanco);border:1px solid var(--gris-borde);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.filtros-bar label{font-size:12px;font-weight:600;color:var(--gris-texto);}
+.filtros-bar select,.filtros-bar input{padding:.35rem .7rem;border:1.5px solid var(--gris-borde);border-radius:6px;font-size:12px;color:var(--azul);background:var(--blanco);cursor:pointer;}
+.filtros-bar select:focus,.filtros-bar input:focus{outline:none;border-color:var(--azul-claro);}
+.btn-reset{padding:.35rem .9rem;background:transparent;border:1.5px solid var(--gris-borde);border-radius:6px;font-size:12px;font-weight:600;color:var(--gris-texto);cursor:pointer;transition:all .2s;}
+.btn-reset:hover{border-color:var(--rojo);color:var(--rojo);}
+.filtros-count{margin-left:auto;font-size:11px;color:var(--gris-texto);font-style:italic;}
+
+/* ── TABLA ── */
+.tabla-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+thead tr{background:var(--azul);}
+thead th{padding:.6rem .85rem;color:var(--blanco);font-weight:600;text-align:left;white-space:nowrap;font-size:12px;cursor:pointer;user-select:none;}
+thead th:hover{background:var(--azul-med);}
+thead th::after{content:' ↕';opacity:.4;font-size:10px;}
+thead th.sort-asc::after{content:' ↑';opacity:1;}
+thead th.sort-desc::after{content:' ↓';opacity:1;}
+tbody tr:nth-child(even){background:var(--gris-bg);}
+tbody tr:hover{background:#EBF0F8;}
+tbody td{padding:.55rem .85rem;color:#1A2A3A;border-bottom:1px solid var(--gris-borde);white-space:nowrap;}
+.td-num{text-align:right;font-variant-numeric:tabular-nums;}
+.td-verde{color:var(--verde);font-weight:600;}
+.td-rojo{color:var(--rojo);font-weight:600;}
+.td-ambar{color:#8B6A00;font-weight:600;}
+.no-rows{text-align:center;color:var(--gris-texto);padding:2rem;font-style:italic;}
+
+/* ── FICHA ── */
+.ficha-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;font-size:13px;}
+.ficha-item{background:var(--gris-bg);border:1px solid var(--gris-borde);border-radius:8px;padding:.75rem 1rem;}
+.ficha-item dt{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--azul-claro);margin-bottom:.25rem;}
+.ficha-item dd{color:#1A2A3A;line-height:1.4;}
+.alerta{background:var(--dorado-bg);border:1px solid #E0C060;border-left:4px solid var(--dorado);border-radius:8px;padding:.85rem 1rem;font-size:12px;color:#5A4200;line-height:1.5;margin-bottom:1rem;}
+
+/* ── AÑO/TRIM SELECTOR ── */
+.periodo-selector{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-bottom:1.25rem;}
+.periodo-selector label{font-size:12px;font-weight:700;color:var(--azul);text-transform:uppercase;letter-spacing:.06em;}
+.periodo-selector select{padding:.4rem .85rem;border:2px solid var(--azul);border-radius:6px;font-size:13px;font-weight:600;color:var(--azul);background:var(--blanco);cursor:pointer;}
+.modo-btn{padding:.4rem 1rem;border:2px solid var(--gris-borde);border-radius:6px;font-size:12px;font-weight:600;color:var(--gris-texto);background:var(--blanco);cursor:pointer;transition:all .2s;}
+.modo-btn.active{background:var(--azul);border-color:var(--azul);color:var(--blanco);}
+.resultado-resumen{background:var(--azul);color:var(--blanco);border-radius:10px;padding:1rem 1.5rem;margin-bottom:1rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap;}
+.resumen-item{text-align:center;}
+.resumen-val{font-size:24px;font-weight:700;color:var(--dorado-clr);}
+.resumen-lab{font-size:11px;color:rgba(255,255,255,.7);margin-top:2px;}
+.legend-row{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--gris-texto);margin-bottom:8px;}
+.legend-item{display:flex;align-items:center;gap:5px;}
+.legend-swatch{width:12px;height:12px;border-radius:2px;flex-shrink:0;}
+.select-año{padding:.35rem .75rem;border:1.5px solid var(--gris-borde);border-radius:6px;font-size:13px;color:var(--azul);background:var(--blanco);cursor:pointer;}
+@media(max-width:680px){.two-col{grid-template-columns:1fr;}.freq-cards{grid-template-columns:1fr;}.ficha-grid{grid-template-columns:1fr;}}
+
+
+/* siluetas sexo */
+.silueta-wrap{display:flex;justify-content:center;align-items:flex-end;gap:3rem;padding:1.5rem 1rem 0.5rem;}
+.silueta-item{text-align:center;}
+.silueta-val{font-size:24px;font-weight:700;line-height:1;margin-top:.5rem;}
+.silueta-label{font-size:13px;font-weight:600;color:#1A2A3A;margin-top:.2rem;}
+.silueta-ic{font-size:11px;color:#4A5568;margin-top:2px;}
+.silueta-cv{font-size:11px;margin-top:2px;}
+/* nota punto destacado */
+.nota-destacado{font-size:11px;color:#4A5568;background:#FDF3D7;border:1px solid #E0C060;border-radius:6px;padding:.4rem .85rem;margin-bottom:.75rem;display:inline-flex;align-items:center;gap:.4rem;}
+.dot-dorado{width:10px;height:10px;border-radius:50%;background:#F0C040;border:2px solid #4F449A;flex-shrink:0;display:inline-block;}
+
+
+
+/* ── ACCIONES ── */
+.acc-filtro{padding:4px 12px;border:1.5px solid var(--gris-borde);border-radius:20px;background:white;font-size:11px;font-weight:600;color:var(--gris-texto);cursor:pointer;font-family:inherit;transition:all .2s;}
+.acc-filtro:hover{border-color:var(--azul);color:var(--azul);}
+.acc-filtro.active{background:var(--azul);border-color:var(--azul);color:white;}
+.acc-tipo-pp{background:#EEF2FF;color:#4338CA;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;white-space:nowrap;}
+.acc-tipo-prog{background:#D1FAE5;color:#065F46;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;white-space:nowrap;}
+.acc-tipo-proy{background:#FEF3C7;color:#92400E;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;white-space:nowrap;}
+.acc-estado{background:#FEF3C7;color:#92400E;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap;}
+.acc-rol-rect{background:#DBEAFE;color:#1E40AF;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;}
+.acc-rol-ejec{background:#EDE9FE;color:#5B21B6;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;}
+.acc-rol-corr{background:#FEF3C7;color:#92400E;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;}
+.acc-rol-art{background:#D1FAE5;color:#065F46;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;}
+.acc-rol-fac{background:#F3F4F6;color:#374151;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;}
+.acc-inc-alta{background:#D1FAE5;color:#065F46;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;}
+
+
+/* ─────────────────────────────────────────────────────────────
+   HOMOLOGACIÓN MTDH: colores de tarjetas de acceso + footer único
+   Regla visual:
+   - Anual / Trimestral / Resultados: azul institucional
+   - Acciones planificadas: amarillo institucional
+   - Cronograma de gestión: verde institucional
+   ───────────────────────────────────────────────────────────── */
+:root{
+  --mdh-blue:#4F449A;
+  --mdh-yellow:#F1B620;
+  --mdh-green:#81A382;
+}
+.card-blue .freq-icon,
+.card-blue .freq-icon-ps,
+.card-blue .freq-icon-d,
+.card-blue .freq-icon-g,
+.card-blue .freq-icon-pi,
+.card-blue .inicio-icon{
+  background:var(--mdh-blue) !important;
+  color:#FFFFFF !important;
+}
+.card-blue .btn-freq,
+.card-blue .btn-freq-ps,
+.card-blue .btn-freq-d,
+.card-blue .btn-freq-g,
+.card-blue .btn-freq-pi,
+.card-blue .btn-inicio-card{
+  background:var(--mdh-blue) !important;
+  border-color:var(--mdh-blue) !important;
+  color:#FFFFFF !important;
+}
+.card-blue:hover{
+  border-color:var(--mdh-blue) !important;
+}
+.card-yellow .freq-icon,
+.card-yellow .freq-icon-ps,
+.card-yellow .freq-icon-d,
+.card-yellow .freq-icon-g,
+.card-yellow .freq-icon-pi,
+.card-yellow .inicio-icon{
+  background:var(--mdh-yellow) !important;
+  color:var(--mdh-blue) !important;
+}
+.card-yellow .btn-freq,
+.card-yellow .btn-freq-ps,
+.card-yellow .btn-freq-d,
+.card-yellow .btn-freq-g,
+.card-yellow .btn-freq-pi,
+.card-yellow .btn-inicio-card{
+  background:var(--mdh-yellow) !important;
+  border-color:var(--mdh-yellow) !important;
+  color:var(--mdh-blue) !important;
+}
+.card-yellow:hover{
+  border-color:var(--mdh-yellow) !important;
+}
+.card-green .freq-icon,
+.card-green .freq-icon-ps,
+.card-green .freq-icon-d,
+.card-green .freq-icon-g,
+.card-green .freq-icon-pi,
+.card-green .inicio-icon{
+  background:var(--mdh-green) !important;
+  color:#FFFFFF !important;
+}
+.card-green .btn-freq,
+.card-green .btn-freq-ps,
+.card-green .btn-freq-d,
+.card-green .btn-freq-g,
+.card-green .btn-freq-pi,
+.card-green .btn-inicio-card{
+  background:var(--mdh-green) !important;
+  border-color:var(--mdh-green) !important;
+  color:#FFFFFF !important;
+}
+.card-green:hover{
+  border-color:var(--mdh-green) !important;
+}
+.dashboard-footer{
+  width:100%;
+  background:var(--mdh-blue);
+  color:rgba(255,255,255,.62);
+  text-align:center;
+  font-family:Arial, Arial, sans-serif;
+  font-size:11px;
+  line-height:1.45;
+  padding:14px 24px;
+  margin-top:32px;
+  box-shadow:0 -1px 8px rgba(79,68,154,.10);
+}
+.dashboard-footer strong{
+  color:rgba(255,255,255,.84);
+  font-weight:700;
+}
+@media(max-width:760px){
+  .dashboard-footer{font-size:10.5px;padding:12px 16px;}
+}
+
+
+
+/* =========================================================
+   HOMOLOGACIÓN MTDH V3 — Migas de navegación y pie de página
+   ========================================================= */
+:root{
+  --mdh-blue:#4F449A;
+  --mdh-blue-2:#37306C;
+  --mdh-yellow:#F1B620;
+  --mdh-footer-h:44px;
+}
+html{min-height:100%;}
+body{
+  min-height:100vh !important;
+  padding-bottom:var(--mdh-footer-h) !important;
+}
+.mdh-breadcrumb,
+.breadcrumb.mdh-breadcrumb{
+  width:100% !important;
+  min-height:34px !important;
+  background:var(--blanco) !important; border-bottom:2px solid var(--gris-bd) !important;
+  padding:8px 32px !important;
+  display:flex !important;
+  align-items:center !important;
+  gap:7px !important;
+  flex-wrap:wrap !important;
+  font-family:Arial, Arial, sans-serif !important;
+  font-size:12px !important;
+  line-height:1.35 !important;
+  color:var(--subtexto) !important;
+  border:0 !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+  margin:0 !important;
+  position:sticky !important;
+  top:105px !important;
+  z-index:96 !important;
+}
+.mdh-breadcrumb a,
+.mdh-breadcrumb .mdh-bc-base{
+  color:var(--subtexto) !important;
+  text-decoration:none !important;
+  font-weight:500 !important;
+  cursor:pointer !important;
+}
+.mdh-breadcrumb a:hover,
+.mdh-breadcrumb .mdh-bc-base:hover{
+  color:var(--azul) !important;
+}
+.mdh-breadcrumb .mdh-bc-sep{
+  color:#9AA5B4 !important;
+  font-weight:600 !important;
+}
+.mdh-breadcrumb .mdh-bc-current{
+  color:var(--texto) !important;
+  font-weight:700 !important;
+}
+.dashboard-footer{
+  position:fixed !important;
+  left:0 !important;
+  right:0 !important;
+  bottom:0 !important;
+  z-index:950 !important;
+  width:100% !important;
+  min-height:var(--mdh-footer-h) !important;
+  background:var(--mdh-blue) !important;
+  color:rgba(255,255,255,.66) !important;
+  text-align:center !important;
+  font-family:Arial, Arial, sans-serif !important;
+  font-size:11px !important;
+  line-height:1.45 !important;
+  padding:14px 24px !important;
+  margin:0 !important;
+  border:0 !important;
+  box-shadow:0 -1px 8px rgba(79,68,154,.14) !important;
+}
+.dashboard-footer strong{
+  color:rgba(255,255,255,.88) !important;
+  font-weight:700 !important;
+}
+@media(max-width:760px){
+  :root{--mdh-footer-h:54px;}
+  .mdh-breadcrumb,
+  .breadcrumb.mdh-breadcrumb{padding:8px 16px !important;font-size:11.5px !important;}
+  .dashboard-footer{font-size:10.5px !important;padding:11px 16px !important;}
+}
+
+
+/* Espacio para franja de navegacion lateral */
+body.has-sidebar { margin-left: var(--sidebar-w); }
+@media (max-width: 900px){ body.has-sidebar { margin-left: 0; } }
+</style>
+</head>
+<body>
+
+<div id="app-sidebar-mount"></div>
+
+<!-- NUEVO HEADER TPM -->
+<div class="tpm-header">
+  <div class="tpm-header-left">
+    <div class="tpm-logo">MTDH</div>
+    <div>
+      <div class="tpm-title">Tasa de pobreza extrema por ingresos — Indicador 1.1.1</div>
+      <div class="tpm-sub">Ministerio de Trabajo y Desarrollo Humano · INEC – ENEMDU Anual y Trimestral</div>
+    </div>
+  </div>
+  <div class="tpm-right">
+    <div class="tpm-badge">2025: 6,83%</div>
+    
+  </div>
+</div>
+<nav class="breadcrumb mdh-breadcrumb" id="mdh-breadcrumb" aria-label="Ruta de navegación"><a href="../index_PND.html">Inicio</a><span class="mdh-bc-sep">›</span><span class="mdh-bc-base">Tasa de pobreza extrema</span><span class="mdh-bc-sep">›</span><span class="mdh-bc-current">Seleccionar periodicidad</span></nav>
+
+
+
+
+<!-- ══ PÁGINA 2: FRECUENCIA ══ -->
+<div id="pg-frecuencia" class="page active">
+  
+
+  <div class="freq-wrap">
+    <div class="freq-header"><h2>Tasa de pobreza extrema por ingresos</h2><p>Selecciona la periodicidad con la que deseas consultar los resultados.</p></div>
+
+    <div class="def-box">
+      <div class="def-box-title">📖 Definición del indicador</div>
+      <p class="def-box-text">Número de personas cuyo ingreso per-cápita es menor a la línea de pobreza extrema, como porcentaje de la población total.</p>
+      </div>
+
+    <details class="limit-box-ps">
+      <summary>⚠️ Limitaciones técnicas del indicador</summary>
+      <ol>
+        <li>Hasta el año 2017, las estadísticas con desglose provincial se generaban a partir de las encuestas realizadas en los meses de diciembre. A partir de 2018, el INEC comenzó a producir estimaciones acumuladas anuales, que permiten desagregación provincial y mayor nivel de desagregación sociodemográfico. No obstante, en 2020, debido a la pandemia por COVID-19, la encuesta de abril no se ejecutó y, además, las encuestas de mayo a agosto se realizaron de manera telefónica, método incompatible con la agregación de muestra requerida por la ENEMDU anual. Por lo tanto, para el año 2020, no se dispone de la ENEMDU acumulada anual. </li>
+        <li>Para los análisis respectivos, es importante tener presente que no son posibles las comparaciones entre los resultados trimestrales de un mismo año, siendo lo adecuado la comparación entre trimestres de los años anteriores o posteriores al cálculo, principalmente por la estacionalidad que pudieran presentar los valores de ciertos indicadores.  </li>
+        <li>En el caso de considerar desagregaciones adicionales se debe analizar parámetros de confiabilidad como por ejemplo el coeficiente de variación, bajo la responsabilidad de cada institución.</li>
+        <li>A partir del año 2026, se generará una nueva encuesta que reemplazará a la Encuesta Nacional de Empleo, Desempleo y Subempleo – ENEMDU, la cual incorporará actualizaciones.</li>
+      </ol>
+    </details>
+
+    <div class="freq-cards">
+      <div class="freq-card card-blue" onclick="irDashboard('anual')">
+        <div class="freq-icon">📅</div><h3>Anual</h3><p>Serie histórica de resultados anuales acumulados</p>
+        <ul><li>Disponible: 2018, 2019, 2021–2025</li><li>Sin dato 2020 (COVID-19)</li><li>Desagregación: Nacional, provincial, urbano, rural, sexo</li></ul>
+        <button class="btn-freq">Ver resultados anuales →</button>
+      </div>
+      <div class="freq-card card-blue" onclick="irDashboard('trimestral')">
+        <div class="freq-icon">📊</div><h3>Trimestral</h3><p>Serie trimestral acumulada</p>
+        <ul><li>Disponible desde IV Trim 2020 hasta I Trim 2026</li><li>Desagregación: Nacional, urbano, rural, sexo</li><li>Sin desagregación provincial</li></ul>
+        <button class="btn-freq">Ver resultados trimestrales →</button>
+      </div>
+      <div class="freq-card card-yellow" onclick="irPagina('pg-acciones')">
+        <div class="freq-icon">📋</div>
+        <h3>Acciones 2026</h3>
+        <p>Cronograma de acciones del MTDH para reducir la pobreza extrema por ingresos</p>
+        <ul>
+          <li><span data-pps-resumen="pobreza-extrema">Acciones y seguimiento mensual</span></li>
+          <li>Cobertura nacional · Frecuencia mensual</li>
+          <li>Presupuesto total: $63,6M</li>
+        </ul>
+        <button class="btn-freq" style="background:var(--dorado);color:#4F449A;">Ver acciones →</button>
+      </div>
+    </div>
+    <div class="freq-nota"><strong>Nota metodológica:</strong> No son comparables los resultados trimestrales de un mismo año entre sí. Comparar entre el mismo trimestre de años distintos. (INEC, Ficha Metodológica v.7)</div>
+  </div>
+</div>
+
+<!-- ══ PÁGINA 3: ANUAL ══ -->
+<div id="pg-anual" class="page">
+  
+
+  <div class="main-wrap">
+    <div class="dash-header">
+      <div class="dash-header-left"><h2>Tasa de pobreza extrema por ingresos</h2><p>ENEMDU Anual Acumulada · INEC · Código 1.1.1</p></div>
+    </div>
+
+    <!-- SELECTOR PERÍODO ANUAL -->
+    <div class="periodo-selector">
+      <label>Ver:</label>
+      <button class="modo-btn active" id="modo-todos" onclick="setModoAnual('todos')">Toda la serie</button>
+      <button class="modo-btn" id="modo-año" onclick="setModoAnual('año')">Por año</button>
+      <span id="wrap-año-anual" style="display:none;align-items:center;gap:.4rem;">
+        <label style="font-size:12px;font-weight:600;color:var(--azul);">Año:</label>
+        <select id="sel-año-principal" onchange="filtrarAnual()">
+          <option value="2025">2025</option><option value="2024">2024</option><option value="2023">2023</option>
+          <option value="2022">2022</option><option value="2021">2021</option><option value="2019">2019</option><option value="2018">2018</option>
+        </select>
+      </span>
+    </div>
+
+    <!-- MÉTRICAS -->
+    <div class="metricas-grid" id="metricas-anual" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">
+      <div class="metrica-card"><div class="metrica-label">Último dato (2025)</div><div class="metrica-valor">6,83%</div><div class="metrica-sub">Nacional</div><div class="metrica-var baja">▼ −2,0 pp vs 2024</div></div>
+      <div class="metrica-card meta"><div class="metrica-label">Meta 2029</div><div class="metrica-valor">7,79%</div><div class="metrica-sub">Meta ya superada en 2025</div><div class="metrica-var baja">✓ −0,96 pp bajo la meta</div></div>
+    </div>
+
+    <!-- INTERPRETACIÓN -->
+    <div class="interp-box">
+      <div class="interp-box-icon">💡</div>
+      <div class="interp-box-text" id="interp-anual-texto">Para el año <b>2025</b>, existe <b>6,83%</b> de personas que viven en hogares cuyo ingreso per-cápita es menor a la línea de pobreza extrema.</div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs-row">
+      <button class="tab-btn active" onclick="activarTab('anual','nacional',this)">Nacional / Área</button>
+      <button class="tab-btn" onclick="activarTab('anual','sexo',this)">Por sexo</button>
+      <button class="tab-btn" onclick="activarTab('anual','provincial',this)">Provincial</button>
+      <button class="tab-btn" onclick="activarTab('anual','tabla',this)">Tabla de datos</button>
+    </div>
+
+    <!-- PANEL: Nacional / Área -->
+    <div id="anual-nacional" class="tab-panel active">
+      <div class="alerta"><strong>Sin dato 2020:</strong> No se dispone de ENEMDU acumulada anual para 2020 por pandemia COVID-19.</div>
+
+      <!-- MODO SERIE: gráfico de línea -->
+      <div id="panel-serie-area">
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div><div class="chart-title">Serie histórica por área — Tasa de pobreza extrema (%)</div><div class="chart-subtitle">2018–2025</div></div>
+            <div class="chart-source">Fuente: INEC, ENEMDU Anual Acumulada</div>
+          </div>
+          <div class="toggle-series">
+            <button class="ts-btn" id="ts-nacional" onclick="toggleSerie('nacional')"><div class="ts-swatch" style="background:#6B3FA0"></div>Nacional</button>
+            <button class="ts-btn" id="ts-urbano"   onclick="toggleSerie('urbano')"  ><div class="ts-swatch" style="background:#2563A8"></div>Urbano</button>
+            <button class="ts-btn" id="ts-rural"    onclick="toggleSerie('rural')"   ><div class="ts-swatch" style="background:#F1B620"></div>Rural</button>
+            <button class="ts-btn" id="ts-meta"     onclick="toggleSerie('meta')"    ><div class="ts-swatch" style="background:#C0392B;border:2px dashed #C0392B"></div>Meta 2029</button>
+          </div>
+          <div style="position:relative;height:340px;"><canvas id="chart-anual-area"></canvas></div>
+        </div>
+      </div>
+
+      <!-- MODO AÑO: tarjetas de área -->
+      <div id="panel-año-cards" style="display:none;">
+        <div id="año-cards-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:1rem;"></div>
+      </div>
+
+      <!-- Urbano vs Rural + Gauge (siempre visibles) -->
+      <div class="two-col" id="panel-dos-cols">
+        <div class="chart-card">
+          <div class="chart-card-header"><div><div class="chart-title" id="title-brecha">Urbano vs Rural</div><div class="chart-subtitle" id="sub-brecha">Brecha por área</div></div></div>
+          <div style="position:relative;height:220px;"><canvas id="chart-brecha"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-header"><div><div class="chart-title">Tendencia nacional vs meta 2029</div><div class="chart-subtitle">Punto dorado = año seleccionado</div></div></div>
+          <div style="position:relative;height:220px;"><canvas id="chart-meta"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL: Por sexo -->
+    <div id="anual-sexo" class="tab-panel">
+      <!-- Modo serie: línea -->
+      <div id="sexo-serie-view">
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div><div class="chart-title">Tasa de pobreza extrema por sexo — Serie histórica (%)</div><div class="chart-subtitle">Nacional · 2018–2025</div></div>
+            <div class="chart-source">INEC, ENEMDU Anual Acumulada</div>
+          </div>
+          <div class="toggle-series">
+            <button class="ts-btn" id="ts-hombre" onclick="toggleSexo('hombre')"><div class="ts-swatch" style="background:#1A5FA8"></div>Hombre</button>
+            <button class="ts-btn" id="ts-mujer"  onclick="toggleSexo('mujer')" ><div class="ts-swatch" style="background:#C0395A"></div>Mujer</button>
+          </div>
+          <div style="position:relative;height:300px;"><canvas id="chart-sexo"></canvas></div>
+        </div>
+      </div>
+      <!-- Modo año: siluetas -->
+      <div id="sexo-año-view" style="display:none;">
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div><div class="chart-title" id="sexo-año-titulo">Tasa de pobreza extrema por sexo</div><div class="chart-subtitle">Nacional</div></div>
+            <div class="chart-source">INEC, ENEMDU Anual Acumulada</div>
+          </div>
+          <div class="silueta-wrap" id="sexo-siluetas"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL: Provincial -->
+    <div id="anual-provincial" class="tab-panel">
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <div><div class="chart-title">Tasa de pobreza extrema por provincia (%)</div><div class="chart-subtitle">Clic en una provincia para ver su estimador y coeficiente de variación · ⚠ en el detalle indica CV &gt; 20%</div></div>
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+            <div id="prov-año-badge" style="background:var(--azul);color:white;font-size:12px;font-weight:700;padding:4px 14px;border-radius:20px;">2025</div>
+            <span class="export-btn-group">
+              <button type="button" class="export-btn" onclick="exportarProvincialCSV_PE()">⬇ Datos CSV</button>
+            </span>
+          </div>
+        </div>
+        <div class="chart-source" style="margin-bottom:8px;">INEC, ENEMDU Anual Acumulada · Sin desagregación provincial en datos trimestrales</div>
+        <div style="position:relative;">
+          <div class="mapa-grid">
+            <div id="map-wrap-pe">
+              <div id="ec-map-pe"></div>
+              <div id="galapagos-inset-pe">
+                <div class="inset-label">Galápagos</div>
+                <div id="ec-map-gal-pe"></div>
+              </div>
+            </div>
+            <div>
+              <div id="prov-lista-pe"></div>
+              <div class="legend-box">
+                <span id="leg-min-pe">0.00%</span>
+                <div class="legend-scale" id="leg-scale-pe"></div>
+                <span id="leg-max-pe">0.00%</span>
+              </div>
+              <div class="prov-detalle" id="prov-detalle-pe" style="display:none;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="alerta"><strong>CV alto:</strong> Provincias con relleno más tenue en el mapa (⚠ en la lista y el detalle) indican CV &gt; 20% — estimaciones con menor precisión estadística. Interpretar con cautela.</div>
+    </div>
+
+    <!-- PANEL: Tabla -->
+    <div id="anual-tabla" class="tab-panel">
+      <div class="filtros-bar">
+        <label>Filtrar:</label>
+        <select id="f-año" onchange="renderTablaAnual()"><option value="">Todos los años</option><option>2025</option><option>2024</option><option>2023</option><option>2022</option><option>2021</option><option>2019</option><option>2018</option></select>
+        <select id="f-area" onchange="renderTablaAnual()"><option value="">Todas las áreas</option><option>Nacional</option><option>Urbano</option><option>Rural</option><option>Hombre</option><option>Mujer</option></select>
+        <input type="text" id="f-texto" placeholder="Buscar..." oninput="renderTablaAnual()" style="width:130px;">
+        <button class="btn-reset" onclick="resetFiltros()">✕ Limpiar</button>
+        <span class="filtros-count" id="f-count"></span>
+      </div>
+      <div class="chart-card" style="padding:0;overflow:hidden;">
+        <div class="tabla-wrap"><table>
+          <thead><tr>
+            <th onclick="sortTabla(0)">Año</th><th onclick="sortTabla(1)">Área / Grupo</th>
+            <th onclick="sortTabla(2)">Estimador</th><th onclick="sortTabla(3)">L. Inferior</th>
+            <th onclick="sortTabla(4)">L. Superior</th><th onclick="sortTabla(5)">CV</th>
+            <th onclick="sortTabla(6)">Numerador</th><th onclick="sortTabla(7)">Denominador</th>
+            <th onclick="sortTabla(8)">vs Meta 2029</th>
+          </tr></thead>
+          <tbody id="tbody-anual"></tbody>
+        </table></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PÁGINA 4: TRIMESTRAL ══ -->
+<div id="pg-trimestral" class="page">
+  
+
+  <div class="main-wrap">
+    <div class="dash-header">
+      <div class="dash-header-left"><h2>Tasa de pobreza extrema por ingresos</h2><p>ENEMDU Trimestral Acumulada · INEC · Código 1.1.1</p></div>
+    </div>
+    <div class="alerta"><strong>Comparación correcta:</strong> Comparar entre el mismo trimestre de años distintos (ej. I Trim 2024 vs I Trim 2025). No comparar trimestres del mismo año por estacionalidad.</div>
+
+    <!-- SELECTOR PERÍODO TRIMESTRAL -->
+    <div class="periodo-selector" style="flex-wrap:wrap;gap:.6rem;">
+      <label>Ver:</label>
+      <button class="modo-btn active" id="tm-todos" onclick="setModoTrim('todos')">Toda la serie</button>
+      <button class="modo-btn" id="tm-año"   onclick="setModoTrim('año')">Por año</button>
+      <button class="modo-btn" id="tm-trim"  onclick="setModoTrim('trim')">Por trimestre</button>
+      <span id="wrap-año-trim" style="display:none;align-items:center;gap:.4rem;">
+        <label style="font-size:12px;font-weight:600;color:var(--azul);">Año:</label>
+        <select id="sel-año-trim" onchange="filtrarTrim()">
+          <option value="2026">2026</option><option value="2025">2025</option><option value="2024">2024</option>
+          <option value="2023">2023</option><option value="2022">2022</option><option value="2021">2021</option><option value="2020">2020</option>
+        </select>
+      </span>
+      <span id="wrap-trim-num" style="display:none;align-items:center;gap:.4rem;">
+        <label style="font-size:12px;font-weight:600;color:var(--azul);">Trimestre:</label>
+        <select id="sel-trim-num" onchange="filtrarTrim()">
+          <option value="I">I Trimestre</option><option value="II">II Trimestre</option>
+          <option value="III">III Trimestre</option><option value="IV">IV Trimestre</option>
+        </select>
+      </span>
+    </div>
+
+    <!-- MÉTRICAS TRIM -->
+    <div class="metricas-grid" id="metricas-trim" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));">
+      <div class="metrica-card"><div class="metrica-label">Nacional</div><div class="metrica-valor" id="mv-nac-trim">—</div><div class="metrica-sub" id="ms-nac-trim">—</div></div>
+      <div class="metrica-card"><div class="metrica-label">Urbano</div><div class="metrica-valor" id="mv-urb-trim">—</div><div class="metrica-sub" id="ms-urb-trim">—</div></div>
+      <div class="metrica-card"><div class="metrica-label">Rural</div><div class="metrica-valor" id="mv-rur-trim">—</div><div class="metrica-sub" id="ms-rur-trim">—</div></div>
+      <div class="metrica-card meta"><div class="metrica-label">Meta 2029 (ref. anual)</div><div class="metrica-valor">7,79%</div><div class="metrica-sub">No comparable con trim.</div></div>
+    </div>
+
+    <div class="tabs-row">
+      <button class="tab-btn active" onclick="activarTab('trim','serie',this)">Serie trimestral</button>
+      <button class="tab-btn" onclick="activarTab('trim','sexo',this)">Por sexo</button>
+      <button class="tab-btn" onclick="activarTab('trim','tabla',this)">Tabla de datos</button>
+    </div>
+
+    <div id="trim-serie" class="tab-panel active">
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <div><div class="chart-title" id="title-trim-serie">Serie trimestral acumulada (%)</div><div class="chart-subtitle" id="sub-trim-serie">IV Trim 2020 – I Trim 2026</div></div>
+          <div class="chart-source">INEC, ENEMDU Trimestral Acumulada</div>
+        </div>
+        <div class="toggle-series">
+          <button class="ts-btn" id="ts-t-nac" onclick="toggleTrimSerie('nac')"><div class="ts-swatch" style="background:#6B3FA0"></div>Nacional</button>
+          <button class="ts-btn" id="ts-t-urb" onclick="toggleTrimSerie('urb')"><div class="ts-swatch" style="background:#1A3A6B"></div>Urbano</button>
+          <button class="ts-btn" id="ts-t-rur" onclick="toggleTrimSerie('rur')"><div class="ts-swatch" style="background:#C0622D"></div>Rural</button>
+        </div>
+        <div style="position:relative;height:340px;"><canvas id="chart-trim-serie"></canvas></div>
+      </div>
+    </div>
+
+    <div id="trim-sexo" class="tab-panel">
+      <!-- Vista siluetas (un solo período) -->
+      <div id="trim-sexo-siluetas" style="display:none;">
+        <div class="chart-card">
+          <div class="chart-card-header"><div><div class="chart-title" id="title-trim-sexo-sil">Pobreza extrema por sexo</div><div class="chart-subtitle">Nacional</div></div><div class="chart-source">INEC, ENEMDU Trimestral Acumulada</div></div>
+          <div class="silueta-wrap" id="trim-siluetas-wrap"></div>
+        </div>
+      </div>
+      <!-- Vista gráfico (serie) -->
+      <div id="trim-sexo-chart">
+      <div class="chart-card">
+        <div class="chart-card-header"><div><div class="chart-title" id="title-trim-sexo">Serie trimestral por sexo (%)</div><div class="chart-subtitle">Nacional</div></div><div class="chart-source">INEC, ENEMDU Trimestral Acumulada</div></div>
+        <div class="toggle-series">
+          <button class="ts-btn" id="ts-t-h" onclick="toggleTrimSexo('h')"><div class="ts-swatch" style="background:#1A5FA8"></div>Hombre</button>
+          <button class="ts-btn" id="ts-t-m" onclick="toggleTrimSexo('m')"><div class="ts-swatch" style="background:#C0395A"></div>Mujer</button>
+        </div>
+        <div style="position:relative;height:320px;"><canvas id="chart-trim-sexo"></canvas></div>
+      </div>
+      </div><!-- fin trim-sexo-chart -->
+    </div>
+
+    <div id="trim-tabla" class="tab-panel">
+      <div class="filtros-bar">
+        <label>Filtrar:</label>
+        <select id="ft-año" onchange="renderTablaTrim()"><option value="">Todos los años</option><option>2026</option><option>2025</option><option>2024</option><option>2023</option><option>2022</option><option>2021</option><option>2020</option></select>
+        <select id="ft-trim" onchange="renderTablaTrim()"><option value="">Todos los trimestres</option><option value="I">I Trim</option><option value="II">II Trim</option><option value="III">III Trim</option><option value="IV">IV Trim</option></select>
+        <select id="ft-area" onchange="renderTablaTrim()"><option value="">Todas las áreas</option><option>Nacional</option><option>Urbano</option><option>Rural</option><option>Hombre</option><option>Mujer</option></select>
+        <button class="btn-reset" onclick="resetFiltrosTrim()">✕ Limpiar</button>
+        <span class="filtros-count" id="ft-count"></span>
+      </div>
+      <div class="chart-card" style="padding:0;overflow:hidden;">
+        <div class="tabla-wrap"><table>
+          <thead><tr><th onclick="sortTablaTrim(0)">Período</th><th onclick="sortTablaTrim(1)">Área / Grupo</th><th onclick="sortTablaTrim(2)">Estimador</th><th onclick="sortTablaTrim(3)">L. Inferior</th><th onclick="sortTablaTrim(4)">L. Superior</th><th onclick="sortTablaTrim(5)">CV</th></tr></thead>
+          <tbody id="tbody-trim"></tbody>
+        </table></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/cargar-datos.js"></script>
+<script>
+// Datos de esta página (carpeta datos/). Ver datos/LEEME.md
+cargarDatos({
+  CATALOGO: { archivo: '../datos/pnd/proteccion_social/pnd_ps_indicadores.csv', forma: 'filas', texto: ['codigo_meta'] },
+  ANUAL_GEO: { archivo: '../datos/pnd/proteccion_social/pobreza_extrema/anual_territorio.csv', forma: 'filas', texto: ['año', 'area'] },
+  ANUAL_SEXO: { archivo: '../datos/pnd/proteccion_social/pobreza_extrema/anual_sexo.csv', forma: 'filas', texto: ['año', 'sexo'] },
+  PROVINCIAL: { archivo: '../datos/pnd/proteccion_social/pobreza_extrema/anual_provincias.csv', forma: 'grupos', clave: 'anio', texto: ['p'] },
+  TRIM_GEO: { archivo: '../datos/pnd/proteccion_social/pobreza_extrema/trimestral_territorio.csv', forma: 'filas', texto: ['per'] },
+  TRIM_SEXO: { archivo: '../datos/pnd/proteccion_social/pobreza_extrema/trimestral_sexo.csv', forma: 'filas', texto: ['per'] }
+});
+</script>
+<script type="text/plain" data-tras-datos>
+/* ═══════════════ NAVEGACIÓN ═══════════════ */
+function irPagina(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);if(id==='pg-acciones')setTimeout(buildAcciones,50);}
+function irIndicador(){irPagina('pg-frecuencia');}
+function irDashboard(freq){
+  if(freq==='anual'){irPagina('pg-anual');if(!window._anualBuilt){buildAnual();window._anualBuilt=true;}}
+  else{irPagina('pg-trimestral');if(!window._trimBuilt){buildTrim();window._trimBuilt=true;}}
+}
+function activarTab(prefix,name,btn){
+  const pg=prefix==='trim'?'pg-trimestral':'pg-anual';
+  document.querySelectorAll('#'+pg+' .tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const p=prefix==='trim'?'trim':'anual';
+  document.querySelectorAll('[id^="'+p+'-"]').forEach(el=>el.classList.remove('active'));
+  document.getElementById(p+'-'+name).classList.add('active');
+  if (name==='provincial'){
+    if (!mapaPE) renderProv(_ultimoAnioProvPE);
+    else setTimeout(()=>mapaPE.invalidateSize(), 30);
+  }
+}
+
+/* ═══════════════ COLORES Y DATOS ═══════════════ */
+// Meta 2029 tomada del catálogo de indicadores PND (pnd_ps_indicadores.csv, en %)
+const META=+(CATALOGO.find(i=>i.indicador_id==='pobreza-extrema').meta_2029/100).toFixed(6);
+const C={
+  nacional:'#6B3FA0',
+  urbano:'#1A3A6B',
+  rural:'#C0622D',
+  meta:'#C0392B',
+  dorado:'#F1B620',
+  verde:'#81A382',
+  hombre:'#1A5FA8',
+  mujer:'#C0395A'
+};
+const pct=v=>(v*100).toFixed(2)+'%';
+
+
+/* ═══════════════ ESTADO ═══════════════ */
+const seriesOn={nacional:true,urbano:true,rural:true,meta:true};
+const sexoOn={hombre:true,mujer:true};
+const trimSerieOn={nac:true,urb:true,rur:true};
+const trimSexoOn={h:true,m:true};
+let chartArea=null,chartBrecha=null,chartMeta=null,chartSexo=null,chartProv=null;
+let chartTrimSerie=null,chartTrimSexo=null;
+let modoAnual='todos',modoTrim='todos';
+let sortColAnual=-1,sortDirAnual=1,sortColTrim=-1,sortDirTrim=1;
+let TABLA_ANUAL_DATA=[];
+let _añoSelTrim='',_trimSelNum='';
+
+/* ═══════════════ MODO ANUAL ═══════════════ */
+function setModoAnual(m){
+  modoAnual=m;
+  document.getElementById('modo-todos').classList.toggle('active',m==='todos');
+  document.getElementById('modo-año').classList.toggle('active',m==='año');
+  document.getElementById('wrap-año-anual').style.display=m==='año'?'inline-flex':'none';
+  filtrarAnual();
+}
+function filtrarAnual(){
+  const año=document.getElementById('sel-año-principal').value;
+  const anos=modoAnual==='todos'?['2018','2019','2021','2022','2023','2024','2025']:[año];
+  const esSerie=modoAnual==='todos';
+  document.getElementById('panel-serie-area').style.display=esSerie?'block':'none';
+  document.getElementById('panel-año-cards').style.display=esSerie?'none':'block';
+  document.getElementById('sexo-serie-view').style.display=esSerie?'block':'none';
+  document.getElementById('sexo-año-view').style.display=esSerie?'none':'block';
+  if(esSerie){
+    actualizarChartArea(anos);
+  } else {
+    renderTarjetasAño(año);
+    renderSiluetas(año);
+  }
+  actualizarChartsBrechaYMeta(anos[anos.length-1]);
+  actualizarMetricas(anos);
+  // Actualizar provincial con el año seleccionado
+  const añoProv = modoAnual==='todos' ? '2025' : año;
+  renderProv(añoProv);
+}
+function actualizarMetricas(anos){
+  const ult=anos[anos.length-1];
+  const d=ANUAL_GEO.find(r=>r.año===ult&&r.area==='Nacional');
+  if(!d)return;
+  const prev=anos.length>1?ANUAL_GEO.find(r=>r.año===anos[anos.length-2]&&r.area==='Nacional'):null;
+  const diff=prev?((d.est-prev.est)*100).toFixed(2):null;
+  const box=document.getElementById('metricas-anual');
+  box.innerHTML=
+    '<div class="metrica-card"><div class="metrica-label">Nacional '+ult+'</div><div class="metrica-valor">'+pct(d.est)+'</div><div class="metrica-sub">Nacional</div>'+(diff?'<div class="metrica-var '+(parseFloat(diff)>0?'sube':'baja')+'">'+(parseFloat(diff)>0?'▲':'▼')+' '+Math.abs(diff)+' pp vs '+anos[anos.length-2]+'</div>':'')+'</div>'+
+    '<div class="metrica-card meta"><div class="metrica-label">Meta 2029</div><div class="metrica-valor">7,79%</div><div class="metrica-sub">'+(d.est<=META?'✓ Meta superada':'Por reducir')+'</div><div class="metrica-var '+(d.est<=META?'baja':'sube')+'">'+(d.est<=META?'▼ −'+((META-d.est)*100).toFixed(2)+' pp bajo la meta':'▲ +'+((d.est-META)*100).toFixed(2)+' pp sobre la meta')+'</div></div>';
+  const interpEl=document.getElementById('interp-anual-texto');
+  if(interpEl) interpEl.innerHTML='Para el año <b>'+ult+'</b>, existe <b>'+pct(d.est)+'</b> de personas que viven en hogares cuyo ingreso per-cápita es menor a la línea de pobreza extrema.';
+}
+
+/* ═══════════════ CHART ÁREA (serie histórica) ═══════════════ */
+function actualizarChartArea(anos){
+  if(!chartArea)return;
+  chartArea.data.labels=anos;
+  chartArea.data.datasets[0].data=anos.map(a=>{const r=ANUAL_GEO.find(d=>d.año===a&&d.area==='Nacional');return r?+(r.est*100).toFixed(4):null;});
+  chartArea.data.datasets[1].data=anos.map(a=>{const r=ANUAL_GEO.find(d=>d.año===a&&d.area==='Urbano'); return r?+(r.est*100).toFixed(4):null;});
+  chartArea.data.datasets[2].data=anos.map(a=>{const r=ANUAL_GEO.find(d=>d.año===a&&d.area==='Rural');  return r?+(r.est*100).toFixed(4):null;});
+  chartArea.data.datasets[3].data=anos.map(()=>META*100);
+  [0,1,2,3].forEach((i,_)=>{ chartArea.data.datasets[i].hidden=[!seriesOn.nacional,!seriesOn.urbano,!seriesOn.rural,!seriesOn.meta][i]; });
+  chartArea.update();
+}
+function toggleSerie(key){
+  seriesOn[key]=!seriesOn[key];
+  document.getElementById('ts-'+key).classList.toggle('off',!seriesOn[key]);
+  if(chartArea){chartArea.data.datasets[{nacional:0,urbano:1,rural:2,meta:3}[key]].hidden=!seriesOn[key];chartArea.update();}
+}
+function toggleSexo(key){
+  sexoOn[key]=!sexoOn[key];
+  document.getElementById('ts-'+key).classList.toggle('off',!sexoOn[key]);
+  if(chartSexo){chartSexo.data.datasets[{hombre:0,mujer:1}[key]].hidden=!sexoOn[key];chartSexo.update();}
+}
+
+/* ═══════════════ BRECHA URBANO/RURAL ═══════════════ */
+function actualizarChartsBrechaYMeta(ult){
+  const u=ANUAL_GEO.find(r=>r.año===ult&&r.area==='Urbano');
+  const ru=ANUAL_GEO.find(r=>r.año===ult&&r.area==='Rural');
+  if(!u||!ru)return;
+  const brecha=((ru.est-u.est)*100).toFixed(1);
+  const tit=document.getElementById('title-brecha');
+  const sub=document.getElementById('sub-brecha');
+  if(tit) tit.textContent='Urbano vs Rural — '+ult;
+  if(sub) sub.textContent='Brecha: '+brecha+' pp';
+  if(chartBrecha){chartBrecha.data.datasets[0].data=[+(u.est*100).toFixed(2),+(ru.est*100).toFixed(2)];chartBrecha.update();}
+  renderChartMeta(ult);
+}
+
+/* ═══════════════ CHART META (tendencia nacional + meta punteada) ═══════════════ */
+function renderChartMeta(añoDestacado){
+  const anos=['2018','2019','2021','2022','2023','2024','2025'];
+  const vals=anos.map(a=>{const r=ANUAL_GEO.find(d=>d.año===a&&d.area==='Nacional');return r?+(r.est*100).toFixed(4):null;});
+  const idxDest=anos.indexOf(añoDestacado);
+
+  // Radios y colores por punto
+  const pRadios=anos.map((_,i)=>i===idxDest?8:4);
+  const pColors=anos.map((_,i)=>i===idxDest?'#F0C040':C.nacional);
+  const pBorder=anos.map((_,i)=>i===idxDest?'#4F449A':'#fff');
+  const pBWidth=anos.map((_,i)=>i===idxDest?2.5:1.5);
+
+  if(chartMeta){
+    chartMeta.data.labels=anos;
+    chartMeta.data.datasets[0].data=vals;
+    chartMeta.data.datasets[0].pointRadius=pRadios;
+    chartMeta.data.datasets[0].pointBackgroundColor=pColors;
+    chartMeta.data.datasets[0].pointBorderColor=pBorder;
+    chartMeta.data.datasets[0].pointBorderWidth=pBWidth;
+    chartMeta.update();
+    return;
+  }
+
+  chartMeta=new Chart(document.getElementById('chart-meta'),{
+    type:'line',
+    data:{labels:anos,datasets:[
+      {
+        label:'Nacional',data:vals,
+        borderColor:C.nacional,borderWidth:2.5,
+        pointRadius:pRadios,pointBackgroundColor:pColors,
+        pointBorderColor:pBorder,pointBorderWidth:pBWidth,
+        fill:false,tension:.3
+      },
+      {
+        label:'Meta 2029',data:anos.map(()=>META*100),
+        borderColor:C.meta,borderDash:[6,4],borderWidth:1.5,
+        pointRadius:0,fill:false
+      }
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{
+          label:ctx=>{
+            if(ctx.datasetIndex===1) return 'Meta 2029: '+(META*100).toFixed(2)+'%';
+            return 'Nacional: '+ctx.parsed.y.toFixed(2)+'%'+(anos[ctx.dataIndex]===añoDestacado?' ◀ seleccionado':'');
+          }
+        }}
+      },
+      scales:{
+        y:{min:5,max:12,ticks:{callback:v=>v+'%',font:{size:10}},grid:{color:'rgba(0,0,0,0.06)'}},
+        x:{grid:{display:false},ticks:{font:{size:10},autoSkip:false}}
+      }
+    }
+  });
+}
+
+/* ═══════════════ TARJETAS AÑO ═══════════════ */
+function renderTarjetasAño(año){
+  const grid=document.getElementById('año-cards-grid');
+  const cols={Nacional:C.nacional,Urbano:C.urbano,Rural:C.rural};
+  let html='';
+  Object.entries(cols).forEach(([area,color])=>{
+    const d=ANUAL_GEO.find(r=>r.año===año&&r.area===area);
+    if(!d)return;
+    const cumple=d.est<=META;
+    const cvCls=d.cv>0.20?'color:#C0392B;font-weight:700':d.cv>0.15?'color:#8B6A00;font-weight:700':'color:#4A5568';
+    html+='<div style="background:#fff;border:1px solid #D1D9E6;border-radius:10px;overflow:hidden;">'+
+      '<div style="height:4px;background:'+color+';"></div>'+
+      '<div style="padding:1rem 1.1rem;">'+
+      '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#4A5568;margin-bottom:.4rem;">'+area+'</div>'+
+      '<div style="font-size:26px;font-weight:700;color:'+color+';line-height:1;">'+pct(d.est)+'</div>'+
+      '<div style="font-size:11px;color:#4A5568;margin-top:.3rem;">IC: ['+pct(d.li)+' – '+pct(d.ls)+']</div>'+
+      '<div style="font-size:11px;margin-top:.25rem;'+cvCls+'">CV: '+(d.cv*100).toFixed(1)+'%</div>'+
+      '<div style="font-size:11px;margin-top:.5rem;font-weight:600;'+(cumple?'color:#81A382':'color:#C0392B')+'">'+(cumple?'✓ Cumple meta 2029':'✗ Por reducir')+'</div>'+
+      '</div></div>';
+  });
+  grid.innerHTML=html;
+}
+
+/* ═══════════════ SILUETAS SEXO (estilo pictograma) ═══════════════ */
+function renderSiluetas(año){
+  const wrap=document.getElementById('sexo-siluetas');
+  const titulo=document.getElementById('sexo-año-titulo');
+  if(!wrap)return;
+  const h=ANUAL_SEXO.find(r=>r.año===año&&r.sexo==='Hombre');
+  const m=ANUAL_SEXO.find(r=>r.año===año&&r.sexo==='Mujer');
+  if(!h||!m)return;
+  if(titulo) titulo.textContent='Tasa de pobreza extrema por sexo — '+año;
+
+  const tarjeta=(d,label,color,imgSrc)=>
+    '<div class="silueta-item">'+
+    '<img src="'+imgSrc+'" alt="'+label+'" style="width:90px;height:90px;object-fit:contain;display:block;margin:0 auto;">'+
+    '<div class="silueta-val" style="color:'+color+';margin-top:.5rem;">'+pct(d.est)+'</div>'+
+    '<div class="silueta-label">'+label+'</div>'+
+    '<div class="silueta-ic">IC: ['+pct(d.li)+' – '+pct(d.ls)+']</div>'+
+    '<div class="silueta-cv" style="'+(d.cv>0.15?'color:#C0392B;font-weight:700':'color:#4A5568')+'">CV: '+(d.cv*100).toFixed(1)+'%</div>'+
+    '</div>';
+
+  wrap.innerHTML=
+    tarjeta(h,'Hombre','#1A5FA8','../imagenes/hombre.png')+
+    '<div style="width:1px;height:130px;background:#D1D9E6;align-self:center;"></div>'+
+    tarjeta(m,'Mujer','#C0395A','../imagenes/mujer.png');
+}
+
+/* ═══════════════ BUILD ANUAL ═══════════════ */
+function buildAnual(){
+  const anos=['2018','2019','2021','2022','2023','2024','2025'];
+  const nac=anos.map(a=>{const r=ANUAL_GEO.find(d=>d.año===a&&d.area==='Nacional');return r?+(r.est*100).toFixed(4):null;});
+  const urb=anos.map(a=>{const r=ANUAL_GEO.find(d=>d.año===a&&d.area==='Urbano'); return r?+(r.est*100).toFixed(4):null;});
+  const rur=anos.map(a=>{const r=ANUAL_GEO.find(d=>d.año===a&&d.area==='Rural');  return r?+(r.est*100).toFixed(4):null;});
+
+  chartArea=new Chart(document.getElementById('chart-anual-area'),{
+    type:'line',data:{labels:anos,datasets:[
+      {label:'Nacional',data:nac,borderColor:C.nacional,borderWidth:2.5,pointRadius:5,pointBackgroundColor:C.nacional,fill:false,tension:.3},
+      {label:'Urbano',  data:urb,borderColor:C.urbano,borderWidth:2,borderDash:[5,3],pointRadius:4,pointBackgroundColor:C.urbano,fill:false,tension:.3},
+      {label:'Rural',   data:rur,borderColor:C.rural,borderWidth:2.5,pointRadius:5,pointBackgroundColor:C.rural,fill:false,tension:.3},
+      {label:'Meta 2029',data:anos.map(()=>META*100),borderColor:C.meta,borderDash:[8,4],borderWidth:1.5,pointRadius:0,fill:false},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.parsed.y.toFixed(2)+'%'}}},
+      scales:{y:{min:0,max:25,ticks:{callback:v=>v+'%',font:{size:11}},grid:{color:'rgba(0,0,0,0.06)'}},x:{grid:{display:false},ticks:{autoSkip:false}}}}
+  });
+
+  const u25=ANUAL_GEO.find(r=>r.año==='2025'&&r.area==='Urbano');
+  const r25=ANUAL_GEO.find(r=>r.año==='2025'&&r.area==='Rural');
+  chartBrecha=new Chart(document.getElementById('chart-brecha'),{
+    type:'bar',data:{labels:['Urbano','Rural'],datasets:[{data:[+(u25.est*100).toFixed(2),+(r25.est*100).toFixed(2)],backgroundColor:[C.urbano,C.rural],borderRadius:6}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.parsed.y.toFixed(2)+'%'}}},
+      scales:{y:{min:0,max:25,ticks:{callback:v=>v+'%',font:{size:11}},grid:{color:'rgba(0,0,0,0.06)'}},x:{grid:{display:false}}}}
+  });
+
+  renderChartMeta('2025');
+
+  const anosS=[...new Set(ANUAL_SEXO.map(d=>d.año))];
+  chartSexo=new Chart(document.getElementById('chart-sexo'),{
+    type:'line',data:{labels:anosS,datasets:[
+      {label:'Hombre',data:anosS.map(a=>{const r=ANUAL_SEXO.find(d=>d.año===a&&d.sexo==='Hombre');return r?+(r.est*100).toFixed(4):null;}),borderColor:C.hombre,borderWidth:2,pointRadius:4,pointBackgroundColor:C.hombre,fill:false,tension:.3},
+      {label:'Mujer', data:anosS.map(a=>{const r=ANUAL_SEXO.find(d=>d.año===a&&d.sexo==='Mujer'); return r?+(r.est*100).toFixed(4):null;}),borderColor:C.mujer,borderWidth:2,borderDash:[5,3],pointRadius:4,pointBackgroundColor:C.mujer,fill:false,tension:.3},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.parsed.y.toFixed(2)+'%'}}},
+      scales:{y:{min:0,max:14,ticks:{callback:v=>v+'%',font:{size:11}},grid:{color:'rgba(0,0,0,0.06)'}},x:{grid:{display:false},ticks:{autoSkip:false}}}}
+  });
+
+  renderProv('2025');
+  buildTablaAnualData();
+  renderTablaAnual();
+}
+
+/* ═══════════════ PROVINCIAL — mapa coroplético ═══════════════ */
+let mapaPE = null;
+function initMapaPE(){
+  if (mapaPE) return;
+  mapaPE = crearMapaEcuador({
+    mapId: 'ec-map-pe', galId: 'ec-map-gal-pe',
+    overrides: { 'SANTO DOMINGO': 'Sto. Domingo' },
+    onSelect: (prov) => mostrarDetalleProvPE(prov)
+  });
+}
+
+let _filasProvPE = [];
+function mostrarDetalleProvPE(prov){
+  const fila = _filasProvPE.find(f => f.p === prov) || null;
+  document.querySelectorAll('#prov-lista-pe .prov-row').forEach(r=>r.classList.toggle('sel', r.dataset.p===prov));
+  mapaPE.highlight(prov);
+  const el = document.getElementById('prov-detalle-pe');
+  if (!fila){ el.style.display='none'; return; }
+  const valor = fila.est*100;
+  el.style.display='block';
+  el.innerHTML = `
+    <div class="pd-nombre">${prov}</div>
+    <div class="pd-fila"><span>Estimador</span><b>${valor.toFixed(2)}%</b></div>
+    <div class="pd-fila"><span>Coef. de variación</span><b>${(fila.cv*100).toFixed(1)}%${fila.cv>.20?' ⚠':''}</b></div>
+    <div class="pd-fila"><span>Meta nacional 2029</span><b>${(META*100).toFixed(2)}%</b></div>
+  `;
+}
+
+let _ultimoAnioProvPE = '2025';
+
+function renderProv(año){
+  const datos=PROVINCIAL[año];if(!datos)return;
+  _ultimoAnioProvPE = año;
+  const badge=document.getElementById('prov-año-badge');
+  if(badge)badge.textContent=año;
+  // No dibujar Leaflet mientras la pestaña "Provincial" está oculta (display:none) —
+  // con contenedor de tamaño cero el mapa queda mal encuadrado. Se dibuja cuando se muestre.
+  if (!document.getElementById('anual-provincial').classList.contains('active')) return;
+  initMapaPE();
+
+  const filas = datos.slice().sort((a,b)=>b.est-a.est).map(d => ({
+    p: d.p, value: d.est, cvAlto: d.cv>.20,
+    est: d.est, cv: d.cv,
+    tooltip: (d.est*100).toFixed(2)+'%  (CV: '+(d.cv*100).toFixed(1)+'%'+(d.cv>.20?' ⚠':'')+')'
+  }));
+  _filasProvPE = filas;
+  const maxV = mapaPE.render(filas, '#6B3FA0');
+
+  document.getElementById('leg-scale-pe').style.background = 'linear-gradient(90deg, #F5F6F8, #6B3FA0)';
+  document.getElementById('leg-min-pe').textContent = '0.00%';
+  document.getElementById('leg-max-pe').textContent = (maxV*100).toFixed(2)+'%';
+
+  document.getElementById('prov-lista-pe').innerHTML = filas.map((d,i)=>{
+    const t = maxV>0 ? d.value/maxV : 0;
+    const color = _ecmapInterpola('#D9D2E8','#6B3FA0', Math.sqrt(t));
+    return `<div class="prov-row" data-p="${d.p}" onclick="mostrarDetalleProvPE('${d.p.replace(/'/g,"\\'")}')">
+      <span class="rank">${i+1}</span>
+      <span class="dot" style="background:${color};"></span>
+      <span class="nom">${d.p}</span>
+      <span class="val">${(d.est*100).toFixed(2)}%${d.cvAlto?' ⚠':''}</span>
+    </div>`;
+  }).join('');
+
+  document.getElementById('prov-detalle-pe').style.display='none';
+  mapaPE.clearHighlight();
+}
+
+function exportarProvincialCSV_PE(){
+  const filas = [..._filasProvPE].sort((a,b)=>b.est-a.est)
+    .map(d => [d.p, (d.est*100).toFixed(3), (d.cv*100).toFixed(2)]);
+  descargarCSV('pobreza_extrema_provincial_'+_ultimoAnioProvPE, ['Provincia','Pobreza extrema (%)','CV (%)'], filas);
+}
+
+/* ═══════════════ TABLA ANUAL ═══════════════ */
+function buildTablaAnualData(){
+  TABLA_ANUAL_DATA=[];
+  ['2018','2019','2021','2022','2023','2024','2025'].forEach(a=>{
+    ANUAL_GEO.filter(d=>d.año===a).forEach(d=>{TABLA_ANUAL_DATA.push([a,d.area,d.est,d.li,d.ls,d.cv,d.num,d.den]);});
+    ANUAL_SEXO.filter(d=>d.año===a).forEach(d=>{TABLA_ANUAL_DATA.push([a,d.sexo,d.est,d.li,d.ls,d.cv,null,null]);});
+  });
+}
+function resetFiltros(){['f-año','f-area'].forEach(id=>document.getElementById(id).value='');document.getElementById('f-texto').value='';renderTablaAnual();}
+function renderTablaAnual(){
+  let data=[...TABLA_ANUAL_DATA];
+  const fAño=document.getElementById('f-año').value;
+  const fArea=document.getElementById('f-area').value;
+  const fTxt=document.getElementById('f-texto').value.toLowerCase();
+  if(fAño)data=data.filter(r=>r[0]===fAño);
+  if(fArea)data=data.filter(r=>r[1]===fArea);
+  if(fTxt)data=data.filter(r=>r[0].toLowerCase().includes(fTxt)||r[1].toLowerCase().includes(fTxt));
+  if(sortColAnual>=0)data.sort((a,b)=>{const av=a[sortColAnual],bv=b[sortColAnual];if(av==null)return 1;if(bv==null)return -1;return(av<bv?-1:av>bv?1:0)*sortDirAnual;});
+  document.getElementById('f-count').textContent=data.length+' filas';
+  const tbody=document.getElementById('tbody-anual');
+  if(!data.length){tbody.innerHTML='<tr><td colspan="9" class="no-rows">Sin resultados</td></tr>';return;}
+  tbody.innerHTML=data.map(r=>{
+    const cvCls=r[5]>.20?'td-rojo':r[5]>.15?'td-ambar':'';
+    const vsm=r[2]<=META?'<span class="td-verde">✓</span>':'<span class="td-rojo">✗</span>';
+    return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td class="td-num">'+pct(r[2])+'</td><td class="td-num">'+pct(r[3])+'</td><td class="td-num">'+pct(r[4])+'</td><td class="td-num '+cvCls+'">'+(r[5]*100).toFixed(1)+'%</td><td class="td-num">'+(r[6]?r[6].toLocaleString('es-EC'):'—')+'</td><td class="td-num">'+(r[7]?r[7].toLocaleString('es-EC'):'—')+'</td><td style="text-align:center">'+vsm+'</td></tr>';
+  }).join('');
+}
+function sortTabla(col){
+  if(sortColAnual===col)sortDirAnual*=-1;else{sortColAnual=col;sortDirAnual=1;}
+  document.querySelectorAll('#pg-anual thead th').forEach((th,i)=>{th.classList.remove('sort-asc','sort-desc');if(i===col)th.classList.add(sortDirAnual===1?'sort-asc':'sort-desc');});
+  renderTablaAnual();
+}
+
+/* ═══════════════ MODO TRIMESTRAL ═══════════════ */
+function setModoTrim(m){
+  modoTrim=m;
+  ['todos','año','trim'].forEach(k=>{document.getElementById('tm-'+k).classList.toggle('active',k===m);});
+  document.getElementById('wrap-año-trim').style.display=(m==='año'||m==='trim')?'inline-flex':'none';
+  document.getElementById('wrap-trim-num').style.display=m==='trim'?'inline-flex':'none';
+  filtrarTrim();
+}
+function filtrarTrim(){
+  _añoSelTrim=document.getElementById('sel-año-trim').value;
+  _trimSelNum=document.getElementById('sel-trim-num').value;
+  let data;
+  if(modoTrim==='todos') data=TRIM_GEO;
+  else if(modoTrim==='año') data=TRIM_GEO.filter(d=>d.per.includes(_añoSelTrim));
+  else data=TRIM_GEO.filter(d=>d.per.startsWith(_trimSelNum+' Trim'));
+
+  // Período destacado: cuando modo=trim, resaltar el punto que corresponde a año+trimestre
+  let perDestacado=null;
+  if(modoTrim==='trim') perDestacado=_trimSelNum+' Trim '+_añoSelTrim;
+
+  actualizarChartTrimSerie(data, perDestacado);
+  actualizarChartTrimSexo(data, perDestacado);
+
+  if(data.length>0){
+    const ult=data[data.length-1];
+    document.getElementById('mv-nac-trim').textContent=pct(ult.nac);document.getElementById('ms-nac-trim').textContent=ult.per;
+    document.getElementById('mv-urb-trim').textContent=pct(ult.urb);document.getElementById('ms-urb-trim').textContent=ult.per;
+    document.getElementById('mv-rur-trim').textContent=pct(ult.rur);document.getElementById('ms-rur-trim').textContent=ult.per;
+  }
+}
+
+function actualizarChartTrimSerie(data, perDestacado){
+  if(!chartTrimSerie)return;
+  const labels=data.map(d=>d.per);
+  const esBarras = modoTrim==='año' || modoTrim==='trim';
+
+  if(esBarras){
+    // Destruir y recrear como barras agrupadas
+    chartTrimSerie.destroy();
+    chartTrimSerie=new Chart(document.getElementById('chart-trim-serie'),{
+      type:'bar',
+      data:{labels,datasets:[
+        {label:'Nacional',data:data.map(d=>+(d.nac*100).toFixed(2)),backgroundColor:C.nacional,borderRadius:4,hidden:!trimSerieOn.nac},
+        {label:'Urbano',  data:data.map(d=>+(d.urb*100).toFixed(2)),backgroundColor:C.urbano,  borderRadius:4,hidden:!trimSerieOn.urb},
+        {label:'Rural',   data:data.map(d=>+(d.rur*100).toFixed(2)),backgroundColor:C.rural,   borderRadius:4,hidden:!trimSerieOn.rur},
+      ]},
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.parsed.y.toFixed(2)+'%'}}},
+        scales:{y:{min:0,max:35,ticks:{callback:v=>v+'%',font:{size:11}},grid:{color:'rgba(0,0,0,0.06)'}},
+          x:{ticks:{font:{size:10}},grid:{display:false}}}}
+    });
+  } else {
+    // Restaurar como línea si volvemos a "todos"
+    if(chartTrimSerie.config.type!=='line'){
+      chartTrimSerie.destroy();
+      chartTrimSerie=new Chart(document.getElementById('chart-trim-serie'),{
+        type:'line',data:{labels,datasets:[
+          {label:'Nacional',data:data.map(d=>+(d.nac*100).toFixed(4)),borderColor:C.nacional,borderWidth:2.5,pointRadius:4,pointBackgroundColor:C.nacional,fill:false,tension:.3,hidden:!trimSerieOn.nac},
+          {label:'Urbano',  data:data.map(d=>+(d.urb*100).toFixed(4)),borderColor:C.urbano,  borderWidth:2,borderDash:[4,3],pointRadius:4,pointBackgroundColor:C.urbano,fill:false,tension:.3,hidden:!trimSerieOn.urb},
+          {label:'Rural',   data:data.map(d=>+(d.rur*100).toFixed(4)),borderColor:C.rural,   borderWidth:2.5,pointRadius:4,pointBackgroundColor:C.rural,fill:false,tension:.3,hidden:!trimSerieOn.rur},
+        ]},
+        options:{responsive:true,maintainAspectRatio:false,
+          plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.parsed.y.toFixed(2)+'%'}}},
+          scales:{y:{min:0,max:35,ticks:{callback:v=>v+'%',font:{size:11}},grid:{color:'rgba(0,0,0,0.06)'}},
+            x:{ticks:{font:{size:9},maxRotation:45,autoSkip:false},grid:{display:false}}}}
+      });
+    } else {
+      const mkR=()=>labels.map(l=>perDestacado&&l===perDestacado?9:4);
+      const mkC=(b)=>labels.map(l=>perDestacado&&l===perDestacado?'#F0C040':b);
+      const mkB=(b)=>labels.map(l=>perDestacado&&l===perDestacado?'#4F449A':b);
+      const ds=chartTrimSerie.data.datasets;
+      chartTrimSerie.data.labels=labels;
+      ds[0].data=data.map(d=>+(d.nac*100).toFixed(4));ds[0].hidden=!trimSerieOn.nac;
+      ds[0].pointRadius=mkR();ds[0].pointBackgroundColor=mkC(C.nacional);ds[0].pointBorderColor=mkB(C.nacional);
+      ds[1].data=data.map(d=>+(d.urb*100).toFixed(4));ds[1].hidden=!trimSerieOn.urb;
+      ds[1].pointRadius=mkR();ds[1].pointBackgroundColor=mkC(C.urbano);ds[1].pointBorderColor=mkB(C.urbano);
+      ds[2].data=data.map(d=>+(d.rur*100).toFixed(4));ds[2].hidden=!trimSerieOn.rur;
+      ds[2].pointRadius=mkR();ds[2].pointBackgroundColor=mkC(C.rural);ds[2].pointBorderColor=mkB(C.rural);
+      chartTrimSerie.update();
+    }
+  }
+}
+
+function actualizarChartTrimSexo(data, perDestacado){
+  if(!chartTrimSexo)return;
+  const pers=data.map(d=>d.per);
+  const sf=TRIM_SEXO.filter(d=>pers.includes(d.per));
+  // Si hay un solo período, mostrar siluetas
+  const esSolo = sf.length===1 || (perDestacado && sf.length<=3);
+  const silDiv  = document.getElementById('trim-sexo-siluetas');
+  const chartDiv = document.getElementById('trim-sexo-chart');
+  if(esSolo && sf.length===1){
+    if(silDiv)  silDiv.style.display='block';
+    if(chartDiv) chartDiv.style.display='none';
+    const d=sf[0];
+    const titulo=document.getElementById('title-trim-sexo-sil');
+    if(titulo) titulo.textContent='Pobreza extrema por sexo — '+d.per;
+    const wrap=document.getElementById('trim-siluetas-wrap');
+    if(wrap){
+      const tarjeta=(val,label,color,img)=>
+        '<div class="silueta-item">'+
+        '<img src="'+img+'" alt="'+label+'" style="width:90px;height:90px;object-fit:contain;display:block;margin:0 auto;">'+
+        '<div class="silueta-val" style="color:'+color+';margin-top:.5rem;">'+pct(val)+'</div>'+
+        '<div class="silueta-label">'+label+'</div>'+
+        '<div style="font-size:11px;color:#9AA5B4;margin-top:3px;">Fuente: ENEMDU Trimestral</div>'+
+        '</div>';
+      wrap.innerHTML=
+        tarjeta(d.h,'Hombre','#1A5FA8','../imagenes/hombre.png')+
+        '<div style="width:1px;height:130px;background:#D1D9E6;align-self:center;"></div>'+
+        tarjeta(d.m,'Mujer','#C0395A','../imagenes/mujer.png');
+    }
+    return;
+  }
+  if(silDiv)  silDiv.style.display='none';
+  if(chartDiv) chartDiv.style.display='block';
+  const labels=sf.map(d=>d.per);
+  const mkRadios=()=>labels.map(l=>perDestacado&&l===perDestacado?9:4);
+  const mkColors=(base)=>labels.map(l=>perDestacado&&l===perDestacado?'#F0C040':base);
+  const mkBorder=(base)=>labels.map(l=>perDestacado&&l===perDestacado?'#4F449A':base);
+  const mkBWidth=()=>labels.map(l=>perDestacado&&l===perDestacado?2.5:1.5);
+  chartTrimSexo.data.labels=labels;
+  const ds=chartTrimSexo.data.datasets;
+  ds[0].data=sf.map(d=>+(d.h*100).toFixed(4));ds[0].hidden=!trimSexoOn.h;
+  ds[0].pointRadius=mkRadios();ds[0].pointBackgroundColor=mkColors(C.hombre);ds[0].pointBorderColor=mkBorder(C.hombre);ds[0].pointBorderWidth=mkBWidth();
+  ds[1].data=sf.map(d=>+(d.m*100).toFixed(4));ds[1].hidden=!trimSexoOn.m;
+  ds[1].pointRadius=mkRadios();ds[1].pointBackgroundColor=mkColors(C.mujer);ds[1].pointBorderColor=mkBorder(C.mujer);ds[1].pointBorderWidth=mkBWidth();
+  chartTrimSexo.update();
+}
+
+function toggleTrimSerie(key){
+  trimSerieOn[key]=!trimSerieOn[key];
+  document.getElementById('ts-t-'+key).classList.toggle('off',!trimSerieOn[key]);
+  if(chartTrimSerie){chartTrimSerie.data.datasets[{nac:0,urb:1,rur:2}[key]].hidden=!trimSerieOn[key];chartTrimSerie.update();}
+}
+function toggleTrimSexo(key){
+  trimSexoOn[key]=!trimSexoOn[key];
+  document.getElementById('ts-t-'+key).classList.toggle('off',!trimSexoOn[key]);
+  if(chartTrimSexo){chartTrimSexo.data.datasets[{h:0,m:1}[key]].hidden=!trimSexoOn[key];chartTrimSexo.update();}
+}
+
+/* ═══════════════ BUILD TRIMESTRAL ═══════════════ */
+function buildTrim(){
+  chartTrimSerie=new Chart(document.getElementById('chart-trim-serie'),{
+    type:'line',data:{labels:TRIM_GEO.map(d=>d.per),datasets:[
+      {label:'Nacional',data:TRIM_GEO.map(d=>+(d.nac*100).toFixed(4)),borderColor:C.nacional,borderWidth:2.5,pointRadius:4,pointBackgroundColor:C.nacional,fill:false,tension:.3},
+      {label:'Urbano',  data:TRIM_GEO.map(d=>+(d.urb*100).toFixed(4)),borderColor:C.urbano,borderWidth:2,borderDash:[4,3],pointRadius:4,pointBackgroundColor:C.urbano,fill:false,tension:.3},
+      {label:'Rural',   data:TRIM_GEO.map(d=>+(d.rur*100).toFixed(4)),borderColor:C.rural,borderWidth:2.5,pointRadius:4,pointBackgroundColor:C.rural,fill:false,tension:.3},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.parsed.y.toFixed(2)+'%'}}},
+      scales:{y:{min:0,max:35,ticks:{callback:v=>v+'%',font:{size:11}},grid:{color:'rgba(0,0,0,0.06)'}},x:{ticks:{font:{size:9},maxRotation:45,autoSkip:false},grid:{display:false}}}}
+  });
+  chartTrimSexo=new Chart(document.getElementById('chart-trim-sexo'),{
+    type:'line',data:{labels:TRIM_SEXO.map(d=>d.per),datasets:[
+      {label:'Hombre',data:TRIM_SEXO.map(d=>+(d.h*100).toFixed(4)),borderColor:C.hombre,borderWidth:2,pointRadius:3,pointBackgroundColor:C.hombre,fill:false,tension:.3},
+      {label:'Mujer', data:TRIM_SEXO.map(d=>+(d.m*100).toFixed(4)),borderColor:C.mujer,borderWidth:2,borderDash:[5,3],pointRadius:3,pointBackgroundColor:C.mujer,fill:false,tension:.3},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.parsed.y.toFixed(2)+'%'}}},
+      scales:{y:{min:0,max:35,ticks:{callback:v=>v+'%',font:{size:11}},grid:{color:'rgba(0,0,0,0.06)'}},x:{ticks:{font:{size:9},maxRotation:45,autoSkip:false},grid:{display:false}}}}
+  });
+  const ult=TRIM_GEO[TRIM_GEO.length-1];
+  document.getElementById('mv-nac-trim').textContent=pct(ult.nac);document.getElementById('ms-nac-trim').textContent=ult.per;
+  document.getElementById('mv-urb-trim').textContent=pct(ult.urb);document.getElementById('ms-urb-trim').textContent=ult.per;
+  document.getElementById('mv-rur-trim').textContent=pct(ult.rur);document.getElementById('ms-rur-trim').textContent=ult.per;
+  renderTablaTrim();
+}
+
+/* ═══════════════ TABLA TRIMESTRAL ═══════════════ */
+function resetFiltrosTrim(){['ft-año','ft-trim','ft-area'].forEach(id=>document.getElementById(id).value='');renderTablaTrim();}
+function renderTablaTrim(){
+  const fAño=document.getElementById('ft-año').value;
+  const fTrim=document.getElementById('ft-trim').value;
+  const fArea=document.getElementById('ft-area').value;
+  let rows=[];
+  TRIM_GEO.forEach(d=>{
+    if(fAño&&!d.per.includes(fAño))return;
+    if(fTrim&&!d.per.startsWith(fTrim+' Trim'))return;
+    const ts=TRIM_SEXO.find(s=>s.per===d.per);
+    [['Nacional',d.nac,d.li,d.ls,d.cv],['Urbano',d.urb,null,null,null],['Rural',d.rur,null,null,null]].forEach(([area,est,li,ls,cv])=>{
+      if(fArea&&area!==fArea)return;
+      rows.push([d.per,area,est,li,ls,cv]);
+    });
+    if(ts){
+      if(!fArea||fArea==='Hombre') rows.push([d.per,'Hombre',ts.h,null,null,null]);
+      if(!fArea||fArea==='Mujer')  rows.push([d.per,'Mujer', ts.m,null,null,null]);
+    }
+  });
+  if(sortColTrim>=0)rows.sort((a,b)=>{const av=a[sortColTrim],bv=b[sortColTrim];if(av==null)return 1;if(bv==null)return -1;return(av<bv?-1:av>bv?1:0)*sortDirTrim;});
+  document.getElementById('ft-count').textContent=rows.length+' filas';
+  const tbody=document.getElementById('tbody-trim');
+  if(!rows.length){tbody.innerHTML='<tr><td colspan="6" class="no-rows">Sin resultados</td></tr>';return;}
+  tbody.innerHTML=rows.map(r=>{
+    const cvCls=r[5]&&r[5]>.20?'td-rojo':r[5]&&r[5]>.15?'td-ambar':'';
+    return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td class="td-num">'+pct(r[2])+'</td><td class="td-num">'+(r[3]?pct(r[3]):'—')+'</td><td class="td-num">'+(r[4]?pct(r[4]):'—')+'</td><td class="td-num '+cvCls+'">'+(r[5]?(r[5]*100).toFixed(1)+'%':'—')+'</td></tr>';
+  }).join('');
+}
+function sortTablaTrim(col){
+  if(sortColTrim===col)sortDirTrim*=-1;else{sortColTrim=col;sortDirTrim=1;}
+  document.querySelectorAll('#pg-trimestral thead th').forEach((th,i)=>{th.classList.remove('sort-asc','sort-desc');if(i===col)th.classList.add(sortDirTrim===1?'sort-asc':'sort-desc');});
+  renderTablaTrim();
+}
+
+
+/* ══ ACCIONES PLANIFICADAS 2026 ══ */
+// Acciones y seguimiento: se leen de datos/pnd/proteccion_social/ con pnd_ps_acciones.js
+// (se actualizan cada mes con scripts/actualizar_pnd_ps.py; aquí no hay datos incrustados)
+function buildAcciones(){
+  if(window._ppsMontado) return;
+  window._ppsMontado = true;
+  PndPsAcciones.montar('#acciones-ps', { indicador: 'pobreza-extrema' });
+}
+</script>
+<!-- ══ PÁGINA: ACCIONES PLANIFICADAS ══ -->
+<div id="pg-acciones" class="page">
+  <div style="max-width:1400px;margin:0 auto;padding:1.5rem;">
+    <div id="acciones-ps"></div>
+  </div>
+</div>
+
+<div class="gov-close"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="Gobierno del Ecuador"></div>
+
+<footer class="dashboard-footer">
+  <strong>Ministerio de Trabajo y Desarrollo Humano</strong> · Subsecretaría de Gestión de Datos y Estudios · Seguimiento PND 2025–2029
+</footer>
+
+<script type="text/plain" data-tras-datos>
+(function(){
+  const cfg = {"base": "Tasa de pobreza extrema", "default": "Seleccionar periodicidad", "items": [{"id": "pg-frecuencia", "label": "Seleccionar periodicidad"}, {"id": "pg-anual", "label": "Resultados anuales"}, {"id": "pg-trimestral", "label": "Resultados trimestrales"}, {"id": "pg-acciones", "label": "Acciones 2026"}]};
+  function visible(el){
+    if(!el) return false;
+    const cs = window.getComputedStyle(el);
+    return cs.display !== 'none' && cs.visibility !== 'hidden';
+  }
+  function activeLabel(){
+    const items = cfg.items || [];
+    for(const item of items){
+      const el = document.getElementById(item.id);
+      if(!el) continue;
+      if(el.classList.contains('active') && visible(el)) return item.label;
+    }
+    for(const item of items){
+      const el = document.getElementById(item.id);
+      if(el && el.classList.contains('active')) return item.label;
+    }
+    return cfg.default || '';
+  }
+  function render(){
+    const bc = document.getElementById('mdh-breadcrumb');
+    if(!bc) return;
+    const label = activeLabel();
+    if(label){
+      bc.innerHTML = '<a href="../index_PND.html">Inicio</a>' +
+        '<span class="mdh-bc-sep">›</span>' +
+        '<a href="javascript:void(0)" class="mdh-bc-base" onclick="irPagina(&#39;pg-frecuencia&#39;)" title="Volver a: '+cfg.base+'">' + cfg.base + '</a>' +
+        '<span class="mdh-bc-sep">›</span>' +
+        '<span class="mdh-bc-current">' + label + '</span>';
+    } else {
+      bc.innerHTML = '<a href="../index_PND.html">Inicio</a>' +
+        '<span class="mdh-bc-sep">›</span>' +
+        '<span class="mdh-bc-current">' + cfg.base + '</span>';
+    }
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    render();
+    document.body.addEventListener('click', function(){ setTimeout(render, 80); }, true);
+    document.body.addEventListener('change', function(){ setTimeout(render, 80); }, true);
+    setTimeout(render, 120);
+  });
+  window.addEventListener('load', render);
+  window.mdhActualizarBreadcrumb = render;
+})();
+</script>
+
+<script type="text/plain" data-tras-datos data-src="../assets/js/shared.js"></script>
+<script type="text/plain" data-tras-datos>
+initSidebar({ activeId: 'pnd-pobreza-extrema', basePath: '../' });
+</script>
+
+</body>
+</html>

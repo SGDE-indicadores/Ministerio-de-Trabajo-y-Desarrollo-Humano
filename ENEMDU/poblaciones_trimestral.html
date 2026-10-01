@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENEMDU Trimestral · Poblaciones</title>
+<link rel="stylesheet" href="../assets/css/shared.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
+<style>
+:root{
+  --azul:#4F449A; --azul-2:#4F449A; --azul-claro:#1d6fa8;
+  --dorado:#F1B620; --dorado-claro:#FEF7DC;
+  --gris-fondo:#f4f6f8; --gris-borde:#dbe1e8; --gris-texto:#4a5568; --texto:#1c2a3a;
+  --verde:#2f7d5a; --rojo:#b8433f;
+}
+*{box-sizing:border-box;}
+body{margin:0; font-family:Arial, sans-serif; background:var(--gris-fondo); color:var(--texto);}
+h1,h2,h3{font-family:'Arial Black', Arial, sans-serif; font-weight:600;}
+a{text-decoration:none; color:inherit;}
+
+.topbar{background:linear-gradient(135deg, var(--azul) 0%, var(--azul-2) 100%); color:#fff; padding:26px 32px; border-bottom:4px solid var(--dorado);}
+.topbar-inner{max-width:1280px; margin:0 auto;}
+.back-link{display:inline-block; margin-bottom:10px; font-size:13px; color:rgba(255,255,255,0.65);}
+.back-link:hover{color:#fff;}
+.eyebrow{font-family:'Arial Black', Arial, sans-serif; font-size:13px; letter-spacing:2px; text-transform:uppercase; color:var(--dorado-claro); font-weight:600;}
+.topbar h1{margin:6px 0 6px 0; font-size:30px; color:#fff;}
+.topbar p{font-size:14.5px; color:rgba(255,255,255,0.65); max-width:760px; margin:0;}
+
+main{max-width:1280px; margin:0 auto; padding:24px 32px 60px 32px;}
+
+/* ---- selector de indicador ---- */
+.indicator-bar{background:#fff; border:1px solid var(--gris-borde); border-radius:12px; padding:18px 22px; margin-bottom:20px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;}
+.indicator-bar label{font-family:'Arial Black', Arial, sans-serif; font-size:13px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; color:var(--azul-claro);}
+#indicatorSelect{
+  flex:1; min-width:280px; font-family:Arial, sans-serif; font-size:15.5px; font-weight:600; color:var(--azul);
+  padding:11px 14px; border:1px solid var(--gris-borde); border-radius:8px; background:#fff; cursor:pointer;
+}
+.ind-def{font-size:13.5px; color:var(--gris-texto); line-height:1.5; width:100%; margin-top:2px;}
+
+/* ---- KPIs ---- */
+.kpi-grid{display:grid; grid-template-columns:repeat(4, 1fr); gap:14px; margin-bottom:24px;}
+@media(max-width:900px){.kpi-grid{grid-template-columns:repeat(2, 1fr);}}
+.kpi-card{background:#fff; border:1px solid var(--gris-borde); border-radius:12px; padding:16px 18px; border-top:4px solid var(--azul-claro);}
+.kpi-card.hi{border-top-color:var(--verde);}
+.kpi-card.lo{border-top-color:var(--rojo);}
+.kpi-lbl{font-family:'Arial Black', Arial, sans-serif; font-size:11.5px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; color:var(--gris-texto); margin-bottom:6px;}
+.kpi-val{font-family:'Arial Black', Arial, sans-serif; font-size:26px; font-weight:700; color:var(--azul); line-height:1.1;}
+.kpi-sub{font-size:12px; color:var(--gris-texto); margin-top:4px;}
+.kpi-sub.good{color:var(--verde); font-weight:600;}
+.kpi-sub.bad{color:var(--rojo); font-weight:600;}
+
+/* ---- hallazgos buenos/malos ---- */
+.insight-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+@media(max-width:800px){.insight-grid{grid-template-columns:1fr;}}
+.insight-box{border-radius:10px; padding:16px 18px;}
+.insight-box.bueno{background:#eef7f1; border-left:5px solid var(--verde);}
+.insight-box.malo{background:#fbedec; border-left:5px solid var(--rojo);}
+.insight-box .ib-title{font-family:'Arial Black', Arial, sans-serif; font-size:13px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; margin-bottom:10px; display:flex; align-items:center; gap:6px;}
+.insight-box.bueno .ib-title{color:var(--verde);}
+.insight-box.malo .ib-title{color:var(--rojo);}
+.insight-box ul{margin:0; padding-left:18px;}
+.insight-box li{font-size:13.5px; line-height:1.55; margin-bottom:8px; color:var(--texto);}
+.insight-box li:last-child{margin-bottom:0;}
+.insight-empty{font-size:13px; color:var(--gris-texto); font-style:italic;}
+
+/* ---- notas técnicas ---- */
+details.tech-notes{background:#fff; border:1px solid var(--gris-borde); border-radius:12px; margin-bottom:20px; overflow:hidden;}
+details.tech-notes summary{padding:16px 22px; cursor:pointer; font-weight:700; font-size:14.5px; color:var(--azul); list-style:none; display:flex; align-items:center; justify-content:space-between; font-family:'Arial Black', Arial, sans-serif; letter-spacing:.4px;}
+details.tech-notes summary::-webkit-details-marker{display:none;}
+details.tech-notes summary:after{content:'▸'; transition:transform .15s; color:var(--azul-claro);}
+details.tech-notes[open] summary:after{transform:rotate(90deg);}
+.tn-body{padding:0 22px 20px 22px; font-size:13.5px; color:var(--gris-texto); line-height:1.65;}
+.tn-body h4{font-family:'Arial Black', Arial, sans-serif; font-size:12.5px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; color:var(--azul-claro); margin:16px 0 6px 0;}
+.tn-body h4:first-child{margin-top:0;}
+.tn-body ul{margin:4px 0; padding-left:20px;}
+.tn-body li{margin-bottom:5px;}
+.tn-body a{color:var(--azul-claro); text-decoration:underline;}
+.tn-body .cita{background:var(--gris-fondo); border-radius:8px; padding:10px 14px; font-size:12.5px; margin-top:6px;}
+
+/* ---- secciones / paneles ---- */
+.panel{background:#fff; border:1px solid var(--gris-borde); border-radius:12px; padding:20px 22px; margin-bottom:20px;}
+.panel-title{font-family:'Arial Black', Arial, sans-serif; font-size:13px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--azul-claro); margin-bottom:14px;}
+.chart-wrap{position:relative; height:320px;}
+.chart-wrap.short{height:280px;}
+
+/* ---- pills ---- */
+.pills{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;}
+.pill{padding:7px 16px; border:1px solid var(--gris-borde); border-radius:20px; font-size:13.5px; font-weight:600; cursor:pointer; color:var(--gris-texto); background:#fff;}
+.pill:hover{border-color:var(--azul-claro); color:var(--azul);}
+.pill.active{background:var(--azul); border-color:var(--azul); color:#fff;}
+
+.trim-select{font-family:Arial, sans-serif; font-size:14px; font-weight:600; color:var(--azul); padding:9px 14px; border:1px solid var(--gris-borde); border-radius:8px; background:#fff; cursor:pointer; margin-bottom:16px;}
+
+/* ---- tabs de desagregación ---- */
+.sub-tabs{display:flex; gap:4px; border-bottom:2px solid var(--gris-borde); margin-bottom:16px; flex-wrap:wrap;}
+.sub-tab{padding:10px 18px; cursor:pointer; font-size:14px; font-weight:600; color:var(--gris-texto); border-bottom:3px solid transparent; margin-bottom:-2px;}
+.sub-tab:hover{color:var(--azul);}
+.sub-tab.active{color:var(--azul); border-bottom-color:var(--dorado);}
+.hidden{display:none;}
+
+.snap-note{font-size:12.5px; color:var(--gris-texto); margin-bottom:14px;}
+.snap-note b{color:var(--azul);}
+
+.flag-note{display:flex; align-items:center; gap:8px; font-size:12.5px; color:#8a1f4f; background:#fbebf1; border:1px solid #edc2d8; border-radius:8px; padding:8px 12px; margin-top:12px;}
+.flag-note .dot{width:10px; height:10px; border-radius:50%; background:#c2255c; flex-shrink:0;}
+
+footer{text-align:center; padding:26px; font-size:12.5px; color:var(--gris-texto);}
+
+/* ---- nuevo header institucional con trazabilidad y menú de indicadores ---- */
+.ind-header{background:var(--azul); padding:0 32px; display:flex; align-items:center; justify-content:space-between; height:64px; border-bottom:3px solid var(--dorado); flex-wrap:wrap; gap:8px; position:sticky; top:0; z-index:99;}
+.mega-nav{top:64px !important;}
+.ind-header-left{display:flex; align-items:center; gap:14px; padding:10px 0;}
+.header-logo{min-width:38px; height:38px; padding:0 6px; box-sizing:border-box; background:var(--dorado); border-radius:8px; display:flex; align-items:center; justify-content:center; font-family:'Arial Black', Arial, sans-serif; font-weight:700; font-size:12.5px; color:var(--azul); flex-shrink:0;}
+.ind-header-title{font-family:'Arial Black', Arial, sans-serif; font-weight:700; font-size:17px; color:#fff; line-height:1.25;}
+.ind-header-sub{font-size:11.5px; color:rgba(255,255,255,0.65); margin-top:1px;}
+.ind-header-right{display:flex; align-items:center; gap:10px; position:relative;}
+.nav-btn{background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.28); color:var(--azul-light); padding:7px 14px; border-radius:6px; font-size:12.5px; font-weight:600; cursor:pointer; text-decoration:none; font-family:Arial, sans-serif; white-space:nowrap; display:inline-block;}
+.nav-btn:hover{background:rgba(255,255,255,.18);}
+.menu-drop{position:absolute; top:calc(100% + 8px); right:0; background:#fff; border:1px solid var(--gris-borde); border-radius:10px; box-shadow:0 10px 30px rgba(11,45,82,.22); min-width:290px; padding:8px; display:none; z-index:80;}
+.menu-drop.open{display:block;}
+.menu-drop a{display:block; padding:9px 12px; border-radius:7px; font-size:13.5px; color:var(--azul); text-decoration:none; font-weight:600;}
+.menu-drop a:hover{background:var(--gris-fondo);}
+.menu-drop a.current{background:var(--dorado-claro); color:var(--amarillo-d);}
+.ind-breadcrumb{background:#fff; border-bottom:2px solid var(--gris-borde); padding:9px 32px; font-size:12.5px; color:var(--gris-texto);}
+.ind-breadcrumb a{color:var(--gris-texto); text-decoration:none; font-weight:600;}
+.ind-breadcrumb a:hover{color:var(--azul);}
+.ind-breadcrumb b{color:var(--texto); font-weight:700;}
+.page-intro{max-width:1280px; margin:0 auto; padding:20px 32px 0 32px; font-size:13.5px; color:var(--gris-texto); line-height:1.6;}
+
+</style>
+</head>
+<body>
+
+<div id="app-sidebar-mount"></div>
+
+<div class="ind-header">
+  <div class="ind-header-left">
+    <div class="header-logo">MTDH</div>
+    <div>
+      <div class="ind-header-title">Indicadores de Población</div>
+      <div class="ind-header-sub">Ministerio de Trabajo y Desarrollo Humano · ENEMDU Trimestral</div>
+    </div>
+  </div>
+  <div class="ind-header-right">
+    <button class="nav-btn" type="button" onclick="toggleMenu('menuTrimestral')">☰ Menú Trimestral</button>
+    <div id="menuTrimestral" class="menu-drop">
+      <a href="poblaciones_trimestral.html" class="current">Poblaciones</a>
+      <a href="tasas_trimestral.html">Tasas</a>
+      <a href="caracterizacion_empleados_trimestral.html">Caracterización de Empleados</a>
+      <a href="caracterizacion_adec_pleno_trimestral.html">Caracterización de Empleo Adecuado/Pleno</a>
+      <a href="caracterizacion_subempleo_trimestral.html">Caracterización de Subempleo</a>
+      <a href="caracterizacion_otro_no_pleno_trimestral.html">Caracterización de Otro Empleo no Pleno</a>
+      <a href="caracterizacion_desempleo_trimestral.html">Caracterización de Desempleo</a>
+      <a href="sectorizacion_empleo_trimestral.html">Sectorización del Empleo</a>
+    </div>
+    <a class="nav-btn" href="../index_ENEMDU.html">Inicio</a>
+  </div>
+</div>
+<nav class="ind-breadcrumb">
+  <a href="../index_ENEMDU.html">Inicio</a> › <a href="trimestral.html">Trimestral</a> › <b>Indicadores de Población</b>
+</nav>
+<p class="page-intro">Los 18 indicadores poblacionales del INEC con periodicidad trimestral (IV-2020 a I-2026). Elige un indicador y explora su serie histórica, su comparación entre trimestres iguales de distintos años, y sus desagregaciones.</p>
+
+<main>
+
+  <div class="indicator-bar">
+    <label for="indicatorSelect">Indicador</label>
+    <select id="indicatorSelect"></select>
+    <div class="ind-def" id="indDef"></div>
+  </div>
+
+  <div class="kpi-grid" id="kpiGrid"></div>
+
+  <div class="panel">
+    <div class="panel-title">Lectura de los datos</div>
+    <div class="insight-grid" id="insightGrid"></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">Serie histórica — IV-2020 a I-2026 (Nacional)</div>
+    <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
+    <div class="flag-note hidden" id="trendFlagNote"><span class="dot"></span> Los puntos en color magenta tienen un Coeficiente de Variación superior al 15% — usar con precaución.</div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">Comparación por trimestre (mismo periodo, distintos años)</div>
+    <div class="pills" id="quarterPills">
+      <div class="pill" data-q="I">Trimestre I</div>
+      <div class="pill" data-q="II">Trimestre II</div>
+      <div class="pill" data-q="III">Trimestre III</div>
+      <div class="pill" data-q="IV">Trimestre IV</div>
+    </div>
+    <div class="chart-wrap short"><canvas id="quarterChart"></canvas></div>
+    <div class="flag-note hidden" id="quarterFlagNote"><span class="dot"></span> Las barras en color magenta tienen un Coeficiente de Variación superior al 15% — usar con precaución.</div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">Desagregación por grupo</div>
+    <div class="snap-note">Corte correspondiente a <b id="snapTrimLabel"></b> — elige otro trimestre específico:</div>
+    <select class="trim-select" id="trimSelect"></select>
+    <div class="sub-tabs" id="disagTabs">
+      <div class="sub-tab active" data-d="area">Área</div>
+      <div class="sub-tab" data-d="dominios">Dominios</div>
+      <div class="sub-tab" data-d="sexo">Sexo</div>
+      <div class="sub-tab" data-d="edad">Edad</div>
+      <div class="sub-tab" data-d="etnia">Etnia</div>
+    </div>
+    <div class="chart-wrap short"><canvas id="disagChart"></canvas></div>
+    <div class="flag-note hidden" id="disagFlagNote"><span class="dot"></span> Las barras en color magenta tienen un Coeficiente de Variación superior al 15% — usar con precaución.</div>
+  </div>
+  <details class="tech-notes">
+    <summary>⚠ Notas técnicas, fuente y metodología</summary>
+    <div class="tn-body">
+      <h4>Fuente</h4>
+      <p style="margin:0 0 4px 0;">Encuesta de Empleo, Desempleo y Subempleo (ENEMDU) — Acumulada Trimestral, Instituto Nacional de Estadística y Censos (INEC).</p>
+
+      <h4>Población de referencia</h4>
+      <p style="margin:0;">La Población en Edad de Trabajar (PET): personas de 15 años y más.</p>
+
+      <h4>Símbolos y advertencias de precisión</h4>
+      <ul>
+        <li><b>g</b> — Coeficiente de Variación superior al 15%; el dato debe usarse con precaución.</li>
+        <li><b>(-)g</b> — Estimación poco precisa; por lo tanto, no se considera (se muestra como "—" en este panel).</li>
+      </ul>
+
+      <h4>Trimestres</h4>
+      <ul>
+        <li><b>I</b> — enero a marzo</li>
+        <li><b>II</b> — abril a junio</li>
+        <li><b>III</b> — julio a septiembre</li>
+        <li><b>IV</b> — octubre a diciembre</li>
+      </ul>
+      <p style="margin:6px 0 0 0;"><b>Estimación acumulada:</b> valor del parámetro obtenido a partir de una muestra levantada de forma continua durante un periodo más largo — 3 meses consecutivos para la acumulación trimestral, 12 meses continuos para la anual.</p>
+
+      <h4>Comparabilidad histórica (2020–2021)</h4>
+      <p style="margin:0;">Desde 2020 hasta mayo de 2021 la ENEMDU implementó cambios metodológicos asociados al tamaño y distribución de la muestra, el nivel de representatividad de los estimadores y la construcción de factores de ponderación, lo que afectó la comparabilidad histórica de las cifras oficiales. Para resolverlo, se mantuvo el esquema tradicional de diseño muestral, estandarizando el cálculo de los factores de ponderación a nivel de la Unidad Primaria de Muestreo y recalculando los indicadores desde septiembre 2020 hasta mayo 2021. Más información en la <a href="https://bit.ly/3hQMHRE" target="_blank" rel="noopener">nota técnica del INEC</a>.</p>
+
+      <h4>Marco muestral (2013)</h4>
+      <p style="margin:0;">Desde diciembre de 2013 las estimaciones de población usan las proyecciones poblacionales 2010 (antes se usaban las del Censo de Población 2001). Este ajuste no afecta las estimaciones de los indicadores de mercado laboral presentados aquí ni sus series históricas.</p>
+
+      <h4>Cómo citar</h4>
+      <div class="cita">INEC. (2026). <i>Principales resultados mercado laboral trimestral-ENEMDU</i>. <a href="https://www.ecuadorencifras.gob.ec/enemdu-trimestral/" target="_blank" rel="noopener">https://www.ecuadorencifras.gob.ec/enemdu-trimestral/</a></div>
+    </div>
+  </details>
+
+  <div class="gov-close"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="Gobierno del Ecuador"></div>
+
+</main>
+
+<footer>ENEMDU · Instituto Nacional de Estadística y Censos (INEC) — Panel elaborado por la Dirección de Estudios y Análisis, Subsecretaría de Gestión de Datos y Estudio, Ministerio de Trabajo y Desarrollo Humano</footer>
+
+<script src="../assets/js/cargar-datos.js"></script>
+<script>
+// Datos de esta página (carpeta datos/). Ver datos/LEEME.md
+cargarDatos({
+  DATA: { archivo: '../datos/enemdu/trimestral/poblaciones.csv', forma: 'tabla', periodo: 'trimestre', texto: ['indicador'],
+          banderas: { cv_alto: 'flags' } }
+});
+</script>
+<script type="text/plain" data-tras-datos>
+const ORDER = DATA.order;
+const ROWS = DATA.rows;
+
+const COUNT_INDICATORS = new Set([
+  'Población Total',
+  'Población menor de 15 años',
+  'Población en Edad de Trabajar (PET)',
+  'Población Económicamente Activa',
+  'Población Económicamente Inactiva'
+]);
+
+const INDICATORS = [
+  {group:'Población', items:[
+    'Población Total',
+    'Población menor de 15 años',
+    'Población en Edad de Trabajar (PET)',
+  ]},
+  {group:'Fuerza laboral', items:[
+    'Población Económicamente Activa',
+    'Población Económicamente Inactiva',
+  ]},
+  {group:'Empleo', items:[
+    'Empleo',
+    'Empleo Adecuado/Pleno',
+    'Subempleo',
+    'Subempleo por insuficiencia de tiempo de trabajo',
+    'Subempleo por insuficiencia de ingresos',
+    'Empleo no remunerado',
+    'Otro Empleo no pleno',
+    'Empleo no clasificado',
+  ]},
+  {group:'Desempleo', items:[
+    'Desempleo',
+    'Desempleo Abierto',
+    'Desempleo Oculto',
+    'Desempleo Cesante',
+    'Desempleo Nuevo',
+  ]},
+];
+
+const DEFINICIONES = {
+  'Población Total':'Total de habitantes del país estimado por la ENEMDU para el trimestre.',
+  'Población menor de 15 años':'Personas menores de 15 años, fuera del ámbito de la Población en Edad de Trabajar.',
+  'Población en Edad de Trabajar (PET)':'Personas de 15 años y más, universo de referencia del mercado laboral.',
+  'Población Económicamente Activa':'Personas de la PET que trabajan o buscan trabajo activamente (PEA = Empleo + Desempleo).',
+  'Población Económicamente Inactiva':'Personas de la PET que no trabajan ni buscan trabajo (estudiantes, jubilados, hogar, etc.).',
+  'Empleo':'Personas de la PEA que tienen un empleo, sin distinguir su calidad.',
+  'Empleo Adecuado/Pleno':'Empleo que cumple ingreso mínimo, horas trabajadas y afiliación a la seguridad social. Mejor proxy de "trabajo digno".',
+  'Subempleo':'Empleo que no cumple ingreso u horas mínimas, pero la persona desea/busca trabajar más.',
+  'Subempleo por insuficiencia de tiempo de trabajo':'Subempleo específicamente por trabajar menos horas de las deseadas.',
+  'Subempleo por insuficiencia de ingresos':'Subempleo específicamente por percibir un ingreso menor al mínimo.',
+  'Empleo no remunerado':'Personas que trabajan sin recibir pago directo (típicamente apoyo familiar).',
+  'Otro Empleo no pleno':'Empleo precario que no encaja en adecuado ni en las categorías específicas de subempleo.',
+  'Empleo no clasificado':'Empleo sin información suficiente para clasificarlo en las categorías anteriores.',
+  'Desempleo':'Personas sin empleo que buscaron trabajo activamente en el periodo de referencia.',
+  'Desempleo Abierto':'Desempleo de personas que trabajaron antes y buscan activamente un nuevo empleo.',
+  'Desempleo Oculto':'Personas que no buscaron activamente por desánimo u otras razones, pero están disponibles.',
+  'Desempleo Cesante':'Desempleo de personas que perdieron o dejaron un empleo anterior.',
+  'Desempleo Nuevo':'Desempleo de personas que buscan trabajo por primera vez.',
+};
+
+const INSIGHTS = {
+  'Población Total':{
+    bueno:['Crecimiento demográfico estable: +2.0% interanual (18.66M → 19.03M personas), en línea con las proyecciones poblacionales.'],
+    malo:[]
+  },
+  'Población menor de 15 años':{
+    bueno:[],
+    malo:['Sigue creciendo en términos absolutos (+1.9% interanual), lo que mantiene presión sobre la futura oferta de fuerza laboral.']
+  },
+  'Población en Edad de Trabajar (PET)':{
+    bueno:['La base de personas en edad de trabajar sigue en aumento (+2.0% interanual), ampliando el universo potencial de la fuerza laboral.'],
+    malo:[]
+  },
+  'Población Económicamente Activa':{
+    bueno:['La PEA creció +1.3% interanual (8.51M → 8.62M personas).'],
+    malo:['Creció más lento que la PET, señal de que no toda la nueva población en edad de trabajar se está incorporando al mercado laboral. Su máximo histórico fue III-2025 (8.76M); el dato más reciente ya está por debajo de ese pico.']
+  },
+  'Empleo':{
+    bueno:['El empleo total creció +1.7% interanual (8.19M → 8.33M personas).'],
+    malo:['No se ha logrado sostener el máximo histórico de III-2025 (8.45M); los dos trimestres siguientes muestran una leve caída.']
+  },
+  'Empleo Adecuado/Pleno':{
+    bueno:['Creció +2.6% interanual (2.99M → 3.08M personas), el mayor ritmo de crecimiento entre las categorías de empleo de calidad.'],
+    malo:['Tras tocar su máximo histórico en III-2025 (3.26M), acumula dos trimestres consecutivos a la baja — la reversión trimestral más marcada de toda la serie.']
+  },
+  'Subempleo':{
+    bueno:['Bajó con fuerza: -6.4% interanual (1.70M → 1.59M personas); su mínimo histórico fue apenas el trimestre anterior (IV-2025).'],
+    malo:['La baja podría reflejar desplazamiento hacia "Otro Empleo no Pleno" —que crece con fuerza— más que una mejora generalizada de la calidad del empleo.']
+  },
+  'Subempleo por insuficiencia de tiempo de trabajo':{
+    bueno:['Cae -6.0% interanual y toca su mínimo histórico en IV-2025.'],
+    malo:['Sigue siendo, por lejos, el componente más grande del subempleo (más del 95% de sus casos).']
+  },
+  'Subempleo por insuficiencia de ingresos':{
+    bueno:['Cae con fuerza: -13.6% interanual, y su mínimo histórico es precisamente el dato más reciente (I-2026).'],
+    malo:[]
+  },
+  'Empleo no remunerado':{
+    bueno:['Baja -13.2% interanual, con su mínimo histórico registrado hace apenas dos trimestres (III-2025).'],
+    malo:['Sigue siendo una realidad muy desigual: se concentra fuertemente en zonas rurales y en la población indígena (ver desagregación por Área y Etnia).']
+  },
+  'Otro Empleo no pleno':{
+    bueno:[],
+    malo:['Es el indicador que más creció de toda la tabla: +11.6% interanual (2.52M → 2.81M personas), alcanzando su máximo histórico justo en el dato más reciente (I-2026). Es la categoría que más está absorbiendo el deterioro de la calidad del empleo.']
+  },
+  'Empleo no clasificado':{
+    bueno:[],
+    malo:['Subió con fuerza en términos relativos (+37.1% interanual), aunque parte de una base pequeña (~19 mil personas) y su comportamiento es más errático que el resto de indicadores.']
+  },
+  'Desempleo':{
+    bueno:['Bajó -10.4% interanual (325k → 291k personas), reforzando la tendencia de mínimos históricos recientes.'],
+    malo:['Su mínimo histórico fue el trimestre inmediatamente anterior (IV-2025, 267k); el repunte de inicio de año es en parte estacional.']
+  },
+  'Desempleo Abierto':{
+    bueno:['Baja -9.1% interanual, siguiendo la misma tendencia del desempleo total (representa cerca del 89% de todo el desempleo).'],
+    malo:[]
+  },
+  'Desempleo Oculto':{
+    bueno:['Es el componente del desempleo que más cae interanualmente (-19.5%).'],
+    malo:[]
+  },
+  'Desempleo Cesante':{
+    bueno:['Baja con fuerza (-15.8% interanual), reflejando menos personas que pierden o dejan un empleo anterior.'],
+    malo:[]
+  },
+  'Desempleo Nuevo':{
+    bueno:[],
+    malo:['Es el único componente del desempleo que subió interanualmente (+0.9%); su máximo histórico fue hace apenas 3 trimestres (II-2025) — señal de que conseguir un primer empleo sigue siendo difícil.']
+  },
+  'Población Económicamente Inactiva':{
+    bueno:[],
+    malo:['Alcanza su máximo histórico en el dato más reciente (I-2026, 4.90M personas), con un crecimiento interanual de +3.2% — más rápido que el crecimiento poblacional general. Cada vez más personas en edad de trabajar no están ni empleadas ni buscando empleo.']
+  },
+};
+
+// ---- helpers ----
+function findRow(trimestre, indicador){
+  return ROWS.find(r => r.trimestre === trimestre && r.indicador === indicador);
+}
+function isCount(ind){ return true; }
+
+function isFlagged(row, field){
+  return !!(row && row.flags && row.flags[field]);
+}
+
+function rate(row, field){
+  if (row[field]==null) return null;
+  const pea = findRow(row.trimestre, 'Población Económicamente Activa');
+  if (!pea || !pea[field]) return null;
+  return row[field]/pea[field]*100;
+}
+
+function seriesFor(indicador, field){
+  return ORDER.map(t => {
+    const row = findRow(t, indicador);
+    if (!row) return null;
+    return isCount(indicador) ? row[field] : rate(row, field);
+  });
+}
+
+function flagsFor(indicador, field){
+  return ORDER.map(t => {
+    const row = findRow(t, indicador);
+    return isFlagged(row, field);
+  });
+}
+
+function fmtNum(v){
+  if (v==null) return '—';
+  return Math.round(v).toLocaleString('es-EC');
+}
+function fmtVal(v, ind){
+  if (v==null) return '—';
+  return isCount(ind) ? fmtNum(v) : v.toFixed(1)+'%';
+}
+
+let currentIndicator = 'Empleo Adecuado/Pleno';
+let currentQuarterType = 'I';
+let currentSnapTrim = ORDER[ORDER.length-1];
+let currentDisag = 'area';
+
+let trendChart, quarterChart, disagChart;
+
+function buildSelect(){
+  const sel = document.getElementById('indicatorSelect');
+  sel.innerHTML = INDICATORS.map(g => `
+    <optgroup label="${g.group}">
+      ${g.items.map(i => `<option value="${i}" ${i===currentIndicator?'selected':''}>${i}</option>`).join('')}
+    </optgroup>`).join('');
+  sel.addEventListener('change', () => {
+    currentIndicator = sel.value;
+    renderAll();
+  });
+}
+
+function buildTrimSelect(){
+  const sel = document.getElementById('trimSelect');
+  sel.innerHTML = ORDER.map(t => `<option value="${t}" ${t===currentSnapTrim?'selected':''}>${t.trim()}</option>`).reverse().join('');
+  sel.addEventListener('change', () => {
+    currentSnapTrim = sel.value;
+    renderDisag();
+  });
+}
+
+function renderDef(){
+  document.getElementById('indDef').textContent = DEFINICIONES[currentIndicator] || '';
+}
+
+function renderInsights(){
+  const ins = INSIGHTS[currentIndicator] || {bueno:[], malo:[]};
+  const grid = document.getElementById('insightGrid');
+  const listHtml = (arr) => arr.length
+    ? `<ul>${arr.map(t=>`<li>${t}</li>`).join('')}</ul>`
+    : `<div class="insight-empty">Sin hallazgos destacados para este corte.</div>`;
+  grid.innerHTML = `
+    <div class="insight-box bueno">
+      <div class="ib-title">✓ Lo positivo</div>
+      ${listHtml(ins.bueno)}
+    </div>
+    <div class="insight-box malo">
+      <div class="ib-title">⚠ Lo que preocupa</div>
+      ${listHtml(ins.malo)}
+    </div>`;
+}
+
+function renderKpis(){
+  const grid = document.getElementById('kpiGrid');
+  const s = seriesFor(currentIndicator, 'nac_total');
+  const last = s[s.length-1];
+  // interanual: mismo trimestre año anterior
+  const lastTrim = ORDER[ORDER.length-1];
+  const lastQ = lastTrim.trim()[0]==='I' && lastTrim.trim()[1]==='V' ? 'IV' : lastTrim.trim().split(/[\s-]/)[0];
+  // buscar mismo trimestre, año anterior
+  function parseTrim(t){
+    const tt = t.trim();
+    const m = tt.match(/^(I{1,3}V?)\s*-\s*(\d{4})$/);
+    return {q:m[1], y:+m[2]};
+  }
+  const lastP = parseTrim(lastTrim);
+  const prevYearTrim = ORDER.find(t => { const p = parseTrim(t); return p.q===lastP.q && p.y===lastP.y-1; });
+  const prevVal = prevYearTrim ? (isCount(currentIndicator) ? findRow(prevYearTrim,currentIndicator).nac_total : rate(findRow(prevYearTrim,currentIndicator),'nac_total')) : null;
+
+  let maxIdx=-1, minIdx=-1;
+  s.forEach((v,i) => { if (v!=null){ if(maxIdx===-1||v>s[maxIdx]) maxIdx=i; if(minIdx===-1||v<s[minIdx]) minIdx=i; } });
+
+  const yoyDiff = (last!=null && prevVal!=null) ? (last-prevVal) : null;
+  const yoyClass = yoyDiff==null ? '' : (yoyDiff>=0 ? 'good' : 'bad');
+  const yoyArrow = yoyDiff==null ? '' : (yoyDiff>=0?'▲':'▼');
+  const yoyLabel = isCount(currentIndicator) ? (yoyDiff==null?'':fmtNum(Math.abs(yoyDiff))+' personas') : (yoyDiff==null?'':Math.abs(yoyDiff).toFixed(2)+' pp');
+
+  grid.innerHTML = `
+    <div class="kpi-card">
+      <div class="kpi-lbl">Valor actual (${lastTrim.trim()})</div>
+      <div class="kpi-val">${fmtVal(last, currentIndicator)}</div>
+      <div class="kpi-sub">${isCount(currentIndicator)?'personas':'sobre la PEA'}</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-lbl">Variación interanual</div>
+      <div class="kpi-val">${yoyDiff==null?'—':yoyArrow+' '+yoyLabel}</div>
+      <div class="kpi-sub ${yoyClass}">vs ${prevYearTrim?prevYearTrim.trim():'—'}</div>
+    </div>
+    <div class="kpi-card hi">
+      <div class="kpi-lbl">Máximo histórico</div>
+      <div class="kpi-val">${maxIdx>=0?fmtVal(s[maxIdx], currentIndicator):'—'}</div>
+      <div class="kpi-sub">${maxIdx>=0?ORDER[maxIdx].trim():'—'}</div>
+    </div>
+    <div class="kpi-card lo">
+      <div class="kpi-lbl">Mínimo histórico</div>
+      <div class="kpi-val">${minIdx>=0?fmtVal(s[minIdx], currentIndicator):'—'}</div>
+      <div class="kpi-sub">${minIdx>=0?ORDER[minIdx].trim():'—'}</div>
+    </div>`;
+}
+
+const AZUL = '#0b2d52', AZUL_CLARO='#1d6fa8', DORADO='#c8992a', ALERTA='#c2255c';
+
+function renderTrend(){
+  const nac = seriesFor(currentIndicator, 'nac_total');
+  const urb = seriesFor(currentIndicator, 'area_urbano');
+  const rur = seriesFor(currentIndicator, 'area_rural');
+  const flagsNac = flagsFor(currentIndicator, 'nac_total');
+  const labels = ORDER.map(t=>t.trim());
+  const ctx = document.getElementById('trendChart').getContext('2d');
+  if (trendChart) trendChart.destroy();
+  const unit = isCount(currentIndicator) ? '' : '%';
+  const ptColors = flagsNac.map(f => f ? ALERTA : AZUL);
+  const ptRadii = flagsNac.map(f => f ? 5 : 3);
+  trendChart = new Chart(ctx, {
+    type:'line',
+    data:{labels, datasets:[
+      {label:'Nacional', data:nac, borderColor:AZUL, backgroundColor:AZUL, borderWidth:3, tension:.3,
+       pointRadius:ptRadii, pointBackgroundColor:ptColors, pointBorderColor:ptColors},
+      {label:'Urbano', data:urb, borderColor:AZUL_CLARO, borderWidth:2, borderDash:[4,2], tension:.3, pointRadius:2},
+      {label:'Rural', data:rur, borderColor:DORADO, borderWidth:2, borderDash:[4,2], tension:.3, pointRadius:2},
+    ]},
+    options:{responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom'},
+        tooltip:{callbacks:{label: c => {
+          const base = `${c.dataset.label}: ${isCount(currentIndicator)?fmtNum(c.parsed.y):c.parsed.y.toFixed(1)+'%'}`;
+          return (c.dataset.label==='Nacional' && flagsNac[c.dataIndex]) ? base+' ⚠ CV>15%, usar con precaución' : base;
+        }}}},
+      scales:{y:{ticks:{callback:v=> isCount(currentIndicator) ? (v/1000).toFixed(0)+'k' : v+'%'}, grid:{color:'#eef1f4'}},
+              x:{grid:{display:false}, ticks:{autoSkip:true, maxRotation:0}}}}
+  });
+  toggleFlagNote('trendFlagNote', flagsNac.some(Boolean));
+}
+
+function renderQuarterChart(){
+  const yearsForQ = ORDER.filter(t => {
+    const tt = t.trim();
+    const q = tt.split(/[\s-]/)[0];
+    return q === currentQuarterType;
+  });
+  const labels = yearsForQ.map(t => t.trim().split('-')[1].trim());
+  const vals = yearsForQ.map(t => {
+    const row = findRow(t, currentIndicator);
+    return isCount(currentIndicator) ? row.nac_total : rate(row,'nac_total');
+  });
+  const flags = yearsForQ.map(t => isFlagged(findRow(t, currentIndicator), 'nac_total'));
+  const bg = flags.map(f => f ? ALERTA : AZUL_CLARO);
+  const ctx = document.getElementById('quarterChart').getContext('2d');
+  if (quarterChart) quarterChart.destroy();
+  quarterChart = new Chart(ctx, {
+    type:'bar',
+    data:{labels, datasets:[{label:`Trimestre ${currentQuarterType}`, data:vals, backgroundColor:bg, borderRadius:5}]},
+    options:{responsive:true, maintainAspectRatio:false,
+      layout:{padding:{top:22}},
+      plugins:{legend:{display:false},
+        tooltip:{callbacks:{label: c => {
+          const base = isCount(currentIndicator)?fmtNum(c.parsed.y):c.parsed.y.toFixed(1)+'%';
+          return flags[c.dataIndex] ? base+' ⚠ CV>15%, usar con precaución' : base;
+        }}},
+        datalabels:{
+          display:true, anchor:'end', align:'top', offset:2,
+          color:'#1c2a3a', font:{family:"Arial, sans-serif", weight:700, size:12},
+          formatter: (v,ctx) => isCount(currentIndicator)?fmtNum(v):v.toFixed(1)+'%'
+        }},
+      scales:{y:{ticks:{callback:v=> isCount(currentIndicator) ? (v/1000).toFixed(0)+'k' : v+'%'}, grid:{color:'#eef1f4'}},
+              x:{grid:{display:false}}}}
+  });
+  toggleFlagNote('quarterFlagNote', flags.some(Boolean));
+}
+
+const DISAG_CONFIG = {
+  area:{fields:[['area_urbano','Urbano'],['area_rural','Rural']]},
+  dominios:{fields:[['dom_quito','Quito'],['dom_guayaquil','Guayaquil'],['dom_cuenca','Cuenca'],['dom_machala','Machala'],['dom_ambato','Ambato']]},
+  sexo:{fields:[['sexo_hombre','Hombre'],['sexo_mujer','Mujer']]},
+  edad:{fields:[['edad_15_24','15-24'],['edad_25_34','25-34'],['edad_35_44','35-44'],['edad_45_64','45-64'],['edad_65mas','65+']]},
+  etnia:{fields:[['etnia_indigena','Indígena'],['etnia_afro','Afroecuat.'],['etnia_mestizo','Mestizo'],['etnia_blanco','Blanco'],['etnia_montubio','Montubio']]},
+};
+const PALETTE = ['#0b2d52','#1d6fa8','#c8992a','#2f7d5a','#b8433f','#7a5c9e'];
+
+Chart.register(ChartDataLabels);
+Chart.defaults.set('plugins.datalabels', {display:false});
+
+function toggleFlagNote(id, show){
+  let el = document.getElementById(id);
+  if (!el) return;
+  el.classList.toggle('hidden', !show);
+}
+
+function renderDisag(){
+  document.getElementById('snapTrimLabel').textContent = currentSnapTrim.trim();
+  const row = findRow(currentSnapTrim, currentIndicator);
+  const cfg = DISAG_CONFIG[currentDisag];
+  const labels = [], vals = [], flags = [];
+  cfg.fields.forEach(([field,label]) => {
+    if (!row) return;
+    let v;
+    if (isCount(currentIndicator)){
+      v = row[field];
+    } else {
+      v = rate(row, field);
+    }
+    labels.push(label);
+    vals.push(v);
+    flags.push(isFlagged(row, field));
+  });
+  const bg = labels.map((_,i)=> flags[i] ? ALERTA : PALETTE[i%PALETTE.length]);
+  const ctx = document.getElementById('disagChart').getContext('2d');
+  if (disagChart) disagChart.destroy();
+  disagChart = new Chart(ctx, {
+    type:'bar',
+    data:{labels, datasets:[{data:vals, backgroundColor:bg, borderRadius:5}]},
+    options:{responsive:true, maintainAspectRatio:false,
+      layout:{padding:{top:22}},
+      plugins:{legend:{display:false},
+        tooltip:{callbacks:{label: c => {
+          const base = isCount(currentIndicator)?fmtNum(c.parsed.y):(c.parsed.y==null?'—':c.parsed.y.toFixed(1)+'%');
+          return flags[c.dataIndex] ? base+' ⚠ CV>15%, usar con precaución' : base;
+        }}},
+        datalabels:{
+          display:(ctx) => ctx.dataset.data[ctx.dataIndex] != null,
+          anchor:'end', align:'top', offset:2,
+          color:'#1c2a3a', font:{family:"Arial, sans-serif", weight:700, size:12},
+          formatter: v => isCount(currentIndicator)?fmtNum(v):(v==null?'—':v.toFixed(1)+'%')
+        }},
+      scales:{y:{ticks:{callback:v=> isCount(currentIndicator) ? (v/1000).toFixed(0)+'k' : v+'%'}, grid:{color:'#eef1f4'}},
+              x:{grid:{display:false}}}}
+  });
+  toggleFlagNote('disagFlagNote', flags.some(Boolean));
+}
+
+function renderAll(){
+  renderDef();
+  renderInsights();
+  renderKpis();
+  renderTrend();
+  renderQuarterChart();
+  renderDisag();
+}
+
+document.querySelectorAll('#quarterPills .pill').forEach(p => {
+  p.addEventListener('click', () => {
+    currentQuarterType = p.dataset.q;
+    document.querySelectorAll('#quarterPills .pill').forEach(x=>x.classList.toggle('active', x===p));
+    renderQuarterChart();
+  });
+});
+document.querySelector(`#quarterPills .pill[data-q="${currentQuarterType}"]`)?.classList.add('active');
+
+document.querySelectorAll('#disagTabs .sub-tab').forEach(t => {
+  t.addEventListener('click', () => {
+    currentDisag = t.dataset.d;
+    document.querySelectorAll('#disagTabs .sub-tab').forEach(x=>x.classList.toggle('active', x===t));
+    renderDisag();
+  });
+});
+
+buildSelect();
+buildTrimSelect();
+renderAll();
+
+function toggleMenu(id){
+  document.getElementById(id).classList.toggle('open');
+}
+document.addEventListener('click', function(e){
+  document.querySelectorAll('.menu-drop.open').forEach(function(el){
+    if(!el.parentElement.contains(e.target)) el.classList.remove('open');
+  });
+});
+</script>
+<script type="text/plain" data-tras-datos data-src="../assets/js/shared.js"></script>
+<script type="text/plain" data-tras-datos>
+initSidebar({ activeId: 'pnd-trabajo', basePath: '../' });
+</script>
+
+<script type="text/plain" data-tras-datos data-src="../assets/js/export-utils.js"></script>
+</body>
+</html>

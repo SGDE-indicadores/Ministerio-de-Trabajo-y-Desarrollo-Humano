@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Protección Social | PND 2025–2029</title>
+<link rel="stylesheet" href="../assets/css/shared.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="../assets/js/export-utils.js"></script>
+<script src="../assets/js/pnd_ps_acciones.js"></script>
+<script>
+/* Polyfill defensivo: si el navegador no tiene ResizeObserver nativo (frecuente en
+   equipos institucionales con navegadores desactualizados), Chart.js falla al
+   construir el gráfico (ReferenceError) y el canvas queda en blanco, aunque el
+   título/subtítulo ya se hayan pintado. Este shim evita el crash. */
+if (typeof window.ResizeObserver === 'undefined') {
+  window.ResizeObserver = function(callback) {
+    this._callback = callback;
+    this._els = [];
+    this._onResize = () => this._callback(this._els.map(el => ({ target: el, contentRect: el.getBoundingClientRect() })));
+    window.addEventListener('resize', this._onResize);
+  };
+  window.ResizeObserver.prototype.observe = function(el) { this._els.push(el); };
+  window.ResizeObserver.prototype.unobserve = function(el) { this._els = this._els.filter(e => e !== el); };
+  window.ResizeObserver.prototype.disconnect = function() { window.removeEventListener('resize', this._onResize); this._els = []; };
+}
+</script>
+<style>
+:root{
+  --azul:#4F449A; --azul-med:#37306C; --azul-light:#E8EEF8; --azul-pale:#F2F5FB;
+  --amarillo:#F1B620; --amarillo-d:#C99200; --amarillo-l:#FEF7DC;
+  --rojo:#DE232D; --rojo-l:#FDECEA; --verde:#81A382; --verde-l:#E6F4EC;
+  --gris:#F5F6F8; --gris-bd:#DDE2EE; --texto:#1A1E2E; --subtexto:#5A6180;
+  --blanco:#FFFFFF; --shadow:0 2px 12px rgba(79,68,154,0.10);
+}
+.tpm-header {
+  background:var(--azul); padding:0 32px;
+  display:flex; align-items:center; justify-content:space-between;
+  height:60px; position:sticky; top:0; z-index:999;
+  border-bottom:3px solid var(--amarillo); font-family:Arial, sans-serif;
+}
+.tpm-header-left { display:flex; align-items:center; gap:14px; }
+.tpm-logo {
+  min-width:34px; height:34px; padding:0 5px; box-sizing:border-box; background:var(--amarillo); border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Arial Black', Arial, sans-serif; font-weight:700; font-size:12.5px; color:var(--azul); letter-spacing:0.2px;
+}
+.tpm-title {
+  font-family:'Arial Black', Arial, sans-serif; font-weight:600; font-size:16px;
+  color:white; letter-spacing:0.3px; line-height:1.2;
+}
+.tpm-sub { font-size:11px; color:rgba(255,255,255,0.55); margin-top:1px; }
+.tpm-right { display:flex; align-items:center; gap:10px; }
+.tpm-badge {
+  background:rgba(244,180,0,0.18); border:1px solid rgba(244,180,0,0.40);
+  color:var(--amarillo); padding:4px 12px; border-radius:20px;
+  font-size:11px; font-weight:600; font-family:Arial, sans-serif;
+}
+.tpm-back {
+  color:rgba(255,255,255,.7); font-size:12px; text-decoration:none;
+  border:1px solid rgba(255,255,255,.25); padding:4px 12px;
+  border-radius:20px; font-family:Arial, sans-serif;
+}
+.tpm-back:hover { color:white; }
+body { font-family:Arial, sans-serif; }
+
+:root{--azul:#4F449A;--azul2:#37306C;--azul3:#2563A8;--dorado:#F1B620;--dorado2:#F0C040;--bg:#F4F6FA;--panel:#fff;--borde:#D1D9E6;--txt:#1A2A3A;--muted:#4A5568;--verde:#81A382;--rojo:#C0392B;--sombra:0 10px 28px rgba(13,43,85,.08)}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--txt)}
+.topbar{background:var(--azul);border-bottom:3px solid var(--dorado);height:60px;padding:0 2rem;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:10}.escudo{width:36px;height:36px;background:var(--dorado);border-radius:50%;display:grid;place-items:center;font-weight:800;color:var(--azul)}.top-title{color:white;font-size:13px;font-weight:700}.top-sub{color:var(--dorado2);font-size:11px}.top-right{margin-left:auto;color:var(--dorado2);font-size:11px}.btn-inicio{color:var(--dorado2);text-decoration:none;border:1px solid rgba(201,168,76,.5);border-radius:6px;padding:.4rem .9rem;font-size:12px;font-weight:700;background:rgba(255,255,255,.08)}
+.breadcrumb{background:var(--azul2);padding:.5rem 2rem;color:rgba(255,255,255,.72);font-size:12px;display:flex;gap:.4rem;align-items:center}.breadcrumb span:last-child{color:var(--dorado2)}
+.main{max-width:1600px;margin:0 auto;padding:2rem 1.5rem}.dash-header{background:var(--azul);border-radius:12px;padding:1.5rem 2rem;margin-bottom:1.2rem;border-bottom:4px solid var(--dorado);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}.dash-header h1{font-size:19px;color:white;line-height:1.3;margin-bottom:.3rem}.dash-header p{font-size:12px;color:rgba(255,255,255,.68)}.pill{display:inline-flex;align-items:center;background:var(--dorado);color:var(--azul);font-size:11px;font-weight:800;padding:4px 12px;border-radius:999px;text-transform:uppercase;letter-spacing:.05em}.pill.ghost{background:rgba(255,255,255,.12);color:rgba(255,255,255,.9)}
+.alerta{background:#FDF3D7;border:1px solid #E0C060;border-left:4px solid var(--dorado);border-radius:8px;padding:.85rem 1rem;font-size:12px;color:#5A4200;line-height:1.5;margin-bottom:1rem}.toolbar{background:var(--panel);border:1px solid var(--borde);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1rem;display:flex;gap:.75rem;flex-wrap:wrap;align-items:center;box-shadow:var(--sombra)}.toolbar label{font-size:12px;font-weight:800;color:var(--azul);text-transform:uppercase;letter-spacing:.06em}.modo-btn,.month-btn{padding:.45rem 1rem;border:1.8px solid var(--borde);border-radius:7px;background:#fff;color:var(--muted);font-size:12px;font-weight:700;cursor:pointer}.modo-btn.active,.month-btn.active{background:var(--azul);border-color:var(--azul);color:#fff}select,input{padding:.45rem .75rem;border:1.8px solid var(--borde);border-radius:7px;background:#fff;color:var(--azul);font-size:13px;font-weight:700}.month-wrap{display:none;align-items:center;gap:.4rem;flex-wrap:wrap}.month-buttons{display:flex;gap:.4rem;flex-wrap:wrap}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem;margin-bottom:1.2rem}.kpi{background:var(--panel);border:1px solid var(--borde);border-radius:10px;padding:1rem 1.1rem;box-shadow:var(--sombra);position:relative;overflow:hidden}.kpi:before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--azul)}.kpi.gold:before{background:var(--dorado)}.kpi.green:before{background:var(--verde)}.kpi.red:before{background:var(--rojo)}.kpi-label{font-size:11px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.35rem}.kpi-val{font-size:28px;font-weight:800;color:var(--azul);line-height:1}.kpi-sub{font-size:11px;color:var(--muted);margin-top:.28rem}.delta{font-size:12px;font-weight:800;margin-top:.35rem}.delta.up{color:var(--verde)}.delta.down{color:var(--rojo)}
+.tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin:1rem 0 1.25rem}.tab{padding:.48rem 1rem;border:1.5px solid var(--borde);border-radius:999px;background:#fff;color:var(--muted);font-size:12px;font-weight:800;cursor:pointer}.tab.active{background:var(--azul);border-color:var(--azul);color:white}.panel{display:none}.panel.active{display:block}.card{background:var(--panel);border:1px solid var(--borde);border-radius:10px;padding:1.25rem 1.5rem;margin-bottom:1rem;box-shadow:var(--sombra)}.card-head{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;margin-bottom:.8rem}.card-title{font-size:14px;font-weight:800;color:var(--azul)}.card-sub{font-size:11px;color:var(--muted);margin-top:2px}.source{font-size:10px;color:#9AA5B4;font-style:italic;text-align:right}.chart{position:relative;height:330px}.chart.tall{height:420px}.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.mini-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1rem;margin-bottom:1rem}.mini-card{border:1px solid var(--borde);border-radius:10px;padding:1rem;background:#FBFDFF}.mini-card b{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}.mini-card div{font-size:24px;font-weight:800;color:var(--azul);margin-top:.35rem}.mini-card small{color:var(--muted)}
+.table-tools{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;margin-bottom:.8rem}.badge{font-size:11px;font-weight:800;color:var(--azul);background:#EDF2F8;padding:.3rem .65rem;border-radius:999px}.table-wrap{overflow:auto;border:1px solid var(--borde);border-radius:10px}table{width:100%;border-collapse:collapse;font-size:12px}thead tr{background:var(--azul)}th{padding:.65rem .85rem;color:white;text-align:left;white-space:nowrap;cursor:pointer}td{padding:.58rem .85rem;border-bottom:1px solid var(--borde);white-space:nowrap}tbody tr:nth-child(even){background:#F8FAFC}.num{text-align:right;font-variant-numeric:tabular-nums}.good{color:var(--verde);font-weight:800}.bad{color:var(--rojo);font-weight:800}.empty{text-align:center;color:var(--muted);padding:2rem}
+.sexo-visual{display:none;padding:1rem 0 .25rem}.sexo-img{display:block;max-width:260px;width:42%;min-width:180px;margin:.25rem auto 1rem}.sexo-values{display:grid;grid-template-columns:1fr 1fr;gap:1rem;max-width:560px;margin:0 auto}.sexo-value{background:#FBFDFF;border:1px solid var(--borde);border-radius:12px;padding:1rem;text-align:center}.sexo-value b{display:block;color:var(--azul);font-size:13px;margin-bottom:.35rem}.sexo-value strong{display:block;font-size:28px;color:var(--azul);line-height:1}.sexo-value small{display:block;margin-top:.3rem;color:var(--muted)}@media(max-width:680px){.freq-cards-ps{grid-template-columns:1fr;}}@media(max-width:640px){.sexo-values{grid-template-columns:1fr}.sexo-img{width:65%}}@media(max-width:760px){.topbar{padding:0 1rem}.top-right{display:none}.main{padding:1rem}.two-col{grid-template-columns:1fr}.dash-header{padding:1.2rem}.chart{height:290px}.card{padding:1rem}}
+
+
+.page-ps{display:none;}.page-ps.active{display:block;}
+.pg-wrap-ps{max-width:1600px;margin:0 auto;padding:2rem 1.5rem;}
+.freq-header-ps{background:#4F449A;border-radius:12px;padding:2rem 2.5rem;margin-bottom:2rem;border-bottom:4px solid #F1B620;}
+.freq-header-ps h2{font-size:22px;font-weight:700;color:white;margin-bottom:.5rem;}
+.freq-header-ps p{font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;}
+.freq-cards-ps{display:grid;grid-template-columns:300px 300px;justify-content:center;gap:1.25rem;margin-bottom:1.5rem;}
+.freq-card-ps{display:flex;flex-direction:column;background:white;border:2px solid #DDE2EE;border-radius:12px;padding:2rem 1.5rem;
+  cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .15s;text-align:center;}
+.freq-card-ps:hover{border-color:#4F449A;box-shadow:0 6px 24px rgba(79,68,154,.15);transform:translateY(-3px);}
+.freq-icon-ps{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  margin:0 auto 1rem;font-size:24px;background:#4F449A;}
+.def-box-ps{background:white;border:1px solid #DDE2EE;border-left:4px solid #37306C;border-radius:12px;
+  padding:1.4rem 1.6rem;margin-bottom:1.5rem;}
+.def-box-ps-title{font-size:15px;font-weight:700;color:#4F449A;margin-bottom:.6rem;}
+.def-box-ps-text{font-size:13px;color:#5A6180;line-height:1.65;}
+.limit-box-ps{background:white;border:1px solid #DDE2EE;border-radius:12px;margin-bottom:1.5rem;overflow:hidden;}
+.limit-box-ps summary{cursor:pointer;list-style:none;padding:1rem 1.5rem;display:flex;align-items:center;gap:.6rem;
+  font-size:13px;font-weight:700;color:#4F449A;background:#FDF3D7;border-left:4px solid #F1B620;}
+.limit-box-ps summary::-webkit-details-marker{display:none;}
+.limit-box-ps summary:after{content:'▸';margin-left:auto;font-size:11px;color:#4F449A;transition:transform .2s;}
+.limit-box-ps[open] summary:after{transform:rotate(90deg);}
+.limit-box-ps ol{padding:1rem 1.5rem 1.25rem 2.5rem;}
+.limit-box-ps li{font-size:12.5px;color:#5A6180;line-height:1.6;margin-bottom:.6rem;}
+.limit-box-ps li:last-child{margin-bottom:0;}
+.limit-box-ps li b{color:#4F449A;}
+.freq-card-ps h3{font-size:18px;font-weight:700;color:#4F449A;margin-bottom:.5rem;}
+.freq-card-ps p{font-size:13px;color:#5A6180;margin-bottom:1rem;line-height:1.5;}
+.freq-card-ps ul{list-style:none;font-size:12px;color:#5A6180;text-align:left;margin-bottom:1.25rem;}
+.freq-card-ps ul li{padding:3px 0 3px 1rem;position:relative;}
+.freq-card-ps ul li::before{content:'▸';position:absolute;left:0;color:#F1B620;}
+.btn-freq-ps{display:block;margin-top:auto;width:100%;padding:.75rem;border-radius:8px;border:none;
+  background:#4F449A;color:white;font-size:14px;font-weight:600;cursor:pointer;}
+.btn-freq-ps.dorado{background:#F1B620;color:#4F449A;}
+.acc-filtro-ps{padding:4px 12px;border:1.5px solid #DDE2EE;border-radius:20px;background:white;
+  font-size:11px;font-weight:600;color:#5A6180;cursor:pointer;transition:all .2s;}
+.acc-filtro-ps.active{background:#4F449A;border-color:#4F449A;color:white;}
+.acc-tipo-pp-ps{background:#EEF2FF;color:#4338CA;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;}
+.acc-estado-ps{background:#FEF3C7;color:#92400E;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;}
+.acc-rol-rect-ps{background:#DBEAFE;color:#1E40AF;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;}
+.acc-rol-ejec-ps{background:#EDE9FE;color:#5B21B6;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;}
+.acc-rol-corr-ps{background:#FEF3C7;color:#92400E;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;}
+.acc-inc-alta-ps{background:#D1FAE5;color:#065F46;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;}
+
+
+/* =========================================================
+   AJUSTE DE PROPORCIONES DEL DASHBOARD
+   Objetivo: mantener todas las secciones con el mismo ancho
+   visual que Nacional / Sexo, evitando que la tabla o el footer
+   ocupen todo el ancho de la página.
+   ========================================================= */
+html, body{
+  max-width:100%;
+  overflow-x:hidden;
+}
+
+#pg-datos-ps{
+  width:100%;
+}
+
+.main{
+  width:min(1600px, calc(100% - 48px));
+  max-width:1600px;
+  margin:0 auto;
+  padding:2rem 0 1.25rem;
+}
+
+.alerta,
+.toolbar,
+.kpi-grid,
+.tabs,
+.panel,
+.card{
+  width:100%;
+  max-width:100%;
+}
+
+#tabla{
+  width:100%;
+  max-width:100%;
+}
+
+#tabla .card{
+  width:100%;
+  max-width:1600px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.table-wrap{
+  width:100%;
+  max-width:100%;
+  overflow-x:auto;
+}
+
+#tabla table{
+  width:100%;
+  min-width:980px;
+}
+
+@media(max-width:760px){
+  .main{
+    width:calc(100% - 24px);
+    padding-left:0;
+    padding-right:0;
+  }
+
+  #tabla table{
+    min-width:900px;
+  }
+}
+
+
+
+/* =========================================================
+   AJUSTE ESPECÍFICO: GRÁFICOS DE SERVICIO Y ETNIA
+   Objetivo: que estos paneles mantengan el mismo ancho visual
+   que Nacional / Sexo y no se expandan desproporcionadamente.
+   ========================================================= */
+#servicio,
+#etnia{
+  width:100%;
+  max-width:1600px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+#servicio .card,
+#etnia .card{
+  width:100%;
+  max-width:1600px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+#servicio .chart,
+#etnia .chart{
+  width:100%;
+  max-width:100%;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+#servicio .chart{
+  height:300px;
+}
+
+#etnia .chart.tall{
+  height:340px;
+}
+
+#servicio canvas,
+#etnia canvas{
+  display:block;
+  width:100% !important;
+  max-width:100% !important;
+}
+
+@media(max-width:760px){
+  #servicio,
+  #etnia,
+  #servicio .card,
+  #etnia .card{
+    max-width:100%;
+  }
+
+  #servicio .chart{
+    height:290px;
+  }
+
+  #etnia .chart.tall{
+    height:330px;
+  }
+}
+
+
+
+/* =========================================================
+   HOMOLOGACIÓN MTDH V2
+   Colores de acceso y footer único fijo
+   Regla:
+   - Anual / Trimestral / Resultados administrativos: azul
+   - Acciones planificadas: amarillo
+   - Cronograma de gestión: verde
+   ========================================================= */
+:root{
+  --mdh-blue:#4F449A;
+  --mdh-blue-2:#37306C;
+  --mdh-yellow:#F1B620;
+  --mdh-yellow-dark:#C99200;
+  --mdh-green:#81A382;
+  --mdh-footer-h:44px;
+}
+html{min-height:100%;}
+body{
+  min-height:100vh !important;
+  padding-bottom:var(--mdh-footer-h) !important;
+}
+
+/* Tarjetas del selector inicial */
+.card-blue,
+.card-yellow,
+.card-green{
+  border-color:#DDE2EE !important;
+}
+.card-blue:hover{border-color:var(--mdh-blue) !important;}
+.card-yellow:hover{border-color:var(--mdh-yellow) !important;}
+.card-green:hover{border-color:var(--mdh-green) !important;}
+
+.card-blue [class*="icon"],
+.card-blue .inicio-icon{
+  background:var(--mdh-blue) !important;
+  color:#FFFFFF !important;
+}
+.card-yellow [class*="icon"],
+.card-yellow .inicio-icon{
+  background:var(--mdh-yellow) !important;
+  color:var(--mdh-blue) !important;
+}
+.card-green [class*="icon"],
+.card-green .inicio-icon{
+  background:var(--mdh-green) !important;
+  color:#FFFFFF !important;
+}
+
+.card-blue button[class*="btn"],
+.card-blue .btn-freq,
+.card-blue .btn-freq-ps,
+.card-blue .btn-freq-d,
+.card-blue .btn-freq-g,
+.card-blue .btn-freq-pi,
+.card-blue .btn-inicio-card{
+  background:var(--mdh-blue) !important;
+  border-color:var(--mdh-blue) !important;
+  color:#FFFFFF !important;
+}
+.card-yellow button[class*="btn"],
+.card-yellow .btn-freq,
+.card-yellow .btn-freq-ps,
+.card-yellow .btn-freq-d,
+.card-yellow .btn-freq-g,
+.card-yellow .btn-freq-pi,
+.card-yellow .btn-inicio-card{
+  background:var(--mdh-yellow) !important;
+  border-color:var(--mdh-yellow) !important;
+  color:var(--mdh-blue) !important;
+}
+.card-green button[class*="btn"],
+.card-green .btn-freq,
+.card-green .btn-freq-ps,
+.card-green .btn-freq-d,
+.card-green .btn-freq-g,
+.card-green .btn-freq-pi,
+.card-green .btn-inicio-card{
+  background:var(--mdh-green) !important;
+  border-color:var(--mdh-green) !important;
+  color:#FFFFFF !important;
+}
+
+/* Refuerzo específico para Protección Social */
+.freq-card-ps.card-blue .freq-icon-ps,
+.freq-card-ps.card-blue .btn-freq-ps{
+  background:var(--mdh-blue) !important;
+  color:#FFFFFF !important;
+}
+.freq-card-ps.card-yellow .freq-icon-ps,
+.freq-card-ps.card-yellow .btn-freq-ps,
+.freq-card-ps.card-yellow .btn-freq-ps.dorado{
+  background:var(--mdh-yellow) !important;
+  color:var(--mdh-blue) !important;
+}
+
+/* Footer único: barra azul al borde inferior, sin moverse entre pestañas */
+.dashboard-footer{
+  position:fixed !important;
+  left:0 !important;
+  right:0 !important;
+  bottom:0 !important;
+  z-index:950 !important;
+  width:100% !important;
+  min-height:var(--mdh-footer-h) !important;
+  background:var(--mdh-blue) !important;
+  color:rgba(255,255,255,.66) !important;
+  text-align:center !important;
+  font-family:Arial, Arial, sans-serif !important;
+  font-size:11px !important;
+  line-height:1.45 !important;
+  padding:14px 24px !important;
+  margin:0 !important;
+  border:0 !important;
+  box-shadow:0 -1px 8px rgba(79,68,154,.14) !important;
+}
+.dashboard-footer strong{
+  color:rgba(255,255,255,.88) !important;
+  font-weight:700 !important;
+}
+@media(max-width:760px){
+  :root{--mdh-footer-h:54px;}
+  .dashboard-footer{font-size:10.5px !important;padding:11px 16px !important;}
+}
+
+
+
+/* =========================================================
+   HOMOLOGACIÓN MTDH V3 — Migas de navegación y pie de página
+   ========================================================= */
+:root{
+  --mdh-blue:#4F449A;
+  --mdh-blue-2:#37306C;
+  --mdh-yellow:#F1B620;
+  --mdh-footer-h:44px;
+}
+html{min-height:100%;}
+body{
+  min-height:100vh !important;
+  padding-bottom:var(--mdh-footer-h) !important;
+}
+.mdh-breadcrumb,
+.breadcrumb.mdh-breadcrumb{
+  width:100% !important;
+  min-height:34px !important;
+  background:var(--blanco) !important; border-bottom:2px solid var(--gris-bd) !important;
+  padding:8px 32px !important;
+  display:flex !important;
+  align-items:center !important;
+  gap:7px !important;
+  flex-wrap:wrap !important;
+  font-family:Arial, Arial, sans-serif !important;
+  font-size:12px !important;
+  line-height:1.35 !important;
+  color:var(--subtexto) !important;
+  border:0 !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+  margin:0 !important;
+  position:sticky !important;
+  top:105px !important;
+  z-index:96 !important;
+}
+.mdh-breadcrumb a,
+.mdh-breadcrumb .mdh-bc-base{
+  color:var(--subtexto) !important;
+  text-decoration:none !important;
+  font-weight:500 !important;
+  cursor:pointer !important;
+}
+.mdh-breadcrumb a:hover,
+.mdh-breadcrumb .mdh-bc-base:hover{
+  color:var(--azul) !important;
+}
+.mdh-breadcrumb .mdh-bc-sep{
+  color:#9AA5B4 !important;
+  font-weight:600 !important;
+}
+.mdh-breadcrumb .mdh-bc-current{
+  color:var(--texto) !important;
+  font-weight:700 !important;
+}
+.dashboard-footer{
+  position:fixed !important;
+  left:0 !important;
+  right:0 !important;
+  bottom:0 !important;
+  z-index:950 !important;
+  width:100% !important;
+  min-height:var(--mdh-footer-h) !important;
+  background:var(--mdh-blue) !important;
+  color:rgba(255,255,255,.66) !important;
+  text-align:center !important;
+  font-family:Arial, Arial, sans-serif !important;
+  font-size:11px !important;
+  line-height:1.45 !important;
+  padding:14px 24px !important;
+  margin:0 !important;
+  border:0 !important;
+  box-shadow:0 -1px 8px rgba(79,68,154,.14) !important;
+}
+.dashboard-footer strong{
+  color:rgba(255,255,255,.88) !important;
+  font-weight:700 !important;
+}
+@media(max-width:760px){
+  :root{--mdh-footer-h:54px;}
+  .mdh-breadcrumb,
+  .breadcrumb.mdh-breadcrumb{padding:8px 16px !important;font-size:11.5px !important;}
+  .dashboard-footer{font-size:10.5px !important;padding:11px 16px !important;}
+}
+
+
+/* Espacio para franja de navegacion lateral */
+body.has-sidebar { margin-left: var(--sidebar-w); }
+@media (max-width: 900px){ body.has-sidebar { margin-left: 0; } }
+</style>
+</head>
+<body>
+
+<div id="app-sidebar-mount"></div>
+<div class="tpm-header">
+  <div class="tpm-header-left">
+    <div class="tpm-logo">MTDH</div>
+    <div>
+      <div class="tpm-title">Porcentaje de usuarios de los servicios de protección social que se encuentran en condición de pobreza y pobreza extrema</div>
+      <div class="tpm-sub">Ministerio de Trabajo y Desarrollo Humano · Registros administrativos</div>
+    </div>
+  </div>
+  <div class="tpm-right">
+    <div class="tpm-badge">Jun 2026: 71,94%</div>
+    
+  </div>
+</div>
+<nav class="breadcrumb mdh-breadcrumb" id="mdh-breadcrumb" aria-label="Ruta de navegación"><a href="../index_PND.html">Inicio</a><span class="mdh-bc-sep">›</span><span class="mdh-bc-base">Usuarios de servicios de protección social</span><span class="mdh-bc-sep">›</span><span class="mdh-bc-current">Menú del indicador</span></nav>
+
+<div id="pg-inicio-ps" class="page-ps active">
+  <div class="pg-wrap-ps">
+    <div class="freq-header-ps">
+      <h2>Porcentaje de usuarios de los servicios de protección social que se encuentran en condición de pobreza y pobreza extrema</h2>
+      <p>Selecciona la información que deseas consultar sobre el Plan Nacional de Desarrollo 2025–2029.</p>
+    </div>
+
+    <div class="def-box-ps">
+      <div class="def-box-ps-title">📖 Definición del indicador</div>
+      <p class="def-box-ps-text">Mide la proporción de usuarios de los servicios de protección social que se encuentran en situación de pobreza y pobreza extrema según el Índice de Registro Social, respecto al total de usuarios atendidos en dichos servicios.</p>
+    </div>
+
+    <details class="limit-box-ps">
+      <summary>⚠️ Limitaciones técnicas del indicador</summary>
+      <ol>
+        <li>La precisión del indicador puede verse limitada por la <b>incompletitud u omisión de datos</b> ocasionada por errores humanos al momento de registrar la información durante la prestación de servicios.</li>
+        <li>Los <b>registros administrativos no están diseñados con fines estadísticos</b>, por lo que suelen llenarse de forma parcial, con errores o campos vacíos, generando inconsistencias y pérdida de calidad en la información.</li>
+        <li>Cuando no se cuenta con información sobre la condición de pobreza del núcleo familiar del beneficiario, se <b>imputa la información del representante del hogar</b>, lo que podría no reflejar la situación real del beneficiario.</li>
+        <li>Los usuarios <b>sin cédula de identidad</b> no pueden identificarse en el Registro Social, pero igual se consideran en el indicador; por esta razón, el indicador podría <b>subestimar la focalización</b> de los servicios.</li>
+        <li>El Registro Social es un <b>instrumento estático en el tiempo</b>: la información refleja la situación socioeconómica de los hogares únicamente a la fecha de levantamiento.</li>
+        <li>El indicador puede variar por factores ajenos a la gestión del servicio: <b>cambios metodológicos</b> en el Índice del Registro Social, actualización del tipo de levantamiento en hogares ya registrados, o levantamiento de información a nuevos hogares.</li>
+      </ol>
+    </details>
+
+    <div class="freq-cards-ps">
+      <div class="freq-card-ps card-blue" onclick="irPaginaPS('pg-datos-ps')">
+        <div class="freq-icon-ps">📊</div>
+        <h3>Resultados administrativos</h3>
+        <p>Registros MTDH — usuarios en condición de pobreza por área, sexo, servicio y etnia</p>
+        <ul>
+          <li>10 períodos: Dic 2021 – Jun 2026</li>
+          <li>Desagregación: área, sexo, tipo de servicio, etnia</li>
+          <li>Último: Jun 2026 · 71,94%</li>
+        </ul>
+        <button class="btn-freq-ps">Ver resultados →</button>
+      </div>
+      <div class="freq-card-ps card-yellow" onclick="irPaginaPS('pg-acciones-ps')">
+        <div class="freq-icon-ps">📋</div>
+        <h3>Acciones planificadas 2026</h3>
+        <p>Cronograma del MTDH para incrementar la cobertura de protección social en pobreza</p>
+        <ul>
+          <li><span data-pps-resumen="usuarios-ps">Acciones y seguimiento mensual</span></li>
+          <li>Presupuesto total: +$300M</li>
+          <li>Todo Política Pública · MTDH</li>
+        </ul>
+        <button class="btn-freq-ps dorado">Ver acciones →</button>
+      </div>
+    </div>
+    <div style="background:#F5F6F8;border-radius:8px;padding:.85rem 1rem;font-size:12px;color:#5A6180;line-height:1.6;">
+      <strong style="color:#4F449A;">Nota metodológica:</strong> Datos administrativos del MTDH. Sin error estándar, IC ni CV.
+      El indicador mide el porcentaje de usuarios de servicios del MTDH que están en condición de pobreza o pobreza extrema según el Índice de Registro Social.
+    </div>
+  </div>
+</div>
+
+<div id="pg-datos-ps" class="page-ps">
+<main class="main">
+  <div class="alerta"><strong>Lectura del indicador:</strong> La serie anual corresponde al corte de diciembre de cada año. Al elegir un año en "Por año" se muestra su corte más reciente disponible.</div>
+  <section class="toolbar">
+    <label>Ver:</label><button class="modo-btn active" id="mode-series" onclick="setViewMode('series')">Toda la serie anual</button><button class="modo-btn" id="mode-year" onclick="setViewMode('year')">Por año</button>
+    <span id="yearWrap" style="display:none;align-items:center;gap:.4rem"><label>Año:</label><select id="yearSelect" onchange="setYear(this.value)"></select></span>
+  </section>
+  <section class="kpi-grid" id="kpiGrid"></section>
+  <nav class="tabs">
+    <button class="tab active" onclick="showTab('nacional',this)">Nacional / Área</button>
+    <button class="tab" onclick="showTab('sexo',this)">Sexo</button>
+    <button class="tab" onclick="showTab('servicio',this)">Tipo de servicio</button>
+    <button class="tab" onclick="showTab('etnia',this)">Etnia</button>
+    <button class="tab" onclick="showTab('tabla',this)">Tabla de datos</button>
+  </nav>
+  <section id="nacional" class="panel active">
+    <div class="card"><div class="card-head"><div><div class="card-title" id="geoTitle">Serie anual nacional, urbana y rural</div><div class="card-sub" id="geoSub"></div></div></div><div class="chart"><canvas id="geoChart"></canvas></div></div>
+    <div class="two-col"><div class="card"><div class="card-head"><div><div class="card-title">Brecha urbano-rural</div><div class="card-sub" id="brechaSub"></div></div></div><div class="chart"><canvas id="brechaChart"></canvas></div></div><div class="card"><div class="card-head"><div><div class="card-title">Tendencia nacional vs meta 2029</div><div class="card-sub">Punto destacado = corte seleccionado</div></div></div><div class="chart"><canvas id="metaChart"></canvas></div></div></div>
+  </section>
+  <section id="sexo" class="panel"><div class="card"><div class="card-head"><div><div class="card-title" id="sexoTitle">Desagregación por sexo</div><div class="card-sub" id="sexoSub"></div></div></div><div class="chart" id="sexoChartWrap"><canvas id="sexoChart"></canvas></div><div class="sexo-visual" id="sexoVisual"><img class="sexo-img" id="sexoImgH" src="../imagenes/hombre.png" alt="Hombre" style="display:none;"><img class="sexo-img" id="sexoImgM" src="../imagenes/mujer.png"  alt="Mujer"  style="display:none;"><div id="sexoValues" class="sexo-values"></div></div></div></div></section>
+  <section id="servicio" class="panel"><div class="card"><div class="card-head"><div><div class="card-title" id="srvTitle">Desagregación por tipo de servicio</div><div class="card-sub" id="srvSub"></div></div></div><div class="chart"><canvas id="srvChart"></canvas></div></div></section>
+  <section id="etnia" class="panel"><div class="card"><div class="card-head"><div><div class="card-title" id="etniaTitle">Desagregación por etnia</div><div class="card-sub" id="etniaSub"></div></div></div><div class="chart tall"><canvas id="etniaChart"></canvas></div></div></section>
+  <section id="tabla" class="panel"><div class="card"><div class="card-head"><div><div class="card-title">Tabla consolidada</div><div class="card-sub">Incluye geográfico, sexo, tipo de servicio y etnia.</div></div></div><div class="table-tools"><select id="tableYear" onchange="renderTable()"><option value="">Todos los años</option></select><select id="tableDim" onchange="renderTable()"><option value="">Todas las desagregaciones</option><option>Geográfico</option><option>Sexo</option><option>Servicio</option><option>Etnia</option></select><input id="tableText" placeholder="Buscar..." oninput="renderTable()"><span class="badge" id="rowCount">0 filas</span></div><div class="table-wrap"><table><thead><tr><th onclick="sortTable('per')">Período</th><th onclick="sortTable('tipo')">Desagregación</th><th onclick="sortTable('grupo')">Grupo</th><th onclick="sortTable('est')">Estimador</th><th onclick="sortTable('num')">Numerador</th><th onclick="sortTable('den')">Denominador</th><th onclick="sortTable('gap')">vs Meta 2029</th></tr></thead><tbody id="dataBody"></tbody></table></div></div></section>
+</main>
+<script src="../assets/js/cargar-datos.js"></script>
+<script>
+// Datos de esta página (carpeta datos/). Ver datos/LEEME.md
+cargarDatos({
+  CATALOGO: { archivo: '../datos/pnd/proteccion_social/pnd_ps_indicadores.csv', forma: 'filas', texto: ['codigo_meta'] },
+  GEO: { archivo: '../datos/pnd/proteccion_social/usuarios_proteccion_social/territorio.csv', forma: 'filas', texto: ['per', 'area'] },
+  SEXO: { archivo: '../datos/pnd/proteccion_social/usuarios_proteccion_social/sexo.csv', forma: 'filas', texto: ['per', 'sexo'] },
+  SRV: { archivo: '../datos/pnd/proteccion_social/usuarios_proteccion_social/servicios.csv', forma: 'filas', texto: ['per', 'srv'] },
+  ETNIA: { archivo: '../datos/pnd/proteccion_social/usuarios_proteccion_social/etnia.csv', forma: 'filas', texto: ['per', 'etnia'] }
+});
+</script>
+<script type="text/plain" data-tras-datos>
+
+
+// Meta 2029 tomada del catálogo de indicadores PND (pnd_ps_indicadores.csv, en %)
+const META=+(CATALOGO.find(i=>i.indicador_id==='usuarios-ps').meta_2029/100).toFixed(6);
+const PERIODS=["Dic 2021","Dic 2022","Dic 2023","Dic 2024","Mar 2025","Jun 2025","Sep 2025","Dic 2025","Mar 2026","Jun 2026"];
+const MONTH_ORDER={"Mar":1,"Jun":2,"Sep":3,"Dic":4};
+const YEARS=[...new Set(PERIODS.map(p=>p.split(' ')[1]))].sort((a,b)=>b-a);
+const COLORS={nac:'#6B3FA0',urb:'#1A3A6B',rur:'#C0622D',meta:'#C0392B',h:'#1A5FA8',m:'#C0395A',srv:['#81A382','#8B5CF6','#0891B2'],etnia:['#4F46E5','#0F766E','#B45309','#BE123C','#64748B','#16A34A','#EA580C','#0EA5E9']};
+let viewMode='series', selectedYear='2025', selectedPeriod='Dic 2025', sortKey='per', sortAsc=true;
+let charts={};
+const fmtPct=v=>(v*100).toLocaleString('es-EC',{minimumFractionDigits:2,maximumFractionDigits:2})+'%';
+const fmtNum=v=>Number(v).toLocaleString('es-EC');
+const pp=v=>(v*100).toLocaleString('es-EC',{minimumFractionDigits:2,maximumFractionDigits:2});
+const yearOf=p=>p.split(' ')[1]; const monthOf=p=>p.split(' ')[0];
+const annualPeriods=()=>PERIODS.filter(p=>monthOf(p)==='Dic').sort((a,b)=>yearOf(a)-yearOf(b));
+const periodsForYear=y=>PERIODS.filter(p=>yearOf(p)===String(y)).sort((a,b)=>MONTH_ORDER[monthOf(a)]-MONTH_ORDER[monthOf(b)]);
+const activePeriods=()=>viewMode==='series'?annualPeriods():[selectedPeriod];
+const findGeo=(area,per=selectedPeriod)=>GEO.find(r=>r.per===per&&r.area===area);
+function populate(){
+  const y=document.getElementById('yearSelect'); y.innerHTML=''; YEARS.forEach(v=>y.add(new Option(v,v))); y.value=selectedYear;
+  const ty=document.getElementById('tableYear'); YEARS.slice().sort((a,b)=>b-a).forEach(v=>ty.add(new Option(v,v)));
+}
+function setViewMode(m){viewMode=m;document.getElementById('mode-series').classList.toggle('active',m==='series');document.getElementById('mode-year').classList.toggle('active',m==='year');document.getElementById('yearWrap').style.display=m==='year'?'inline-flex':'none';if(m==='series'){selectedPeriod='Dic 2025'}else{setYear(selectedYear,false)}updateAll();}
+function setYear(y,doUpdate=true){selectedYear=String(y);const ps=periodsForYear(selectedYear);selectedPeriod=ps.includes('Dic '+selectedYear)?'Dic '+selectedYear:ps[ps.length-1];if(doUpdate)updateAll();}
+function showTab(id,btn){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');setTimeout(()=>Object.values(charts).forEach(c=>c&&c.resize()),60)}
+function kpis(){const r=findGeo('Nacional'),u=findGeo('Urbano'),ru=findGeo('Rural');const ps=PERIODS;const i=ps.indexOf(selectedPeriod);const prev=i>0?findGeo('Nacional',ps[i-1]):null;const gap=META-r.est;document.getElementById('kpiGrid').innerHTML=`<article class="kpi"><div class="kpi-label">Nacional · ${selectedPeriod}</div><div class="kpi-val">${fmtPct(r.est)}</div><div class="kpi-sub">${fmtNum(r.num)} / ${fmtNum(r.den)} usuarios</div>${prev?`<div class="delta ${r.est-prev.est>=0?'up':'down'}">${r.est-prev.est>=0?'▲':'▼'} ${pp(Math.abs(r.est-prev.est))} pp vs ${ps[i-1]}</div>`:''}</article><article class="kpi ${gap>0?'red':'green'}"><div class="kpi-label">Meta 2029</div><div class="kpi-val">90,23%</div><div class="kpi-sub">${gap>0?'Pendiente por alcanzar':'Meta superada'}</div><div class="delta ${gap>0?'down':'up'}">${gap>0?pp(gap)+' pp pendientes':'+'+pp(-gap)+' pp sobre la meta'}</div></article><article class="kpi gold"><div class="kpi-label">Rural</div><div class="kpi-val">${fmtPct(ru.est)}</div><div class="kpi-sub">Brecha rural-urbano: ${pp(ru.est-u.est)} pp</div></article><article class="kpi green"><div class="kpi-label">Urbano</div><div class="kpi-val">${fmtPct(u.est)}</div><div class="kpi-sub">${fmtNum(u.num)} / ${fmtNum(u.den)} usuarios</div></article>`;}
+function destroy(id){if(charts[id]){charts[id].destroy();charts[id]=null}}
+// Plugin genérico de valores en gráfico: dibuja el valor de cada punto/barra usando
+// el mismo formateador que ya tiene el eje Y de ese gráfico (%, $, o número plano),
+// así cada gráfico muestra sus valores con el formato correcto sin configurarlo
+// gráfico por gráfico. Aplica a barras y líneas; las líneas de "meta" (pointRadius:0)
+// no se etiquetan para no saturar.
+const valueLabelPlugin={id:'valueLabelPlugin',afterDatasetsDraw(chart){
+  if(chart.config.type!=='bar'&&chart.config.type!=='line')return;
+  const{ctx}=chart;ctx.save();ctx.font='700 10px Segoe UI, Arial';ctx.textBaseline='middle';
+  const yScale=chart.options.scales&&chart.options.scales.y;
+  const tickCb=yScale&&yScale.ticks&&typeof yScale.ticks.callback==='function'?yScale.ticks.callback:null;
+  const fmt=v=>{if(v===null||v===undefined||!Number.isFinite(Number(v)))return '';const n=Math.round(Number(v)*100)/100;if(tickCb){try{return String(tickCb(n));}catch(e){}}return n.toLocaleString('es-EC');};
+  chart.data.datasets.forEach((ds,i)=>{
+    const meta=chart.getDatasetMeta(i);
+    if(meta.hidden)return;
+    if(chart.config.type==='line'&&ds.pointRadius===0)return;
+    meta.data.forEach((el,j)=>{
+      const raw=ds.data[j];
+      const num=(raw&&typeof raw==='object')?raw.y:raw;
+      const txt=fmt(num);
+      if(!txt)return;
+      const p=el.tooltipPosition();
+      ctx.fillStyle=ds.borderColor||ds.backgroundColor||'#4F449A';
+      if(chart.config.type==='bar'&&chart.options.indexAxis==='y'){ctx.textAlign='left';ctx.fillText(txt,p.x+8,p.y);}
+      else{ctx.textAlign='center';ctx.fillText(txt,p.x,p.y-10);}
+    });
+  });
+  ctx.restore();
+}};
+function lineOpts(){return{responsive:true,maintainAspectRatio:false,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${Number(c.raw).toLocaleString('es-EC',{minimumFractionDigits:2,maximumFractionDigits:2})}%`}}},scales:{y:{ticks:{callback:v=>v+'%'},suggestedMin:45,suggestedMax:100,grid:{color:'#EDF1F7'}},x:{grid:{display:false}}}}}
+function barOpts(horizontal=false){
+  return {
+    indexAxis: horizontal ? 'y' : 'x',
+    responsive:true,maintainAspectRatio:false,
+    maintainAspectRatio: false,
+    layout: { padding: { top: 18, right: horizontal ? 64 : 10 } },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          title: items => items[0].label,
+          label: c => 'Estimador: ' + Number(c.raw).toLocaleString('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%'
+        }
+      }
+    },
+    scales: horizontal ? {
+      x: { type:'linear', min:0, max:100, ticks: { callback: v => v + '%', stepSize: 10 }, grid: { color: '#EDF1F7' }, title: { display:true, text:'Estimador (%)', font:{ size:11, weight:'700' }, color:'#4A5568' } },
+      y: { type:'category', ticks: { autoSkip: false }, grid: { display: false }, title: { display:true, text:'Categoría', font:{ size:11, weight:'700' }, color:'#4A5568' } }
+    } : {
+      x: { ticks: { autoSkip: false, maxRotation: 0, minRotation: 0 }, grid: { display: false } },
+      y: { ticks: { callback: v => v + '%' }, grid: { color: '#EDF1F7' }, suggestedMax: 100 }
+    }
+  };
+}
+function renderGeo(){const ps=activePeriods();const series=viewMode==='series';document.getElementById('geoTitle').textContent=series?'Serie anual nacional, urbana y rural':'Nacional, urbano y rural · '+selectedPeriod;document.getElementById('geoSub').textContent=series?'Diciembre de cada año.':'Corte más reciente disponible en '+selectedYear+'.';destroy('geo');charts.geo=new Chart(document.getElementById('geoChart'),{type:series?'line':'bar',data:{labels:series?ps:['Nacional','Urbano','Rural'],datasets:series?[{label:'Nacional',data:ps.map(p=>+(findGeo('Nacional',p).est*100).toFixed(2)),borderColor:COLORS.nac,backgroundColor:COLORS.nac,tension:.25},{label:'Urbano',data:ps.map(p=>+(findGeo('Urbano',p).est*100).toFixed(2)),borderColor:COLORS.urb,backgroundColor:COLORS.urb,tension:.25},{label:'Rural',data:ps.map(p=>+(findGeo('Rural',p).est*100).toFixed(2)),borderColor:COLORS.rur,backgroundColor:COLORS.rur,tension:.25},{label:'Meta 2029',data:ps.map(()=>+(META*100).toFixed(2)),borderColor:COLORS.meta,borderDash:[7,6],pointRadius:0}]:[{label:'Estimador',data:['Nacional','Urbano','Rural'].map(a=>+(findGeo(a).est*100).toFixed(2)),backgroundColor:[COLORS.nac,COLORS.urb,COLORS.rur]}]},options:series?lineOpts():barOpts(false)});renderBrecha();renderMetaTrend();}
+function renderBrecha(){const u=findGeo('Urbano'),r=findGeo('Rural');document.getElementById('brechaSub').textContent=`${selectedPeriod}: ${pp(r.est-u.est)} pp`;destroy('brecha');charts.brecha=new Chart(document.getElementById('brechaChart'),{type:'bar',data:{labels:['Urbano','Rural'],datasets:[{data:[+(u.est*100).toFixed(2),+(r.est*100).toFixed(2)],backgroundColor:[COLORS.urb,COLORS.rur]}]},options:barOpts(false)});}
+function renderMetaTrend(){const ps=annualPeriods();destroy('meta');charts.meta=new Chart(document.getElementById('metaChart'),{type:'line',data:{labels:ps,datasets:[{label:'Nacional',data:ps.map(p=>+(findGeo('Nacional',p).est*100).toFixed(2)),borderColor:COLORS.nac,backgroundColor:COLORS.nac,tension:.25,pointRadius:ps.map(p=>p===selectedPeriod?7:4),pointBackgroundColor:ps.map(p=>p===selectedPeriod?'#F0C040':COLORS.nac)},{label:'Meta 2029',data:ps.map(()=>+(META*100).toFixed(2)),borderColor:COLORS.meta,borderDash:[7,6],pointRadius:0}]},options:lineOpts()});}
+function renderSexo(){const ps=activePeriods(),series=viewMode==='series';document.getElementById('sexoTitle').textContent=series?'Serie anual por sexo':'Sexo · '+selectedPeriod;document.getElementById('sexoSub').textContent=series?'Diciembre de cada año.':'Corte más reciente disponible.';const wrap=document.getElementById('sexoChartWrap'),visual=document.getElementById('sexoVisual');if(series){wrap.style.display='block';visual.style.display='none';destroy('sexo');charts.sexo=new Chart(document.getElementById('sexoChart'),{type:'line',data:{labels:ps,datasets:[{label:'Hombre',data:ps.map(p=>+(SEXO.find(x=>x.per===p&&x.sexo==='Hombre').est*100).toFixed(2)),borderColor:COLORS.h,backgroundColor:COLORS.h,tension:.25},{label:'Mujer',data:ps.map(p=>+(SEXO.find(x=>x.per===p&&x.sexo==='Mujer').est*100).toFixed(2)),borderColor:COLORS.m,backgroundColor:COLORS.m,tension:.25}]},options:lineOpts()});}else{destroy('sexo');wrap.style.display='none';visual.style.display='block';const h=SEXO.find(x=>x.per===selectedPeriod&&x.sexo==='Hombre'),m=SEXO.find(x=>x.per===selectedPeriod&&x.sexo==='Mujer');const imgH=document.getElementById('sexoImgH'),imgM=document.getElementById('sexoImgM');if(imgH){imgH.style.display='none';}if(imgM){imgM.style.display='none';}document.getElementById('sexoValues').innerHTML=`<div class="sexo-value" style="text-align:center;">`+`<img src="../imagenes/hombre.png" alt="Hombre" style="width:80px;height:80px;object-fit:contain;display:block;margin:0 auto .5rem;">`+`<strong style="font-size:26px;color:#1A5FA8;display:block;">${fmtPct(h.est)}</strong>`+`<b style="color:#1A5FA8;">Hombre</b>`+`<small style="display:block;margin-top:.3rem;color:#4A5568;">${fmtNum(h.num)} / ${fmtNum(h.den)}</small>`+`</div>`+`<div class="sexo-value" style="text-align:center;">`+`<img src="../imagenes/mujer.png" alt="Mujer" style="width:80px;height:80px;object-fit:contain;display:block;margin:0 auto .5rem;">`+`<strong style="font-size:26px;color:#C0395A;display:block;">${fmtPct(m.est)}</strong>`+`<b style="color:#C0395A;">Mujer</b>`+`<small style="display:block;margin-top:.3rem;color:#4A5568;">${fmtNum(m.num)} / ${fmtNum(m.den)}</small>`+`</div>`;}}
+function renderServicio(){const ps=activePeriods(),series=viewMode==='series';const cats=['Desarrollo Infantil Integral','Personas adultas mayores','Personas con discapacidad'];document.getElementById('srvTitle').textContent=series?'Serie anual por tipo de servicio':'Tipo de servicio · '+selectedPeriod;document.getElementById('srvSub').textContent=series?'Diciembre de cada año.':'Corte más reciente disponible.';destroy('srv');charts.srv=new Chart(document.getElementById('srvChart'),{type:series?'line':'bar',data:{labels:series?ps:cats,datasets:series?cats.map((c,i)=>({label:c,data:ps.map(p=>+(SRV.find(x=>x.per===p&&x.srv===c).est*100).toFixed(2)),borderColor:COLORS.srv[i],backgroundColor:COLORS.srv[i],tension:.25})): [{label:'Estimador',data:cats.map(c=>+(SRV.find(x=>x.per===selectedPeriod&&x.srv===c).est*100).toFixed(2)),backgroundColor:COLORS.srv}]},options:series?lineOpts():barOpts(true)});}
+function renderEtnia(){const ps=activePeriods(),series=viewMode==='series';const cats=[...new Set(ETNIA.map(x=>x.etnia))];document.getElementById('etniaTitle').textContent=series?'Serie anual por etnia':'Etnia · '+selectedPeriod;document.getElementById('etniaSub').textContent=series?'Diciembre de cada año.':'Corte más reciente disponible.';destroy('etnia');charts.etnia=new Chart(document.getElementById('etniaChart'),{type:series?'line':'bar',data:{labels:series?ps:cats,datasets:series?cats.map((c,i)=>({label:c,data:ps.map(p=>+(ETNIA.find(x=>x.per===p&&x.etnia===c).est*100).toFixed(2)),borderColor:COLORS.etnia[i%COLORS.etnia.length],backgroundColor:COLORS.etnia[i%COLORS.etnia.length],tension:.25})): [{label:'Estimador',data:cats.map(c=>+(ETNIA.find(x=>x.per===selectedPeriod&&x.etnia===c).est*100).toFixed(2)),backgroundColor:COLORS.etnia}]},options:series?lineOpts():barOpts(true)});}
+function allRows(){return[...GEO.map(r=>({per:r.per,tipo:'Geográfico',grupo:r.area,est:r.est,num:r.num,den:r.den,gap:META-r.est})),...SEXO.map(r=>({per:r.per,tipo:'Sexo',grupo:r.sexo,est:r.est,num:r.num,den:r.den,gap:META-r.est})),...SRV.map(r=>({per:r.per,tipo:'Servicio',grupo:r.srv,est:r.est,num:r.num,den:r.den,gap:META-r.est})),...ETNIA.map(r=>({per:r.per,tipo:'Etnia',grupo:r.etnia,est:r.est,num:r.num,den:r.den,gap:META-r.est}))];}
+function renderTable(){const y=document.getElementById('tableYear').value,d=document.getElementById('tableDim').value,q=document.getElementById('tableText').value.toLowerCase().trim();let rows=allRows().filter(r=>(!y||yearOf(r.per)===y)&&(!d||r.tipo===d)&&(!q||(r.grupo+' '+r.tipo+' '+r.per).toLowerCase().includes(q)));rows.sort((a,b)=>{let va=a[sortKey],vb=b[sortKey];if(sortKey==='per'){va=PERIODS.indexOf(va);vb=PERIODS.indexOf(vb)}return(va>vb?1:va<vb?-1:0)*(sortAsc?1:-1)});document.getElementById('rowCount').textContent=rows.length+' filas';document.getElementById('dataBody').innerHTML=rows.length?rows.map(r=>`<tr><td>${r.per}</td><td>${r.tipo}</td><td>${r.grupo}</td><td class="num">${fmtPct(r.est)}</td><td class="num">${fmtNum(r.num)}</td><td class="num">${fmtNum(r.den)}</td><td class="num ${r.gap>0?'bad':'good'}">${r.gap>0?pp(r.gap)+' pp':'+'+pp(-r.gap)+' pp'}</td></tr>`).join(''):`<tr><td class="empty" colspan="7">No hay filas con esos filtros.</td></tr>`;}
+function sortTable(k){sortAsc=sortKey===k?!sortAsc:true;sortKey=k;renderTable();}
+function updateAll(){kpis();renderGeo();renderSexo();renderServicio();renderEtnia();renderTable();}
+window.addEventListener('load',()=>{
+  Chart.defaults.font.family='Segoe UI, Arial, sans-serif';
+  Chart.defaults.color='#475569';
+  Chart.register(valueLabelPlugin);
+  populate();
+});
+
+
+/* ── NAVEGACIÓN PROTECCIÓN SOCIAL ── */
+let _psInited=false;
+function irPaginaPS(id){
+  const overlay=document.getElementById('pg-inicio-ps');
+  document.querySelectorAll('.page-ps').forEach(p=>p.classList.remove('active'));
+  if(id==='pg-acciones-ps'){
+    document.getElementById('pg-acciones-ps').classList.add('active');
+    setTimeout(buildAccPS,50);
+    if(overlay) overlay.classList.remove('active');
+  } else if(id==='pg-inicio-ps'){
+    if(overlay) overlay.classList.add('active');
+  } else if(id==='pg-datos-ps'){
+    document.getElementById('pg-datos-ps').classList.add('active');
+    if(overlay) overlay.classList.remove('active');
+    if(!_psInited){
+      _psInited=true;
+      requestAnimationFrame(function(){
+        requestAnimationFrame(function(){
+          setViewMode('series');
+        });
+      });
+    } else {
+      requestAnimationFrame(function(){
+        requestAnimationFrame(function(){
+          updateAll();
+        });
+      });
+    }
+  }
+  window.scrollTo(0,0);
+}
+// Acciones y seguimiento: se leen de datos/pnd/proteccion_social/ con pnd_ps_acciones.js
+// (se actualizan cada mes con scripts/actualizar_pnd_ps.py; aquí no hay datos incrustados)
+function buildAccPS(){
+  if(window._ppsMontado) return;
+  window._ppsMontado = true;
+  PndPsAcciones.montar('#acciones-ps', { indicador: 'usuarios-ps' });
+}
+</script>
+</div><!-- fin pg-datos-ps -->
+<div id="pg-acciones-ps" class="page-ps">
+  <div style="max-width:1400px;margin:0 auto;padding:1.5rem;">
+    <div id="acciones-ps"></div>
+  </div>
+</div>
+
+<div class="gov-close"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="Gobierno del Ecuador"></div>
+
+<footer class="dashboard-footer">
+  <strong>Ministerio de Trabajo y Desarrollo Humano</strong> · Subsecretaría de Gestión de Datos y Estudios · Seguimiento PND 2025–2029
+</footer>
+
+<script type="text/plain" data-tras-datos>
+(function(){
+  const cfg = {"base": "Usuarios de servicios de protección social", "default": "Menú del indicador", "items": [{"id": "pg-inicio-ps", "label": "Menú del indicador"}, {"id": "pg-datos-ps", "label": "Resultados administrativos"}, {"id": "pg-acciones-ps", "label": "Acciones 2026"}]};
+  function visible(el){
+    if(!el) return false;
+    const cs = window.getComputedStyle(el);
+    return cs.display !== 'none' && cs.visibility !== 'hidden';
+  }
+  function activeLabel(){
+    const items = cfg.items || [];
+    for(const item of items){
+      const el = document.getElementById(item.id);
+      if(!el) continue;
+      if(el.classList.contains('active') && visible(el)) return item.label;
+    }
+    for(const item of items){
+      const el = document.getElementById(item.id);
+      if(el && el.classList.contains('active')) return item.label;
+    }
+    return cfg.default || '';
+  }
+  function render(){
+    const bc = document.getElementById('mdh-breadcrumb');
+    if(!bc) return;
+    const label = activeLabel();
+    if(label){
+      bc.innerHTML = '<a href="../index_PND.html">Inicio</a>' +
+        '<span class="mdh-bc-sep">›</span>' +
+        '<a href="javascript:void(0)" class="mdh-bc-base" onclick="irPaginaPS(&#39;pg-inicio-ps&#39;)" title="Volver a: '+cfg.base+'">' + cfg.base + '</a>' +
+        '<span class="mdh-bc-sep">›</span>' +
+        '<span class="mdh-bc-current">' + label + '</span>';
+    } else {
+      bc.innerHTML = '<a href="../index_PND.html">Inicio</a>' +
+        '<span class="mdh-bc-sep">›</span>' +
+        '<span class="mdh-bc-current">' + cfg.base + '</span>';
+    }
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    render();
+    document.body.addEventListener('click', function(){ setTimeout(render, 80); }, true);
+    document.body.addEventListener('change', function(){ setTimeout(render, 80); }, true);
+    setTimeout(render, 120);
+  });
+  window.addEventListener('load', render);
+  window.mdhActualizarBreadcrumb = render;
+})();
+</script>
+
+<script type="text/plain" data-tras-datos data-src="../assets/js/shared.js"></script>
+<script type="text/plain" data-tras-datos>
+initSidebar({ activeId: 'pnd-usuarios-proteccion', basePath: '../' });
+</script>
+
+</body>
+</html>

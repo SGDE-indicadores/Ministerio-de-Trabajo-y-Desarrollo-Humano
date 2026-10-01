@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Primera Infancia | PND 2025–2029</title>
+<link rel="stylesheet" href="../assets/css/shared.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+// Plugin genérico de valores en gráfico: dibuja el valor de cada punto/barra
+// usando el mismo formateador que ya tiene el eje Y de ese gráfico (%, $, o
+// número plano), así cada gráfico muestra sus valores con el formato correcto
+// sin tener que configurarlo gráfico por gráfico. Aplica a barras y líneas;
+// las líneas de "meta" (pointRadius:0) no se etiquetan para no saturar.
+const valueLabelPlugin={id:'valueLabelPlugin',afterDatasetsDraw(chart){
+  if(chart.config.type!=='bar'&&chart.config.type!=='line')return;
+  const{ctx}=chart;ctx.save();ctx.font='700 10px Segoe UI, Arial';ctx.textBaseline='middle';
+  const yScale=chart.options.scales&&chart.options.scales.y;
+  const tickCb=yScale&&yScale.ticks&&typeof yScale.ticks.callback==='function'?yScale.ticks.callback:null;
+  const fmt=v=>{if(v===null||v===undefined||!Number.isFinite(Number(v)))return '';const n=Math.round(Number(v)*100)/100;if(tickCb){try{return String(tickCb(n));}catch(e){}}return n.toLocaleString('es-EC');};
+  chart.data.datasets.forEach((ds,i)=>{
+    const meta=chart.getDatasetMeta(i);
+    if(meta.hidden)return;
+    if(chart.config.type==='line'&&ds.pointRadius===0)return;
+    meta.data.forEach((el,j)=>{
+      const raw=ds.data[j];
+      const num=(raw&&typeof raw==='object')?raw.y:raw;
+      const txt=fmt(num);
+      if(!txt)return;
+      const p=el.tooltipPosition();
+      ctx.fillStyle=ds.borderColor||ds.backgroundColor||'#4F449A';
+      if(chart.config.type==='bar'&&chart.options.indexAxis==='y'){ctx.textAlign='left';ctx.fillText(txt,p.x+8,p.y);}
+      else{ctx.textAlign='center';ctx.fillText(txt,p.x,p.y-10);}
+    });
+  });
+  ctx.restore();
+}};
+if(typeof Chart!=='undefined') Chart.register(valueLabelPlugin);
+</script>
+
+<script src="../assets/js/export-utils.js"></script>
+<script src="../assets/js/pnd_ps_acciones.js"></script>
+<style>
+:root{
+  --azul:#4F449A; --azul-med:#37306C; --azul-light:#E8EEF8; --azul-pale:#F2F5FB;
+  --amarillo:#F1B620; --amarillo-d:#C99200; --amarillo-l:#FEF7DC;
+  --rojo:#DE232D; --rojo-l:#FDECEA; --verde:#81A382; --verde-l:#E6F4EC;
+  --gris:#F5F6F8; --gris-bd:#DDE2EE; --texto:#1A1E2E; --subtexto:#5A6180;
+  --blanco:#FFFFFF; --shadow:0 2px 12px rgba(79,68,154,0.10);
+}
+.tpm-header {
+  background:var(--azul); padding:0 32px;
+  display:flex; align-items:center; justify-content:space-between;
+  height:60px; position:sticky; top:0; z-index:999;
+  border-bottom:3px solid var(--amarillo); font-family:Arial, sans-serif;
+}
+.tpm-header-left { display:flex; align-items:center; gap:14px; }
+.tpm-logo {
+  min-width:34px; height:34px; padding:0 5px; box-sizing:border-box; background:var(--amarillo); border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Arial Black', Arial, sans-serif; font-weight:700; font-size:12.5px; color:var(--azul); letter-spacing:0.2px;
+}
+.tpm-title {
+  font-family:'Arial Black', Arial, sans-serif; font-weight:600; font-size:16px;
+  color:white; letter-spacing:0.3px; line-height:1.2;
+}
+.tpm-sub { font-size:11px; color:rgba(255,255,255,0.55); margin-top:1px; }
+.tpm-right { display:flex; align-items:center; gap:10px; }
+.tpm-badge {
+  background:rgba(244,180,0,0.18); border:1px solid rgba(244,180,0,0.40);
+  color:var(--amarillo); padding:4px 12px; border-radius:20px;
+  font-size:11px; font-weight:600; font-family:Arial, sans-serif;
+}
+.tpm-back {
+  color:rgba(255,255,255,.7); font-size:12px; text-decoration:none;
+  border:1px solid rgba(255,255,255,.25); padding:4px 12px;
+  border-radius:20px; font-family:Arial, sans-serif;
+}
+.tpm-back:hover { color:white; }
+body { font-family:Arial, sans-serif; }
+
+:root{--azul:#4F449A;--azul-med:#37306C;--azul-claro:#2563A8;--dorado:#F1B620;--dorado-clr:#F0C040;--dorado-bg:#FDF3D7;--blanco:#FFFFFF;--gris-bg:#F4F6FA;--gris-borde:#D1D9E6;--gris-texto:#4A5568;--rojo:#C0392B;--verde:#81A382;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--gris-bg);color:#1A2A3A;min-height:100vh;}
+.topbar{background:var(--azul);border-bottom:3px solid var(--dorado);padding:0 2rem;display:flex;align-items:center;gap:1rem;height:60px;}
+.topbar-escudo{width:36px;height:36px;background:var(--dorado);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--azul);flex-shrink:0;}
+.topbar-title{color:var(--blanco);font-size:13px;font-weight:600;}
+.topbar-sub{color:var(--dorado-clr);font-size:11px;}
+.topbar-right{margin-left:auto;color:var(--dorado-clr);font-size:11px;opacity:.85;}
+.btn-inicio{display:inline-flex;align-items:center;gap:.4rem;padding:.4rem 1rem;background:rgba(255,255,255,.1);border:1px solid rgba(201,168,76,.5);border-radius:6px;color:var(--dorado-clr);font-size:12px;font-weight:600;text-decoration:none;margin-left:.75rem;}
+.btn-inicio:hover{background:rgba(255,255,255,.18);}
+.breadcrumb{background:var(--azul-med);padding:.5rem 2rem;display:flex;align-items:center;gap:.4rem;font-size:12px;color:rgba(255,255,255,.7);}
+.breadcrumb span{color:var(--dorado-clr);}
+.breadcrumb a{color:rgba(255,255,255,.7);cursor:pointer;text-decoration:none;}
+.breadcrumb a:hover{color:var(--dorado-clr);}
+.main-wrap{max-width:1600px;margin:0 auto;padding:2rem 1.5rem;}
+.dash-header{background:var(--azul);border-radius:12px;padding:1.5rem 2rem;margin-bottom:1.5rem;border-bottom:4px solid var(--dorado);display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.dash-header-left h2{color:var(--blanco);font-size:17px;font-weight:700;margin-bottom:.3rem;line-height:1.35;}
+.dash-header-left p{color:rgba(255,255,255,.65);font-size:12px;}
+.dash-header-right{display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;}
+.pill{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;}
+.pill-a{background:var(--dorado);color:var(--azul);}
+.pill-b{background:rgba(255,255,255,.12);color:rgba(255,255,255,.85);}
+.metricas-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:1.5rem;}
+.mc{background:var(--blanco);border:1px solid var(--gris-borde);border-radius:10px;padding:1rem 1.1rem;position:relative;overflow:hidden;}
+.mc::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:#1A3A6B;}
+.mc.m::before{background:var(--dorado);}
+.mc.v::before{background:var(--verde);}
+.mc.b::before{background:var(--azul-claro);}
+.ml{font-size:11px;color:var(--gris-texto);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.35rem;}
+.mv{font-size:28px;font-weight:700;color:var(--azul);line-height:1;margin-bottom:.2rem;}
+.ms{font-size:11px;color:var(--gris-texto);}
+.mvar{font-size:12px;font-weight:600;margin-top:.25rem;}
+.mvar.s{color:var(--verde);}
+.mvar.b2{color:var(--rojo);}
+.sel-bar{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:1.25rem;}
+.sel-bar label{font-size:12px;font-weight:700;color:var(--azul);text-transform:uppercase;letter-spacing:.06em;}
+.mb{padding:.4rem 1rem;border:2px solid var(--gris-borde);border-radius:6px;font-size:12px;font-weight:600;color:var(--gris-texto);background:var(--blanco);cursor:pointer;transition:all .2s;}
+.mb.active{background:var(--azul);border-color:var(--azul);color:var(--blanco);}
+.sel-bar select{padding:.4rem .85rem;border:2px solid var(--azul);border-radius:6px;font-size:13px;font-weight:600;color:var(--azul);background:var(--blanco);cursor:pointer;}
+.tabs-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.25rem;}
+.tab-btn{padding:.45rem 1rem;border:1.5px solid var(--gris-borde);border-radius:20px;background:var(--blanco);font-size:12px;font-weight:600;color:var(--gris-texto);cursor:pointer;transition:all .2s;}
+.tab-btn:hover{border-color:var(--azul-claro);color:var(--azul);}
+.tab-btn.active{background:var(--azul);border-color:var(--azul);color:var(--blanco);}
+.tab-panel{display:none;}.tab-panel.active{display:block;}
+.cc{background:var(--blanco);border:1px solid var(--gris-borde);border-radius:10px;padding:1.25rem 1.5rem;margin-bottom:1rem;}
+.cc-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.75rem;flex-wrap:wrap;gap:.5rem;}
+.ct{font-size:14px;font-weight:700;color:var(--azul);}
+.cs{font-size:11px;color:var(--gris-texto);margin-top:2px;}
+.csrc{font-size:10px;color:#9AA5B4;font-style:italic;}
+.alerta{background:var(--dorado-bg);border:1px solid #E0C060;border-left:4px solid var(--dorado);border-radius:8px;padding:.85rem 1rem;font-size:12px;color:#5A4200;line-height:1.5;margin-bottom:1rem;}
+.detalle-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;text-align:center;}
+.detalle-col{border-radius:8px;padding:.7rem .5rem;}
+.detalle-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.25rem;}
+.detalle-valor{font-size:20px;font-weight:700;line-height:1.1;}
+.detalle-sub{font-size:10px;font-weight:600;margin-top:.2rem;}
+.tabla-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+thead tr{background:var(--azul);}
+thead th{padding:.6rem .85rem;color:var(--blanco);font-weight:600;text-align:left;white-space:nowrap;font-size:12px;cursor:pointer;user-select:none;}
+thead th:hover{background:var(--azul-med);}
+thead th::after{content:' ↕';opacity:.4;font-size:10px;}
+thead th.asc::after{content:' ↑';opacity:1;}
+thead th.desc::after{content:' ↓';opacity:1;}
+tbody tr:nth-child(even){background:var(--gris-bg);}
+tbody tr:hover{background:#EBF0F8;}
+tbody td{padding:.55rem .85rem;border-bottom:1px solid var(--gris-borde);white-space:nowrap;}
+.tn{text-align:right;font-variant-numeric:tabular-nums;}
+.tverde{color:var(--verde);font-weight:600;}
+.tazul{color:var(--azul-claro);font-weight:600;}
+.bobs{background:#E8F5EE;color:var(--verde);font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;border:1px solid #A8D5B8;}
+.bproy{background:#EEF2FF;color:#4338CA;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;border:1px solid #A5B4FC;}
+
+
+/* ── PÁGINAS ── */
+.page{display:none;}.page.active{display:block;}
+.pg-wrap{max-width:1600px;margin:0 auto;padding:2rem 1.5rem;}
+.freq-header-pi{background:var(--azul,#4F449A);border-radius:12px;padding:2rem 2.5rem;margin-bottom:2rem;border-bottom:4px solid var(--dorado,#F1B620);}
+.freq-header-pi h2{font-size:22px;font-weight:700;color:white;margin-bottom:.5rem;}
+.freq-header-pi p{font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;}
+.def-box-pi{background:white;border:1px solid var(--gris-borde,#D1D9E6);border-left:4px solid var(--azul-med,#37306C);border-radius:12px;
+  padding:1.4rem 1.6rem;margin-bottom:1.5rem;}
+.def-box-pi-title{font-size:15px;font-weight:700;color:var(--azul,#4F449A);margin-bottom:.6rem;}
+.def-box-pi-text{font-size:13px;color:var(--gris-texto,#4A5568);line-height:1.65;}
+.def-box-pi-text+.def-box-pi-text{margin-top:.75rem;}
+.limit-box-pi{background:white;border:1px solid var(--gris-borde,#D1D9E6);border-radius:12px;margin-bottom:1.5rem;overflow:hidden;}
+.limit-box-pi summary{cursor:pointer;list-style:none;padding:1rem 1.5rem;display:flex;align-items:center;gap:.6rem;
+  font-size:13px;font-weight:700;color:var(--azul,#4F449A);background:var(--dorado-bg,#FDF3D7);border-left:4px solid var(--dorado,#F1B620);}
+.limit-box-pi summary::-webkit-details-marker{display:none;}
+.limit-box-pi summary:after{content:'▸';margin-left:auto;font-size:11px;color:var(--azul,#4F449A);transition:transform .2s;}
+.limit-box-pi[open] summary:after{transform:rotate(90deg);}
+.limit-box-pi ol{padding:1rem 1.5rem 1.25rem 2.5rem;}
+.limit-box-pi li{font-size:12.5px;color:var(--gris-texto,#4A5568);line-height:1.6;margin-bottom:.6rem;}
+.limit-box-pi li ul{margin:.4rem 0 0 1.2rem;}
+.limit-box-pi li li{margin-bottom:.3rem;}
+.limit-box-pi li:last-child{margin-bottom:0;}
+.limit-box-pi li b{color:var(--azul,#4F449A);}
+.interp-box-pi{background:var(--azul,#4F449A);border-radius:10px;border-bottom:4px solid var(--dorado,#F1B620);
+  padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:flex-start;gap:.7rem;}
+.interp-box-pi-icon{font-size:18px;line-height:1.4;}
+.interp-box-pi-text{font-size:13.5px;color:rgba(255,255,255,.92);line-height:1.6;}
+.interp-box-pi-text b{color:var(--dorado-clr,#F0C040);}
+.freq-cards-pi{display:grid;grid-template-columns:300px 300px;justify-content:center;gap:1.25rem;margin-bottom:1.5rem;}
+.freq-card-pi{display:flex;flex-direction:column;background:white;border:2px solid var(--gris-borde,#D1D9E6);border-radius:12px;padding:2rem 1.5rem;
+  cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .15s;text-align:center;}
+.freq-card-pi:hover{border-color:var(--azul,#4F449A);box-shadow:0 6px 24px rgba(13,43,85,.15);transform:translateY(-3px);}
+.freq-icon-pi{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  margin:0 auto 1rem;font-size:24px;background:var(--azul,#4F449A);}
+.freq-card-pi h3{font-size:18px;font-weight:700;color:var(--azul,#4F449A);margin-bottom:.5rem;}
+.freq-card-pi p{font-size:13px;color:var(--gris-texto,#4A5568);margin-bottom:1rem;line-height:1.5;}
+.freq-card-pi ul{list-style:none;font-size:12px;color:var(--gris-texto,#4A5568);text-align:left;margin-bottom:1.25rem;}
+.freq-card-pi ul li{padding:3px 0 3px 1rem;position:relative;}
+.freq-card-pi ul li::before{content:'▸';position:absolute;left:0;color:var(--dorado,#F1B620);}
+.btn-freq-pi{display:block;margin-top:auto;width:100%;padding:.75rem;border-radius:8px;border:none;
+  background:var(--azul,#4F449A);color:white;font-size:14px;font-weight:600;cursor:pointer;}
+.btn-freq-pi.dorado{background:var(--dorado,#F1B620);color:#4F449A;}
+/* Acciones */
+.acc-filtro{padding:4px 12px;border:1.5px solid var(--gris-borde,#D1D9E6);border-radius:20px;background:white;
+  font-size:11px;font-weight:600;color:var(--gris-texto,#4A5568);cursor:pointer;transition:all .2s;}
+.acc-filtro.active{background:var(--azul,#4F449A);border-color:var(--azul,#4F449A);color:white;}
+.acc-tipo-pp{background:#EEF2FF;color:#4338CA;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;}
+.acc-tipo-act{background:#F3F4F6;color:#374151;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;}
+.acc-estado{background:#FEF3C7;color:#92400E;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;}
+.acc-rol-rect{background:#DBEAFE;color:#1E40AF;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;}
+.acc-rol-ejec{background:#EDE9FE;color:#5B21B6;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;}
+.acc-rol-corr{background:#FEF3C7;color:#92400E;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;}
+.acc-inc-alta{background:#D1FAE5;color:#065F46;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;}
+
+
+/* ─────────────────────────────────────────────────────────────
+   HOMOLOGACIÓN MTDH: colores de tarjetas de acceso + footer único
+   Regla visual:
+   - Anual / Trimestral / Resultados: azul institucional
+   - Acciones planificadas: amarillo institucional
+   - Cronograma de gestión: verde institucional
+   ───────────────────────────────────────────────────────────── */
+:root{
+  --mdh-blue:#4F449A;
+  --mdh-yellow:#F1B620;
+  --mdh-green:#81A382;
+}
+.card-blue .freq-icon,
+.card-blue .freq-icon-ps,
+.card-blue .freq-icon-d,
+.card-blue .freq-icon-g,
+.card-blue .freq-icon-pi,
+.card-blue .inicio-icon{
+  background:var(--mdh-blue) !important;
+  color:#FFFFFF !important;
+}
+.card-blue .btn-freq,
+.card-blue .btn-freq-ps,
+.card-blue .btn-freq-d,
+.card-blue .btn-freq-g,
+.card-blue .btn-freq-pi,
+.card-blue .btn-inicio-card{
+  background:var(--mdh-blue) !important;
+  border-color:var(--mdh-blue) !important;
+  color:#FFFFFF !important;
+}
+.card-blue:hover{
+  border-color:var(--mdh-blue) !important;
+}
+.card-yellow .freq-icon,
+.card-yellow .freq-icon-ps,
+.card-yellow .freq-icon-d,
+.card-yellow .freq-icon-g,
+.card-yellow .freq-icon-pi,
+.card-yellow .inicio-icon{
+  background:var(--mdh-yellow) !important;
+  color:var(--mdh-blue) !important;
+}
+.card-yellow .btn-freq,
+.card-yellow .btn-freq-ps,
+.card-yellow .btn-freq-d,
+.card-yellow .btn-freq-g,
+.card-yellow .btn-freq-pi,
+.card-yellow .btn-inicio-card{
+  background:var(--mdh-yellow) !important;
+  border-color:var(--mdh-yellow) !important;
+  color:var(--mdh-blue) !important;
+}
+.card-yellow:hover{
+  border-color:var(--mdh-yellow) !important;
+}
+.card-green .freq-icon,
+.card-green .freq-icon-ps,
+.card-green .freq-icon-d,
+.card-green .freq-icon-g,
+.card-green .freq-icon-pi,
+.card-green .inicio-icon{
+  background:var(--mdh-green) !important;
+  color:#FFFFFF !important;
+}
+.card-green .btn-freq,
+.card-green .btn-freq-ps,
+.card-green .btn-freq-d,
+.card-green .btn-freq-g,
+.card-green .btn-freq-pi,
+.card-green .btn-inicio-card{
+  background:var(--mdh-green) !important;
+  border-color:var(--mdh-green) !important;
+  color:#FFFFFF !important;
+}
+.card-green:hover{
+  border-color:var(--mdh-green) !important;
+}
+.dashboard-footer{
+  width:100%;
+  background:var(--mdh-blue);
+  color:rgba(255,255,255,.62);
+  text-align:center;
+  font-family:Arial, Arial, sans-serif;
+  font-size:11px;
+  line-height:1.45;
+  padding:14px 24px;
+  margin-top:32px;
+  box-shadow:0 -1px 8px rgba(79,68,154,.10);
+}
+.dashboard-footer strong{
+  color:rgba(255,255,255,.84);
+  font-weight:700;
+}
+@media(max-width:680px){.freq-cards-pi{grid-template-columns:1fr;}}
+@media(max-width:760px){
+  .dashboard-footer{font-size:10.5px;padding:12px 16px;}
+}
+
+
+
+/* =========================================================
+   HOMOLOGACIÓN MTDH V3 — Migas de navegación y pie de página
+   ========================================================= */
+:root{
+  --mdh-blue:#4F449A;
+  --mdh-blue-2:#37306C;
+  --mdh-yellow:#F1B620;
+  --mdh-footer-h:44px;
+}
+html{min-height:100%;}
+body{
+  min-height:100vh !important;
+  padding-bottom:var(--mdh-footer-h) !important;
+}
+.mdh-breadcrumb,
+.breadcrumb.mdh-breadcrumb{
+  width:100% !important;
+  min-height:34px !important;
+  background:var(--blanco) !important; border-bottom:2px solid var(--gris-bd) !important;
+  padding:8px 32px !important;
+  display:flex !important;
+  align-items:center !important;
+  gap:7px !important;
+  flex-wrap:wrap !important;
+  font-family:Arial, Arial, sans-serif !important;
+  font-size:12px !important;
+  line-height:1.35 !important;
+  color:var(--subtexto) !important;
+  border:0 !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+  margin:0 !important;
+  position:sticky !important;
+  top:105px !important;
+  z-index:96 !important;
+}
+.mdh-breadcrumb a,
+.mdh-breadcrumb .mdh-bc-base{
+  color:var(--subtexto) !important;
+  text-decoration:none !important;
+  font-weight:500 !important;
+  cursor:pointer !important;
+}
+.mdh-breadcrumb a:hover,
+.mdh-breadcrumb .mdh-bc-base:hover{
+  color:var(--azul) !important;
+}
+.mdh-breadcrumb .mdh-bc-sep{
+  color:#9AA5B4 !important;
+  font-weight:600 !important;
+}
+.mdh-breadcrumb .mdh-bc-current{
+  color:var(--texto) !important;
+  font-weight:700 !important;
+}
+.dashboard-footer{
+  position:fixed !important;
+  left:0 !important;
+  right:0 !important;
+  bottom:0 !important;
+  z-index:950 !important;
+  width:100% !important;
+  min-height:var(--mdh-footer-h) !important;
+  background:var(--mdh-blue) !important;
+  color:rgba(255,255,255,.66) !important;
+  text-align:center !important;
+  font-family:Arial, Arial, sans-serif !important;
+  font-size:11px !important;
+  line-height:1.45 !important;
+  padding:14px 24px !important;
+  margin:0 !important;
+  border:0 !important;
+  box-shadow:0 -1px 8px rgba(79,68,154,.14) !important;
+}
+.dashboard-footer strong{
+  color:rgba(255,255,255,.88) !important;
+  font-weight:700 !important;
+}
+@media(max-width:760px){
+  :root{--mdh-footer-h:54px;}
+  .mdh-breadcrumb,
+  .breadcrumb.mdh-breadcrumb{padding:8px 16px !important;font-size:11.5px !important;}
+  .dashboard-footer{font-size:10.5px !important;padding:11px 16px !important;}
+}
+
+
+/* Espacio para franja de navegacion lateral */
+body.has-sidebar { margin-left: var(--sidebar-w); }
+@media (max-width: 900px){ body.has-sidebar { margin-left: 0; } }
+</style>
+</head>
+<body>
+
+<div id="app-sidebar-mount"></div>
+<div class="tpm-header">
+  <div class="tpm-header-left">
+    <div class="tpm-logo">MTDH</div>
+    <div>
+      <div class="tpm-title">Porcentaje de Gestantes, niñas y niños menores de 6 años que reciben servicios de primera infancia</div>
+      <div class="tpm-sub">Ministerio de Trabajo y Desarrollo Humano · MSP · MINEDUC · Corte agosto</div>
+    </div>
+  </div>
+  <div class="tpm-right">
+    <div class="tpm-badge">Ago 2025: 39,83%</div>
+    
+  </div>
+</div>
+<nav class="breadcrumb mdh-breadcrumb" id="mdh-breadcrumb" aria-label="Ruta de navegación"><a href="../index_PND.html">Inicio</a><span class="mdh-bc-sep">›</span><span class="mdh-bc-base">Servicios para la primera infancia</span><span class="mdh-bc-sep">›</span><span class="mdh-bc-current">Menú del indicador</span></nav>
+
+
+<div id="pg-inicio" class="page active">
+  <div class="pg-wrap">
+    <div class="freq-header-pi">
+      <h2>Porcentaje de gestantes, niñas y niños menores de 6 años que reciben servicios para la primera infancia</h2>
+      <p>Selecciona la información que deseas consultar sobre el Plan Nacional de Desarrollo 2025–2029.</p>
+    </div>
+
+    <div class="def-box-pi">
+      <div class="def-box-pi-title">📖 Definición del indicador</div>
+      <p class="def-box-pi-text">Relación entre gestantes, niños y niñas menores de 6 años que, según su edad, acceden a servicios para la primera infancia, respecto al total de niños, niñas menores de 6 años y gestantes identificados en las diferentes fuentes administrativas, en un periodo determinado.</p>
+    </div>
+
+    <details class="limit-box-pi">
+      <summary>⚠️ Limitaciones técnicas del indicador</summary>
+      <ol>
+        <li><b>Cobertura de fuentes de información:</b> la población de referencia se limita exclusivamente a las niñas y niños identificados en las bases del Registro de Datos Vitales, el Registro de Cedulados y las gestantes registradas en la Plataforma de Registros de Atención en Salud (PRAS) del MSP o en el Registro Diario Automatizado de Consultas y Atenciones Ambulatorias (RDACAA). Las personas no registradas en estas fuentes no se consideran en el cálculo.</li>
+        <li><b>Calendarización de controles en niñas y niños:</b> se considera que las niñas y niños menores de 16 días de edad aún están dentro del plazo para cumplir su primer control de niño sano (hasta el día 15 de vida), lo que puede generar una sobrestimación del cumplimiento en el periodo actual.</li>
+        <li><b>Calendarización de controles prenatales en gestantes:</b> se asume que las gestantes registradas en un periodo aún tienen la posibilidad de realizarse su control prenatal en el siguiente corte, lo que también puede inducir una sobrestimación temporal del cumplimiento.</li>
+        <li><b>Actualización de registros:</b> al ser un registro en línea (PRAS) y fuera de línea (RDACAA), los datos pueden estar sujetos a validaciones y actualizaciones posteriores, por lo que los valores del indicador pueden variar después del cierre inicial del periodo analizado.</li>
+        <li><b>Delimitación de la población en situación de pobreza:</b> el universo bajo la línea de pobreza se restringe a los casos identificados a través de registros administrativos de la Unidad del Registro Social; no se incluyen personas en pobreza aún no captadas o clasificadas formalmente en dicho sistema.</li>
+        <li>El <b>Registro Social es un instrumento estático en el tiempo</b>, por lo que la información únicamente refleja la situación socioeconómica de los hogares en la fecha de levantamiento. El indicador puede experimentar variaciones ajenas a la gestión:
+          <ul>
+            <li>Cambios metodológicos en el cálculo del Índice del Registro Social.</li>
+            <li>Actualización en el tipo de levantamiento del Registro Social a hogares levantados anteriormente.</li>
+            <li>Levantamiento de información a nuevos hogares.</li>
+          </ul>
+        </li>
+      </ol>
+    </details>
+
+    <div class="freq-cards-pi">
+      <div class="freq-card-pi card-blue" onclick="irPaginaPI('pg-datos')">
+        <div class="freq-icon-pi">📅</div>
+        <h3>Anual</h3>
+        <p>Datos observados y proyección anual · Corte agosto de cada año</p>
+        <ul>
+          <li>Disponible: ago 2023, ago 2024, ago 2025</li>
+          <li>Proyección hasta agosto 2029</li>
+          <li>Cobertura nacional · Sin desagregación</li>
+        </ul>
+        <button class="btn-freq-pi">Ver resultados →</button>
+      </div>
+      <div class="freq-card-pi card-yellow" onclick="irPaginaPI('pg-acciones-pi')">
+        <div class="freq-icon-pi">📋</div>
+        <h3>Acciones planificadas 2026</h3>
+        <p>Cronograma del MTDH para incrementar la cobertura de primera infancia</p>
+        <ul>
+          <li><span data-pps-resumen="primera-infancia">Acciones y seguimiento mensual</span></li>
+          <li>Presupuesto total: $241,3M</li>
+          <li>280.255 niñas/niños y familias atendidas</li>
+        </ul>
+        <button class="btn-freq-pi dorado">Ver acciones →</button>
+      </div>
+    </div>
+    <div style="background:#F4F6FA;border-radius:8px;padding:.85rem 1rem;font-size:12px;color:#4A5568;line-height:1.6;">
+      <strong style="color:#4F449A;">Nota metodológica:</strong> Los datos corresponden al corte de agosto de cada año.
+      Fuente: registros administrativos MTDH, MSP y MINEDUC. Sin desagregación por área, sexo ni provincia.
+    </div>
+  </div>
+</div>
+
+<div id="pg-datos" class="page">
+<div class="main-wrap">
+  <div class="alerta">
+    <strong>Datos administrativos — solo nivel nacional:</strong> Combina registros del MTDH, MSP y MINEDUC sobre gestantes y niñas/niños menores de 6 años que reciben servicios integrales de primera infancia. Sin desagregación por área, sexo ni provincia. El porcentaje puede subir aunque el numerador baje, si la población objetivo decrece más rápido por transición demográfica.
+  </div>
+
+  <!-- SELECTOR -->
+  <div class="sel-bar">
+    <label>Ver:</label>
+    <button class="mb active" id="btn-serie" onclick="setModo('serie')">Toda la serie</button>
+    <button class="mb" id="btn-año" onclick="setModo('año')">Un año específico</button>
+    <span id="wrap-año" style="display:none;align-items:center;gap:.4rem;">
+      <label style="font-size:12px;font-weight:600;color:var(--azul);">Año:</label>
+      <select id="sel-año" onchange="onCambioAño()">
+        <option value="2025">2025</option>
+        <option value="2024">2024</option>
+        <option value="2023">2023</option>
+      </select>
+    </span>
+  </div>
+
+  <!-- MÉTRICAS -->
+  <div class="metricas-grid" id="metricas-box"></div>
+
+  <!-- INTERPRETACIÓN -->
+  <div class="interp-box-pi">
+    <div class="interp-box-pi-icon">💡</div>
+    <div class="interp-box-pi-text" id="interp-texto">En el mes de agosto del año <b>2025</b>, el <b>39,83%</b> de gestantes, niñas y niños menores de 6 años acceden a los servicios para la primera infancia.</div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs-row">
+    <button class="tab-btn active" onclick="verTab('tendencia',this)">Serie histórica y proyección</button>
+    <button class="tab-btn" onclick="verTab('componentes',this)">Cobertura</button>
+    <button class="tab-btn" onclick="verTab('tabla',this)">Tabla de datos</button>
+  </div>
+
+  <!-- PANEL: Tendencia -->
+  <div id="tab-tendencia" class="tab-panel active">
+    <div class="cc">
+      <div class="cc-header">
+        <div>
+          <div class="ct">Porcentaje con servicios de primera infancia — Nacional (%)</div>
+          <div class="cs">Observado 2023–2025 · Proyección 2026–2029 · Punto dorado = año seleccionado</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem;">
+        <button style="display:flex;align-items:center;gap:6px;padding:.35rem .85rem;border-radius:20px;border:2px solid transparent;font-size:12px;font-weight:600;cursor:pointer;background:var(--blanco);" id="ts-obs"  onclick="toggleL('obs')"><div style="width:12px;height:12px;border-radius:2px;background:#1A3A6B;"></div>Observado</button>
+        <button style="display:flex;align-items:center;gap:6px;padding:.35rem .85rem;border-radius:20px;border:2px solid transparent;font-size:12px;font-weight:600;cursor:pointer;background:var(--blanco);" id="ts-proy" onclick="toggleL('proy')"><div style="width:12px;height:12px;border-radius:2px;background:#0891B2;"></div>Proyectado</button>
+        <button style="display:flex;align-items:center;gap:6px;padding:.35rem .85rem;border-radius:20px;border:2px solid transparent;font-size:12px;font-weight:600;cursor:pointer;background:var(--blanco);" id="ts-meta" onclick="toggleL('meta')"><div style="width:12px;height:12px;border-radius:2px;background:#C0392B;"></div>Meta 2029</button>
+      </div>
+      <div style="position:relative;height:360px;"><canvas id="chart-tend"></canvas></div>
+    </div>
+    <div id="panel-año" style="display:none;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+        <div class="cc" style="border-top:4px solid #1A3A6B;" id="card-val"></div>
+        <div class="cc" style="border-top:4px solid var(--dorado);" id="card-meta"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL: Cobertura -->
+  <div id="tab-componentes" class="tab-panel">
+    <div class="alerta">
+      <strong>Nota:</strong> Cada barra muestra directamente el porcentaje observado. La línea roja indica la meta 2029 (42,51%). Al seleccionar un año específico, aparece el detalle comparativo con la base y la meta.
+    </div>
+    <div class="cc">
+      <div class="cc-header">
+        <div>
+          <div class="ct" id="title-comp">Porcentaje con servicios de primera infancia (%)</div>
+          <div class="cs">Usuarios con servicios / Población objetivo · Línea punteada = meta 2029</div>
+        </div>
+      </div>
+      <div style="position:relative;height:300px;"><canvas id="chart-comp"></canvas></div>
+    </div>
+    <!-- Detalle año específico -->
+    <div class="cc" id="comp-detalle" style="display:none;border-top:4px solid #1A3A6B;">
+      <div class="detalle-grid" id="comp-detalle-grid"></div>
+    </div>
+  </div>
+
+  <!-- PANEL: Tabla -->
+  <div id="tab-tabla" class="tab-panel">
+    <div class="cc" style="padding:0;overflow:hidden;">
+      <div class="tabla-wrap">
+        <table>
+          <thead><tr>
+            <th onclick="ordenar(0)">Año (agosto)</th>
+            <th onclick="ordenar(1)">Tipo</th>
+            <th onclick="ordenar(2)">Estimador</th>
+            <th onclick="ordenar(3)">Numerador</th>
+            <th onclick="ordenar(4)">Denominador</th>
+            <th onclick="ordenar(5)">Meta proyectada</th>
+            <th onclick="ordenar(6)">vs Meta 2029</th>
+          </tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script src="../assets/js/cargar-datos.js"></script>
+<script>
+// Datos de esta página (carpeta datos/). Ver datos/LEEME.md
+cargarDatos({
+  OBS: { archivo: '../datos/pnd/proteccion_social/primera_infancia/observado.csv', forma: 'filas' },
+  PROY: { archivo: '../datos/pnd/proteccion_social/primera_infancia/meta_proyectada.csv', forma: 'filas' }
+});
+</script>
+<script type="text/plain" data-tras-datos>
+
+const META = PROY[PROY.length - 1].est;   // meta 2029 = último punto de la trayectoria (meta_proyectada.csv)
+const pct  = v => (v * 100).toFixed(2) + '%';
+const fmt  = v => v.toLocaleString('es-EC');
+
+// Meta anual en % (misma trayectoria de meta_proyectada.csv)
+const META_ANIO = Object.fromEntries(PROY.map(p => [p.año, +(p.est * 100).toFixed(2)]));
+const TODOS = [2023,2024,2025,2026,2027,2028,2029];
+
+let modo    = 'serie';
+let añoSel  = 2025;
+const on    = { obs:true, proy:true, meta:true };
+let chartTend = null;
+let chartComp = null;
+let sortCol   = -1;
+let sortDir   =  1;
+
+window.addEventListener('DOMContentLoaded', () => {
+  buildChartTend();
+  renderMetricas();
+  actualizarInterp();
+  renderChartComp(OBS);
+  renderTabla();
+});
+
+/* ═══ MODO ═══ */
+function setModo(m) {
+  modo = m;
+  document.getElementById('btn-serie').classList.toggle('active', m === 'serie');
+  document.getElementById('btn-año').classList.toggle('active', m === 'año');
+  document.getElementById('wrap-año').style.display = m === 'año' ? 'inline-flex' : 'none';
+  if (m === 'año') añoSel = parseInt(document.getElementById('sel-año').value);
+  actualizarVista();
+}
+function onCambioAño() {
+  añoSel = parseInt(document.getElementById('sel-año').value);
+  actualizarVista();
+}
+function actualizarVista() {
+  const esSerie = modo === 'serie';
+  document.getElementById('panel-año').style.display = esSerie ? 'none' : 'block';
+  actualizarChartTend();
+  renderMetricas();
+  actualizarInterp();
+  if (!esSerie) renderCards(añoSel);
+
+  // Actualizar panel de cobertura
+  const titComp = document.getElementById('title-comp');
+  const detalle  = document.getElementById('comp-detalle');
+  if (esSerie) {
+    if (titComp) titComp.textContent = 'Porcentaje con servicios de primera infancia (%)';
+    if (detalle) detalle.style.display = 'none';
+    renderChartComp(OBS);
+  } else {
+    const d = OBS.find(r => r.año === añoSel);
+    if (titComp) titComp.textContent = 'Cobertura — agosto ' + añoSel + ' (%)';
+    renderChartComp(d ? [d] : OBS);
+    if (d) renderDetalleComp(d);
+  }
+}
+
+/* ═══ INTERPRETACIÓN ═══ */
+function actualizarInterp() {
+  const año  = modo === 'año' ? añoSel : OBS[OBS.length - 1].año;
+  const obs  = OBS.find(d => d.año === año);
+  const proy = PROY.find(d => d.año === año);
+  const d    = obs || proy;
+  const el   = document.getElementById('interp-texto');
+  if (!el || !d) return;
+  const etiqueta = obs ? año : (año + ' (proyectado)');
+  el.innerHTML = 'En el mes de agosto del año <b>' + etiqueta + '</b>, el <b>' + pct(d.est) + '</b> de gestantes, niñas y niños menores de 6 años acceden a los servicios para la primera infancia.';
+}
+
+/* ═══ MÉTRICAS ═══ */
+function renderMetricas() {
+  const u   = OBS[OBS.length - 1];
+  const p   = OBS[OBS.length - 2];
+  const d25 = ((u.est - p.est) * 100).toFixed(2);
+  const py  = PROY.find(d => d.año === 2025);
+  const vs  = py ? ((u.est - py.est) * 100).toFixed(2) : null;
+  document.getElementById('metricas-box').innerHTML =
+    '<div class="mc"><div class="ml">Último observado (ago 2025)</div><div class="mv">' + pct(u.est) + '</div>' +
+    '<div class="ms">' + fmt(u.num) + ' / ' + fmt(u.den) + '</div>' +
+    '<div class="mvar s">▲ +' + d25 + ' pp vs 2024</div></div>' +
+
+    '<div class="mc m"><div class="ml">Meta ago 2029</div><div class="mv">42,51%</div>' +
+    '<div class="ms">Incrementar +3,60 pp desde 2024</div>' +
+    '<div class="mvar b2">Faltan ' + ((META - u.est) * 100).toFixed(2) + ' pp</div></div>' +
+
+    '<div class="mc v"><div class="ml">2025 vs proyección</div><div class="mv">+' + (vs || '—') + ' pp</div>' +
+    '<div class="ms">Obs. 39,83% · Proy. 39,63%</div>' +
+    '<div class="mvar s">▲ Por encima de la trayectoria</div></div>' +
+
+    '<div class="mc b"><div class="ml">Línea base 2024</div><div class="mv">38,91%</div>' +
+    '<div class="ms">Punto de partida PND</div>' +
+    '<div class="mvar s">▲ +0,72 pp vs 2023</div></div>';
+}
+
+/* ═══ CHART TENDENCIA ═══ */
+function buildChartTend() {
+  const labs = TODOS.map(String);
+  chartTend = new Chart(document.getElementById('chart-tend'), {
+    type: 'line',
+    data: {
+      labels: labs,
+      datasets: [
+        {
+          label: 'Observado',
+          data: labs.map(a => { const r = OBS.find(d => d.año === parseInt(a)); return r ? +(r.est * 100).toFixed(4) : null; }),
+          borderColor: '#1A3A6B', borderWidth: 2.5,
+          pointRadius: labs.map(a => { const r = OBS.find(d => d.año === parseInt(a)); return r ? (modo === 'año' && parseInt(a) === añoSel ? 9 : 5) : 0; }),
+          pointBackgroundColor: labs.map(a => { const r = OBS.find(d => d.año === parseInt(a)); return r ? (modo === 'año' && parseInt(a) === añoSel ? '#F0C040' : '#1A3A6B') : 'transparent'; }),
+          pointBorderColor: labs.map(a => { const r = OBS.find(d => d.año === parseInt(a)); return r ? (modo === 'año' && parseInt(a) === añoSel ? '#4F449A' : '#1A3A6B') : 'transparent'; }),
+          fill: false, tension: 0.35, spanGaps: false
+        },
+        {
+          label: 'Proyectado',
+          data: labs.map(a => { const r = PROY.find(d => d.año === parseInt(a)); return r ? +(r.est * 100).toFixed(4) : null; }),
+          borderColor: '#0891B2', borderWidth: 2, borderDash: [6, 4],
+          pointRadius: labs.map(a => PROY.find(d => d.año === parseInt(a)) ? 4 : 0),
+          pointBackgroundColor: '#0891B2', fill: false, tension: 0.35, spanGaps: false
+        },
+        {
+          label: 'Meta 2029',
+          data: labs.map(() => META * 100),
+          borderColor: '#C0392B', borderDash: [8, 4], borderWidth: 1.5, pointRadius: 0, fill: false
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => (ctx.datasetIndex === 2 ? 'Meta 2029' : ctx.dataset.label) + ': ' + ctx.parsed.y.toFixed(2) + '%' } }
+      },
+      scales: {
+        y: { min: 37, max: 44, ticks: { callback: v => v + '%', font: { size:11 } }, grid: { color: 'rgba(0,0,0,0.06)' } },
+        x: { grid: { display: false }, ticks: { font: { size:11 }, autoSkip: false } }
+      }
+    }
+  });
+}
+
+function actualizarChartTend() {
+  if (!chartTend) return;
+  const labs = TODOS.map(String);
+  const ds   = chartTend.data.datasets;
+  ds[0].pointRadius = labs.map(a => { const r = OBS.find(d => d.año === parseInt(a)); return r ? (modo === 'año' && parseInt(a) === añoSel ? 9 : 5) : 0; });
+  ds[0].pointBackgroundColor = labs.map(a => { const r = OBS.find(d => d.año === parseInt(a)); return r ? (modo === 'año' && parseInt(a) === añoSel ? '#F0C040' : '#1A3A6B') : 'transparent'; });
+  ds[0].pointBorderColor = labs.map(a => { const r = OBS.find(d => d.año === parseInt(a)); return r ? (modo === 'año' && parseInt(a) === añoSel ? '#4F449A' : '#1A3A6B') : 'transparent'; });
+  ds[0].hidden = !on.obs;
+  ds[1].hidden = !on.proy;
+  ds[2].hidden = !on.meta;
+  chartTend.update();
+}
+
+function toggleL(k) {
+  on[k] = !on[k];
+  const btn = document.getElementById('ts-' + k);
+  if (btn) btn.style.opacity = on[k] ? '1' : '0.3';
+  if (chartTend) { chartTend.data.datasets[{obs:0,proy:1,meta:2}[k]].hidden = !on[k]; chartTend.update(); }
+}
+
+/* ═══ TARJETAS AÑO (panel tendencia) ═══ */
+function renderCards(año) {
+  const obs  = OBS.find(d => d.año === año);
+  const proy = PROY.find(d => d.año === año);
+  const d    = obs || proy;
+  if (!d) return;
+  const vsP  = obs && proy ? ((obs.est - proy.est) * 100).toFixed(2) : null;
+
+  document.getElementById('card-val').innerHTML =
+    '<div style="font-size:11px;font-weight:700;text-transform:uppercase;color:#4A5568;margin-bottom:.4rem;">Año ' + año + ' (agosto)</div>' +
+    '<div style="font-size:32px;font-weight:700;color:#1A3A6B;line-height:1;">' + pct(d.est) + '</div>' +
+    (obs ? '<div style="font-size:11px;color:#4A5568;margin-top:.3rem;">' + fmt(obs.num) + ' con servicios</div>' +
+           '<div style="font-size:11px;color:#4A5568;">' + fmt(obs.den) + ' población objetivo</div>' : '') +
+    (vsP ? '<div style="font-size:12px;font-weight:600;color:' + (parseFloat(vsP) >= 0 ? '#81A382' : '#C0392B') + ';margin-top:.5rem;">' +
+           (parseFloat(vsP) >= 0 ? '▲ +' : '▼ ') + vsP + ' pp vs proyección</div>' : '');
+
+  const vsBase = ((d.est - 0.3891) * 100).toFixed(2);
+  const vsMeta = ((META - d.est) * 100).toFixed(2);
+  const cumple = d.est >= META;
+
+  document.getElementById('card-meta').innerHTML =
+    '<div style="font-size:11px;font-weight:700;text-transform:uppercase;color:#4A5568;margin-bottom:.75rem;">Referencia de metas</div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;text-align:center;">' +
+      '<div style="background:var(--gris-bg);border-radius:8px;padding:.6rem .4rem;">' +
+        '<div style="font-size:10px;color:#4A5568;font-weight:600;text-transform:uppercase;margin-bottom:.2rem;">Base 2024</div>' +
+        '<div style="font-size:17px;font-weight:700;color:#4A5568;">38,91%</div>' +
+      '</div>' +
+      '<div style="background:#EEF2FF;border-radius:8px;padding:.6rem .4rem;border:1.5px solid #A5B4FC;">' +
+        '<div style="font-size:10px;color:#4338CA;font-weight:600;text-transform:uppercase;margin-bottom:.2rem;">Año ' + año + '</div>' +
+        '<div style="font-size:17px;font-weight:700;color:#1A3A6B;">' + pct(d.est) + '</div>' +
+        '<div style="font-size:10px;font-weight:600;color:' + (parseFloat(vsBase) >= 0 ? '#81A382' : '#C0392B') + ';margin-top:.2rem;">' +
+          (parseFloat(vsBase) >= 0 ? '▲ +' : '▼ ') + vsBase + ' pp vs base' +
+        '</div>' +
+      '</div>' +
+      '<div style="background:var(--dorado-bg);border-radius:8px;padding:.6rem .4rem;border:1.5px solid #E0C060;">' +
+        '<div style="font-size:10px;color:#8B6A00;font-weight:600;text-transform:uppercase;margin-bottom:.2rem;">Meta 2029</div>' +
+        '<div style="font-size:17px;font-weight:700;color:var(--dorado);">42,51%</div>' +
+        '<div style="font-size:10px;font-weight:600;color:' + (cumple ? '#81A382' : '#C0392B') + ';margin-top:.2rem;">' +
+          (cumple ? '✓ Superada' : vsMeta + ' pp por alcanzar') +
+        '</div>' +
+      '</div>' +
+    '</div>';
+}
+
+/* ═══ CHART COBERTURA ═══ */
+function renderChartComp(datos) {
+  if (chartComp) { chartComp.destroy(); chartComp = null; }
+  const labs   = datos.map(d => 'ago ' + d.año);
+  const esSolo = datos.length === 1;
+  chartComp = new Chart(document.getElementById('chart-comp'), {
+    type: 'bar',
+    data: {
+      labels: labs,
+      datasets: [
+        {
+          label: 'Porcentaje con servicios',
+          data: datos.map(d => +(d.est * 100).toFixed(2)),
+          backgroundColor: '#1A3A6B',
+          borderRadius: 6,
+          barThickness: esSolo ? 100 : undefined,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            title: ctx => ctx[0].label,
+            label: ctx => {
+              if (ctx.datasetIndex === 1) return 'Meta 2029: ' + (META * 100).toFixed(2) + '%';
+              const d = datos[ctx.dataIndex];
+              const lines = ['Porcentaje: ' + ctx.parsed.y.toFixed(2) + '%'];
+              if (d && d.num) lines.push('Con servicios: ' + fmt(d.num), 'Pob. objetivo: ' + fmt(d.den));
+              return lines;
+            }
+          }
+        }
+      },
+      scales: {
+        y: { min: 0, max: 50, ticks: { callback: v => v + '%', font: { size:11 } }, grid: { color: 'rgba(0,0,0,0.06)' } },
+        x: { grid: { display: false } }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            title: ctx => ctx[0].label,
+            label: ctx => {
+              const d = datos[ctx.dataIndex];
+              const lines = ['Porcentaje: ' + ctx.parsed.y.toFixed(2) + '%'];
+              if (d && d.num) lines.push('Con servicios: ' + fmt(d.num), 'Pob. objetivo: ' + fmt(d.den));
+              return lines;
+            }
+          }
+        }
+      }
+    },
+    plugins: [{
+      id: 'metaLine',
+      afterDraw(chart) {
+        const ctx2 = chart.ctx;
+        const yScale = chart.scales.y;
+        const xScale = chart.scales.x;
+        const y = yScale.getPixelForValue(META * 100);
+        ctx2.save();
+        ctx2.beginPath();
+        ctx2.setLineDash([8, 5]);
+        ctx2.strokeStyle = '#C0392B';
+        ctx2.lineWidth = 1.5;
+        ctx2.moveTo(xScale.left, y);
+        ctx2.lineTo(xScale.right, y);
+        ctx2.stroke();
+        ctx2.setLineDash([]);
+        // Etiqueta
+        ctx2.fillStyle = '#C0392B';
+        ctx2.font = 'bold 11px Segoe UI, sans-serif';
+        ctx2.textAlign = 'right';
+        ctx2.fillText('Meta 2029: ' + (META * 100).toFixed(2) + '%', xScale.right - 4, y - 5);
+        ctx2.restore();
+      }
+    }]
+  });
+}
+
+function renderDetalleComp(d) {
+  const detalle = document.getElementById('comp-detalle');
+  const grid    = document.getElementById('comp-detalle-grid');
+  if (!d || !detalle || !grid) return;
+  const proy   = PROY.find(p => p.año === d.año);
+  const vsP    = proy ? ((d.est - proy.est) * 100).toFixed(2) : null;
+  const vsBase = ((d.est - 0.3891) * 100).toFixed(2);
+  const vsMeta = ((META - d.est) * 100).toFixed(2);
+  const cumple = d.est >= META;
+  detalle.style.display = 'block';
+  grid.innerHTML =
+    '<div style="background:var(--gris-bg);border-radius:8px;padding:.7rem .5rem;text-align:center;">' +
+      '<div style="font-size:10px;color:#4A5568;font-weight:600;text-transform:uppercase;margin-bottom:.2rem;">Base 2024</div>' +
+      '<div style="font-size:20px;font-weight:700;color:#4A5568;">38,91%</div>' +
+    '</div>' +
+    '<div style="background:#EEF2FF;border-radius:8px;padding:.7rem .5rem;text-align:center;border:1.5px solid #A5B4FC;">' +
+      '<div style="font-size:10px;color:#4338CA;font-weight:600;text-transform:uppercase;margin-bottom:.2rem;">Ago ' + d.año + '</div>' +
+      '<div style="font-size:20px;font-weight:700;color:#1A3A6B;">' + pct(d.est) + '</div>' +
+      '<div style="font-size:10px;font-weight:600;color:' + (parseFloat(vsBase) >= 0 ? '#81A382' : '#C0392B') + ';margin-top:.2rem;">' +
+        (parseFloat(vsBase) >= 0 ? '▲ +' : '▼ ') + vsBase + ' pp vs base' +
+      '</div>' +
+      (vsP ? '<div style="font-size:10px;color:#4A5568;margin-top:.1rem;">' + (parseFloat(vsP) >= 0 ? '▲ +' : '▼ ') + vsP + ' pp vs proy.</div>' : '') +
+    '</div>' +
+    '<div style="background:var(--dorado-bg);border-radius:8px;padding:.7rem .5rem;text-align:center;border:1.5px solid #E0C060;">' +
+      '<div style="font-size:10px;color:#8B6A00;font-weight:600;text-transform:uppercase;margin-bottom:.2rem;">Meta 2029</div>' +
+      '<div style="font-size:20px;font-weight:700;color:var(--dorado);">42,51%</div>' +
+      '<div style="font-size:10px;font-weight:600;color:' + (cumple ? '#81A382' : '#C0392B') + ';margin-top:.2rem;">' +
+        (cumple ? '✓ Superada' : vsMeta + ' pp por alcanzar') +
+      '</div>' +
+    '</div>';
+}
+
+/* ═══ TABS ═══ */
+function verTab(name, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  if (name !== 'componentes') {
+    const det = document.getElementById('comp-detalle');
+    if (det) det.style.display = 'none';
+  }
+}
+
+/* ═══ TABLA ═══ */
+const TABLA = [
+  ...OBS.map(d => [d.año, 'Observado', d.est, d.num, d.den]),
+  ...PROY.filter(d => d.año > 2025).map(d => [d.año, 'Proyectado', d.est, d.num, d.den]),
+];
+
+function renderTabla() {
+  let data = [...TABLA];
+  if (sortCol >= 0) {
+    data.sort((a, b) => {
+      const av = a[sortCol], bv = b[sortCol];
+      if (av == null) return 1;
+      if (bv == null) return -1;
+      return (av < bv ? -1 : av > bv ? 1 : 0) * sortDir;
+    });
+  }
+  document.getElementById('tbody').innerHTML = data.map(r => {
+    const esProy = r[1] === 'Proyectado';
+    const ma     = META_ANIO[r[0]];
+    const cumple = r[2] >= META;
+    return '<tr>' +
+      '<td>ago ' + r[0] + '</td>' +
+      '<td><span class="' + (esProy ? 'bproy' : 'bobs') + '">' + (esProy ? '◈ Proyectado' : '● Observado') + '</span></td>' +
+      '<td class="tn">' + pct(r[2]) + '</td>' +
+      '<td class="tn">' + fmt(r[3]) + '</td>' +
+      '<td class="tn">' + fmt(r[4]) + '</td>' +
+      '<td class="tn">' + (ma ? ma.toFixed(2) + '%' : '—') + '</td>' +
+      '<td style="text-align:center">' + (cumple ? '<span class="tverde">✓</span>' : '<span class="tazul">▲</span>') + '</td>' +
+      '</tr>';
+  }).join('');
+}
+
+function ordenar(col) {
+  if (sortCol === col) sortDir *= -1; else { sortCol = col; sortDir = 1; }
+  document.querySelectorAll('thead th').forEach((th, i) => {
+    th.classList.remove('asc', 'desc');
+    if (i === col) th.classList.add(sortDir === 1 ? 'asc' : 'desc');
+  });
+  renderTabla();
+}
+
+
+/* ── NAVEGACIÓN ── */
+function irPaginaPI(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  if(id==='pg-acciones-pi') setTimeout(buildAccPI,50);
+}
+/* ── ACCIONES PRIMERA INFANCIA ── */
+// Acciones y seguimiento: se leen de datos/pnd/proteccion_social/ con pnd_ps_acciones.js
+// (se actualizan cada mes con scripts/actualizar_pnd_ps.py; aquí no hay datos incrustados)
+function buildAccPI(){
+  if(window._ppsMontado) return;
+  window._ppsMontado = true;
+  PndPsAcciones.montar('#acciones-ps', { indicador: 'primera-infancia' });
+}
+</script>
+</div><!-- fin pg-datos -->
+<div id="pg-acciones-pi" class="page">
+  <div style="max-width:1400px;margin:0 auto;padding:1.5rem;">
+    <div id="acciones-ps"></div>
+  </div>
+</div>
+
+<div class="gov-close"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="Gobierno del Ecuador"></div>
+
+<footer class="dashboard-footer">
+  <strong>Ministerio de Trabajo y Desarrollo Humano</strong> · Subsecretaría de Gestión de Datos y Estudios · Seguimiento PND 2025–2029
+</footer>
+
+<script type="text/plain" data-tras-datos>
+(function(){
+  const cfg = {"base": "Servicios para la primera infancia", "default": "Menú del indicador", "items": [{"id": "pg-inicio", "label": "Menú del indicador"}, {"id": "pg-datos", "label": "Resultados anuales"}, {"id": "pg-acciones-pi", "label": "Acciones 2026"}]};
+  function visible(el){
+    if(!el) return false;
+    const cs = window.getComputedStyle(el);
+    return cs.display !== 'none' && cs.visibility !== 'hidden';
+  }
+  function activeLabel(){
+    const items = cfg.items || [];
+    for(const item of items){
+      const el = document.getElementById(item.id);
+      if(!el) continue;
+      if(el.classList.contains('active') && visible(el)) return item.label;
+    }
+    for(const item of items){
+      const el = document.getElementById(item.id);
+      if(el && el.classList.contains('active')) return item.label;
+    }
+    return cfg.default || '';
+  }
+  function render(){
+    const bc = document.getElementById('mdh-breadcrumb');
+    if(!bc) return;
+    const label = activeLabel();
+    if(label){
+      bc.innerHTML = '<a href="../index_PND.html">Inicio</a>' +
+        '<span class="mdh-bc-sep">›</span>' +
+        '<a href="javascript:void(0)" class="mdh-bc-base" onclick="irPaginaPI(&#39;pg-inicio&#39;)" title="Volver a: '+cfg.base+'">' + cfg.base + '</a>' +
+        '<span class="mdh-bc-sep">›</span>' +
+        '<span class="mdh-bc-current">' + label + '</span>';
+    } else {
+      bc.innerHTML = '<a href="../index_PND.html">Inicio</a>' +
+        '<span class="mdh-bc-sep">›</span>' +
+        '<span class="mdh-bc-current">' + cfg.base + '</span>';
+    }
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    render();
+    document.body.addEventListener('click', function(){ setTimeout(render, 80); }, true);
+    document.body.addEventListener('change', function(){ setTimeout(render, 80); }, true);
+    setTimeout(render, 120);
+  });
+  window.addEventListener('load', render);
+  window.mdhActualizarBreadcrumb = render;
+})();
+</script>
+
+<script type="text/plain" data-tras-datos data-src="../assets/js/shared.js"></script>
+<script type="text/plain" data-tras-datos>
+initSidebar({ activeId: 'pnd-primera-infancia', basePath: '../' });
+</script>
+
+</body>
+</html>

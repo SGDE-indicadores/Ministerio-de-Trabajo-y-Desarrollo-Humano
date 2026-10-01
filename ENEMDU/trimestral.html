@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENEMDU · Indicadores Trimestrales</title>
+<link rel="stylesheet" href="../assets/css/shared.css">
+<style>
+:root{
+  --azul:#4F449A; --azul-2:#4F449A; --dorado:#F1B620; --dorado-claro:#FEF7DC;
+  --gris-fondo:#f4f6f8; --gris-borde:#dbe1e8; --gris-texto:#4a5568; --texto:#1c2a3a;
+}
+*{box-sizing:border-box;}
+body{margin:0; font-family:Arial, sans-serif; background:var(--gris-fondo); color:var(--texto);}
+h1,h3{font-family:'Arial Black', Arial, sans-serif; font-weight:600;}
+a{text-decoration:none; color:inherit;}
+
+.topbar{background:linear-gradient(135deg, var(--azul) 0%, var(--azul-2) 100%); color:#fff; padding:26px 32px; border-bottom:4px solid var(--dorado);}
+.topbar-inner{max-width:1280px; margin:0 auto;}
+.back-link{display:inline-block; margin-bottom:10px; font-size:13px; color:rgba(255,255,255,0.65);}
+.back-link:hover{color:#fff;}
+.eyebrow{font-family:'Arial Black', Arial, sans-serif; font-size:13px; letter-spacing:2px; text-transform:uppercase; color:var(--amarillo-l); font-weight:600;}
+.topbar h1{margin:6px 0 6px 0; font-size:32px; color:#fff;}
+.topbar p{font-size:14.5px; color:rgba(255,255,255,0.65); max-width:760px; margin:0;}
+
+main{max-width:1280px; margin:0 auto; padding:28px 32px 60px 32px;}
+
+.sec-eyebrow{font-family:'Arial Black', Arial, sans-serif; font-size:13px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--azul-2); margin:28px 0 10px 0;}
+.sec-eyebrow:first-child{margin-top:0;}
+
+.sec-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:16px; margin-top:8px;}
+.sec-card{background:#fff; border:1px solid var(--gris-borde); border-radius:12px; padding:22px 22px; position:relative; transition:transform .12s, box-shadow .12s;}
+.sec-card.disponible{border-top:4px solid var(--dorado); cursor:pointer;}
+.sec-card.disponible:hover{transform:translateY(-2px); box-shadow:0 8px 20px rgba(11,45,82,0.1);}
+.sec-card.pendiente{border-top:4px solid var(--gris-borde); opacity:.65; filter:grayscale(30%);}
+.sec-card .badge{position:absolute; top:16px; right:16px; font-size:10px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; padding:3px 9px; border-radius:20px; background:var(--gris-borde); color:var(--gris-texto);}
+.sec-card.disponible .badge{background:var(--amarillo-l); color:var(--amarillo-d);}
+.sec-card .c-icon{font-size:22px; margin-bottom:8px; display:block;}
+
+.sec-card h3{margin:0 0 8px 0; font-size:19px; color:var(--azul); padding-right:80px;}
+.sec-card p{margin:0; font-size:13.5px; color:var(--gris-texto); line-height:1.5;}
+
+footer{text-align:center; padding:26px; font-size:12.5px; color:var(--gris-texto);}
+
+/* ---- nuevo header institucional con trazabilidad ---- */
+.ind-header{background:var(--azul); padding:0 32px; display:flex; align-items:center; justify-content:space-between; height:64px; border-bottom:3px solid var(--dorado); position:sticky; top:0; z-index:99;}
+.mega-nav{top:64px !important;}
+.ind-header-left{display:flex; align-items:center; gap:14px;}
+.header-logo{min-width:38px; height:38px; padding:0 6px; box-sizing:border-box; background:var(--dorado); border-radius:8px; display:flex; align-items:center; justify-content:center; font-family:'Arial Black', Arial, sans-serif; font-weight:700; font-size:12.5px; color:var(--azul); flex-shrink:0;}
+.ind-header-title{font-family:'Arial Black', Arial, sans-serif; font-weight:700; font-size:18px; color:#fff; line-height:1.25;}
+.ind-header-sub{font-size:11.5px; color:rgba(255,255,255,0.65); margin-top:1px;}
+.ind-header-right{display:flex; align-items:center; gap:10px; position:relative;}
+.nav-btn{background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.28); color:var(--azul-light); padding:7px 14px; border-radius:6px; font-size:12.5px; font-weight:600; cursor:pointer; text-decoration:none; font-family:Arial, sans-serif; white-space:nowrap; display:inline-block;}
+.nav-btn:hover{background:rgba(255,255,255,.18);}
+.ind-breadcrumb{background:#fff; border-bottom:2px solid var(--gris-borde); padding:9px 32px; font-size:12.5px; color:var(--gris-texto);}
+.ind-breadcrumb a{color:var(--gris-texto); text-decoration:none; font-weight:600;}
+.ind-breadcrumb a:hover{color:var(--azul);}
+.ind-breadcrumb b{color:var(--texto); font-weight:700;}
+.page-intro{max-width:1280px; margin:0 auto; padding:20px 32px 0 32px; font-size:14.5px; color:var(--gris-texto); line-height:1.6;}
+
+</style>
+</head>
+<body>
+
+<div id="app-sidebar-mount"></div>
+
+<div class="ind-header">
+  <div class="ind-header-left">
+    <div class="header-logo">MTDH</div>
+    <div>
+      <div class="ind-header-title">ENEMDU · Indicadores Trimestrales</div>
+      <div class="ind-header-sub">Ministerio de Trabajo y Desarrollo Humano · Dirección de Estudios y Análisis</div>
+    </div>
+  </div>
+</div>
+<nav class="ind-breadcrumb">
+  <a href="../index_ENEMDU.html">Inicio</a> › <b>Trimestral</b>
+</nav>
+<p class="page-intro">Tabulados trimestrales de mercado laboral del INEC. Elige la sección que quieres consultar.</p>
+
+<main>
+
+  <div class="sec-eyebrow">Indicadores generales</div>
+  <div class="sec-grid">
+    <a class="sec-card disponible" href="poblaciones_trimestral.html">
+      <span class="badge">Disponible</span>
+      <span class="c-icon">👥</span><h3>Poblaciones</h3>
+      <p>18 indicadores poblacionales (Población Total, PET, PEA, Empleo, Desempleo y sus categorías), con desagregación nacional, área, dominios, sexo, edad y etnia. IV-2020 a I-2026.</p>
+    </a>
+    <a class="sec-card disponible" href="tasas_trimestral.html">
+      <span class="badge">Disponible</span>
+      <span class="c-icon">📊</span><h3>Tasas</h3>
+      <p>14 tasas oficiales de mercado laboral del INEC (Empleo, Empleo Adecuado, Subempleo, Desempleo, Participación), con desagregación nacional, área, dominios, sexo, edad y etnia. IV-2020 a I-2026.</p>
+    </a>
+  </div>
+
+  <div class="sec-eyebrow">Caracterización por categoría de empleo</div>
+  <div class="sec-grid">
+    <a class="sec-card disponible" href="caracterizacion_empleados_trimestral.html">
+      <span class="badge">Disponible</span>
+      <span class="c-icon">🧑‍💼</span><h3>Caracterización de empleados</h3>
+      <p>Perfil de empleados: sexo, tipo de empleado, tipo de trabajo, edad, instrucción, rama de actividad, etnia, sector y horas habituales. IV-2020 a I-2026.</p>
+    </a>
+    <a class="sec-card disponible" href="caracterizacion_adec_pleno_trimestral.html">
+      <span class="badge">Disponible</span>
+      <span class="c-icon">✅</span><h3>Caracterización de Empleo Adecuado/Pleno</h3>
+      <p>Perfil del empleo adecuado/pleno: sexo, tipo de empleado, tipo de trabajo, edad, instrucción, rama de actividad, etnia y sector. IV-2020 a I-2026.</p>
+    </a>
+    <a class="sec-card disponible" href="caracterizacion_subempleo_trimestral.html">
+      <span class="badge">Disponible</span>
+      <span class="c-icon">⚠️</span><h3>Caracterización de Subempleo</h3>
+      <p>Perfil del subempleo: sexo, tipo de empleado, tipo de trabajo, edad, etnia y sector. IV-2020 a I-2026.</p>
+    </a>
+    <a class="sec-card disponible" href="caracterizacion_otro_no_pleno_trimestral.html">
+      <span class="badge">Disponible</span>
+      <span class="c-icon">📉</span><h3>Caracterización de Otro Empleo no Pleno</h3>
+      <p>Perfil de la categoría "Otro Empleo no Pleno": sexo, tipo de empleado, tipo de trabajo, edad, etnia y sector. IV-2020 a I-2026.</p>
+    </a>
+    <a class="sec-card disponible" href="caracterizacion_desempleo_trimestral.html">
+      <span class="badge">Disponible</span>
+      <span class="c-icon">🔍</span><h3>Caracterización de Desempleo</h3>
+      <p>Perfil del desempleo: sexo, edad, tipo de desempleo (abierto/oculto) y experiencia laboral previa (cesantes/nuevos). IV-2020 a I-2026.</p>
+    </a>
+  </div>
+
+  <div class="sec-eyebrow">Estructura del empleo</div>
+  <div class="sec-grid">
+    <a class="sec-card disponible" href="sectorizacion_empleo_trimestral.html">
+      <span class="badge">Disponible</span>
+      <span class="c-icon">🏭</span><h3>Sectorización del Empleo</h3>
+      <p>Distribución del empleo total entre sector formal, informal, doméstico y no clasificados, por área (Nacional, Urbano, Rural). IV-2020 a I-2026.</p>
+    </a>
+  </div>
+
+  <div class="gov-close"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="Gobierno del Ecuador"></div>
+
+</main>
+
+<footer>ENEMDU · Instituto Nacional de Estadística y Censos (INEC) — Panel elaborado por la Dirección de Estudios y Análisis, Subsecretaría de Gestión de Datos y Estudio, Ministerio de Trabajo y Desarrollo Humano</footer>
+
+<script src="../assets/js/shared.js"></script>
+<script>
+initSidebar({ activeId: 'pnd-trabajo', basePath: '../' });
+</script>
+
+<script src="../assets/js/export-utils.js"></script>
+</body>
+</html>

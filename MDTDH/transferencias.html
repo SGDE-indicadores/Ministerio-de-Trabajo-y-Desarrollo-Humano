@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transferencias monetarias no contributivas | MTDH</title>
+<link rel="stylesheet" href="../assets/css/shared.css">
+</head>
+<body>
+
+<div id="app-sidebar-mount"></div>
+
+<div class="logo-bar">
+  <img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="El Nuevo Ecuador — Defiende, Impulsa, Construye" style="height:34px;">
+</div>
+
+<header class="header">
+  <div class="header-left">
+    <div class="header-logo">MTDH</div>
+    <div>
+      <div class="header-title">Ministerio de Trabajo y Desarrollo Humano</div>
+      <div class="header-sub">Dirección de Estudios y Análisis · Subsecretaría de Gestión de Datos y Estudios</div>
+    </div>
+  </div>
+  <div class="header-badge" id="headerBadge">Portal de Indicadores</div>
+</header>
+
+
+<nav class="breadcrumb" id="breadcrumb"></nav>
+
+<main class="main">
+
+  <section class="page" id="page-transferencias">
+    <div class="hero">
+      <div class="hero-eyebrow">Transferencias monetarias no contributivas</div>
+      <h1>Coberturas de transferencias monetarias no contributivas</h1>
+      <p>Beneficiarios y presupuesto ejecutado de los programas de protección social no contributiva con registros disponibles en la base.</p>
+      <div class="hero-chips">
+        <div class="hero-chip">Fuente: <strong>MTDH · Subsecretaría de Gestión de Datos y Estudios</strong></div>
+        <div class="hero-chip">Programas: <strong>9</strong></div>
+      </div>
+    </div>
+
+    <div class="infog-wrap" id="transferInfografiaWrap">
+      <div id="transferInfografia"></div>
+    </div>
+
+    <div class="section-lbl">Consulta el detalle por programa</div>
+    <div class="filter-bar">
+      <div class="filter-field">
+        <label for="tmYear">Año</label>
+        <select id="tmYear"></select>
+      </div>
+      <div class="filter-field">
+        <label for="tmMonth">Mes</label>
+        <select id="tmMonth"></select>
+      </div>
+      <div class="filter-actions">
+        <button class="btn btn-reset" onclick="resetTransferDateFilter()">Todo el período</button>
+      </div>
+      <div class="filter-status" id="tmFilterStatus">Mostrando: período de gobierno</div>
+      <div class="filter-warning" id="tmFilterWarning" style="display:none;"></div>
+    </div>
+    <div class="filter-chips">
+      <button class="chip-btn" onclick="showTransferHistorical()">Período de gobierno</button>
+      <button class="chip-btn" onclick="showTransferLatestYear()">Último año disponible</button>
+    </div>
+
+    <div class="tm-summary">
+      <div class="tm-summary-panel">
+        <div class="tm-summary-label">Presupuesto ejecutado total</div>
+        <div class="tm-summary-value" id="tmHeroFigure">—</div>
+        <div class="tm-summary-period" id="tmHeroPeriod">Cargando datos reales desde la carpeta datos/.</div>
+        <div class="tm-summary-note" id="tmSummaryNote">Vista acumulada del período de gobierno.</div>
+      </div>
+      <div class="tm-summary-panel">
+        <div class="tm-dist-title">Distribución del presupuesto por programa</div>
+        <div class="tm-stackbar" id="tmStackbar"></div>
+        <div class="tm-legend" id="tmLegend"></div>
+      </div>
+    </div>
+
+    <div class="tm-grid" id="tmCardGrid"></div>
+
+    <div class="tm-total">
+      <div class="label" id="tmTotalLabel">Presupuesto período de gobierno</div>
+      <div class="value" id="tmTotalValue">—</div>
+    </div>
+    
+  </section>
+  <section class="page" id="page-transferencia-detail">
+    <div class="hero">
+      <div class="hero-eyebrow" id="transferDetailEyebrow">Transferencias monetarias no contributivas</div>
+      <div class="transfer-detail-program-icon" id="transferDetailIcon"></div>
+      <h1 id="transferDetailTitle"></h1>
+      <p id="transferDetailDesc"></p>
+    </div>
+    <div class="toggle-bar">
+      <div class="toggle-group">
+        <button class="toggle-btn active" id="btn-transfer-cobertura" onclick="selectTransferDetailTab('cobertura')">Cobertura</button>
+        <button class="toggle-btn" id="btn-transfer-presupuesto" onclick="selectTransferDetailTab('presupuesto')">Presupuesto</button>
+        <button class="toggle-btn" id="btn-transfer-caracterizacion" onclick="selectTransferDetailTab('caracterizacion')">Caracterización</button>
+        <button class="toggle-btn" id="btn-transfer-ficha" onclick="selectTransferDetailTab('ficha')">Ficha del indicador</button>
+      </div>
+    </div>
+    <div id="transferDetailContent"></div>
+  </section>
+    <div class="tm-modal-backdrop" id="tmModalBackdrop">
+      <div class="tm-modal-panel">
+        <button class="tm-modal-close" id="tmModalClose" type="button" aria-label="Cerrar">&times;</button>
+        <div class="tm-modal-icon" id="tmModalIcon"></div>
+        <div class="tm-modal-title" id="tmModalTitle"></div>
+        <div class="indicator-info-kicker" id="tmModalKicker">Información del indicador</div>
+        <div id="tmModalContent"></div>
+        <div class="tm-modal-note" id="tmModalNote"></div>
+      </div>
+    </div>
+  <div class="gov-close"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="Gobierno del Ecuador"></div>
+
+</main>
+
+<footer class="dashboard-footer">
+  <strong>Ministerio de Trabajo y Desarrollo Humano</strong> · Subsecretaría de Gestión de Datos y Estudios · Portal de Indicadores
+</footer>
+
+<script src="../assets/js/shared.js"></script>
+<script>
+initSidebar({ activeId: 'transferencias', basePath: '../' });
+</script>
+<script>
+// Esta página vive en MDTDH/; index.html vive un nivel arriba (la raíz).
+const ROOT_PREFIX = '../';
+const MDTDH_PREFIX = '';
+// ---------- Infografía destacada: panorama general de transferencias monetarias ----------
+// Todos los datos provienen de datos/transferencias/transferencias_mensual.csv, cargado por
+// fetchTransferData() (ver shared.js) antes de invocar cualquier render de esta página.
+const TRANSFER_INFOG_IMAGE = '../imagenes/credito.png';
+
+function renderTransferInfografia(){
+  const wrap = document.getElementById('transferInfografia');
+  if(!wrap) return;
+
+  const d = buildHistoricalDataset();
+  // "Ejecutado en <mes>" y "Beneficiarios totales" deben reflejar el último
+  // corte mensual real disponible (hoy, julio 2026) — NO la suma de todos los
+  // meses del año en curso (eso da 800,2M, que en realidad es ene-jul) ni el
+  // acumulado histórico completo. El dinero acumulado sí tiene sentido sumarlo
+  // (arriba, "período de gobierno"); un conteo de beneficiarios, no: por eso
+  // usa buildMonthDataset (un solo corte) y no buildYearDataset (suma meses).
+  const fiscalData = buildMonthDataset(PERIOD_MAX);
+  const totalUsers = fiscalData ? fiscalData.programas.reduce((s,p) => s + p.users, 0) : 0;
+  const byCategory = {};
+  (fiscalData ? fiscalData.programas : []).forEach(p => {
+    const meta = getTransferProgramMetaByName(p.name);
+    const cat = meta ? meta.category : 'bono';
+    byCategory[cat] = (byCategory[cat] || 0) + p.users;
+  });
+  const bonoPct = totalUsers ? ((byCategory.bono || 0) / totalUsers * 100) : 0;
+
+  const top3 = [...(fiscalData ? fiscalData.programas : [])].sort((a,b) => b.users - a.users).slice(0,3);
+  const maxTopUsers = Math.max(...top3.map(p => p.users), 1);
+  const rankHtml = top3.map((p,i) => {
+    const meta = getTransferProgramMetaByName(p.name);
+    const style = getTransferCategoryStyle(meta ? meta.category : null);
+    const pct = (p.users / maxTopUsers * 100).toFixed(0);
+    return `<div class="infog-rank-item">
+      <div class="infog-rank-num">${i+1}</div>
+      <div class="infog-rank-body">
+        <div class="infog-rank-name">${escHtml(p.name)}</div>
+        <div class="infog-rank-track"><div class="infog-rank-fill" style="width:${pct}%; background:${style.color};"></div></div>
+      </div>
+      <div class="infog-rank-value">${fmtInt(p.users)}</div>
+    </div>`;
+  }).join('');
+
+  wrap.innerHTML = `
+    <div class="infog-card" style="--accent:var(--azul); --accent-light:var(--azul-pale);">
+      <div class="infog-watermark"><img src="${TRANSFER_INFOG_IMAGE}" alt=""></div>
+      <div class="infog-grid">
+        <div class="infog-left">
+          <div class="infog-icon-badge"><img src="${TRANSFER_INFOG_IMAGE}" alt=""></div>
+          <div class="infog-kicker">Panorama general · ${d.programas.filter(p => p.budgetM > 0 || p.users > 0).length} programas con registros</div>
+          <div class="infog-title">Transferencias monetarias no contributivas</div>
+          <div class="infog-def-label">¿Qué agrupa esta cifra?</div>
+          <div class="infog-def">Acumulado calculado exclusivamente con los registros disponibles en datos/ para el período ${escHtml(d.rangeLabel)}.</div>
+          <div class="infog-def-label">Top 3 programas por beneficiarios</div>
+          <div class="infog-rank-list">${rankHtml}</div>
+        </div>
+        <div class="infog-right">
+          <div class="infog-highlight-row">
+            <div>
+              <div class="infog-stat-label">Ejecutado en el período de gobierno</div>
+              <div class="infog-stat-value">${d.total}</div>
+              <div class="infog-stat-secondary">
+                <div class="infog-stat-label">Ejecutado en ${fiscalData ? escHtml(fiscalData.rangeLabel) : 'último año disponible'}</div>
+                <div class="infog-stat-value">${fiscalData ? fiscalData.total : '—'}</div>
+              </div>
+            </div>
+            <div class="donut-ring" style="--pct:${bonoPct.toFixed(0)}; --accent:var(--azul);">
+              <div class="donut-ring-inner">
+                <div class="donut-ring-value">${bonoPct.toFixed(0)}%</div>
+                <div class="donut-ring-label">de beneficiarios recibe algún bono</div>
+              </div>
+            </div>
+          </div>
+          <div class="infog-def-label" style="margin-top:20px;">Beneficiarios totales</div>
+          <div style="font-family:'Arial Black', Arial, sans-serif;font-weight:700;font-size:18px;color:var(--azul);">${fmtInt(totalUsers)} personas</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+const DEFAULT_ROUTE = 'transferencias';
+const routes = {
+  'transferencias': { title: 'Transferencias monetarias no contributivas', crumbs: [['inicio','Inicio']] }
+};
+TRANSFER_PROGRAM_META.forEach(p => {
+  routes['transferencia-' + p.slug] = {
+    title: (p.registro && kpiMetadata[String(p.registro)] ? kpiMetadata[String(p.registro)].nombre : p.name),
+    crumbs: [['inicio','Inicio'],['transferencias','Transferencias monetarias no contributivas']],
+    transferDetail: p.slug
+  };
+});
+
+fetchTransferData().then(() => {
+  PERIOD_MAX = transferPeriodMax();
+  renderTransferInfografia();
+  initTransferPeriodSelectors();
+  resetTransferDateFilter();
+  renderRoute();
+}).catch(err => {
+  console.error('No se pudo cargar datos/transferencias/transferencias_mensual.csv:', err);
+  const main = document.querySelector('main') || document.body;
+  main.insertAdjacentHTML('afterbegin', `<div style="padding:24px;color:var(--rojo);">No se pudo cargar la base de datos de transferencias (datos/transferencias/transferencias_mensual.csv). Verifica que el sitio se esté sirviendo por HTTP y no abriendo el archivo directo.</div>`);
+});
+
+</script>
+
+</body>
+</html>

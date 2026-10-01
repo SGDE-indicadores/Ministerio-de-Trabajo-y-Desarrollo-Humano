@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KPIs | MTDH</title>
+<link rel="stylesheet" href="../assets/css/shared.css">
+</head>
+<body>
+
+<div id="app-sidebar-mount"></div>
+
+<div class="logo-bar">
+  <img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="El Nuevo Ecuador — Defiende, Impulsa, Construye" style="height:34px;">
+</div>
+
+<header class="header">
+  <div class="header-left">
+    <div class="header-logo">MTDH</div>
+    <div>
+      <div class="header-title">Ministerio de Trabajo y Desarrollo Humano</div>
+      <div class="header-sub">Dirección de Estudios y Análisis · Subsecretaría de Gestión de Datos y Estudios</div>
+    </div>
+  </div>
+  <div class="header-badge" id="headerBadge">Portal de Indicadores</div>
+</header>
+
+
+<nav class="breadcrumb" id="breadcrumb"></nav>
+
+<main class="main">
+
+  <section class="page" id="page-kpis">
+    <div class="hero">
+      <div class="hero-eyebrow">KPIs</div>
+      <h1>Indicadores de gestión</h1>
+      <p>Elige el área que quieres consultar.</p>
+    </div>
+    <div class="section-lbl">Elige un área</div>
+    <div class="opt-grid opt-grid-3" id="kpisAreaGrid"></div>
+  </section>
+  <section class="page" id="page-generic-items">
+    <div class="hero">
+      <div class="hero-eyebrow" id="itemsEyebrow"></div>
+      <h1 id="itemsTitle"></h1>
+      <p id="itemsDesc">Selecciona un indicador para consultar su información.</p>
+    </div>
+    <div class="section-lbl" id="itemsInfografiaLbl" style="display:none;">Panorama destacado</div>
+    <div class="infog-wrap" id="itemsInfografiaWrap" style="display:none;">
+      <div id="itemsInfografia"></div>
+    </div>
+    <div class="item-grid" id="itemsGrid"></div>
+  </section>
+  <section class="page" id="page-kpi-detail">
+    <div class="hero">
+      <div class="hero-eyebrow" id="kpiDetailEyebrow">KPIs</div>
+      <h1 id="kpiDetailTitle"></h1>
+      <p id="kpiDetailDesc"></p>
+    </div>
+    <div class="toggle-bar">
+      <div class="toggle-group">
+        <button class="toggle-btn active" id="btn-kpi-cobertura" onclick="selectKpiTab('cobertura')">Cobertura</button>
+        <button class="toggle-btn" id="btn-kpi-presupuesto" onclick="selectKpiTab('presupuesto')">Presupuesto</button>
+        <button class="toggle-btn" id="btn-kpi-caracterizacion" onclick="selectKpiTab('caracterizacion')">Caracterización</button>
+        <button class="toggle-btn" id="btn-kpi-ficha" onclick="selectKpiTab('ficha')">Ficha del indicador</button>
+      </div>
+    </div>
+    <div id="kpiDetailContent"></div>
+  </section>
+  <section class="page" id="page-kpis-proteccion-social">
+    <div class="hero">
+      <div class="hero-eyebrow">KPIs · Protección Social e Inclusión Económica</div>
+      <h1>Indicadores de protección social</h1>
+      <p>Elige el componente que quieres consultar. Las transferencias monetarias se gestionan ahora desde su módulo independiente.</p>
+    </div>
+
+    <div class="section-lbl">Panorama destacado</div>
+    <div class="infog-wrap" id="infogProteccionSocialWrap">
+      <div id="infogProteccionSocial"></div>
+    </div>
+
+    <div class="section-lbl">Elige un componente</div>
+    <div class="item-grid" id="coberturas12Grid"></div>
+  </section>
+  <section class="page" id="page-cobertura-detail">
+    <div class="hero">
+      <div class="hero-eyebrow">KPIs · Protección Social e Inclusión Económica</div>
+      <h1 id="covTitle"></h1>
+      <p id="covDesc"></p>
+    </div>
+    <div id="covInfografia" class="infog-wrap" style="display:none;"></div>
+    <div class="toggle-bar">
+      <div class="toggle-group">
+        <button class="toggle-btn active" id="btn-cov-cobertura" onclick="selectCovTab('cobertura')">Cobertura</button>
+        <button class="toggle-btn" id="btn-cov-presupuesto" onclick="selectCovTab('presupuesto')">Presupuesto</button>
+        <button class="toggle-btn" id="btn-cov-caracterizacion" onclick="selectCovTab('caracterizacion')">Caracterización</button>
+        <button class="toggle-btn" id="btn-cov-ficha" onclick="selectCovTab('ficha')">Ficha del indicador</button>
+      </div>
+    </div>
+    <div id="covContent"></div>
+  </section>
+    <div class="tm-modal-backdrop" id="tmModalBackdrop">
+      <div class="tm-modal-panel">
+        <button class="tm-modal-close" id="tmModalClose" type="button" aria-label="Cerrar">&times;</button>
+        <div class="tm-modal-icon" id="tmModalIcon"></div>
+        <div class="tm-modal-title" id="tmModalTitle"></div>
+        <div class="indicator-info-kicker" id="tmModalKicker">Información del indicador</div>
+        <div id="tmModalContent"></div>
+        <div class="tm-modal-note" id="tmModalNote"></div>
+      </div>
+    </div>
+  <div class="gov-close"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="Gobierno del Ecuador"></div>
+
+</main>
+
+<footer class="dashboard-footer">
+  <strong>Ministerio de Trabajo y Desarrollo Humano</strong> · Subsecretaría de Gestión de Datos y Estudios · Portal de Indicadores
+</footer>
+
+<script src="../assets/js/shared.js"></script>
+<script>
+initSidebar({ activeId: 'kpis', basePath: '../' });
+</script>
+<script>
+// Esta página vive en MDTDH/; index.html vive un nivel arriba (la raíz).
+const ROOT_PREFIX = '../';
+const MDTDH_PREFIX = '';
+// ---------- Infografía destacada por área de KPIs (una por cada desagregación) ----------
+// Definición y "qué mide" provienen de la matriz institucional (kpiMetadata, dato real).
+// La cifra destacada, tendencia, meta, serie y tabulado de cada indicador vienen de un
+// archivo CSV en datos/ (uno por área), cargados por fetchKpiData() antes de invocar
+// cualquier render. indicatorInfografiasByArea se llena en tiempo de ejecución con la
+// MISMA forma que antes tenía escrita a mano, para que el resto del código (renderAreaInfografia,
+// changeAreaInfografia, etc.) no necesite cambiar.
+const KPI_AREA_FILES = {
+  'kpis-proteccion-social': '../datos/kpis/kpi_proteccion_social.csv',
+  'kpis-trabajo': '../datos/kpis/kpi_trabajo.csv',
+  'kpis-pueblos': '../datos/kpis/kpi_pueblos_nacionalidades.csv',
+  'kpis-incentivos': '../datos/kpis/kpi_incentivos_temporales.csv'
+};
+
+const indicatorInfografiasByArea = {};
+
+// Convierte las filas "tidy" de un CSV de KPI (una fila por año de serie, o por
+// categoría de desagregación) de vuelta a la forma { registro, kicker, serie, tabulado, ... }
+// que ya sabe dibujar renderAreaInfografia().
+function parseKpiAreaRows(rawRows){
+  // Regla de publicación: nunca renderizar una cifra marcada como no real.
+  // Solo se admiten filas TRUE y filas "pendiente" sin valores cuantitativos.
+  const safeRows = rawRows.filter(r => {
+    const real = String(r.es_dato_real || '').trim().toUpperCase() === 'TRUE';
+    const pending = r.tipo_registro === 'pendiente';
+    return real || pending;
+  });
+  const byKey = {};
+  const order = [];
+  safeRows.forEach(r => {
+    const key = r.registro_id || r.indicador;
+    if(!byKey[key]){
+      byKey[key] = {
+        registro: r.registro_id ? Number(r.registro_id) : undefined,
+        icon: r.icono || 'doc',
+        color: r.color || 'var(--azul)',
+        light: r.color_claro || 'var(--azul-pale)',
+        kicker: r.indicador,
+        headline: r.headline || '',
+        headlineSuffix: r.headline_sufijo || '',
+        unit: r.unidad || undefined,
+        trendDir: r.tendencia_direccion || undefined,
+        trendText: r.tendencia_texto || undefined,
+        metaPct: r.meta_pct ? Number(r.meta_pct) : undefined,
+        metaLabel: r.meta_label || undefined,
+        impact: r.impacto_texto || '',
+        real: String(r.es_dato_real || '').trim().toUpperCase() === 'TRUE',
+        serie: [], tabulado: []
+      };
+      if(r.tabulado_encabezado_categoria){
+        byKey[key].tabulado.push([r.tabulado_encabezado_categoria, r.tabulado_encabezado_valor]);
+      }
+      order.push(key);
+    }
+    const ind = byKey[key];
+    if(r.tipo_registro === 'pendiente'){
+      ind.construction = true;
+      ind.real = false;
+      ind.title = r.titulo_construccion || ind.kicker;
+      ind.message = r.mensaje_construccion || 'En construcción.';
+    } else if(r.tipo_registro === 'serie_historica' && r.anio){
+      ind.serie.push({ y: r.anio, v: Number(r.valor) });
+      if(r.serie_titulo) ind.serieTitulo = r.serie_titulo;
+      if(r.serie_nota !== undefined) ind.serieNota = r.serie_nota;
+    } else if(r.tipo_registro === 'desagregacion_actual' && r.desagregacion_categoria){
+      ind.tabulado.push([r.desagregacion_categoria, r.desagregacion_valor]);
+    }
+  });
+  return order.map(k => byKey[k]);
+}
+
+function fetchKpiData(){
+  const areas = Object.keys(KPI_AREA_FILES);
+  return Promise.all(areas.map(area => fetchCSV(KPI_AREA_FILES[area]).then(raw => {
+    indicatorInfografiasByArea[area] = parseKpiAreaRows(raw);
+  })));
+}
+
+// Contenedor donde cada área pinta su infografía. Protección Social tiene su propia página
+// dedicada (contenedor propio); Trabajo, Pueblos e Incentivos comparten la
+// página genérica de componentes, por eso apuntan al mismo contenedor #itemsInfografia.
+const AREA_INFOG_CONTAINER = {
+  'kpis-proteccion-social': 'infogProteccionSocial',
+  'kpis-trabajo': 'itemsInfografia',
+  'kpis-pueblos': 'itemsInfografia',
+  'kpis-incentivos': 'itemsInfografia'
+};
+// Rutas que usan el contenedor compartido #itemsInfografia (para mostrar/ocultar el bloque
+// solo cuando la página genérica de ítems está mostrando una de estas áreas, y no un sub-ítem).
+const AREA_INFOG_ROUTES = { 'kpis-trabajo': 1, 'kpis-pueblos': 1, 'kpis-incentivos': 1 };
+
+// Imágenes reales vinculadas por área (carpeta imagenes/, junto a los HTML del portal).
+// Usadas tanto en la tarjeta de "Elige un área" (renderKpisAreas, shared.js) como en el
+// ícono y la marca de agua de la infografía destacada de cada área.
+const AREA_IMAGE = {
+  'kpis-trabajo': '../imagenes/trabajo.png',
+  'kpis-pueblos': '../imagenes/pueblos.png',
+  'kpis-incentivos': '../imagenes/incentivos.png'
+};
+
+const infografiaIndexByArea = {};
+
+// ---------- Selector de año para la serie histórica de Protección Social ----------
+// Por defecto se muestra la serie anual (corte a diciembre de cada año, como antes);
+// al elegir un año específico se muestra su serie mensual (enero-diciembre, o
+// enero-julio en 2026, que es donde llega el último dato real disponible).
+let currentPsSerieYear = 'all';
+let currentPsSerieRawRows = null;
+
+const MONTH_ABBREV = {'01':'Ene','02':'Feb','03':'Mar','04':'Abr','05':'May','06':'Jun','07':'Jul','08':'Ago','09':'Sep','10':'Oct','11':'Nov','12':'Dic'};
+
+function buildPsSerieBars(rawRows, selectedYear){
+  let rows, labelSuffix, note;
+  if(selectedYear === 'all'){
+    rows = rawRows.filter(r => r.mes === '12');
+    labelSuffix = 'corte a diciembre de cada año';
+    note = 'Cada valor corresponde al número de usuarios atendidos al corte de diciembre de ese año.';
+  } else {
+    rows = rawRows.filter(r => String(r.anio) === String(selectedYear)).slice().sort((a,b) => a.mes.localeCompare(b.mes));
+    labelSuffix = `serie mensual ${selectedYear}`;
+    note = 'Cada valor corresponde al número de usuarios atendidos al corte de fin de cada mes. Los meses sin dato real cargado se muestran como valores provisionales hasta contar con la base oficial.';
+  }
+  if(!rows.length) return { barsHtml: '<div class="pres-note">No hay datos para este año.</div>', labelSuffix, note: '' };
+  if(rows.length && rows.every(r => !r.esReal)){
+    note = 'Serie histórica PROVISIONAL (placeholder): aún no hay una base oficial mensual/anual cargada para este indicador. Estos valores se reemplazarán cuando se reciba el dato real.';
+  }
+  const maxV = Math.max(...rows.map(r => r.usuarios));
+  const lastIdx = rows.length - 1;
+  const barsHtml = rows.map((r,i) => `
+    <div class="infog-bar-col${i === lastIdx ? ' current' : ''}">
+      <div class="infog-bar-value">${fmtInt(r.usuarios)}</div>
+      <div class="infog-bar-track"><div class="infog-bar-fill" style="height:${Math.max((r.usuarios/maxV*100),6).toFixed(0)}%;"></div></div>
+      <div class="infog-bar-label">${selectedYear === 'all' ? r.anio : MONTH_ABBREV[r.mes] || r.mes}</div>
+    </div>`).join('');
+  return { barsHtml, labelSuffix, note };
+}
+
+function selectPsSerieYear(year){
+  currentPsSerieYear = year;
+  const barsEl = document.getElementById('psSerieBars');
+  const labelEl = document.getElementById('psSerieLabel');
+  const noteEl = document.getElementById('psSerieNote');
+  if(!barsEl || !currentPsSerieRawRows) return;
+  const { barsHtml, labelSuffix, note } = buildPsSerieBars(currentPsSerieRawRows, year);
+  if(labelEl) labelEl.innerHTML = `Mostrando: <b>${escHtml(labelSuffix)}</b>`;
+  barsEl.innerHTML = barsHtml;
+  if(noteEl) noteEl.textContent = note;
+}
+
+function formatSeriesValue(v, unit){
+  return unit === 'percent' ? `${v.toLocaleString('es-EC',{maximumFractionDigits:1})}%` : v.toLocaleString('es-EC');
+}
+
+function changeAreaInfografia(areaKey, delta){
+  const total = (indicatorInfografiasByArea[areaKey] || []).length;
+  let idx = (infografiaIndexByArea[areaKey] || 0) + delta;
+  if(total){ idx = ((idx % total) + total) % total; }
+  infografiaIndexByArea[areaKey] = idx;
+  renderAreaInfografia(areaKey);
+}
+
+function goToAreaInfografia(areaKey, idx){
+  infografiaIndexByArea[areaKey] = idx;
+  renderAreaInfografia(areaKey);
+}
+
+function renderAreaInfografia(areaKey){
+  const containerId = AREA_INFOG_CONTAINER[areaKey];
+  const wrap = containerId ? document.getElementById(containerId) : null;
+  if(!wrap) return;
+  const slides = indicatorInfografiasByArea[areaKey] || [];
+  if(!slides.length){ wrap.innerHTML = ''; return; }
+
+  let idx = infografiaIndexByArea[areaKey] || 0;
+  if(idx < 0) idx = slides.length - 1;
+  if(idx >= slides.length) idx = 0;
+  infografiaIndexByArea[areaKey] = idx;
+  const total = slides.length;
+  const item = slides[idx];
+
+  // Para los cuatro servicios de Protección Social con serie histórica real
+  // (datos/kpis/proteccion_social/series_historicas_servicios.csv, ahora mensual: enero-diciembre 2018-2025
+  // y enero-julio 2026), guardamos las filas crudas para el selector de año; por
+  // defecto se muestra la serie anual (corte a diciembre de cada año).
+  item.serieMonthlyRaw = null;
+  if(areaKey === 'kpis-proteccion-social' && ['5','6','7','8','12'].includes(String(item.registro))){
+    const hist = (typeof PS_COBERTURA_HISTORICA !== 'undefined'
+      ? PS_COBERTURA_HISTORICA[String(item.registro)]
+      : null) || [];
+    if(hist.length){
+      item.serieMonthlyRaw = hist;
+      item.serie = hist.filter(r => r.mes === '12').map(r => ({ y: String(r.anio), v: r.usuarios }));
+      item.serieReal = hist.every(r => r.esReal);
+      item.trendText = `Serie histórica disponible: ${hist[0].anio}-${hist[hist.length - 1].anio} · corte a diciembre de cada año` ;
+    }
+  }
+  currentPsSerieYear = 'all';
+  currentPsSerieRawRows = item.serieMonthlyRaw;
+
+  const iconSvg = TRANSFER_ICONS[item.icon] || TRANSFER_ICONS.doc;
+  const areaImage = (typeof AREA_IMAGE !== 'undefined') ? AREA_IMAGE[areaKey] : null;
+  const watermarkInner = areaImage ? `<img src="${areaImage}" alt="">` : `<svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">${iconSvg}</svg>`;
+  const badgeInner = areaImage ? `<img src="${areaImage}" alt="">` : `<svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">${iconSvg}</svg>`;
+
+  const navHtml = total > 1 ? `
+    <div class="infog-nav">
+      <button class="infog-arrow" type="button" onclick="changeAreaInfografia('${areaKey}', -1)" aria-label="Indicador anterior">‹</button>
+      <div class="infog-dots">${slides.map((x,i) => `<button class="infog-dot ${i === idx ? 'active' : ''}" type="button" onclick="goToAreaInfografia('${areaKey}', ${i})" aria-label="Ir al indicador ${i+1}"></button>`).join('')}</div>
+      <button class="infog-arrow" type="button" onclick="changeAreaInfografia('${areaKey}', 1)" aria-label="Indicador siguiente">›</button>
+    </div>` : '';
+
+  if(item.construction){
+    wrap.innerHTML = `
+      <div class="infog-card" style="--accent:${item.color}; --accent-light:${item.light};">
+        <div class="infog-watermark">${watermarkInner}</div>
+        <div class="infog-icon-badge">${badgeInner}</div>
+        <div class="infog-kicker">${escHtml(item.kicker)} · ${idx + 1} de ${total}</div>
+        <div class="infog-title">${escHtml(item.title)}</div>
+        <div class="infog-def-label">Estado</div>
+        <div class="infog-def">${escHtml(item.message)}</div>
+      </div>
+      ${navHtml}`;
+    return;
+  }
+
+  const m = kpiMetadata[String(item.registro)];
+  const trendIcon = item.trendDir === 'down' ? '▼' : (item.trendDir === 'up' ? '▲' : '');
+  const trendClass = item.trendDir === 'down' ? 'infog-trend-down' : 'infog-trend-up';
+  const trendHtml = item.trendText ? `<div class="infog-trend ${trendClass}">${trendIcon} ${escHtml(item.trendText)}</div>` : '';
+  const metaHtml = Number.isFinite(item.metaPct) && item.metaLabel ? `<div class="donut-ring" style="--pct:${item.metaPct}; --accent:${item.color};"><div class="donut-ring-inner"><div class="donut-ring-value">${item.metaPct}%</div><div class="donut-ring-label">${escHtml(item.metaLabel)}</div></div></div>` : '';
+
+
+  let seriesBlock = '';
+  const serieEsReal = item.serieReal !== undefined ? item.serieReal : item.real;
+  if(item.serieMonthlyRaw && item.serieMonthlyRaw.length){
+    const years = [...new Set(item.serieMonthlyRaw.map(r => r.anio))].sort((a,b) => a-b);
+    const yearOptions = `<option value="all">Todos los años (anual)</option>` +
+      years.map(y => `<option value="${y}">${y}</option>`).join('');
+    const { barsHtml, labelSuffix, note } = buildPsSerieBars(item.serieMonthlyRaw, currentPsSerieYear);
+    seriesBlock = `
+      <div class="infog-series-label" style="margin-bottom:8px;">Serie histórica</div>
+      <div class="filter-bar coverage-filter-bar" style="margin-bottom:14px;">
+        <div class="filter-field">
+          <label for="psSerieYearSelect">Año</label>
+          <select id="psSerieYearSelect" onchange="selectPsSerieYear(this.value)">${yearOptions}</select>
+        </div>
+        <div class="filter-status" id="psSerieLabel">Mostrando: <b>${escHtml(labelSuffix)}</b></div>
+      </div>
+      <div class="infog-bars" id="psSerieBars">${barsHtml}</div>
+      <div class="pres-note" style="margin-top:10px;" id="psSerieNote">${escHtml(note)}</div>`;
+  } else if(item.serie && item.serie.length){
+    const maxV = Math.max(...item.serie.map(s => s.v));
+    const lastIdx = item.serie.length - 1;
+    const barsHtml = item.serie.map((s,i) => `
+      <div class="infog-bar-col${i === lastIdx ? ' current' : ''}">
+        <div class="infog-bar-value">${formatSeriesValue(s.v, item.unit)}</div>
+        <div class="infog-bar-track"><div class="infog-bar-fill" style="height:${Math.max((s.v/maxV*100),6).toFixed(0)}%;"></div></div>
+        <div class="infog-bar-label">${escHtml(s.y)}</div>
+      </div>`).join('');
+    seriesBlock = `
+      <div class="infog-series-label">${escHtml(item.serieTitulo || 'Serie histórica · corte a diciembre de cada año')}</div>
+      <div class="infog-bars">${barsHtml}</div>
+      ${(item.serieNota !== undefined ? item.serieNota : 'Cada valor corresponde al número de usuarios atendidos al corte de diciembre de ese año.') ? `<div class="pres-note" style="margin-top:10px;">${escHtml(item.serieNota !== undefined ? item.serieNota : 'Cada valor corresponde al número de usuarios atendidos al corte de diciembre de ese año.')}</div>` : ''}`;
+  }
+
+  let tableBlock = '';
+  if(item.tabulado && item.tabulado.length > 1){
+    const [header, ...rows] = item.tabulado;
+    const theadHtml = `<tr>${header.map(h => `<th>${escHtml(h)}</th>`).join('')}</tr>`;
+    const tbodyHtml = rows.map(row => `<tr>${row.map(c => `<td>${escHtml(c)}</td>`).join('')}</tr>`).join('');
+    tableBlock = `<table class="infog-table"><thead>${theadHtml}</thead><tbody>${tbodyHtml}</tbody></table>`;
+  }
+
+
+  const protoNote = '';
+
+  wrap.innerHTML = `
+    <div class="infog-card" style="--accent:${item.color}; --accent-light:${item.light};">
+      <div class="infog-watermark">${watermarkInner}</div>
+      <div class="infog-proto-note">${protoNote}</div>
+      <div class="infog-grid">
+        <div class="infog-left">
+          <div class="infog-icon-badge">${badgeInner}</div>
+          <div class="infog-kicker">${escHtml(item.kicker)} · Indicador ${idx + 1} de ${total}</div>
+          <div class="infog-title">${escHtml(m ? m.nombre : item.kicker)}</div>
+          ${m ? `<div class="infog-def-label">¿Qué mide?</div><div class="infog-def">${escHtml(m.queMide)}</div>` : ''}
+          ${item.impact ? `<div class="infog-def-label">Por qué importa</div><div class="infog-def">${escHtml(item.impact)}</div>` : ''}
+        </div>
+        <div class="infog-right">
+          <div class="infog-highlight-row">
+            <div>
+              <div class="infog-stat-label">Cifra destacada</div>
+              <div class="infog-stat-value">${escHtml(item.headline)}</div>
+              <div style="font-size:11.5px;color:var(--subtexto);margin-top:2px;">${escHtml(item.headlineSuffix)}</div>
+              ${trendHtml}
+            </div>
+            ${metaHtml}
+          </div>
+          ${seriesBlock}
+          ${tableBlock}
+        </div>
+      </div>
+    </div>
+    ${navHtml}`;
+}
+
+const DEFAULT_ROUTE = 'kpis';
+const routes = {
+  'kpis': { title: 'KPIs', crumbs: [['inicio','Inicio']] },
+
+  'kpis-proteccion-social': { title: 'Protección Social e Inclusión Económica', crumbs: [['inicio','Inicio'],['kpis','KPIs']], coberturas12: true },
+  'kpis-trabajo': { title: 'Trabajo', crumbs: [['inicio','Inicio'],['kpis','KPIs']], items: true },
+  'trabajo-contratos': { title:'Contratos', crumbs:[['inicio','Inicio'],['kpis','KPIs'],['kpis-trabajo','Trabajo']], items:true },
+
+  'kpis-pueblos': { title: 'Pueblos y Nacionalidades', crumbs: [['inicio','Inicio'],['kpis','KPIs']], items: true },
+
+  'kpis-incentivos': { title: 'Incentivos Temporales', crumbs: [['inicio','Inicio'],['kpis','KPIs']], items: true }
+};
+
+// Rutas de componentes y detalle de indicador de Protección Social
+// Rutas de componentes y detalle de indicador de Protección Social.
+// Movilidad Social (linkOverride) no genera sus propias rutas 'proteccion-'/'cobertura-':
+// su tarjeta enlaza directo a la infografía real de KPIs · Movilidad Social.
+// Rutas de componentes y detalle de indicador de Protección Social.
+// Movilidad Social (linkOverride) salta la página intermedia "proteccion-"
+// (lista de un solo ítem, ya no necesaria) y su tarjeta enlaza directo al
+// detalle "cobertura-movilidad-social" — que sigue siendo un componente propio
+// de Protección Social, independiente de la infografía de KPIs · Movilidad
+// Social (área principal): no se enlazan entre sí.
+coberturas12.forEach(c => {
+  if(!c.linkOverride){
+    routes['proteccion-' + c.slug] = {
+      title: c.label,
+      crumbs: [['inicio','Inicio'],['kpis','KPIs'],['kpis-proteccion-social','Protección Social e Inclusión Económica']],
+      items: true
+    };
+  }
+  routes['cobertura-' + c.slug] = {
+    title: kpiMetadata[String(c.registro)].nombre,
+    crumbs: c.linkOverride
+      ? [['inicio','Inicio'],['kpis','KPIs'],['kpis-proteccion-social','Protección Social e Inclusión Económica']]
+      : [['inicio','Inicio'],['kpis','KPIs'],['kpis-proteccion-social','Protección Social e Inclusión Económica'],['proteccion-' + c.slug,c.label]],
+    coberturaDetail: c.slug
+  };
+});
+
+// KPIs con formato de seguimiento mensual (datos/kpis/<area>/, generados por scripts/actualizar_kpis.py):
+// sus tarjetas se arman desde el catálogo y enlazan a kpi.html (detalle con histórico mensual).
+const KPI_SEGUIMIENTO_AREAS = { 'kpis-pueblos': 'pueblos' };
+function fetchKpiSeguimiento(){
+  return Promise.all(Object.entries(KPI_SEGUIMIENTO_AREAS).map(([ruta, area]) =>
+    Promise.all([fetchCSV('../datos/kpis/' + area + '/catalogo.csv'), fetchCSV('../datos/kpis/' + area + '/seguimiento.csv')])
+      .then(([cat, seg]) => {
+        const MES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+        const nuevos = cat.map(c => {
+          const rs = seg.filter(r => r.id_kpi === c.id_kpi).sort((a, b) => a.periodo.localeCompare(b.periodo));
+          const u = rs[rs.length - 1];
+          return { name: c.indicador, href: `kpi.html?area=${area}&id=${encodeURIComponent(c.id_kpi)}`,
+                   badge: u ? '● ' + (u.estado || 'Disponible') : '● Sin reporte',
+                   sub: u ? `${MES[+u.periodo.slice(5, 7) - 1]} ${u.periodo.slice(0, 4)} · avance ${u.avance_acumulado} de ${c.meta_anual}` : '' };
+        });
+        itemLists[ruta].items = nuevos;   // solo los KPI del formato de seguimiento
+      })
+      .catch(() => { /* sin datos de seguimiento todavía: se mantienen las tarjetas originales */ })));
+}
+
+Promise.all([
+  fetchKpiData(),
+  fetchProteccionSocialData(),
+  fetchCdhData(),
+  fetchKpiSeguimiento()
+]).then(() => {
+  renderRoute();
+}).catch(err => {
+  console.error('No se pudo cargar uno o más archivos de datos/*.csv:', err);
+  const main = document.querySelector('main') || document.body;
+  main.insertAdjacentHTML('afterbegin', `<div style="padding:24px;color:var(--rojo);">No se pudo cargar la base de datos de KPIs (datos/kpi_*.csv, datos/caracterizacion_*.csv, datos/presupuesto_*.csv, datos/cobertura_*.csv). Verifica que el sitio se esté sirviendo por HTTP y no abriendo el archivo directo.</div>`);
+});
+
+</script>
+
+</body>
+</html>

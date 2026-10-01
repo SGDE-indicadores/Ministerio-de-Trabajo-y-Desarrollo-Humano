@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seguimiento PND 2025–2029 | MTDH</title>
+<link rel="stylesheet" href="assets/css/shared.css">
+<style>
+
+  :root {
+    --azul:       #4F449A;
+    --azul-med:   #37306C;
+    --azul-light: #E8EEF8;
+    --azul-pale:  #F2F5FB;
+    --amarillo:   #F1B620;
+    --amarillo-d: #C99200;
+    --amarillo-l: #FEF7DC;
+    --rojo:       #DE232D;
+    --rojo-l:     #FDECEA;
+    --verde:      #81A382;
+    --verde-l:    #E6F4EC;
+    --gris:       #F5F6F8;
+    --gris-bd:    #DDE2EE;
+    --morado:     #4F449A;
+    --morado-l:   #ECEAF6;
+    --texto:      #1A1E2E;
+    --subtexto:   #446381;
+    --blanco:     #FFFFFF;
+    --shadow:     0 2px 12px rgba(79,68,154,0.10);
+    --shadow-lg:  0 4px 24px rgba(79,68,154,0.14);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Arial, sans-serif;
+    background: #EDF0F7;
+    color: var(--texto);
+    font-size: 14px;
+    min-height: 100vh;
+  }
+
+  /* ── LOGO BAR ── */
+  .logo-bar {
+    background: #FFFFFF;
+    padding: 10px 32px;
+    display: flex;
+    align-items: center;
+    border-bottom: 3px solid var(--amarillo);
+  }
+  .logo-bar img { height: 42px; display: block; }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--azul);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+  }
+  .header-left { display: flex; align-items: center; gap: 16px; }
+  .header-logo {
+    min-width: 36px; height: 36px; padding: 0 6px; box-sizing: border-box; background: var(--amarillo);
+    border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    font-family: 'Arial Black', Arial, sans-serif;
+    font-weight: 700; font-size: 13px; color: var(--azul); letter-spacing: 0.3px;
+  }
+  .header-title {
+    font-family: 'Arial Black', Arial, sans-serif;
+    font-weight: 600; font-size: 17px; color: var(--blanco); letter-spacing: 0.3px;
+  }
+  .header-sub { font-size: 11px; color: rgba(255,255,255,0.55); margin-top: 1px; }
+  .header-badge {
+    background: rgba(244,180,0,0.18); border: 1px solid rgba(244,180,0,0.40);
+    color: var(--amarillo); padding: 4px 12px; border-radius: 20px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.5px;
+  }
+
+  /* ── NAV TABS ── */
+  .nav-tabs {
+    background: var(--blanco);
+    border-bottom: 2px solid var(--gris-bd);
+    padding: 0 32px;
+    display: flex; gap: 4px;
+    position: sticky; top: 60px; z-index: 99;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  }
+  .tab-btn {
+    padding: 12px 20px; border: none; background: none; cursor: pointer;
+    font-family: Arial, sans-serif; font-size: 13px; font-weight: 500;
+    color: var(--subtexto); border-bottom: 3px solid transparent;
+    margin-bottom: -2px; transition: all .2s; white-space: nowrap;
+  }
+  .tab-btn:hover { color: var(--azul-med); background: var(--azul-pale); border-radius: 6px 6px 0 0; }
+  .tab-btn.active { color: var(--azul); font-weight: 700; border-bottom-color: var(--amarillo); }
+
+  /* ── LAYOUT ── */
+  .main { padding: 24px 32px; max-width: 1600px; margin: 0 auto; }
+  .page { display: none; }
+  .page.active { display: block; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
+  .col-span-2 { grid-column: span 2; }
+  .col-span-3 { grid-column: span 3; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--blanco); border-radius: 12px;
+    box-shadow: var(--shadow); overflow: hidden;
+  }
+  .card-header {
+    padding: 14px 20px 10px;
+    border-bottom: 1px solid var(--gris-bd);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .card-title {
+    font-family: 'Arial Black', Arial, sans-serif;
+    font-weight: 600; font-size: 14px; color: var(--azul);
+    text-transform: uppercase; letter-spacing: 0.6px;
+  }
+  .card-sub { font-size: 11px; color: var(--subtexto); margin-top: 2px; }
+  .card-body { padding: 16px 20px; }
+
+  /* ── KPI CARDS ── */
+  .kpi-card {
+    background: var(--blanco); border-radius: 12px;
+    box-shadow: var(--shadow); padding: 20px;
+    border-left: 4px solid var(--azul);
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .kpi-card.yellow { border-left-color: var(--amarillo); }
+  .kpi-card.red    { border-left-color: var(--rojo); background: var(--rojo-l); }
+  .kpi-card.green  { border-left-color: var(--verde); background: var(--verde-l); }
+
+  .kpi-label { font-size: 11px; font-weight: 600; color: var(--subtexto); text-transform: uppercase; letter-spacing: 0.5px; }
+  .kpi-value { font-family: 'Arial Black', Arial, sans-serif; font-size: 38px; font-weight: 700; color: var(--azul); line-height: 1; }
+  .kpi-card.red .kpi-value    { color: var(--rojo); }
+  .kpi-card.green .kpi-value  { color: var(--verde); }
+  .kpi-card.yellow .kpi-value { color: var(--amarillo-d); }
+  .kpi-detail { font-size: 12px; color: var(--subtexto); }
+
+  /* ── BADGE ── */
+  .badge {
+    display: inline-block; padding: 3px 9px; border-radius: 20px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.3px;
+  }
+  .badge-red    { background: var(--rojo-l);   color: var(--rojo); }
+  .badge-green  { background: var(--verde-l);  color: var(--verde); }
+  .badge-yellow { background: var(--amarillo-l); color: var(--amarillo-d); }
+  .badge-blue   { background: var(--azul-light); color: var(--azul); }
+
+  /* ── SECTION TITLE ── */
+  .section-title {
+    font-family: 'Arial Black', Arial, sans-serif;
+    font-size: 13px; font-weight: 700; color: var(--subtexto);
+    text-transform: uppercase; letter-spacing: 1px;
+    margin-bottom: 14px; padding-bottom: 6px;
+    border-bottom: 2px solid var(--amarillo);
+    display: inline-block;
+  }
+
+  /* ── HORIZONTAL BAR ── */
+  .h-bar-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 6px 0; border-bottom: 1px solid var(--gris);
+  }
+  .h-bar-row:last-child { border-bottom: none; }
+  .h-bar-label { width: 210px; font-size: 12px; color: var(--texto); flex-shrink: 0; line-height: 1.3; }
+  .h-bar-track { flex: 1; height: 14px; background: var(--gris); border-radius: 7px; overflow: hidden; }
+  .h-bar-fill  { height: 100%; border-radius: 7px; transition: width .8s ease; }
+  .h-bar-val   { width: 50px; text-align: right; font-size: 12px; font-weight: 600; color: var(--azul); flex-shrink: 0; }
+  .h-bar-fill.rojo    { background: linear-gradient(90deg, #D63B2F, #F4736A); }
+  .h-bar-fill.azul    { background: linear-gradient(90deg, #4F449A, #37306C); }
+  .h-bar-fill.amarillo{ background: linear-gradient(90deg, #C99200, #F1B620); }
+  .h-bar-fill.verde   { background: linear-gradient(90deg, #1B7A4A, #27AE60); }
+  .h-bar-fill.azul-m  { background: linear-gradient(90deg, #1A3A8F, #4A72CC); }
+
+  /* ── FLOW ARROW ── */
+  .flow-row {
+    display: flex; align-items: center; gap: 16px; margin-bottom: 16px;
+  }
+  .flow-box {
+    flex: 1; background: var(--azul-pale); border: 1px solid var(--gris-bd);
+    border-radius: 10px; padding: 16px; text-align: center;
+  }
+  .flow-box.highlight { background: var(--azul); color: white; border-color: var(--azul); }
+  .flow-box.target    { background: var(--verde-l); border-color: var(--verde); }
+  .flow-box.gap       { background: var(--rojo-l); border-color: var(--rojo); }
+  .flow-num {
+    font-family: 'Arial Black', Arial, sans-serif;
+    font-size: 36px; font-weight: 700; line-height: 1;
+  }
+  .flow-box.highlight .flow-num { color: var(--amarillo); }
+  .flow-box.target .flow-num    { color: var(--verde); }
+  .flow-box.gap .flow-num       { color: var(--rojo); }
+  .flow-label { font-size: 11px; margin-top: 4px; opacity: 0.8; }
+  .flow-arrow { font-size: 22px; color: var(--subtexto); flex-shrink: 0; }
+
+  /* ── INDICATOR TABLE ── */
+  .ind-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .ind-table th {
+    background: var(--azul); color: white; padding: 8px 10px;
+    text-align: left; font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.4px;
+  }
+  .ind-table th:nth-child(2), .ind-table th:nth-child(3),
+  .ind-table th:nth-child(4), .ind-table th:nth-child(5) { text-align: right; }
+  .ind-table td { padding: 7px 10px; border-bottom: 1px solid var(--gris-bd); }
+  .ind-table td:nth-child(2), .ind-table td:nth-child(3),
+  .ind-table td:nth-child(4), .ind-table td:nth-child(5) { text-align: right; font-weight: 500; }
+  .ind-table tr:hover td { background: var(--azul-pale); }
+  .ind-table tr.rojo td { background: var(--rojo-l); }
+  .ind-table tr.tpm-row td {
+    background: var(--azul); color: white; font-weight: 700; font-size: 13px;
+  }
+
+  /* ── STACKED BAR ── */
+  .stack-row { display: flex; align-items: center; gap: 10px; padding: 5px 0; }
+  .stack-label { width: 190px; font-size: 12px; color: var(--texto); flex-shrink: 0; line-height: 1.3; }
+  .stack-track { flex: 1; height: 26px; display: flex; border-radius: 6px; overflow: hidden; }
+  .stack-seg { display: flex; align-items: center; justify-content: center;
+               font-size: 11px; font-weight: 600; color: white; transition: width .8s; }
+  .stack-total { width: 44px; text-align: right; font-size: 12px; font-weight: 700; color: var(--azul); flex-shrink: 0; }
+
+  /* ── PROVINCE TABLE ── */
+  .prov-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+  }
+  .prov-item {
+    background: var(--gris); border-radius: 8px; padding: 10px 12px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .prov-name { font-size: 12px; color: var(--texto); font-weight: 500; }
+  .prov-val  {
+    font-family: 'Arial Black', Arial, sans-serif;
+    font-size: 18px; font-weight: 700;
+  }
+
+  /* ── DECISIVENESS ── */
+  .decis-card {
+    background: var(--azul-pale); border: 1px solid var(--gris-bd);
+    border-radius: 10px; padding: 14px 16px; display: flex; gap: 14px; align-items: flex-start;
+  }
+  .decis-rank {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--azul); color: white;
+    font-family: 'Arial Black', Arial, sans-serif; font-size: 16px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .decis-name { font-size: 13px; font-weight: 600; color: var(--azul); margin-bottom: 4px; }
+  .decis-nums { display: flex; gap: 20px; font-size: 12px; color: var(--subtexto); }
+  .decis-big  { font-family: 'Arial Black', Arial, sans-serif; font-size: 22px; font-weight: 700; color: var(--rojo); }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--azul); color: rgba(255,255,255,0.5);
+    text-align: center; font-size: 11px; padding: 14px;
+    margin-top: 32px;
+  }
+
+  .ind-btn {
+    padding: 8px 16px; border: none; border-left-width: 4px;
+    border-left-style: solid; background: var(--gris);
+    border-radius: 0 8px 8px 0; cursor: pointer;
+    font-family: Arial, sans-serif; font-size: 12px;
+    font-weight: 500; color: var(--subtexto); transition: all .2s;
+  }
+  .ind-btn:hover { background: var(--azul-pale); color: var(--azul); }
+  .ind-btn.active { background: var(--azul-pale); color: var(--azul); font-weight: 700; }
+
+  
+  /* ── CRONOGRAMA ── */
+  .inst-btn {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 6px; padding: 14px 20px; border: 2px solid var(--gris-bd);
+    border-radius: 12px; background: var(--blanco); cursor: pointer;
+    font-family: Arial, sans-serif; transition: all .2s; min-width: 140px;
+    box-shadow: var(--shadow);
+  }
+  .inst-btn-disabled {
+    opacity: 0.45 !important;
+    cursor: not-allowed !important;
+    pointer-events: none;
+    border-style: dashed !important;
+  }
+  .inst-btn-disabled:hover {
+    transform: none !important;
+    background: var(--blanco) !important;
+    border-color: var(--gris-bd) !important;
+  }
+  .inst-btn:hover { border-color: var(--azul-med); background: var(--azul-pale); transform: translateY(-2px); }
+  .inst-btn.active { border-color: var(--azul); background: var(--azul); color: white; }
+  .inst-btn .inst-sigla {
+    font-family: 'Arial Black', Arial, sans-serif; font-size: 22px; font-weight: 700;
+    color: var(--azul);
+  }
+  .inst-btn.active .inst-sigla { color: var(--amarillo); }
+  .inst-btn .inst-name { font-size: 10px; font-weight: 600; color: var(--subtexto); text-align: center; line-height: 1.3; }
+  .inst-btn.active .inst-name { color: rgba(255,255,255,0.8); }
+  .inst-btn .inst-coming { font-size: 9px; color: var(--subtexto); font-style: italic; }
+
+  .cron-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .cron-table th {
+    background: var(--azul); color: white; padding: 9px 12px;
+    text-align: left; font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.4px; white-space: nowrap;
+  }
+  .cron-table th.center { text-align: center; }
+  .cron-table td { padding: 10px 12px; border-bottom: 1px solid var(--gris-bd); vertical-align: top; line-height: 1.45; }
+  .cron-table tr:hover td { background: var(--azul-pale); }
+  .cron-table tr:nth-child(even) td { background: var(--gris); }
+  .cron-table tr:nth-child(even):hover td { background: var(--azul-pale); }
+  .cron-table td.center { text-align: center; }
+
+  .estado-badge {
+    display: inline-block; padding: 4px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 700; white-space: nowrap;
+  }
+  .estado-cumplido    { background: #D4EDDA; color: #1B7A4A; }
+  .estado-ejecucion   { background: #FFF3CD; color: #7F6000; }
+  .estado-noiniciado  { background: #FDECEA; color: #D63B2F; }
+  .estado-suspendida  { background: #FDECEA; color: #D63B2F; }
+  .estado-finalizada  { background: #D4EDDA; color: #1B7A4A; }
+
+  .pct-bar-wrap { display: flex; align-items: center; gap: 6px; }
+  .pct-bar-track { flex: 1; height: 8px; background: var(--gris-bd); border-radius: 4px; overflow: hidden; min-width: 60px; }
+  .pct-bar-fill  { height: 100%; border-radius: 4px; transition: width .6s ease; }
+  .pct-val { font-size: 11px; font-weight: 700; color: var(--azul); white-space: nowrap; }
+
+  .accion-num {
+    width: 28px; height: 28px; border-radius: 50%; background: var(--azul);
+    color: white; font-weight: 700; font-size: 13px;
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-family: 'Arial Black', Arial, sans-serif;
+  }
+  .accion-title { font-weight: 600; color: var(--azul); font-size: 12px; line-height: 1.4; }
+  .accion-desc  { font-size: 11px; color: var(--subtexto); margin-top: 3px; line-height: 1.4; }
+  .link-btn { color: var(--azul-med); font-size: 10px; text-decoration: none; }
+  .link-btn:hover { text-decoration: underline; }
+
+  .summary-kpi {
+    background: var(--blanco); border-radius: 10px; padding: 14px 18px;
+    box-shadow: var(--shadow); border-left: 4px solid var(--azul);
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .summary-kpi .sk-num {
+    font-family: 'Arial Black', Arial, sans-serif; font-size: 32px;
+    font-weight: 700; color: var(--azul); line-height: 1;
+  }
+  .summary-kpi .sk-label { font-size: 11px; color: var(--subtexto); font-weight: 500; }
+
+  /* ── PROVINCE LIST ── */
+  .prov-list-item {
+    display: flex; align-items: center; gap: 8px; padding: 6px 8px;
+    border-radius: 8px; cursor: pointer; transition: background .15s;
+    border: 1.5px solid transparent;
+  }
+  .prov-list-item:hover { background: var(--azul-pale); border-color: var(--gris-bd); }
+  .prov-list-item.selected { background: var(--azul-pale); border-color: var(--azul); }
+  .prov-list-rank {
+    width: 22px; height: 22px; border-radius: 50%; background: var(--gris-bd);
+    font-size: 10px; font-weight: 700; color: var(--subtexto);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .prov-list-item.selected .prov-list-rank { background: var(--azul); color: white; }
+  .prov-list-name { flex: 1; font-size: 12px; color: var(--texto); font-weight: 500; }
+  .prov-list-item.selected .prov-list-name { color: var(--azul); font-weight: 600; }
+  .prov-list-bar-wrap { display: flex; align-items: center; gap: 6px; }
+  .prov-list-bar { height: 6px; border-radius: 3px; min-width: 4px; }
+  .prov-list-val { font-size: 11px; font-weight: 700; width: 40px; text-align: right; }
+
+  /* ── CRONOGRAMA FILTERS ── */
+  .cron-filter {
+    padding: 5px 12px; border-radius: 20px; border: 1.5px solid var(--gris-bd);
+    background: var(--gris); cursor: pointer; font-size: 11px; font-weight: 600;
+    color: var(--subtexto); font-family: Arial, sans-serif; transition: all .15s;
+    display: inline-flex; align-items: center; gap: 5px;
+  }
+  .cron-filter:hover { border-color: var(--azul); color: var(--azul); background: var(--azul-pale); }
+  .cron-filter.active          { background: var(--azul);    color: white; border-color: var(--azul); }
+  .cron-filter.ejecucion.active{ background: #7F6000;        color: white; border-color: #7F6000; }
+  .cron-filter.cumplido.active { background: var(--verde);   color: white; border-color: var(--verde); }
+  .cron-filter.vencido.active  { background: var(--rojo);    color: white; border-color: var(--rojo); }
+  .filter-count {
+    background: rgba(255,255,255,0.25); border-radius: 10px;
+    padding: 1px 6px; font-size: 10px; font-weight: 700;
+  }
+  .cron-filter:not(.active) .filter-count { background: var(--gris-bd); color: var(--subtexto); }
+
+  canvas { max-height: 360px; }
+
+  @media (max-width: 900px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .col-span-2, .col-span-3 { grid-column: span 1; }
+    .main { padding: 16px; }
+    .nav-tabs { overflow-x: auto; }
+  }
+
+body { background:#EDF0F7; }
+.hero {
+  background:var(--azul); border-radius:14px;
+  padding:2.5rem 2.5rem 2rem; margin-bottom:2rem;
+  border-bottom:4px solid var(--amarillo);
+  position:relative; overflow:hidden;
+}
+.hero::before {
+  content:''; position:absolute; top:-60px; right:-60px;
+  width:280px; height:280px; border-radius:50%;
+  background:rgba(244,180,0,.06);
+}
+.hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:.12em; color:var(--amarillo); text-transform:uppercase; margin-bottom:.6rem; }
+.hero h1 { font-family:'Arial Black', Arial, sans-serif; font-size:30px; font-weight:700; color:white; line-height:1.2; max-width:700px; margin-bottom:.7rem; }
+.hero p { font-size:13px; color:rgba(255,255,255,.7); max-width:640px; line-height:1.7; }
+.hero-chips { margin-top:1.25rem; display:flex; gap:.65rem; flex-wrap:wrap; }
+.hero-chip { background:rgba(255,255,255,.09); border:1px solid rgba(244,180,0,.3); border-radius:6px; padding:.35rem .9rem; font-size:11px; color:rgba(255,255,255,.85); }
+.hero-chip strong { color:var(--amarillo); }
+.section-lbl {
+  font-family:'Arial Black', Arial, sans-serif; font-size:13px; font-weight:700;
+  color:var(--subtexto); text-transform:uppercase; letter-spacing:1px;
+  margin-bottom:16px; padding-bottom:6px; border-bottom:2px solid var(--amarillo);
+  display:inline-block;
+}
+.ind-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:16px; margin-bottom:2rem; }
+.ind-card {
+  background:white; border:1.5px solid var(--gris-bd); border-radius:12px;
+  text-decoration:none; color:inherit; display:flex; flex-direction:column;
+  transition:border-color .2s, box-shadow .2s, transform .15s;
+  overflow:hidden; box-shadow:var(--shadow);
+}
+.ind-card:hover { border-color:var(--azul-med); box-shadow:var(--shadow-lg); transform:translateY(-3px); }
+.ind-card.disabled { opacity:.42; pointer-events:none; }
+.ind-stripe { height:4px; background:var(--azul); }
+.ind-card.activo .ind-stripe { background:var(--amarillo); }
+.ind-body { padding:1.25rem; flex:1; }
+.ind-tag { font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--subtexto); margin-bottom:.4rem; }
+.ind-card.activo .ind-tag { color:var(--amarillo-d); }
+.ind-nombre { font-family:'Arial Black', Arial, sans-serif; font-size:17px; font-weight:700; color:var(--azul); line-height:1.3; margin-bottom:.5rem; }
+.ind-meta { font-size:12px; color:var(--subtexto); line-height:1.5; }
+.ind-footer { display:flex; align-items:center; justify-content:space-between; padding:.75rem 1.25rem; border-top:1px solid var(--gris-bd); background:var(--gris); margin-top:auto; }
+.badge-ok { font-size:10px; font-weight:700; background:var(--verde-l); color:var(--verde); padding:3px 10px; border-radius:20px; border:1px solid #A8D5B8; }
+.badge-soon { font-size:10px; font-weight:700; background:var(--amarillo-l); color:var(--amarillo-d); padding:3px 10px; border-radius:20px; border:1px solid rgba(244,180,0,.4); }
+.ind-arrow { font-size:18px; color:var(--azul-med); font-weight:700; }
+@media(max-width:600px){ .hero h1{font-size:22px;} .ind-grid{grid-template-columns:1fr;} }
+
+
+/* ─────────────────────────────────────────────────────────────
+   HOMOLOGACIÓN MTDH: colores de tarjetas de acceso + footer único
+   Regla visual:
+   - Anual / Trimestral / Resultados: azul institucional
+   - Acciones planificadas: amarillo institucional
+   - Cronograma de gestión: verde institucional
+   ───────────────────────────────────────────────────────────── */
+:root{
+  --mdh-blue:#4F449A;
+  --mdh-yellow:#F1B620;
+  --mdh-green:#81A382;
+}
+.card-blue .freq-icon,
+.card-blue .freq-icon-ps,
+.card-blue .freq-icon-d,
+.card-blue .freq-icon-g,
+.card-blue .freq-icon-pi,
+.card-blue .inicio-icon{
+  background:var(--mdh-blue) !important;
+  color:#FFFFFF !important;
+}
+.card-blue .btn-freq,
+.card-blue .btn-freq-ps,
+.card-blue .btn-freq-d,
+.card-blue .btn-freq-g,
+.card-blue .btn-freq-pi,
+.card-blue .btn-inicio-card{
+  background:var(--mdh-blue) !important;
+  border-color:var(--mdh-blue) !important;
+  color:#FFFFFF !important;
+}
+.card-blue:hover{
+  border-color:var(--mdh-blue) !important;
+}
+.card-yellow .freq-icon,
+.card-yellow .freq-icon-ps,
+.card-yellow .freq-icon-d,
+.card-yellow .freq-icon-g,
+.card-yellow .freq-icon-pi,
+.card-yellow .inicio-icon{
+  background:var(--mdh-yellow) !important;
+  color:var(--mdh-blue) !important;
+}
+.card-yellow .btn-freq,
+.card-yellow .btn-freq-ps,
+.card-yellow .btn-freq-d,
+.card-yellow .btn-freq-g,
+.card-yellow .btn-freq-pi,
+.card-yellow .btn-inicio-card{
+  background:var(--mdh-yellow) !important;
+  border-color:var(--mdh-yellow) !important;
+  color:var(--mdh-blue) !important;
+}
+.card-yellow:hover{
+  border-color:var(--mdh-yellow) !important;
+}
+.card-green .freq-icon,
+.card-green .freq-icon-ps,
+.card-green .freq-icon-d,
+.card-green .freq-icon-g,
+.card-green .freq-icon-pi,
+.card-green .inicio-icon{
+  background:var(--mdh-green) !important;
+  color:#FFFFFF !important;
+}
+.card-green .btn-freq,
+.card-green .btn-freq-ps,
+.card-green .btn-freq-d,
+.card-green .btn-freq-g,
+.card-green .btn-freq-pi,
+.card-green .btn-inicio-card{
+  background:var(--mdh-green) !important;
+  border-color:var(--mdh-green) !important;
+  color:#FFFFFF !important;
+}
+.card-green:hover{
+  border-color:var(--mdh-green) !important;
+}
+.dashboard-footer{
+  width:100%;
+  background:var(--mdh-blue);
+  color:rgba(255,255,255,.62);
+  text-align:center;
+  font-family:Arial, sans-serif;
+  font-size:11px;
+  line-height:1.45;
+  padding:14px 24px;
+  margin-top:32px;
+  box-shadow:0 -1px 8px rgba(79,68,154,.10);
+}
+.dashboard-footer strong{
+  color:rgba(255,255,255,.84);
+  font-weight:700;
+}
+@media(max-width:760px){
+  .dashboard-footer{font-size:10.5px;padding:12px 16px;}
+}
+
+
+
+/* =========================================================
+   HOMOLOGACIÓN MTDH V3 — Migas de navegación y pie de página
+   ========================================================= */
+:root{
+  --mdh-blue:#4F449A;
+  --mdh-blue-2:#1A3A8F;
+  --mdh-yellow:#F1B620;
+  --mdh-footer-h:44px;
+}
+html{min-height:100%;}
+body{
+  min-height:100vh !important;
+  padding-bottom:var(--mdh-footer-h) !important;
+}
+.mdh-breadcrumb,
+.breadcrumb.mdh-breadcrumb{
+  width:100% !important;
+  min-height:34px !important;
+  background:var(--blanco) !important; border-bottom:2px solid var(--gris-bd) !important;
+  padding:8px 32px !important;
+  display:flex !important;
+  align-items:center !important;
+  gap:7px !important;
+  flex-wrap:wrap !important;
+  font-family:Arial, sans-serif !important;
+  font-size:12px !important;
+  line-height:1.35 !important;
+  color:var(--subtexto) !important;
+  border:0 !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+  margin:0 !important;
+  position:sticky !important;
+  top:105px !important;
+  z-index:96 !important;
+}
+.mdh-breadcrumb a,
+.mdh-breadcrumb .mdh-bc-base{
+  color:var(--subtexto) !important;
+  text-decoration:none !important;
+  font-weight:500 !important;
+}
+.mdh-breadcrumb a:hover,
+.mdh-breadcrumb .mdh-bc-base:hover{
+  color:var(--azul) !important;
+}
+.mdh-breadcrumb .mdh-bc-sep{
+  color:#9AA5B4 !important;
+  font-weight:600 !important;
+}
+.mdh-breadcrumb .mdh-bc-current{
+  color:var(--texto) !important;
+  font-weight:700 !important;
+}
+.dashboard-footer{
+  position:fixed !important;
+  left:0 !important;
+  right:0 !important;
+  bottom:0 !important;
+  z-index:950 !important;
+  width:100% !important;
+  min-height:var(--mdh-footer-h) !important;
+  background:var(--mdh-blue) !important;
+  color:rgba(255,255,255,.66) !important;
+  text-align:center !important;
+  font-family:Arial, sans-serif !important;
+  font-size:11px !important;
+  line-height:1.45 !important;
+  padding:14px 24px !important;
+  margin:0 !important;
+  border:0 !important;
+  box-shadow:0 -1px 8px rgba(79,68,154,.14) !important;
+}
+.dashboard-footer strong{
+  color:rgba(255,255,255,.88) !important;
+  font-weight:700 !important;
+}
+@media(max-width:760px){
+  :root{--mdh-footer-h:54px;}
+  .mdh-breadcrumb,
+  .breadcrumb.mdh-breadcrumb{padding:8px 16px !important;font-size:11.5px !important;}
+  .dashboard-footer{font-size:10.5px !important;padding:11px 16px !important;}
+}
+
+</style>
+</head>
+<body>
+
+<div id="app-sidebar-mount"></div>
+
+<div class="logo-bar">
+  <img src="imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="El Nuevo Ecuador — Defiende, Impulsa, Construye">
+</div>
+
+<header class="header">
+  <div class="header-left">
+    <div class="header-logo">MTDH</div>
+    <div>
+      <div class="header-title">Ministerio de Trabajo y Desarrollo Humano</div>
+      <div class="header-sub">Dirección de Estudios y Análisis · Subsecretaría de Gestión de Datos y Estudios</div>
+    </div>
+  </div>
+  <div class="header-badge">PND 2025–2029</div>
+</header>
+<nav class="breadcrumb mdh-breadcrumb" id="mdh-breadcrumb" aria-label="Ruta de navegación"><a href="index.html" title="Volver al Portal de Indicadores">Inicio</a><span class="mdh-bc-sep">›</span><span class="mdh-bc-current">Portal PND 2025–2029</span></nav>
+
+
+<main class="main">
+  <div class="hero">
+    <div class="hero-eyebrow">República del Ecuador</div>
+    <h1>Seguimiento del Plan Nacional de Desarrollo 2025–2029</h1>
+    <p>Plataforma de monitoreo de indicadores estratégicos del Plan Nacional de Desarrollo.</p>
+    <div class="hero-chips">
+      <div class="hero-chip">Eje: <strong>Social</strong></div>
+      <div class="hero-chip">Objetivo 1: <strong>Bienestar social y calidad de vida</strong></div>
+      <div class="hero-chip">Período: <strong>2025–2029</strong></div>
+      <div class="hero-chip">Actualización: <strong>2025</strong></div>
+    </div>
+  </div>
+
+  <div class="section-lbl">Indicadores del Plan Nacional de Desarrollo</div>
+
+  <div class="ind-grid">
+    <a class="ind-card activo" href="PND/pobreza_extrema.html">
+      <div class="ind-stripe"></div>
+      <div class="ind-body">
+        <div class="ind-tag">Indicador · Anual y Trimestral</div>
+        <div class="ind-nombre">Tasa de pobreza extrema por ingresos</div>
+        <div class="ind-meta">Política: Promover el ejercicio de derechos y contribuir a la reducción de la pobreza debido a diferentes factores y pobreza extrema. <br><br>Meta: reducir de <strong>8,81%</strong> (2024) a <strong>7,79%</strong> (2029)</div>
+      </div>
+      <div class="ind-footer"><span class="badge-ok">● Disponible</span><span class="ind-arrow">→</span></div>
+    </a>
+
+    <a class="ind-card activo" href="PND/tpm.html">
+      <div class="ind-stripe"></div>
+      <div class="ind-body">
+        <div class="ind-tag">Indicador · Anual</div>
+        <div class="ind-nombre">Tasa de pobreza multidimensional</div>
+        <div class="ind-meta">Política: Promover el ejercicio de derechos y contribuir a la reducción de la pobreza debido a diferentes factores y pobreza extrema. <br><br>Meta: reducir de <strong>36,85%</strong> (2024) a <strong>32,59%</strong> (2029)</div>
+      </div>
+      <div class="ind-footer"><span class="badge-ok">● Disponible</span><span class="ind-arrow">→</span></div>
+    </a>
+
+    <a class="ind-card activo" href="PND/proteccion_social.html">
+      <div class="ind-stripe"></div>
+      <div class="ind-body">
+        <div class="ind-tag">Indicador · Administrativo</div>
+        <div class="ind-nombre">Porcentaje de usuarios de los servicios de protección social que se encuentran en condición de pobreza  y pobreza extrema</div>
+        <div class="ind-meta">Política: Garantizar el acceso a los servicios de protección social de las personas y grupos de atención prioritaria durante su ciclo de vida. <br><br>Meta: incrementar de <strong>74,61%</strong> (2024) a <strong>90,23%</strong> (2029)</div>
+      </div>
+      <div class="ind-footer"><span class="badge-ok">● Disponible</span><span class="ind-arrow">→</span></div>
+    </a>
+
+    <a class="ind-card activo" href="PND/gerontologicos.html">
+      <div class="ind-stripe"></div>
+      <div class="ind-body">
+        <div class="ind-tag">Indicador · Anual</div>
+        <div class="ind-nombre">Tasa de cobertura de servicios gerontológicos públicos no médicos</div>
+        <div class="ind-meta">Política: Garantizar el acceso a los servicios de protección social de las personas y grupos de atención prioritaria durante su ciclo de vida. <br><br>Meta: incrementar de <strong>7,72%</strong> (2024) a <strong>8,71%</strong> (2029)</div>
+      </div>
+      <div class="ind-footer"><span class="badge-ok">● Disponible</span><span class="ind-arrow">→</span></div>
+    </a>
+
+    <a class="ind-card activo" href="PND/primera_infancia.html">
+      <div class="ind-stripe"></div>
+      <div class="ind-body">
+        <div class="ind-tag">Indicador · Anual (ago)</div>
+        <div class="ind-nombre"> Porcentaje de gestantes, niñas y niños menores de 6 años con servicios de primera infancia</div>
+        <div class="ind-meta">Política: Fortalecer la atención y prestación de servicios alrededor de las determinantes para el desarrollo integral de la población, con enfásis en la primera infancia. <br><br>Meta: incrementar de <strong>38,91%</strong> (ago 2024) a <strong>42,51%</strong> (ago 2029)</div>
+      </div>
+      <div class="ind-footer"><span class="badge-ok">● Disponible</span><span class="ind-arrow">→</span></div>
+    </a>
+
+    <a class="ind-card activo" href="PND/dci.html">
+      <div class="ind-stripe"></div>
+      <div class="ind-body">
+        <div class="ind-tag">Indicador · Bianual</div>
+        <div class="ind-nombre">Prevalencia de desnutrición crónica en niñas y niños menores de 2 años</div>
+        <div class="ind-meta">Política: Fortalecer la atención y prestación de servicios alrededor de las determinantes para el desarrollo integral de la población, con enfásis en la primera infancia. <br><br>Meta: reducir de <strong>19,27%</strong> (2024) a <strong>15,27%</strong> (2029)</div>
+      </div>
+      <div class="ind-footer"><span class="badge-ok">● Disponible</span><span class="ind-arrow">→</span></div>
+    </a>
+  </div>
+  <div class="gov-close"><img src="imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="Gobierno del Ecuador"></div>
+
+</main>
+
+<footer class="dashboard-footer">
+  <strong>Ministerio de Trabajo y Desarrollo Humano</strong> · Subsecretaría de Gestión de Datos y Estudios · Seguimiento PND 2025–2029
+</footer>
+
+<script id="mdh-breadcrumb-script">
+(function(){
+  const cfg = {"base": "Portal PND 2025–2029", "default": "", "items": []};
+  function visible(el){
+    if(!el) return false;
+    const cs = window.getComputedStyle(el);
+    return cs.display !== 'none' && cs.visibility !== 'hidden';
+  }
+  function activeLabel(){
+    const items = cfg.items || [];
+    for(const item of items){
+      const el = document.getElementById(item.id);
+      if(!el) continue;
+      if(el.classList.contains('active') && visible(el)) return item.label;
+    }
+    for(const item of items){
+      const el = document.getElementById(item.id);
+      if(el && el.classList.contains('active')) return item.label;
+    }
+    return cfg.default || '';
+  }
+  function render(){
+    const bc = document.getElementById('mdh-breadcrumb');
+    if(!bc) return;
+    const label = activeLabel();
+    if(label){
+      bc.innerHTML = '<a href="index.html" title="Volver al Portal de Indicadores">Inicio</a>' +
+        '<span class="mdh-bc-sep">›</span>' +
+        '<span class="mdh-bc-base">' + cfg.base + '</span>' +
+        '<span class="mdh-bc-sep">›</span>' +
+        '<span class="mdh-bc-current">' + label + '</span>';
+    } else {
+      bc.innerHTML = '<a href="index.html" title="Volver al Portal de Indicadores">Inicio</a>' +
+        '<span class="mdh-bc-sep">›</span>' +
+        '<span class="mdh-bc-current">' + cfg.base + '</span>';
+    }
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    render();
+    document.body.addEventListener('click', function(){ setTimeout(render, 80); }, true);
+    document.body.addEventListener('change', function(){ setTimeout(render, 80); }, true);
+    setTimeout(render, 120);
+  });
+  window.addEventListener('load', render);
+  window.mdhActualizarBreadcrumb = render;
+})();
+</script>
+
+<script src="assets/js/shared.js"></script>
+<script>
+initSidebar({ activeId: 'pnd-proteccion', basePath: '' });
+</script>
+
+</body>
+</html>

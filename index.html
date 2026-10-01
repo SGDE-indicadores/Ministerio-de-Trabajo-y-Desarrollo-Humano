@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal de Indicadores | MTDH</title>
+<link rel="stylesheet" href="assets/css/shared.css">
+</head>
+<body>
+
+<div class="logo-bar">
+  <img src="imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="El Nuevo Ecuador — Defiende, Impulsa, Construye" style="height:34px;">
+</div>
+
+<header class="header">
+  <div class="header-left">
+    <div class="header-logo">MTDH</div>
+    <div>
+      <div class="header-title">Ministerio de Trabajo y Desarrollo Humano</div>
+      <div class="header-sub">Dirección de Estudios y Análisis · Subsecretaría de Gestión de Datos y Estudios</div>
+    </div>
+  </div>
+  <div class="header-badge" id="headerBadge">Desarrollo Humano · Trabajo y Oportunidades</div>
+</header>
+
+<div id="app-sidebar-mount"></div>
+
+<nav class="breadcrumb" id="breadcrumb"></nav>
+
+<main class="main">
+
+  <section class="page" id="page-inicio">
+    <div class="hero">
+      <div class="hero-eyebrow">República del Ecuador</div>
+      <h1>Desarrollo Humano · Trabajo y Oportunidades</h1>
+      <p>Punto de entrada único a los tableros del Plan Nacional de Desarrollo, las transferencias monetarias no contributivas, los KPIs y el presupuesto.</p>
+    </div>
+    <div class="section-lbl">Elige una sección</div>
+    <div class="opt-grid opt-grid-4">
+      <a class="opt-card" onclick="nav('pnd')">
+        <div class="opt-tag">Plan Nacional de Desarrollo</div>
+        <div class="opt-title">PND 2025–2029</div>
+        <div class="opt-desc">Seguimiento de los indicadores estratégicos del Plan Nacional de Desarrollo.</div>
+        <div class="opt-footer"><span class="badge-ok">● Disponible</span><span class="opt-arrow">→</span></div>
+      </a>
+      <a class="opt-card" onclick="nav('transferencias')">
+        <div class="opt-tag">Protección no contributiva</div>
+        <div class="opt-title">Transferencias monetarias no contributivas</div>
+        <div class="opt-desc">Coberturas, beneficiarios y presupuesto ejecutado de bonos, pensiones y contingencias.</div>
+        <div class="opt-footer"><span class="badge-ok">● Disponible</span><span class="opt-arrow">→</span></div>
+      </a>
+      <a class="opt-card" onclick="nav('kpis')">
+        <div class="opt-tag">Indicadores de gestión</div>
+        <div class="opt-title">KPIs</div>
+        <div class="opt-desc">Indicadores por área: Protección Social, Movilidad Social, Trabajo, Pueblos y Nacionalidades, Incentivos Temporales.</div>
+        <div class="opt-footer"><span class="badge-ok">● Disponible</span><span class="opt-arrow">→</span></div>
+      </a>
+      <a class="opt-card" onclick="nav('presupuesto-gobierno')">
+        <div class="opt-tag">Ejecución presupuestaria</div>
+        <div class="opt-title">Presupuesto</div>
+        <div class="opt-desc">Seguimiento de la ejecución presupuestaria institucional.</div>
+        <div class="opt-footer"><span class="badge-pend">● En construcción</span><span class="opt-arrow">→</span></div>
+      </a>
+    </div>
+    <div class="gov-close"><img src="imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="Gobierno del Ecuador"></div>
+  </section>
+</main>
+
+<footer class="dashboard-footer">
+  <strong>Ministerio de Trabajo y Desarrollo Humano</strong> · Subsecretaría de Gestión de Datos y Estudios · Portal de Indicadores
+</footer>
+
+<script src="assets/js/shared.js"></script>
+<script>
+// index.html vive en la raíz del sitio; el resto de páginas vive en MDTDH/.
+const ROOT_PREFIX = '';
+const MDTDH_PREFIX = 'MDTDH/';
+const DEFAULT_ROUTE = 'inicio';
+const routes = {
+  'inicio': { title: 'Desarrollo Humano · Trabajo y Oportunidades', crumbs: [] }
+};
+
+initSidebar({ activeId: 'inicio', basePath: '' });
+renderRoute();
+
+</script>
+
+</body>
+</html>
