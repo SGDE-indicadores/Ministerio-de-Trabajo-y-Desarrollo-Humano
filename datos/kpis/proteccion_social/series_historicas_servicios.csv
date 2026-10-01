@@ -1,0 +1,516 @@
+registro_id,servicio,anio,mes,usuarios,es_dato_real,nota
+5,Desarrollo Infantil Integral (DII),2018,01,251056,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2018,02,254367,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2018,03,254584,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2018,04,260635,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2018,05,260781,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2018,06,263783,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2018,07,256163,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2018,08,260409,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2018,09,257055,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2018,10,259784,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2018,11,263555,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2018,12,264257,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+5,Desarrollo Infantil Integral (DII),2019,01,263012,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2019,02,269789,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2019,03,270629,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2019,04,269062,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2019,05,275046,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2019,06,279445,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2019,07,272503,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2019,08,283378,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2019,09,284149,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2019,10,282063,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2019,11,281900,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2019,12,287801,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+5,Desarrollo Infantil Integral (DII),2020,01,286329,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2020,02,283923,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2020,03,284374,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2020,04,293472,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2020,05,291063,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2020,06,293838,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2020,07,293355,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2020,08,291518,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2020,09,297024,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2020,10,290501,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2020,11,292940,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2020,12,292743,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+5,Desarrollo Infantil Integral (DII),2021,01,293726,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2021,02,296160,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2021,03,292435,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2021,04,293512,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2021,05,285445,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2021,06,287164,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2021,07,287478,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2021,08,284651,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2021,09,286024,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2021,10,284103,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2021,11,285747,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2021,12,287904,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+5,Desarrollo Infantil Integral (DII),2022,01,286730,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2022,02,287175,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2022,03,285700,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2022,04,286746,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2022,05,294892,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2022,06,291933,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2022,07,291868,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2022,08,287157,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2022,09,294040,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2022,10,287827,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2022,11,290731,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2022,12,292525,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+5,Desarrollo Infantil Integral (DII),2023,01,292712,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2023,02,290298,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2023,03,290323,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2023,04,290685,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2023,05,288459,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2023,06,280789,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2023,07,277136,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2023,08,278905,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2023,09,276939,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2023,10,274878,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2023,11,281550,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2023,12,275206,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+5,Desarrollo Infantil Integral (DII),2024,01,274313,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2024,02,279243,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2024,03,277510,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2024,04,284469,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2024,05,280522,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2024,06,279487,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2024,07,280424,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2024,08,285150,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2024,09,282896,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2024,10,287733,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2024,11,292500,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2024,12,289074,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+5,Desarrollo Infantil Integral (DII),2025,01,283897,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2025,02,290842,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2025,03,283321,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2025,04,276658,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2025,05,274247,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2025,06,273022,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2025,07,276803,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2025,08,276641,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2025,09,270647,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2025,10,264833,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2025,11,266318,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2025,12,265632,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+5,Desarrollo Infantil Integral (DII),2026,01,268738,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2026,02,275209,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2026,03,277213,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2026,04,273055,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2026,05,281841,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2026,06,284400,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+5,Desarrollo Infantil Integral (DII),2026,07,285729,TRUE,"Dato real, corte julio 2026 (resumen_usuarios_por_servicio.xlsx)."
+7,Personas con Discapacidad (PCD),2018,01,33391,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2018,02,32828,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2018,03,33402,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2018,04,33570,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2018,05,34388,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2018,06,34428,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2018,07,33739,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2018,08,34205,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2018,09,33906,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2018,10,35059,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2018,11,35146,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2018,12,34776,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+7,Personas con Discapacidad (PCD),2019,01,34956,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2019,02,34900,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2019,03,34253,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2019,04,35087,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2019,05,34763,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2019,06,35082,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2019,07,34724,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2019,08,33975,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2019,09,34411,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2019,10,33975,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2019,11,35222,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2019,12,34614,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+7,Personas con Discapacidad (PCD),2020,01,35063,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2020,02,34327,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2020,03,33971,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2020,04,35095,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2020,05,35180,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2020,06,33979,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2020,07,34522,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2020,08,33936,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2020,09,34880,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2020,10,34877,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2020,11,33987,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2020,12,34489,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+7,Personas con Discapacidad (PCD),2021,01,34564,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2021,02,34178,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2021,03,35023,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2021,04,34409,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2021,05,34124,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2021,06,34583,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2021,07,34853,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2021,08,34129,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2021,09,34288,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2021,10,35239,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2021,11,34769,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2021,12,34568,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+7,Personas con Discapacidad (PCD),2022,01,34518,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2022,02,33898,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2022,03,33968,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2022,04,34050,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2022,05,34319,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2022,06,33756,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2022,07,33669,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2022,08,33393,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2022,09,34080,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2022,10,33461,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2022,11,34301,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2022,12,33680,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+7,Personas con Discapacidad (PCD),2023,01,33152,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2023,02,33429,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2023,03,34063,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2023,04,33498,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2023,05,33438,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2023,06,34581,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2023,07,34137,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2023,08,34054,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2023,09,34531,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2023,10,34615,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2023,11,33821,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2023,12,34297,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+7,Personas con Discapacidad (PCD),2024,01,34241,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2024,02,34270,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2024,03,34369,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2024,04,34769,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2024,05,34731,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2024,06,35200,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2024,07,34015,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2024,08,34474,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2024,09,34425,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2024,10,35189,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2024,11,34377,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2024,12,34765,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+7,Personas con Discapacidad (PCD),2025,01,34814,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2025,02,34897,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2025,03,34816,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2025,04,34895,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2025,05,35968,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2025,06,35409,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2025,07,36125,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2025,08,35803,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2025,09,35207,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2025,10,36691,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2025,11,36578,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2025,12,36214,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+7,Personas con Discapacidad (PCD),2026,01,36798,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2026,02,36835,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2026,03,36207,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2026,04,36677,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2026,05,36496,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2026,06,36823,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+7,Personas con Discapacidad (PCD),2026,07,37052,TRUE,"Dato real, corte julio 2026 (resumen_usuarios_por_servicio.xlsx)."
+6,Protección Especial (PE),2018,01,12836,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2018,02,12522,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2018,03,12834,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2018,04,12716,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2018,05,12748,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2018,06,13071,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2018,07,13141,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2018,08,12964,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2018,09,13097,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2018,10,12853,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2018,11,12976,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2018,12,13131,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+6,Protección Especial (PE),2019,01,13247,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2019,02,13301,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2019,03,13485,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2019,04,13189,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2019,05,13546,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2019,06,13577,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2019,07,13842,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2019,08,13535,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2019,09,14051,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2019,10,13638,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2019,11,13770,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2019,12,14019,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+6,Protección Especial (PE),2020,01,14193,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2020,02,14019,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2020,03,14027,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2020,04,14542,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2020,05,14247,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2020,06,14523,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2020,07,14613,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2020,08,14571,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2020,09,14742,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2020,10,14782,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2020,11,15101,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2020,12,14918,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+6,Protección Especial (PE),2021,01,15897,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2021,02,16430,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2021,03,17374,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2021,04,18415,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2021,05,18979,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2021,06,19828,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2021,07,21028,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2021,08,21290,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2021,09,22466,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2021,10,23812,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2021,11,24669,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2021,12,25032,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+6,Protección Especial (PE),2022,01,25126,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2022,02,25560,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2022,03,26641,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2022,04,26977,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2022,05,27367,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2022,06,27200,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2022,07,27349,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2022,08,28489,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2022,09,28731,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2022,10,29013,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2022,11,29839,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2022,12,29654,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+6,Protección Especial (PE),2023,01,29258,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2023,02,30419,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2023,03,29987,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2023,04,30620,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2023,05,31151,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2023,06,30355,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2023,07,30521,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2023,08,30699,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2023,09,31448,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2023,10,31286,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2023,11,31898,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2023,12,31957,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+6,Protección Especial (PE),2024,01,31557,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2024,02,32086,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2024,03,31592,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2024,04,31857,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2024,05,32367,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2024,06,32270,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2024,07,31290,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2024,08,31690,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2024,09,31482,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2024,10,31114,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2024,11,32067,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2024,12,31702,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+6,Protección Especial (PE),2025,01,31289,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2025,02,31781,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2025,03,31430,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2025,04,31162,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2025,05,30530,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2025,06,30501,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2025,07,31389,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2025,08,31301,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2025,09,30747,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2025,10,30988,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2025,11,30567,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2025,12,30354,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+6,Protección Especial (PE),2026,01,29953,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2026,02,30056,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2026,03,30528,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2026,04,30372,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2026,05,30368,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2026,06,30339,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+6,Protección Especial (PE),2026,07,29918,TRUE,"Dato real, corte julio 2026 (resumen_usuarios_por_servicio.xlsx)."
+8,Personas Adultas Mayores (PAM),2018,01,89860,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2018,02,92738,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2018,03,93524,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2018,04,92161,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2018,05,93355,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2018,06,92016,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2018,07,95316,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2018,08,95476,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2018,09,96302,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2018,10,96081,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2018,11,96754,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2018,12,95699,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+8,Personas Adultas Mayores (PAM),2019,01,98484,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2019,02,98754,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2019,03,103029,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2019,04,104392,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2019,05,106535,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2019,06,108196,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2019,07,107715,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2019,08,111862,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2019,09,110689,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2019,10,116015,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2019,11,117841,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2019,12,118036,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+8,Personas Adultas Mayores (PAM),2020,01,119855,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2020,02,118487,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2020,03,118068,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2020,04,120725,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2020,05,118332,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2020,06,117669,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2020,07,118798,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2020,08,119766,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2020,09,122677,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2020,10,123498,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2020,11,120480,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2020,12,121874,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+8,Personas Adultas Mayores (PAM),2021,01,121345,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2021,02,124137,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2021,03,121929,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2021,04,123851,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2021,05,119800,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2021,06,123920,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2021,07,120028,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2021,08,123800,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2021,09,120370,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2021,10,119567,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2021,11,121112,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2021,12,121389,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+8,Personas Adultas Mayores (PAM),2022,01,119815,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2022,02,120550,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2022,03,119421,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2022,04,118147,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2022,05,118379,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2022,06,116192,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2022,07,117643,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2022,08,113682,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2022,09,117283,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2022,10,114822,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2022,11,114972,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2022,12,113297,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+8,Personas Adultas Mayores (PAM),2023,01,113677,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2023,02,111904,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2023,03,110196,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2023,04,112468,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2023,05,110587,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2023,06,110127,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2023,07,112101,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2023,08,111139,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2023,09,108903,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2023,10,108555,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2023,11,108599,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2023,12,108608,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+8,Personas Adultas Mayores (PAM),2024,01,107933,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2024,02,107410,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2024,03,108902,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2024,04,111392,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2024,05,110456,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2024,06,111663,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2024,07,110615,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2024,08,109442,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2024,09,110746,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2024,10,108535,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2024,11,110016,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2024,12,111176,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+8,Personas Adultas Mayores (PAM),2025,01,111576,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2025,02,111952,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2025,03,111152,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2025,04,111094,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2025,05,110120,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2025,06,111320,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2025,07,113272,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2025,08,112848,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2025,09,110097,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2025,10,109761,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2025,11,111728,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2025,12,111703,TRUE,Dato real de la serie histórica proporcionada (series_historicas.xlsx).
+8,Personas Adultas Mayores (PAM),2026,01,111406,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2026,02,113287,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2026,03,113319,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2026,04,113312,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2026,05,112050,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2026,06,112218,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
+8,Personas Adultas Mayores (PAM),2026,07,113496,TRUE,"Dato real, corte julio 2026 (resumen_usuarios_por_servicio.xlsx)."
+12,Movilidad Social,2018,01,2902,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2018,02,3012,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2018,03,2930,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2018,04,3035,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2018,05,3025,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2018,06,2990,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2018,07,3094,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2018,08,3028,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2018,09,3123,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2018,10,3076,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2018,11,3100,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2018,12,3200,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2019,01,3284,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2019,02,3168,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2019,03,3208,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2019,04,3308,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2019,05,3393,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2019,06,3340,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2019,07,3325,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2019,08,3463,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2019,09,3295,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2019,10,3482,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2019,11,3386,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2019,12,3450,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2020,01,3342,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2020,02,3353,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2020,03,3426,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2020,04,3269,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2020,05,3320,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2020,06,3302,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2020,07,3221,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2020,08,3226,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2020,09,3104,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2020,10,3075,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2020,11,3074,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2020,12,3100,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2021,01,3128,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2021,02,3148,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2021,03,3242,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2021,04,3257,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2021,05,3269,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2021,06,3409,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2021,07,3432,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2021,08,3381,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2021,09,3491,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2021,10,3522,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2021,11,3638,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2021,12,3600,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2022,01,3587,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2022,02,3772,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2022,03,3615,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2022,04,3715,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2022,05,3825,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2022,06,3721,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2022,07,3831,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2022,08,3760,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2022,09,3939,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2022,10,3996,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2022,11,3984,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2022,12,4000,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2023,01,3980,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2023,02,4097,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2023,03,4098,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2023,04,4120,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2023,05,4114,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2023,06,4235,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2023,07,4286,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2023,08,4193,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2023,09,4267,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2023,10,4138,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2023,11,4327,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2023,12,4300,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2024,01,4457,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2024,02,4443,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2024,03,4331,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2024,04,4386,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2024,05,4491,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2024,06,4347,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2024,07,4494,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2024,08,4443,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2024,09,4458,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2024,10,4470,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2024,11,4695,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2024,12,4650,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2025,01,4600,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2025,02,4661,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2025,03,4818,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2025,04,4614,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2025,05,4740,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2025,06,4789,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2025,07,4906,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2025,08,4909,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2025,09,4943,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2025,10,4794,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2025,11,4854,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2025,12,4900,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2026,01,5001,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2026,02,5042,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2026,03,4908,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2026,04,4938,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2026,05,4975,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2026,06,5000,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
+12,Movilidad Social,2026,07,5080,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.

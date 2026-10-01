@@ -1,0 +1,2220 @@
+seccion,anio,desagregacion,categoria,valor
+territorio,2018,,Total,0.1086143493530221
+territorio,2018,,Urbano,0.05184859821274717
+territorio,2018,,Rural,0.2189969515412719
+territorio,2018,,Quito,0.03281259917823439
+territorio,2018,,Guayaquil,0.04190235146765585
+territorio,2018,,Cuenca,0.05634696294502319
+territorio,2018,,Machala,0.05063955895644841
+territorio,2018,,Ambato,0.08132275350191533
+territorio,2018,,Azuay,0.1161680392836749
+territorio,2018,,Bolívar,0.2707566955576783
+territorio,2018,,Cañar,0.173044416751647
+territorio,2018,,Carchi,0.1027319763183531
+territorio,2018,,Cotopaxi,0.2384395119451084
+territorio,2018,,Chimborazo,0.3033736203975803
+territorio,2018,,El Oro,0.06190159241853864
+territorio,2018,,Esmeraldas,0.0950116281489064
+territorio,2018,,Guayas,0.05349438794324051
+territorio,2018,,Imbabura,0.1237799432011576
+territorio,2018,,Loja,0.1949191516316641
+territorio,2018,,Los Ríos,0.08081101629470332
+territorio,2018,,Manabí,0.1035443718621808
+territorio,2018,,Morona Santiago,0.3512354712187393
+territorio,2018,,Napo,0.2717613365646279
+territorio,2018,,Pastaza,0.2832921724110793
+territorio,2018,,Pichincha,0.04214343071619063
+territorio,2018,,Tungurahua,0.1765903578572317
+territorio,2018,,Zamora Chinchipe,0.2087650302837659
+territorio,2018,,Galápagos,0.05678318354464933
+territorio,2018,,Sucumbíos,0.1692289117954763
+territorio,2018,,Orellana,0.3347828139231839
+territorio,2018,,Santo Domingo,0.0864634272829891
+territorio,2018,,Santa Elena,0.06164791399887867
+territorio,2018,,Sierra,0.1285605878284038
+territorio,2018,,Costa,0.06994639919158378
+territorio,2018,,Amazonia,0.2701203882243222
+territorio,2018,,Insular,0.05678318354464933
+territorio,2018,,Zona 1,0.1165068163913461
+territorio,2018,,Zona 2,0.1761813972906047
+territorio,2018,,Zona 3,0.2395728805124943
+territorio,2018,,Zona 4,0.0993833047365661
+territorio,2018,,Zona 5,0.09777753713104825
+territorio,2018,,Zona 6,0.1599522985009453
+territorio,2018,,Zona 7,0.1307246336559424
+territorio,2018,,Zona 8,0.04181649504668498
+territorio,2018,,Zona 9,0.0357798181159614
+territorio,2019,,Total,0.1146368658998235
+territorio,2019,,Urbano,0.05404062874486606
+territorio,2019,,Rural,0.2304230021976827
+territorio,2019,,Quito,0.03763406902997784
+territorio,2019,,Guayaquil,0.04374650926563368
+territorio,2019,,Cuenca,0.05083698840042779
+territorio,2019,,Machala,0.04564682868053736
+territorio,2019,,Ambato,0.08265109906565542
+territorio,2019,,Azuay,0.127637814722269
+territorio,2019,,Bolívar,0.2694601183818361
+territorio,2019,,Cañar,0.1869989970456772
+territorio,2019,,Carchi,0.1245747695067436
+territorio,2019,,Cotopaxi,0.2413279086263178
+territorio,2019,,Chimborazo,0.3239960905857749
+territorio,2019,,El Oro,0.06798658102167077
+territorio,2019,,Esmeraldas,0.08466338003698774
+territorio,2019,,Guayas,0.05432206627469707
+territorio,2019,,Imbabura,0.1112644794591393
+territorio,2019,,Loja,0.2197400119051368
+territorio,2019,,Los Ríos,0.07584099443437653
+territorio,2019,,Manabí,0.11474843732138
+territorio,2019,,Morona Santiago,0.3915618969756416
+territorio,2019,,Napo,0.3179721407889752
+territorio,2019,,Pastaza,0.3132395680739329
+territorio,2019,,Pichincha,0.04535524710425703
+territorio,2019,,Tungurahua,0.1896645700483845
+territorio,2019,,Zamora Chinchipe,0.2235934131960259
+territorio,2019,,Galápagos,0.05251856972283175
+territorio,2019,,Sucumbíos,0.1846850003224868
+territorio,2019,,Orellana,0.3712764826511549
+territorio,2019,,Santo Domingo,0.0753076322173935
+territorio,2019,,Santa Elena,0.065499961303856
+territorio,2019,,Sierra,0.1351973959623565
+territorio,2019,,Costa,0.0720945570040111
+territorio,2019,,Amazonia,0.3002310942356643
+territorio,2019,,Insular,0.05251856972283175
+territorio,2019,,Zona 1,0.1137795837526805
+territorio,2019,,Zona 2,0.1885645296844257
+territorio,2019,,Zona 3,0.252977988848698
+territorio,2019,,Zona 4,0.1053874397568132
+territorio,2019,,Zona 5,0.09434558128687953
+territorio,2019,,Zona 6,0.1774322903203436
+territorio,2019,,Zona 7,0.1464253941130036
+territorio,2019,,Zona 8,0.04468964643823101
+territorio,2019,,Zona 9,0.03849506721590272
+territorio,2021,,Total,0.1112870395786329
+territorio,2021,,Urbano,0.05480836041563093
+territorio,2021,,Rural,0.2177941312691221
+territorio,2021,,Quito,0.03791232695457036
+territorio,2021,,Guayaquil,0.04151361429744941
+territorio,2021,,Cuenca,0.05980624522866765
+territorio,2021,,Machala,0.05425801746756071
+territorio,2021,,Ambato,0.09699737723710303
+territorio,2021,,Azuay,0.1085284886705632
+territorio,2021,,Bolívar,0.2623630126526653
+territorio,2021,,Cañar,0.1846232845428579
+territorio,2021,,Carchi,0.09782467556685888
+territorio,2021,,Cotopaxi,0.1995833368579662
+territorio,2021,,Chimborazo,0.267258172495032
+territorio,2021,,El Oro,0.06789093645009928
+territorio,2021,,Esmeraldas,0.1056034046855707
+territorio,2021,,Guayas,0.06004851951255412
+territorio,2021,,Imbabura,0.1193780024278844
+territorio,2021,,Loja,0.1961797522109076
+territorio,2021,,Los Ríos,0.08797908386209578
+territorio,2021,,Manabí,0.1067215275051865
+territorio,2021,,Morona Santiago,0.318254071029942
+territorio,2021,,Napo,0.304169012322798
+territorio,2021,,Pastaza,0.3282278291406212
+territorio,2021,,Pichincha,0.0481722965560939
+territorio,2021,,Tungurahua,0.1812101992344548
+territorio,2021,,Zamora Chinchipe,0.2150851736401279
+territorio,2021,,Galápagos,0.048367429930998
+territorio,2021,,Sucumbíos,0.2244321213424158
+territorio,2021,,Orellana,0.3015137810442104
+territorio,2021,,Santo Domingo,0.1078747470306932
+territorio,2021,,Santa Elena,0.04816450413316603
+territorio,2021,,Sierra,0.1257524659557982
+territorio,2021,,Costa,0.07495535666790669
+territorio,2021,,Amazonia,0.2801760562977744
+territorio,2021,,Insular,0.04836742993099803
+territorio,2021,,Zona 1,0.1272552440406808
+territorio,2021,,Zona 2,0.1812374407444879
+territorio,2021,,Zona 3,0.2210678620854561
+territorio,2021,,Zona 4,0.1070072238153552
+territorio,2021,,Zona 5,0.1069922961076996
+territorio,2021,,Zona 6,0.1537929087339916
+territorio,2021,,Zona 7,0.13518474426031
+territorio,2021,,Zona 8,0.04184707775081921
+territorio,2021,,Zona 9,0.04096276457544836
+territorio,2022,,Total,0.09929810594632137
+territorio,2022,,Urbano,0.04668699794576735
+territorio,2022,,Rural,0.1999107643598422
+territorio,2022,,Quito,0.03334539625873027
+territorio,2022,,Guayaquil,0.03125792280143301
+territorio,2022,,Cuenca,0.0537463351479744
+territorio,2022,,Machala,0.04416743303099002
+territorio,2022,,Ambato,0.09384721335853695
+territorio,2022,,Azuay,0.1142512873727669
+territorio,2022,,Bolívar,0.194142269707883
+territorio,2022,,Cañar,0.1738845544590313
+territorio,2022,,Carchi,0.09080311850332914
+territorio,2022,,Cotopaxi,0.2137474206278356
+territorio,2022,,Chimborazo,0.2599427504599269
+territorio,2022,,El Oro,0.05751828426434046
+territorio,2022,,Esmeraldas,0.09615883574651257
+territorio,2022,,Guayas,0.04136531616751996
+territorio,2022,,Imbabura,0.09118924570563437
+territorio,2022,,Loja,0.2014815754063931
+territorio,2022,,Los Ríos,0.0636273380519676
+territorio,2022,,Manabí,0.07110397244700183
+territorio,2022,,Morona Santiago,0.3314764967738951
+territorio,2022,,Napo,0.3369432197829731
+territorio,2022,,Pastaza,0.3728084060096639
+territorio,2022,,Pichincha,0.04376075552518455
+territorio,2022,,Tungurahua,0.1753755070472209
+territorio,2022,,Zamora Chinchipe,0.1958732807344147
+territorio,2022,,Galápagos,0.03337020583763251
+territorio,2022,,Sucumbíos,0.1890725941978953
+territorio,2022,,Orellana,0.364997399370586
+territorio,2022,,Santo Domingo,0.06700663830769502
+territorio,2022,,Santa Elena,0.0452109184735195
+territorio,2022,,Sierra,0.1185940203418169
+territorio,2022,,Costa,0.05446799557096237
+territorio,2022,,Amazonia,0.297821619780952
+territorio,2022,,Insular,0.03337020583763251
+territorio,2022,,Zona 1,0.1064998002926396
+territorio,2022,,Zona 2,0.1997759831111028
+territorio,2022,,Zona 3,0.2233638869363199
+territorio,2022,,Zona 4,0.07010761371159373
+territorio,2022,,Zona 5,0.07297389063430222
+territorio,2022,,Zona 6,0.1567364036022063
+territorio,2022,,Zona 7,0.1293769326275431
+territorio,2022,,Zona 8,0.03175813162973983
+territorio,2022,,Zona 9,0.0373156339065421
+territorio,2023,,Total,0.09876483771382029
+territorio,2023,,Urbano,0.04150459531937967
+territorio,2023,,Rural,0.209058150454735
+territorio,2023,,Quito,0.03577007369184521
+territorio,2023,,Guayaquil,0.0305480369432172
+territorio,2023,,Cuenca,0.05227732896137506
+territorio,2023,,Machala,0.03912143924462434
+territorio,2023,,Ambato,0.09074819182271658
+territorio,2023,,Azuay,0.1037475596496805
+territorio,2023,,Bolívar,0.1827820804006544
+territorio,2023,,Cañar,0.238129148807198
+territorio,2023,,Carchi,0.1399977511769566
+territorio,2023,,Cotopaxi,0.2675235522708234
+territorio,2023,,Chimborazo,0.3028319135310787
+territorio,2023,,El Oro,0.05028378933636618
+territorio,2023,,Esmeraldas,0.09269785476925743
+territorio,2023,,Guayas,0.03195655113218401
+territorio,2023,,Imbabura,0.09965343336746069
+territorio,2023,,Loja,0.1750794513080559
+territorio,2023,,Los Ríos,0.04542145587107833
+territorio,2023,,Manabí,0.05545024957279742
+territorio,2023,,Morona Santiago,0.3182308352234558
+territorio,2023,,Napo,0.3674428957061888
+territorio,2023,,Pastaza,0.4002364932631041
+territorio,2023,,Pichincha,0.04128467420700411
+territorio,2023,,Tungurahua,0.1547215478366491
+territorio,2023,,Zamora Chinchipe,0.1873505933313353
+territorio,2023,,Galápagos,0.0385730708465328
+territorio,2023,,Sucumbíos,0.2626704952028791
+territorio,2023,,Orellana,0.3676071324111987
+territorio,2023,,Santo Domingo,0.06034086804011268
+territorio,2023,,Santa Elena,0.04143380111921903
+territorio,2023,,Sierra,0.1240535892763778
+territorio,2023,,Costa,0.0440239915166085
+territorio,2023,,Amazonia,0.315760796386766
+territorio,2023,,Insular,0.03857307084653278
+territorio,2023,,Zona 1,0.1248363491965661
+territorio,2023,,Zona 2,0.2103670025831034
+territorio,2023,,Zona 3,0.2467830134713318
+territorio,2023,,Zona 4,0.0566413363365808
+territorio,2023,,Zona 5,0.05191672872028457
+territorio,2023,,Zona 6,0.1629829485170662
+territorio,2023,,Zona 7,0.1141485491906579
+territorio,2023,,Zona 8,0.03050104549689511
+territorio,2023,,Zona 9,0.03614389042541311
+territorio,2024,,Total,0.0945220494061242
+territorio,2024,,Urbano,0.0390913722871813
+territorio,2024,,Rural,0.200678662128737
+territorio,2024,,Quito,0.0366426151130009
+territorio,2024,,Guayaquil,0.0270216377138592
+territorio,2024,,Cuenca,0.0507998077780223
+territorio,2024,,Machala,0.0400143330389584
+territorio,2024,,Ambato,0.0875251641305845
+territorio,2024,,Azuay,0.0847106908925616
+territorio,2024,,Bolívar,0.19389885863934
+territorio,2024,,Cañar,0.271423065269902
+territorio,2024,,Carchi,0.121853354000422
+territorio,2024,,Cotopaxi,0.278461024240646
+territorio,2024,,Chimborazo,0.268961941165247
+territorio,2024,,El Oro,0.0439761407517801
+territorio,2024,,Esmeraldas,0.107503548046563
+territorio,2024,,Guayas,0.0291767330615353
+territorio,2024,,Imbabura,0.0867902695490355
+territorio,2024,,Loja,0.159894501586335
+territorio,2024,,Los Ríos,0.048547260135583
+territorio,2024,,Manabí,0.0459064788353024
+territorio,2024,,Morona Santiago,0.35282756107019
+territorio,2024,,Napo,0.345273097670673
+territorio,2024,,Pastaza,0.274068490827634
+territorio,2024,,Pichincha,0.040485413758532
+territorio,2024,,Tungurahua,0.151018340870395
+territorio,2024,,Zamora Chinchipe,0.225795472417586
+territorio,2024,,Galápagos,0.0507888931796992
+territorio,2024,,Sucumbíos,0.169591551221074
+territorio,2024,,Orellana,0.384973883477011
+territorio,2024,,Santo Domingo,0.0687223257603895
+territorio,2024,,Santa Elena,0.0309795785437269
+territorio,2024,,Sierra,0.118724235765541
+territorio,2024,,Costa,0.0412977082235367
+territorio,2024,,Amazonia,0.290972333105625
+territorio,2024,,Insular,0.0507888931796992
+territorio,2024,,Zona 1,0.11161324643253
+territorio,2024,,Zona 2,0.198978139059969
+territorio,2024,,Zona 3,0.231070082516365
+territorio,2024,,Zona 4,0.0513235890342987
+territorio,2024,,Zona 5,0.0513633497322586
+territorio,2024,,Zona 6,0.163901140808105
+territorio,2024,,Zona 7,0.10919768276489
+territorio,2024,,Zona 8,0.0263604900889784
+territorio,2024,,Zona 9,0.0369988716974529
+territorio,2025,,Total,0.08815286761249762
+territorio,2025,,Urbano,0.036290924361695245
+territorio,2025,,Rural,0.18448480871534803
+territorio,2025,,Quito,0.02884003614751194
+territorio,2025,,Guayaquil,0.024704910092825987
+territorio,2025,,Cuenca,0.07642121994674264
+territorio,2025,,Machala,0.03918904434749029
+territorio,2025,,Ambato,0.07949765831151293
+territorio,2025,,Azuay,0.09857009258300842
+territorio,2025,,Bolívar,0.14631409758692687
+territorio,2025,,Cañar,0.13548592633459164
+territorio,2025,,Carchi,0.18220596878218723
+territorio,2025,,Cotopaxi,0.22379904359971303
+territorio,2025,,Chimborazo,0.2279764224005938
+territorio,2025,,El Oro,0.05727525755565945
+territorio,2025,,Esmeraldas,0.07001971755780197
+territorio,2025,,Guayas,0.028519945805891882
+territorio,2025,,Imbabura,0.07970141837932046
+territorio,2025,,Loja,0.16236959289480055
+territorio,2025,,Los Ríos,0.03254977231723901
+territorio,2025,,Manabí,0.04930495921993012
+territorio,2025,,Morona Santiago,0.41978571234645023
+territorio,2025,,Napo,0.34257659822132863
+territorio,2025,,Pastaza,0.23963572738503988
+territorio,2025,,Pichincha,0.04285307347429217
+territorio,2025,,Tungurahua,0.15767340348763506
+territorio,2025,,Zamora Chinchipe,0.1956435711584086
+territorio,2025,,Galápagos,0.03156027942106335
+territorio,2025,,Sucumbíos,0.14577649134666767
+territorio,2025,,Orellana,0.3787069894011848
+territorio,2025,,Santo Domingo,0.05287608455987381
+territorio,2025,,Santa Elena,0.03648089414865186
+territorio,2025,,Sierra,0.10825164673260725
+territorio,2025,,Costa,0.038927917786773424
+territorio,2025,,Amazonia,0.288760907729233
+territorio,2025,,Insular,0.03156027942106335
+territorio,2025,,Zona 1,0.09939877614179544
+territorio,2025,,Zona 2,0.20334007935562945
+territorio,2025,,Zona 3,0.20432427491905925
+territorio,2025,,Zona 4,0.05014806125806328
+territorio,2025,,Zona 5,0.045166597993867706
+territorio,2025,,Zona 6,0.14649248647592644
+territorio,2025,,Zona 7,0.11241925848310773
+territorio,2025,,Zona 8,0.02447681158487665
+territorio,2025,,Zona 9,0.0313849276130759
+caracteristicas,2018,Sexo,Hombre,0.05598692520689012
+caracteristicas,2018,Sexo,Mujer,0.178922778209232
+caracteristicas,2018,Grupos de edad,15 a 17 años,0.6757404436903457
+caracteristicas,2018,Grupos de edad,18 a 29 años,0.1233931121373691
+caracteristicas,2018,Grupos de edad,30 a 44 años,0.06872687482163796
+caracteristicas,2018,Grupos de edad,45 a 64 años,0.08040171282118103
+caracteristicas,2018,Grupos de edad,65 años y más,0.1393160463853511
+caracteristicas,2018,Etnia,Indígena,0.3325803816939287
+caracteristicas,2018,Etnia,Afroecuatoriano,0.05574330914693137
+caracteristicas,2018,Etnia,Montubio,0.1169314999506395
+caracteristicas,2018,Etnia,Mestizo,0.08464548326812452
+caracteristicas,2018,Etnia,Blanco,0.07549867329945541
+caracteristicas,2018,Estado civil/conyugal,Casado,0.1126268391444324
+caracteristicas,2018,Estado civil/conyugal,Unión libre,0.08046343884553624
+caracteristicas,2018,Estado civil/conyugal,Soltero,0.173098461538802
+caracteristicas,2018,Estado civil/conyugal,Otro,0.02642737904290589
+caracteristicas,2018,Nivel de instrucción,Ninguno,0.2076695374436013
+caracteristicas,2018,Nivel de instrucción,Centro de alfabetización,0.207866989943892
+caracteristicas,2018,Nivel de instrucción,Básica,0.1270595613311493
+caracteristicas,2018,Nivel de instrucción,Bachillerato,0.1149818475541565
+caracteristicas,2018,Nivel de instrucción,Superior,0.03917173448972413
+caracteristicas,2018,Quintiles de ingreso,Quintil 1,0.2528506641231011
+caracteristicas,2018,Quintiles de ingreso,Quintil 2,0.1335988903813846
+caracteristicas,2018,Quintiles de ingreso,Quintil 3,0.09006236924545044
+caracteristicas,2018,Quintiles de ingreso,Quintil 4,0.06647649699470429
+caracteristicas,2018,Quintiles de ingreso,Quintil 5,0.0459633846825182
+caracteristicas,2019,Sexo,Hombre,0.05910879256038499
+caracteristicas,2019,Sexo,Mujer,0.186685841906715
+caracteristicas,2019,Grupos de edad,15 a 17 años,0.7014333864088741
+caracteristicas,2019,Grupos de edad,18 a 29 años,0.1340777043596166
+caracteristicas,2019,Grupos de edad,30 a 44 años,0.07297484182341321
+caracteristicas,2019,Grupos de edad,45 a 64 años,0.08445586202362161
+caracteristicas,2019,Grupos de edad,65 años y más,0.139835968871896
+caracteristicas,2019,Etnia,Indígena,0.3406403910736389
+caracteristicas,2019,Etnia,Afroecuatoriano,0.06113391490194342
+caracteristicas,2019,Etnia,Montubio,0.1179829726526141
+caracteristicas,2019,Etnia,Mestizo,0.08837617218746083
+caracteristicas,2019,Etnia,Blanco,0.07385487244869596
+caracteristicas,2019,Estado civil/conyugal,Casado,0.1194505950252891
+caracteristicas,2019,Estado civil/conyugal,Unión libre,0.0847201723337249
+caracteristicas,2019,Estado civil/conyugal,Soltero,0.1806119303506574
+caracteristicas,2019,Estado civil/conyugal,Otro,0.02816946618910503
+caracteristicas,2019,Nivel de instrucción,Ninguno,0.2157679321749847
+caracteristicas,2019,Nivel de instrucción,Centro de alfabetización,0.2897109596671987
+caracteristicas,2019,Nivel de instrucción,Básica,0.1357917429793899
+caracteristicas,2019,Nivel de instrucción,Bachillerato,0.117374845223879
+caracteristicas,2019,Nivel de instrucción,Superior,0.04376802197438999
+caracteristicas,2019,Quintiles de ingreso,Quintil 1,0.2674637866322836
+caracteristicas,2019,Quintiles de ingreso,Quintil 2,0.1399493562204063
+caracteristicas,2019,Quintiles de ingreso,Quintil 3,0.0995037001345583
+caracteristicas,2019,Quintiles de ingreso,Quintil 4,0.06989605390163091
+caracteristicas,2019,Quintiles de ingreso,Quintil 5,0.04494165204824126
+caracteristicas,2021,Sexo,Hombre,0.06318990721938034
+caracteristicas,2021,Sexo,Mujer,0.1751154975765999
+caracteristicas,2021,Grupos de edad,15 a 17 años,0.7089868907836578
+caracteristicas,2021,Grupos de edad,18 a 29 años,0.1293154244903744
+caracteristicas,2021,Grupos de edad,30 a 44 años,0.06989481748390637
+caracteristicas,2021,Grupos de edad,45 a 64 años,0.08083608287124248
+caracteristicas,2021,Grupos de edad,65 años y más,0.1504659658101233
+caracteristicas,2021,Etnia,Indígena,0.3048057297219954
+caracteristicas,2021,Etnia,Afroecuatoriano,0.05966923482328685
+caracteristicas,2021,Etnia,Montubio,0.1289532286986851
+caracteristicas,2021,Etnia,Mestizo,0.09036333637700907
+caracteristicas,2021,Etnia,Blanco,0.05910890666313442
+caracteristicas,2021,Estado civil/conyugal,Casado,0.1151589523800095
+caracteristicas,2021,Estado civil/conyugal,Unión libre,0.08252238669982569
+caracteristicas,2021,Estado civil/conyugal,Soltero,0.176530568675112
+caracteristicas,2021,Estado civil/conyugal,Otro,0.03231888618255045
+caracteristicas,2021,Nivel de instrucción,Ninguno,0.2170330710144816
+caracteristicas,2021,Nivel de instrucción,Centro de alfabetización,0.3013437044833122
+caracteristicas,2021,Nivel de instrucción,Básica,0.1300555438655495
+caracteristicas,2021,Nivel de instrucción,Bachillerato,0.1154836144342661
+caracteristicas,2021,Nivel de instrucción,Superior,0.05348816437808793
+caracteristicas,2021,Quintiles de ingreso,Quintil 1,0.223135159589425
+caracteristicas,2021,Quintiles de ingreso,Quintil 2,0.142622528368081
+caracteristicas,2021,Quintiles de ingreso,Quintil 3,0.1044551281198572
+caracteristicas,2021,Quintiles de ingreso,Quintil 4,0.08040223974722054
+caracteristicas,2021,Quintiles de ingreso,Quintil 5,0.04947739193373167
+caracteristicas,2022,Sexo,Hombre,0.05065443414400244
+caracteristicas,2022,Sexo,Mujer,0.1625552062850951
+caracteristicas,2022,Grupos de edad,15 a 17 años,0.7167143358969644
+caracteristicas,2022,Grupos de edad,18 a 29 años,0.1126600356171533
+caracteristicas,2022,Grupos de edad,30 a 44 años,0.06187010996479578
+caracteristicas,2022,Grupos de edad,45 a 64 años,0.07449234975760247
+caracteristicas,2022,Grupos de edad,65 años y más,0.1377729349845003
+caracteristicas,2022,Etnia,Indígena,0.3094044010294691
+caracteristicas,2022,Etnia,Afroecuatoriano,0.04352954390788976
+caracteristicas,2022,Etnia,Montubio,0.09130138707473495
+caracteristicas,2022,Etnia,Mestizo,0.07802432676420167
+caracteristicas,2022,Etnia,Blanco,0.04955058454005792
+caracteristicas,2022,Estado civil/conyugal,Casado,0.1109835182675836
+caracteristicas,2022,Estado civil/conyugal,Unión libre,0.0773478322444882
+caracteristicas,2022,Estado civil/conyugal,Soltero,0.1502452849418291
+caracteristicas,2022,Estado civil/conyugal,Otro,0.01924246755252254
+caracteristicas,2022,Nivel de instrucción,Ninguno,0.2264937564914116
+caracteristicas,2022,Nivel de instrucción,Centro de alfabetización,0.280167517301186
+caracteristicas,2022,Nivel de instrucción,Básica,0.117741820974426
+caracteristicas,2022,Nivel de instrucción,Bachillerato,0.0988233339972226
+caracteristicas,2022,Nivel de instrucción,Superior,0.04603885380594112
+caracteristicas,2022,Quintiles de ingreso,Quintil 1,0.2131929330654397
+caracteristicas,2022,Quintiles de ingreso,Quintil 2,0.1170370762553186
+caracteristicas,2022,Quintiles de ingreso,Quintil 3,0.09601101604708888
+caracteristicas,2022,Quintiles de ingreso,Quintil 4,0.07133606452893836
+caracteristicas,2022,Quintiles de ingreso,Quintil 5,0.04395266409060067
+caracteristicas,2023,Sexo,Hombre,0.05109353714481594
+caracteristicas,2023,Sexo,Mujer,0.1615229553772315
+caracteristicas,2023,Grupos de edad,15 a 17 años,0.7116148689742356
+caracteristicas,2023,Grupos de edad,18 a 29 años,0.1092218651502386
+caracteristicas,2023,Grupos de edad,30 a 44 años,0.06442764324921375
+caracteristicas,2023,Grupos de edad,45 a 64 años,0.07693022094597678
+caracteristicas,2023,Grupos de edad,65 años y más,0.1285179994243291
+caracteristicas,2023,Etnia,Indígena,0.3380573349359085
+caracteristicas,2023,Etnia,Afroecuatoriano,0.03116662652411032
+caracteristicas,2023,Etnia,Montubio,0.08561810934669445
+caracteristicas,2023,Etnia,Mestizo,0.06652157449206629
+caracteristicas,2023,Etnia,Blanco,0.06186982026728736
+caracteristicas,2023,Estado civil/conyugal,Casado,0.1196015735193547
+caracteristicas,2023,Estado civil/conyugal,Unión libre,0.0737946866841487
+caracteristicas,2023,Estado civil/conyugal,Soltero,0.1374373174051353
+caracteristicas,2023,Estado civil/conyugal,Otro,0.02346445351918312
+caracteristicas,2023,Nivel de instrucción,Ninguno,0.2318821680006351
+caracteristicas,2023,Nivel de instrucción,Centro de alfabetización,0.2720797697636451
+caracteristicas,2023,Nivel de instrucción,Básica,0.1222413538182852
+caracteristicas,2023,Nivel de instrucción,Bachillerato,0.0944032225891723
+caracteristicas,2023,Nivel de instrucción,Superior,0.04034512437912231
+caracteristicas,2023,Quintiles de ingreso,Quintil 1,0.2321651483220866
+caracteristicas,2023,Quintiles de ingreso,Quintil 2,0.1221183655169614
+caracteristicas,2023,Quintiles de ingreso,Quintil 3,0.08896921154724678
+caracteristicas,2023,Quintiles de ingreso,Quintil 4,0.06439796623040556
+caracteristicas,2023,Quintiles de ingreso,Quintil 5,0.04114176241399052
+caracteristicas,2024,Sexo,Hombre,0.0513479898958345
+caracteristicas,2024,Sexo,Mujer,0.15213187113989
+caracteristicas,2024,Grupos de edad,15 a 17 años,0.714054532615862
+caracteristicas,2024,Grupos de edad,18 a 29 años,0.0981199538105684
+caracteristicas,2024,Grupos de edad,30 a 44 años,0.0624185597722999
+caracteristicas,2024,Grupos de edad,45 a 64 años,0.077393787644448
+caracteristicas,2024,Grupos de edad,65 años y más,0.11679739204872
+caracteristicas,2024,Etnia,Indígena,0.309153778706777
+caracteristicas,2024,Etnia,Afroecuatoriano,0.0391490819778221
+caracteristicas,2024,Etnia,Montubio,0.057784808131481
+caracteristicas,2024,Etnia,Mestizo,0.063796463089977
+caracteristicas,2024,Etnia,Blanco,0.0539517672193973
+caracteristicas,2024,Estado civil/conyugal,Casado,0.117418642061454
+caracteristicas,2024,Estado civil/conyugal,Unión libre,0.0702844710650054
+caracteristicas,2024,Estado civil/conyugal,Soltero,0.131007407593125
+caracteristicas,2024,Estado civil/conyugal,Otro,0.0198913847718097
+caracteristicas,2024,Nivel de instrucción,Ninguno,0.222006857858963
+caracteristicas,2024,Nivel de instrucción,Centro de alfabetización,0.292614363223104
+caracteristicas,2024,Nivel de instrucción,Básica,0.122282801521378
+caracteristicas,2024,Nivel de instrucción,Bachillerato,0.0871368775001257
+caracteristicas,2024,Nivel de instrucción,Superior,0.034548896313551
+caracteristicas,2024,Quintiles de ingreso,Quintil 1,0.225284114410573
+caracteristicas,2024,Quintiles de ingreso,Quintil 2,0.113160288992927
+caracteristicas,2024,Quintiles de ingreso,Quintil 3,0.0877016022307127
+caracteristicas,2024,Quintiles de ingreso,Quintil 4,0.0637496132390959
+caracteristicas,2024,Quintiles de ingreso,Quintil 5,0.037878990719963
+caracteristicas,2025,Sexo,Hombre,0.04738592468217701
+caracteristicas,2025,Sexo,Mujer,0.1433570615254019
+caracteristicas,2025,Grupos de edad,15 a 17 años,0.6950696426329104
+caracteristicas,2025,Grupos de edad,18 a 29 años,0.09202647658411148
+caracteristicas,2025,Grupos de edad,30 a 44 años,0.057880074202980955
+caracteristicas,2025,Grupos de edad,45 a 64 años,0.06637402360705466
+caracteristicas,2025,Grupos de edad,65 años y más,0.12972826463971251
+caracteristicas,2025,Etnia,Indígena,0.27638758467694197
+caracteristicas,2025,Etnia,Afroecuatoriano,0.02834959823058541
+caracteristicas,2025,Etnia,Montubio,0.06529448811208305
+caracteristicas,2025,Etnia,Mestizo,0.06247633662045014
+caracteristicas,2025,Etnia,Blanco,0.07399466534037219
+caracteristicas,2025,Estado civil/conyugal,Casado,0.10832432772598999
+caracteristicas,2025,Estado civil/conyugal,Unión libre,0.06701333501264133
+caracteristicas,2025,Estado civil/conyugal,Soltero,0.1249226725454695
+caracteristicas,2025,Estado civil/conyugal,Otro,0.017083672657583232
+caracteristicas,2025,Nivel de instrucción,Ninguno,0.20452000760715075
+caracteristicas,2025,Nivel de instrucción,Centro de alfabetización,0.43995970443361293
+caracteristicas,2025,Nivel de instrucción,Básica,0.11320817156871024
+caracteristicas,2025,Nivel de instrucción,Bachillerato,0.07907711810299652
+caracteristicas,2025,Nivel de instrucción,Superior,0.03752131908526651
+caracteristicas,2025,Quintiles de ingreso,Quintil 1,0.2185840517285014
+caracteristicas,2025,Quintiles de ingreso,Quintil 2,0.10185715022288948
+caracteristicas,2025,Quintiles de ingreso,Quintil 3,0.07826372108677236
+caracteristicas,2025,Quintiles de ingreso,Quintil 4,0.06098762337706311
+caracteristicas,2025,Quintiles de ingreso,Quintil 5,0.03728548800480134
+ci,2018,Límite inferior,Total,0.1052290299413022
+ci,2018,Límite inferior,Urbano,0.05001142413318068
+ci,2018,Límite inferior,Rural,0.2114176482768163
+ci,2018,Límite superior,Total,0.111999668764742
+ci,2018,Límite superior,Urbano,0.05368577229231366
+ci,2018,Límite superior,Rural,0.2265762548057276
+ci,2019,Límite inferior,Total,0.1106794098607386
+ci,2019,Límite inferior,Urbano,0.05205279571250667
+ci,2019,Límite inferior,Rural,0.2217651058368484
+ci,2019,Límite superior,Total,0.1185943219389084
+ci,2019,Límite superior,Urbano,0.05602846177722546
+ci,2019,Límite superior,Rural,0.239080898558517
+ci,2021,Límite inferior,Total,0.1057548841385519
+ci,2021,Límite inferior,Urbano,0.0513333629586817
+ci,2021,Límite inferior,Rural,0.2059384889646811
+ci,2021,Límite superior,Total,0.1168191950187139
+ci,2021,Límite superior,Urbano,0.05828335787258017
+ci,2021,Límite superior,Rural,0.2296497735735632
+ci,2022,Límite inferior,Total,0.09273845712890083
+ci,2022,Límite inferior,Urbano,0.04389168280723201
+ci,2022,Límite inferior,Rural,0.1856827992127395
+ci,2022,Límite superior,Total,0.1058577547637419
+ci,2022,Límite superior,Urbano,0.0494823130843027
+ci,2022,Límite superior,Rural,0.214138729506945
+ci,2023,Límite inferior,Total,0.0889416258527489
+ci,2023,Límite inferior,Urbano,0.03864010087049273
+ci,2023,Límite inferior,Rural,0.1874702218123623
+ci,2023,Límite superior,Total,0.1085880495748917
+ci,2023,Límite superior,Urbano,0.0443690897682666
+ci,2023,Límite superior,Rural,0.2306460790971076
+ci,2024,Límite inferior,Total,0.0829986045128724
+ci,2024,Límite inferior,Urbano,0.0361401275759845
+ci,2024,Límite inferior,Rural,0.177062659709253
+ci,2024,Límite superior,Total,0.106045494299376
+ci,2024,Límite superior,Urbano,0.0420426169983782
+ci,2024,Límite superior,Rural,0.22429466454822
+ci,2025,Límite inferior,Total,0.079
+ci,2025,Límite inferior,Urbano,0.033
+ci,2025,Límite inferior,Rural,0.166
+ci,2025,Límite superior,Total,0.09699999999999999
+ci,2025,Límite superior,Urbano,0.04
+ci,2025,Límite superior,Rural,0.203
+territorio_hombre,2018,,Urbano,0.02701892904274049
+territorio_hombre,2018,,Rural,0.1121083534537821
+territorio_hombre,2018,,Quito,0.01421280471067778
+territorio_hombre,2018,,Guayaquil,0.02245032208420919
+territorio_hombre,2018,,Cuenca,0.02780448567597149
+territorio_hombre,2018,,Machala,0.02454441235954398
+territorio_hombre,2018,,Ambato,0.04507738202290107
+territorio_hombre,2018,,Sierra,0.06908413491425427
+territorio_hombre,2018,,Costa,0.0352394595802834
+territorio_hombre,2018,,Amazonia,0.1448652330295562
+territorio_hombre,2018,,Insular,0.02574325296954084
+territorio_hombre,2018,,Zona 1,0.06394139817091837
+territorio_hombre,2018,,Zona 2,0.1006179964771422
+territorio_hombre,2018,,Zona 3,0.1408322793768975
+territorio_hombre,2018,,Zona 4,0.04668380476027765
+territorio_hombre,2018,,Zona 5,0.04500628752411356
+territorio_hombre,2018,,Zona 6,0.08692178323230411
+territorio_hombre,2018,,Zona 7,0.06962691974662734
+territorio_hombre,2018,,Zona 8,0.02246682792912594
+territorio_hombre,2018,,Zona 9,0.01628661784807789
+territorio_hombre,2018,,Total,0.05598692520689012
+territorio_hombre,2019,,Urbano,0.02839417569826568
+territorio_hombre,2019,,Rural,0.1181851313708337
+territorio_hombre,2019,,Quito,0.01797200321437108
+territorio_hombre,2019,,Guayaquil,0.02262088745208692
+territorio_hombre,2019,,Cuenca,0.02262598409311939
+territorio_hombre,2019,,Machala,0.01930922029061421
+territorio_hombre,2019,,Ambato,0.04824425454946893
+territorio_hombre,2019,,Sierra,0.07230821271808024
+territorio_hombre,2019,,Costa,0.03556885399616357
+territorio_hombre,2019,,Amazonia,0.174316188137548
+territorio_hombre,2019,,Insular,0.0318863596871134
+territorio_hombre,2019,,Zona 1,0.06808997962666026
+territorio_hombre,2019,,Zona 2,0.1149905516100372
+territorio_hombre,2019,,Zona 3,0.1399620030672894
+territorio_hombre,2019,,Zona 4,0.05197412814188298
+territorio_hombre,2019,,Zona 5,0.04064335661658535
+territorio_hombre,2019,,Zona 6,0.0988858341391507
+territorio_hombre,2019,,Zona 7,0.08076412984090249
+territorio_hombre,2019,,Zona 8,0.02318117463595516
+territorio_hombre,2019,,Zona 9,0.0187992432075649
+territorio_hombre,2019,,Total,0.05910879256038499
+territorio_hombre,2021,,Urbano,0.03264835423337532
+territorio_hombre,2021,,Rural,0.12100685832205
+territorio_hombre,2021,,Quito,0.02236680982746279
+territorio_hombre,2021,,Guayaquil,0.02310910373419177
+territorio_hombre,2021,,Cuenca,0.03099458623665014
+territorio_hombre,2021,,Machala,0.03324779148863622
+territorio_hombre,2021,,Ambato,0.05759973247464921
+territorio_hombre,2021,,Sierra,0.07719085823602297
+territorio_hombre,2021,,Costa,0.03768120383839059
+territorio_hombre,2021,,Amazonia,0.1764297556986524
+territorio_hombre,2021,,Insular,0.03799964922894625
+territorio_hombre,2021,,Zona 1,0.085692820856715
+territorio_hombre,2021,,Zona 2,0.1220233090350957
+territorio_hombre,2021,,Zona 3,0.143633650841674
+territorio_hombre,2021,,Zona 4,0.04642677258115241
+territorio_hombre,2021,,Zona 5,0.04809863435298791
+territorio_hombre,2021,,Zona 6,0.09542445111283408
+territorio_hombre,2021,,Zona 7,0.08079527822356403
+territorio_hombre,2021,,Zona 8,0.02347775277703575
+territorio_hombre,2021,,Zona 9,0.02586953046124663
+territorio_hombre,2021,,Total,0.06318990721938034
+territorio_hombre,2022,,Urbano,0.02465885657138051
+territorio_hombre,2022,,Rural,0.09982633986680929
+territorio_hombre,2022,,Quito,0.02012786699388268
+territorio_hombre,2022,,Guayaquil,0.01530459971443493
+territorio_hombre,2022,,Cuenca,0.03067090686380472
+territorio_hombre,2022,,Machala,0.02751358245406271
+territorio_hombre,2022,,Ambato,0.05898529180565653
+territorio_hombre,2022,,Sierra,0.06410761778397367
+territorio_hombre,2022,,Costa,0.02612697815079011
+territorio_hombre,2022,,Amazonia,0.1647116562338768
+territorio_hombre,2022,,Insular,0.01831975407254516
+territorio_hombre,2022,,Zona 1,0.06089383388582077
+territorio_hombre,2022,,Zona 2,0.1158520362109827
+territorio_hombre,2022,,Zona 3,0.1315995471357393
+territorio_hombre,2022,,Zona 4,0.03262068755620603
+territorio_hombre,2022,,Zona 5,0.02979832698116143
+territorio_hombre,2022,,Zona 6,0.08110297097895203
+territorio_hombre,2022,,Zona 7,0.06847760331749762
+territorio_hombre,2022,,Zona 8,0.01575581025394105
+territorio_hombre,2022,,Zona 9,0.02127282631937244
+territorio_hombre,2022,,Total,0.05065443414400244
+territorio_hombre,2023,,Urbano,0.02226228195489133
+territorio_hombre,2023,,Rural,0.1074113727816997
+territorio_hombre,2023,,Quito,0.01937211956464786
+territorio_hombre,2023,,Guayaquil,0.01613588810880728
+territorio_hombre,2023,,Cuenca,0.0333846366660679
+territorio_hombre,2023,,Machala,0.02271524376867259
+territorio_hombre,2023,,Ambato,0.06757868478264992
+territorio_hombre,2023,,Sierra,0.06980388401671385
+territorio_hombre,2023,,Costa,0.02148330042754349
+territorio_hombre,2023,,Amazonia,0.1708565520733904
+territorio_hombre,2023,,Insular,0.01927531239812286
+territorio_hombre,2023,,Zona 1,0.06970364685619405
+territorio_hombre,2023,,Zona 2,0.1096216181516235
+territorio_hombre,2023,,Zona 3,0.137249731362612
+territorio_hombre,2023,,Zona 4,0.02566732052165015
+territorio_hombre,2023,,Zona 5,0.02056864657308134
+territorio_hombre,2023,,Zona 6,0.1237393811301517
+territorio_hombre,2023,,Zona 7,0.06174047874416928
+territorio_hombre,2023,,Zona 8,0.01634758954992595
+territorio_hombre,2023,,Zona 9,0.02019326543449284
+territorio_hombre,2023,,Total,0.05109353714481594
+territorio_hombre,2024,,Urbano,0.0211727772371277
+territorio_hombre,2024,,Rural,0.109932594077147
+territorio_hombre,2024,,Quito,0.0183045070286889
+territorio_hombre,2024,,Guayaquil,0.0133796054440732
+territorio_hombre,2024,,Cuenca,0.0258588182289285
+territorio_hombre,2024,,Machala,0.019569614693965
+territorio_hombre,2024,,Ambato,0.0603802861445971
+territorio_hombre,2024,,Sierra,0.0719005353275846
+territorio_hombre,2024,,Costa,0.020362770399242
+territorio_hombre,2024,,Amazonia,0.159003625535514
+territorio_hombre,2024,,Insular,0.0196968011032201
+territorio_hombre,2024,,Zona 1,0.0732465353827981
+territorio_hombre,2024,,Zona 2,0.104105558524155
+territorio_hombre,2024,,Zona 3,0.135986331394065
+territorio_hombre,2024,,Zona 4,0.0198347393968408
+territorio_hombre,2024,,Zona 5,0.0220940714210647
+territorio_hombre,2024,,Zona 6,0.136339851456533
+territorio_hombre,2024,,Zona 7,0.0631136817854765
+territorio_hombre,2024,,Zona 8,0.0130587674523251
+territorio_hombre,2024,,Zona 9,0.0199723569128836
+territorio_hombre,2024,,Total,0.0513479898958345
+territorio_hombre,2025,,Urbano,0.020063669327176868
+territorio_hombre,2025,,Rural,0.09809386229008757
+territorio_hombre,2025,,Quito,0.016136404299418195
+territorio_hombre,2025,,Guayaquil,0.015590492417790675
+territorio_hombre,2025,,Cuenca,0.039212007379075986
+territorio_hombre,2025,,Machala,0.019280261909328127
+territorio_hombre,2025,,Ambato,0.048067803075821654
+territorio_hombre,2025,,Sierra,0.06253262374335639
+territorio_hombre,2025,,Costa,0.019991235625091214
+territorio_hombre,2025,,Amazonia,0.1662881768907345
+territorio_hombre,2025,,Insular,0.0133056170075836
+territorio_hombre,2025,,Zona 1,0.06366064922445527
+territorio_hombre,2025,,Zona 2,0.12024817849904129
+territorio_hombre,2025,,Zona 3,0.13332530878410373
+territorio_hombre,2025,,Zona 4,0.020293189195069613
+territorio_hombre,2025,,Zona 5,0.018061345550795395
+territorio_hombre,2025,,Zona 6,0.08210256241449303
+territorio_hombre,2025,,Zona 7,0.059594639469583856
+territorio_hombre,2025,,Zona 8,0.016236475954846234
+territorio_hombre,2025,,Zona 9,0.016771045447366472
+territorio_hombre,2025,,Total,0.04738592468217701
+caracteristicas_hombre,2018,Grupos de edad,15 a 17 años,0.5970012526635806
+caracteristicas_hombre,2018,Grupos de edad,18 a 29 años,0.08888756158337788
+caracteristicas_hombre,2018,Grupos de edad,30 a 44 años,0.01676013022448919
+caracteristicas_hombre,2018,Grupos de edad,45 a 64 años,0.01559335857656559
+caracteristicas_hombre,2018,Grupos de edad,65 años y más,0.04734471587996116
+caracteristicas_hombre,2018,Etnia,Indígena,0.179441187651081
+caracteristicas_hombre,2018,Etnia,Afroecuatoriano,0.03353371345291858
+caracteristicas_hombre,2018,Etnia,Montubio,0.04580894030712049
+caracteristicas_hombre,2018,Etnia,Mestizo,0.04510803555134473
+caracteristicas_hombre,2018,Etnia,Blanco,0.03429590425907844
+caracteristicas_hombre,2018,Estado civil/conyugal,Casado,0.01805665509557628
+caracteristicas_hombre,2018,Estado civil/conyugal,Unión libre,0.01590677432924249
+caracteristicas_hombre,2018,Estado civil/conyugal,Soltero,0.1589140219683472
+caracteristicas_hombre,2018,Estado civil/conyugal,Otros,0.01774709482840327
+caracteristicas_hombre,2018,Nivel de instrucción,Ninguno,0.04643052536797704
+caracteristicas_hombre,2018,Nivel de instrucción,Centro de Alfabetización,0.03850332226055854
+caracteristicas_hombre,2018,Nivel de instrucción,Básica,0.0507953052354672
+caracteristicas_hombre,2018,Nivel de instrucción,Bachillerato,0.07932309612962311
+caracteristicas_hombre,2018,Nivel de instrucción,Superior,0.02613879492612242
+caracteristicas_hombre,2019,Grupos de edad,15 a 17 años,0.6272634347725027
+caracteristicas_hombre,2019,Grupos de edad,18 a 29 años,0.09673649532390201
+caracteristicas_hombre,2019,Grupos de edad,30 a 44 años,0.01873521284958071
+caracteristicas_hombre,2019,Grupos de edad,45 a 64 años,0.01648781027678914
+caracteristicas_hombre,2019,Grupos de edad,65 años y más,0.04519347359458625
+caracteristicas_hombre,2019,Etnia,Indígena,0.1865494842225686
+caracteristicas_hombre,2019,Etnia,Afroecuatoriano,0.03670974021865812
+caracteristicas_hombre,2019,Etnia,Montubio,0.04493131142417016
+caracteristicas_hombre,2019,Etnia,Mestizo,0.04690036925634189
+caracteristicas_hombre,2019,Etnia,Blanco,0.03698247816992824
+caracteristicas_hombre,2019,Estado civil/conyugal,Casado,0.01786083929074928
+caracteristicas_hombre,2019,Estado civil/conyugal,Unión libre,0.01889254252729475
+caracteristicas_hombre,2019,Estado civil/conyugal,Soltero,0.1644533433196354
+caracteristicas_hombre,2019,Estado civil/conyugal,Otros,0.0187370176206325
+caracteristicas_hombre,2019,Nivel de instrucción,Ninguno,0.04914703443554637
+caracteristicas_hombre,2019,Nivel de instrucción,Centro de Alfabetización,0.02317921484725129
+caracteristicas_hombre,2019,Nivel de instrucción,Básica,0.05388485629549621
+caracteristicas_hombre,2019,Nivel de instrucción,Bachillerato,0.08070323366063575
+caracteristicas_hombre,2019,Nivel de instrucción,Superior,0.03167124017262311
+caracteristicas_hombre,2021,Grupos de edad,15 a 17 años,0.6580304263122981
+caracteristicas_hombre,2021,Grupos de edad,18 a 29 años,0.103246061378929
+caracteristicas_hombre,2021,Grupos de edad,30 a 44 años,0.02022590955828268
+caracteristicas_hombre,2021,Grupos de edad,45 a 64 años,0.01906182546475002
+caracteristicas_hombre,2021,Grupos de edad,65 años y más,0.04919591308785135
+caracteristicas_hombre,2021,Etnia,Indígena,0.1878321523582553
+caracteristicas_hombre,2021,Etnia,Afroecuatoriano,0.04380852846588425
+caracteristicas_hombre,2021,Etnia,Montubio,0.040374282843183
+caracteristicas_hombre,2021,Etnia,Mestizo,0.05247363528501574
+caracteristicas_hombre,2021,Etnia,Blanco,0.02932292531815497
+caracteristicas_hombre,2021,Estado civil/conyugal,Casado,0.02199590281561293
+caracteristicas_hombre,2021,Estado civil/conyugal,Unión libre,0.01948123914959447
+caracteristicas_hombre,2021,Estado civil/conyugal,Soltero,0.1684521682346387
+caracteristicas_hombre,2021,Estado civil/conyugal,Otros,0.02304623907340484
+caracteristicas_hombre,2021,Nivel de instrucción,Ninguno,0.05800241971529976
+caracteristicas_hombre,2021,Nivel de instrucción,Centro de Alfabetización,0.04411855974116053
+caracteristicas_hombre,2021,Nivel de instrucción,Básica,0.05448842973135817
+caracteristicas_hombre,2021,Nivel de instrucción,Bachillerato,0.08334458010298308
+caracteristicas_hombre,2021,Nivel de instrucción,Superior,0.04320539903207501
+caracteristicas_hombre,2022,Grupos de edad,15 a 17 años,0.6302820325185915
+caracteristicas_hombre,2022,Grupos de edad,18 a 29 años,0.08413676615989259
+caracteristicas_hombre,2022,Grupos de edad,30 a 44 años,0.01625682352791693
+caracteristicas_hombre,2022,Grupos de edad,45 a 64 años,0.01567680427295323
+caracteristicas_hombre,2022,Grupos de edad,65 años y más,0.04296452163691288
+caracteristicas_hombre,2022,Etnia,Indígena,0.1697824164649587
+caracteristicas_hombre,2022,Etnia,Afroecuatoriano,0.03051778140686271
+caracteristicas_hombre,2022,Etnia,Montubio,0.02644564901967967
+caracteristicas_hombre,2022,Etnia,Mestizo,0.04057437624711568
+caracteristicas_hombre,2022,Etnia,Blanco,0.0215584222094323
+caracteristicas_hombre,2022,Estado civil/conyugal,Casado,0.01660370114061776
+caracteristicas_hombre,2022,Estado civil/conyugal,Unión libre,0.01809801889918638
+caracteristicas_hombre,2022,Estado civil/conyugal,Soltero,0.1351649897315611
+caracteristicas_hombre,2022,Estado civil/conyugal,Otros,0.01161404235384437
+caracteristicas_hombre,2022,Nivel de instrucción,Ninguno,0.05651308055015191
+caracteristicas_hombre,2022,Nivel de instrucción,Centro de Alfabetización,0.07788317016487589
+caracteristicas_hombre,2022,Nivel de instrucción,Básica,0.04447541782524889
+caracteristicas_hombre,2022,Nivel de instrucción,Bachillerato,0.06522698944690387
+caracteristicas_hombre,2022,Nivel de instrucción,Superior,0.03291552971553532
+caracteristicas_hombre,2023,Grupos de edad,15 a 17 años,0.6383368894837739
+caracteristicas_hombre,2023,Grupos de edad,18 a 29 años,0.07416822672051675
+caracteristicas_hombre,2023,Grupos de edad,30 a 44 años,0.02004646734781778
+caracteristicas_hombre,2023,Grupos de edad,45 a 64 años,0.01940217201484589
+caracteristicas_hombre,2023,Grupos de edad,65 años y más,0.05437158045354946
+caracteristicas_hombre,2023,Etnia,Indígena,0.187507815305148
+caracteristicas_hombre,2023,Etnia,Afroecuatoriano,0.02079035345316662
+caracteristicas_hombre,2023,Etnia,Montubio,0.03096026363310078
+caracteristicas_hombre,2023,Etnia,Mestizo,0.03585999948953706
+caracteristicas_hombre,2023,Etnia,Blanco,0.0392069686221768
+caracteristicas_hombre,2023,Estado civil/conyugal,Casado,0.02479278803626814
+caracteristicas_hombre,2023,Estado civil/conyugal,Unión libre,0.01995566538741156
+caracteristicas_hombre,2023,Estado civil/conyugal,Soltero,0.119518539816623
+caracteristicas_hombre,2023,Estado civil/conyugal,Otros,0.01876111751542645
+caracteristicas_hombre,2023,Nivel de instrucción,Ninguno,0.09109289720467702
+caracteristicas_hombre,2023,Nivel de instrucción,Centro de Alfabetización,0.04185776575924573
+caracteristicas_hombre,2023,Nivel de instrucción,Básica,0.04792546348930356
+caracteristicas_hombre,2023,Nivel de instrucción,Bachillerato,0.06242524541353577
+caracteristicas_hombre,2023,Nivel de instrucción,Superior,0.02862372095334466
+caracteristicas_hombre,2024,Grupos de edad,15 a 17 años,0.631889213799314
+caracteristicas_hombre,2024,Grupos de edad,18 a 29 años,0.0749589774627815
+caracteristicas_hombre,2024,Grupos de edad,30 a 44 años,0.022237674458752
+caracteristicas_hombre,2024,Grupos de edad,45 a 64 años,0.0205314501670499
+caracteristicas_hombre,2024,Grupos de edad,65 años y más,0.0426011521311219
+caracteristicas_hombre,2024,Etnia,Indígena,0.179504278457882
+caracteristicas_hombre,2024,Etnia,Afroecuatoriano,0.029816292563023
+caracteristicas_hombre,2024,Etnia,Montubio,0.0203674696204807
+caracteristicas_hombre,2024,Etnia,Mestizo,0.0357879953642894
+caracteristicas_hombre,2024,Etnia,Blanco,0.0290981216096169
+caracteristicas_hombre,2024,Estado civil/conyugal,Casado,0.024779269489135
+caracteristicas_hombre,2024,Estado civil/conyugal,Unión libre,0.020815020938126
+caracteristicas_hombre,2024,Estado civil/conyugal,Soltero,0.121168713866115
+caracteristicas_hombre,2024,Estado civil/conyugal,Otros,0.0151001676333957
+caracteristicas_hombre,2024,Nivel de instrucción,Ninguno,0.0683137798489892
+caracteristicas_hombre,2024,Nivel de instrucción,Centro de Alfabetización,0.0500050302184254
+caracteristicas_hombre,2024,Nivel de instrucción,Básica,0.0526626523355327
+caracteristicas_hombre,2024,Nivel de instrucción,Bachillerato,0.0599789543509494
+caracteristicas_hombre,2024,Nivel de instrucción,Superior,0.0282743079270566
+caracteristicas_hombre,2025,Grupos de edad,15 a 17 años,0.6259678867919015
+caracteristicas_hombre,2025,Grupos de edad,18 a 29 años,0.06986807046595774
+caracteristicas_hombre,2025,Grupos de edad,30 a 44 años,0.01693082342233068
+caracteristicas_hombre,2025,Grupos de edad,45 a 64 años,0.015521148892861466
+caracteristicas_hombre,2025,Grupos de edad,65 años y más,0.04768957973696948
+caracteristicas_hombre,2025,Etnia,Indígena,0.16637599259726368
+caracteristicas_hombre,2025,Etnia,Afroecuatoriano,0.018235492144366077
+caracteristicas_hombre,2025,Etnia,Montubio,0.019278831281953374
+caracteristicas_hombre,2025,Etnia,Mestizo,0.03367999862854429
+caracteristicas_hombre,2025,Etnia,Blanco,0.019481508596022344
+caracteristicas_hombre,2025,Estado civil/conyugal,Casado,0.021203092858480852
+caracteristicas_hombre,2025,Estado civil/conyugal,Unión libre,0.013582617339776058
+caracteristicas_hombre,2025,Estado civil/conyugal,Soltero,0.12171407682952798
+caracteristicas_hombre,2025,Estado civil/conyugal,Otros,0.012123514141661936
+caracteristicas_hombre,2025,Nivel de instrucción,Ninguno,0.05496511005731584
+caracteristicas_hombre,2025,Nivel de instrucción,Centro de Alfabetización,0.0268516687460917
+caracteristicas_hombre,2025,Nivel de instrucción,Básica,0.04762732653636035
+caracteristicas_hombre,2025,Nivel de instrucción,Bachillerato,0.05460252055475575
+caracteristicas_hombre,2025,Nivel de instrucción,Superior,0.029802447330949534
+territorio_mujer,2018,,Urbano,0.0849230955021373
+territorio_mujer,2018,,Rural,0.3626131773906491
+territorio_mujer,2018,,Quito,0.05513390039311614
+territorio_mujer,2018,,Guayaquil,0.06839902078842845
+territorio_mujer,2018,,Cuenca,0.08730875982777742
+territorio_mujer,2018,,Machala,0.08883484386583296
+territorio_mujer,2018,,Ambato,0.1198446666045803
+territorio_mujer,2018,,Sierra,0.195532124398877
+territorio_mujer,2018,,Costa,0.1256725492976956
+territorio_mujer,2018,,Amazonia,0.4333431303697509
+territorio_mujer,2018,,Insular,0.09485642060171699
+territorio_mujer,2018,,Zona 1,0.1939621030281611
+territorio_mujer,2018,,Zona 2,0.2686077783996589
+territorio_mujer,2018,,Zona 3,0.3371030357729785
+territorio_mujer,2018,,Zona 4,0.185552006021663
+territorio_mujer,2018,,Zona 5,0.1907322485675546
+territorio_mujer,2018,,Zona 6,0.2327355181783982
+territorio_mujer,2018,,Zona 7,0.2134780092013981
+territorio_mujer,2018,,Zona 8,0.0687028980130701
+territorio_mujer,2018,,Zona 9,0.05953445702010762
+territorio_mujer,2018,,Total,0.178922778209232
+territorio_mujer,2019,,Urbano,0.08749065565218384
+territorio_mujer,2019,,Rural,0.3746185988044947
+territorio_mujer,2019,,Quito,0.06030079482820254
+territorio_mujer,2019,,Guayaquil,0.07301605460553315
+territorio_mujer,2019,,Cuenca,0.0816200017755862
+territorio_mujer,2019,,Machala,0.08431483037839119
+territorio_mujer,2019,,Ambato,0.1183005557471938
+territorio_mujer,2019,,Sierra,0.2037128485055119
+territorio_mujer,2019,,Costa,0.1296917893000319
+territorio_mujer,2019,,Amazonia,0.4538802598135923
+territorio_mujer,2019,,Insular,0.07732565185844643
+territorio_mujer,2019,,Zona 1,0.1781764581257208
+territorio_mujer,2019,,Zona 2,0.2768727722816646
+territorio_mujer,2019,,Zona 3,0.3611221300091497
+territorio_mujer,2019,,Zona 4,0.1895419553227934
+territorio_mujer,2019,,Zona 5,0.1868297375080811
+territorio_mujer,2019,,Zona 6,0.254910751786861
+territorio_mujer,2019,,Zona 7,0.2291214042843862
+territorio_mujer,2019,,Zona 8,0.07479031364400784
+territorio_mujer,2019,,Zona 9,0.06141171379242222
+territorio_mujer,2019,,Total,0.186685841906715
+territorio_mujer,2021,,Urbano,0.08430763090843922
+territorio_mujer,2021,,Rural,0.3454898395154387
+territorio_mujer,2021,,Quito,0.05581707858657459
+territorio_mujer,2021,,Guayaquil,0.06842185189074877
+territorio_mujer,2021,,Cuenca,0.09154395357143646
+territorio_mujer,2021,,Machala,0.08355729068446724
+territorio_mujer,2021,,Ambato,0.1382681746691938
+territorio_mujer,2021,,Sierra,0.1800230793424008
+territorio_mujer,2021,,Costa,0.1353319265663883
+territorio_mujer,2021,,Amazonia,0.410517381685267
+territorio_mujer,2021,,Insular,0.06130176069403225
+territorio_mujer,2021,,Zona 1,0.1882575341542427
+territorio_mujer,2021,,Zona 2,0.2515110690748468
+territorio_mujer,2021,,Zona 3,0.2973716058489615
+territorio_mujer,2021,,Zona 4,0.2065444438170623
+territorio_mujer,2021,,Zona 5,0.2105628017609438
+territorio_mujer,2021,,Zona 6,0.2126633054392276
+territorio_mujer,2021,,Zona 7,0.205232633618705
+territorio_mujer,2021,,Zona 8,0.06884273079198241
+territorio_mujer,2021,,Zona 9,0.05861372862059141
+territorio_mujer,2021,,Total,0.1751154975765999
+territorio_mujer,2022,,Urbano,0.07508570435048546
+territorio_mujer,2022,,Rural,0.3322401343913254
+territorio_mujer,2022,,Quito,0.04840385914706864
+territorio_mujer,2022,,Guayaquil,0.05412657212859963
+territorio_mujer,2022,,Cuenca,0.0781323990759447
+territorio_mujer,2022,,Machala,0.0664805934832619
+territorio_mujer,2022,,Ambato,0.1301820439881314
+territorio_mujer,2022,,Sierra,0.1783585380431858
+territorio_mujer,2022,,Costa,0.09952894050818427
+territorio_mujer,2022,,Amazonia,0.4543181449738384
+territorio_mujer,2022,,Insular,0.05433766386960236
+territorio_mujer,2022,,Zona 1,0.1742260062180657
+territorio_mujer,2022,,Zona 2,0.3019838036155902
+territorio_mujer,2022,,Zona 3,0.3086609677709602
+territorio_mujer,2022,,Zona 4,0.1335451710281533
+territorio_mujer,2022,,Zona 5,0.1482933449039911
+territorio_mujer,2022,,Zona 6,0.2303915668654622
+territorio_mujer,2022,,Zona 7,0.2035816951361838
+territorio_mujer,2022,,Zona 8,0.05420692329608736
+territorio_mujer,2022,,Zona 9,0.05591333625880125
+territorio_mujer,2022,,Total,0.1625552062850951
+territorio_mujer,2023,,Urbano,0.06711882951359742
+territorio_mujer,2023,,Rural,0.3400546093716239
+territorio_mujer,2023,,Quito,0.05491723370874968
+territorio_mujer,2023,,Guayaquil,0.05262115636042224
+territorio_mujer,2023,,Cuenca,0.07191053327059609
+territorio_mujer,2023,,Machala,0.061302967224262
+territorio_mujer,2023,,Ambato,0.1147050018612731
+territorio_mujer,2023,,Sierra,0.1817310448266958
+territorio_mujer,2023,,Costa,0.08262611955565884
+territorio_mujer,2023,,Amazonia,0.4863544223503423
+territorio_mujer,2023,,Insular,0.06533543735654072
+territorio_mujer,2023,,Zona 1,0.2044336335407674
+territorio_mujer,2023,,Zona 2,0.3338355479749731
+territorio_mujer,2023,,Zona 3,0.341649077913102
+territorio_mujer,2023,,Zona 4,0.1095253706441485
+territorio_mujer,2023,,Zona 5,0.1124528915211999
+territorio_mujer,2023,,Zona 6,0.198353100477264
+territorio_mujer,2023,,Zona 7,0.1795356080053812
+territorio_mujer,2023,,Zona 8,0.05237526044570236
+territorio_mujer,2023,,Zona 9,0.05479490796959782
+territorio_mujer,2023,,Total,0.1615229553772315
+territorio_mujer,2024,,Urbano,0.0632640494362937
+territorio_mujer,2024,,Rural,0.31926387549844
+territorio_mujer,2024,,Quito,0.0578527348260718
+territorio_mujer,2024,,Guayaquil,0.0482794438075057
+territorio_mujer,2024,,Cuenca,0.0776700484297733
+territorio_mujer,2024,,Machala,0.0680950967661273
+territorio_mujer,2024,,Ambato,0.113743800331608
+territorio_mujer,2024,,Sierra,0.168696140504572
+territorio_mujer,2024,,Costa,0.0780501922057394
+territorio_mujer,2024,,Amazonia,0.451043328371573
+territorio_mujer,2024,,Insular,0.094769786799686
+territorio_mujer,2024,,Zona 1,0.166449958311066
+territorio_mujer,2024,,Zona 2,0.312625674930259
+territorio_mujer,2024,,Zona 3,0.315435420848532
+territorio_mujer,2024,,Zona 4,0.108340427027048
+territorio_mujer,2024,,Zona 5,0.110492229195404
+territorio_mujer,2024,,Zona 6,0.18841903305461
+territorio_mujer,2024,,Zona 7,0.167668828369548
+territorio_mujer,2024,,Zona 8,0.0474888215624647
+territorio_mujer,2024,,Zona 9,0.0565310080188078
+territorio_mujer,2024,,Total,0.15213187113989
+territorio_mujer,2025,,Urbano,0.05824982678909245
+territorio_mujer,2025,,Rural,0.3016197423127078
+territorio_mujer,2025,,Quito,0.04284142598841548
+territorio_mujer,2025,,Guayaquil,0.03886058005894754
+territorio_mujer,2025,,Cuenca,0.11744431012029312
+territorio_mujer,2025,,Machala,0.06415486523171897
+territorio_mujer,2025,,Ambato,0.11242981016867454
+territorio_mujer,2025,,Sierra,0.1580651211779771
+territorio_mujer,2025,,Costa,0.07256108896665298
+territorio_mujer,2025,,Amazonia,0.43702329272058155
+territorio_mujer,2025,,Insular,0.06037271435760114
+territorio_mujer,2025,,Zona 1,0.15047979760328975
+territorio_mujer,2025,,Zona 2,0.305136733290166
+territorio_mujer,2025,,Zona 3,0.26808951194676
+territorio_mujer,2025,,Zona 4,0.10471224047801354
+territorio_mujer,2025,,Zona 5,0.10232263998852184
+territorio_mujer,2025,,Zona 6,0.21128106913885203
+territorio_mujer,2025,,Zona 7,0.18041836777984616
+territorio_mujer,2025,,Zona 8,0.037441602411947744
+territorio_mujer,2025,,Zona 9,0.04777956973358027
+territorio_mujer,2025,,Total,0.1433570615254019
+caracteristicas_mujer,2018,Grupos de edad,15 a 17 años,0.8092106596009526
+caracteristicas_mujer,2018,Grupos de edad,18 a 29 años,0.1743240626860186
+caracteristicas_mujer,2018,Grupos de edad,30 a 44 años,0.1317417019863006
+caracteristicas_mujer,2018,Grupos de edad,45 a 64 años,0.1644490065822483
+caracteristicas_mujer,2018,Grupos de edad,65 años y más,0.281875139496465
+caracteristicas_mujer,2018,Etnia,Indígena,0.4927547542112026
+caracteristicas_mujer,2018,Etnia,Afroecuatoriano,0.08680581884014876
+caracteristicas_mujer,2018,Etnia,Montubio,0.2672200265753759
+caracteristicas_mujer,2018,Etnia,Mestizo,0.1373645534074512
+caracteristicas_mujer,2018,Etnia,Blanco,0.1377016387458923
+caracteristicas_mujer,2018,Estado civil/conyugal,Casado,0.2481194328825723
+caracteristicas_mujer,2018,Estado civil/conyugal,Unión libre,0.19975530253428
+caracteristicas_mujer,2018,Estado civil/conyugal,Soltero,0.1945501029321119
+caracteristicas_mujer,2018,Estado civil/conyugal,Otros,0.03086684576546195
+caracteristicas_mujer,2018,Nivel de instrucción,Ninguno,0.3488163692126144
+caracteristicas_mujer,2018,Nivel de instrucción,Centro de Alfabetización,0.3069463098512635
+caracteristicas_mujer,2018,Nivel de instrucción,Básica,0.2368507180541433
+caracteristicas_mujer,2018,Nivel de instrucción,Bachillerato,0.1705854796278954
+caracteristicas_mujer,2018,Nivel de instrucción,Superior,0.0521328734685758
+caracteristicas_mujer,2019,Grupos de edad,15 a 17 años,0.8191490074030006
+caracteristicas_mujer,2019,Grupos de edad,18 a 29 años,0.1877970269950262
+caracteristicas_mujer,2019,Grupos de edad,30 a 44 años,0.1370470419575419
+caracteristicas_mujer,2019,Grupos de edad,45 a 64 años,0.1701984022092496
+caracteristicas_mujer,2019,Grupos de edad,65 años y más,0.2789708942265335
+caracteristicas_mujer,2019,Etnia,Indígena,0.4990550063059664
+caracteristicas_mujer,2019,Etnia,Afroecuatoriano,0.0954861924848362
+caracteristicas_mujer,2019,Etnia,Montubio,0.2573839763658444
+caracteristicas_mujer,2019,Etnia,Mestizo,0.142175928194352
+caracteristicas_mujer,2019,Etnia,Blanco,0.1288123556790394
+caracteristicas_mujer,2019,Estado civil/conyugal,Casado,0.2609503810300307
+caracteristicas_mujer,2019,Estado civil/conyugal,Unión libre,0.2026082606268905
+caracteristicas_mujer,2019,Estado civil/conyugal,Soltero,0.2044427706317295
+caracteristicas_mujer,2019,Estado civil/conyugal,Otros,0.03274528255758248
+caracteristicas_mujer,2019,Nivel de instrucción,Ninguno,0.3583059091561475
+caracteristicas_mujer,2019,Nivel de instrucción,Centro de Alfabetización,0.4491911697780712
+caracteristicas_mujer,2019,Nivel de instrucción,Básica,0.2502426811370598
+caracteristicas_mujer,2019,Nivel de instrucción,Bachillerato,0.1725153710560526
+caracteristicas_mujer,2019,Nivel de instrucción,Superior,0.05544660383513585
+caracteristicas_mujer,2021,Grupos de edad,15 a 17 años,0.7941119220387084
+caracteristicas_mujer,2021,Grupos de edad,18 a 29 años,0.1688352765143517
+caracteristicas_mujer,2021,Grupos de edad,30 a 44 años,0.1282016431487499
+caracteristicas_mujer,2021,Grupos de edad,45 a 64 años,0.1619393678026927
+caracteristicas_mujer,2021,Grupos de edad,65 años y más,0.2962374675286384
+caracteristicas_mujer,2021,Etnia,Indígena,0.4337691269639331
+caracteristicas_mujer,2021,Etnia,Afroecuatoriano,0.08132992997468484
+caracteristicas_mujer,2021,Etnia,Montubio,0.3149771672720011
+caracteristicas_mujer,2021,Etnia,Mestizo,0.1403961362893798
+caracteristicas_mujer,2021,Etnia,Blanco,0.1026556640461728
+caracteristicas_mujer,2021,Estado civil/conyugal,Casado,0.2477967211193171
+caracteristicas_mujer,2021,Estado civil/conyugal,Unión libre,0.2004245934724822
+caracteristicas_mujer,2021,Estado civil/conyugal,Soltero,0.188559346172547
+caracteristicas_mujer,2021,Estado civil/conyugal,Otros,0.03732422882887556
+caracteristicas_mujer,2021,Nivel de instrucción,Ninguno,0.3552362032177165
+caracteristicas_mujer,2021,Nivel de instrucción,Centro de Alfabetización,0.4440854532928764
+caracteristicas_mujer,2021,Nivel de instrucción,Básica,0.2385959881252
+caracteristicas_mujer,2021,Nivel de instrucción,Bachillerato,0.165019520132383
+caracteristicas_mujer,2021,Nivel de instrucción,Superior,0.06348925839778219
+caracteristicas_mujer,2022,Grupos de edad,15 a 17 años,0.8405462999631101
+caracteristicas_mujer,2022,Grupos de edad,18 a 29 años,0.1545352056653344
+caracteristicas_mujer,2022,Grupos de edad,30 a 44 años,0.1160974881855601
+caracteristicas_mujer,2022,Grupos de edad,45 a 64 años,0.1489980643484786
+caracteristicas_mujer,2022,Grupos de edad,65 años y más,0.2714426932052816
+caracteristicas_mujer,2022,Etnia,Indígena,0.45889380207697
+caracteristicas_mujer,2022,Etnia,Afroecuatoriano,0.06164874925282667
+caracteristicas_mujer,2022,Etnia,Montubio,0.2428704727614457
+caracteristicas_mujer,2022,Etnia,Mestizo,0.1264018255086554
+caracteristicas_mujer,2022,Etnia,Blanco,0.08863885455314138
+caracteristicas_mujer,2022,Estado civil/conyugal,Casado,0.245610428508435
+caracteristicas_mujer,2022,Estado civil/conyugal,Unión libre,0.1887218996359043
+caracteristicas_mujer,2022,Estado civil/conyugal,Soltero,0.1722027186519243
+caracteristicas_mujer,2022,Estado civil/conyugal,Otros,0.02317324413274767
+caracteristicas_mujer,2022,Nivel de instrucción,Ninguno,0.365112835833367
+caracteristicas_mujer,2022,Nivel de instrucción,Centro de Alfabetización,0.4205641257400137
+caracteristicas_mujer,2022,Nivel de instrucción,Básica,0.2205163658543171
+caracteristicas_mujer,2022,Nivel de instrucción,Bachillerato,0.1496073102659392
+caracteristicas_mujer,2022,Nivel de instrucción,Superior,0.05848673985801405
+caracteristicas_mujer,2023,Grupos de edad,15 a 17 años,0.8212072047675819
+caracteristicas_mujer,2023,Grupos de edad,18 a 29 años,0.1613100903483602
+caracteristicas_mujer,2023,Grupos de edad,30 a 44 años,0.1163216192471255
+caracteristicas_mujer,2023,Grupos de edad,45 a 64 años,0.1536229039283177
+caracteristicas_mujer,2023,Grupos de edad,65 años y más,0.2303496547589093
+caracteristicas_mujer,2023,Etnia,Indígena,0.4858305002924426
+caracteristicas_mujer,2023,Etnia,Afroecuatoriano,0.0451446685458443
+caracteristicas_mujer,2023,Etnia,Montubio,0.2041032895922641
+caracteristicas_mujer,2023,Etnia,Mestizo,0.1077561595113074
+caracteristicas_mujer,2023,Etnia,Blanco,0.09301457448183902
+caracteristicas_mujer,2023,Estado civil/conyugal,Casado,0.2576432859350407
+caracteristicas_mujer,2023,Estado civil/conyugal,Unión libre,0.180107726345183
+caracteristicas_mujer,2023,Estado civil/conyugal,Soltero,0.163584700931701
+caracteristicas_mujer,2023,Estado civil/conyugal,Otros,0.02582802503405723
+caracteristicas_mujer,2023,Nivel de instrucción,Ninguno,0.3320235419800894
+caracteristicas_mujer,2023,Nivel de instrucción,Centro de Alfabetización,0.4373170674994556
+caracteristicas_mujer,2023,Nivel de instrucción,Básica,0.2272929233470202
+caracteristicas_mujer,2023,Nivel de instrucción,Bachillerato,0.1459600250347458
+caracteristicas_mujer,2023,Nivel de instrucción,Superior,0.05121234476588707
+caracteristicas_mujer,2024,Grupos de edad,15 a 17 años,0.851545571073593
+caracteristicas_mujer,2024,Grupos de edad,18 a 29 años,0.132859990850052
+caracteristicas_mujer,2024,Grupos de edad,30 a 44 años,0.109718047424299
+caracteristicas_mujer,2024,Grupos de edad,45 a 64 años,0.153418499329896
+caracteristicas_mujer,2024,Grupos de edad,65 años y más,0.227431482705002
+caracteristicas_mujer,2024,Etnia,Indígena,0.441152207059609
+caracteristicas_mujer,2024,Etnia,Afroecuatoriano,0.0507014826371785
+caracteristicas_mujer,2024,Etnia,Montubio,0.153954560978247
+caracteristicas_mujer,2024,Etnia,Mestizo,0.102024507624584
+caracteristicas_mujer,2024,Etnia,Blanco,0.0893073485829629
+caracteristicas_mujer,2024,Estado civil/conyugal,Casado,0.251980632131662
+caracteristicas_mujer,2024,Estado civil/conyugal,Unión libre,0.172112952281403
+caracteristicas_mujer,2024,Estado civil/conyugal,Soltero,0.145231915464175
+caracteristicas_mujer,2024,Estado civil/conyugal,Otros,0.0223708356354886
+caracteristicas_mujer,2024,Nivel de instrucción,Ninguno,0.341060393693319
+caracteristicas_mujer,2024,Nivel de instrucción,Centro de Alfabetización,0.439133867399315
+caracteristicas_mujer,2024,Nivel de instrucción,Básica,0.222633031617013
+caracteristicas_mujer,2024,Nivel de instrucción,Bachillerato,0.130587223513825
+caracteristicas_mujer,2024,Nivel de instrucción,Superior,0.0405581509050258
+caracteristicas_mujer,2025,Grupos de edad,15 a 17 años,0.8329445184458871
+caracteristicas_mujer,2025,Grupos de edad,18 a 29 años,0.12522067549871013
+caracteristicas_mujer,2025,Grupos de edad,30 a 44 años,0.10572313749866491
+caracteristicas_mujer,2025,Grupos de edad,45 a 64 años,0.136853346530896
+caracteristicas_mujer,2025,Grupos de edad,65 años y más,0.2576311744157569
+caracteristicas_mujer,2025,Etnia,Indígena,0.39432732283720096
+caracteristicas_mujer,2025,Etnia,Afroecuatoriano,0.042069650596053366
+caracteristicas_mujer,2025,Etnia,Montubio,0.189994917040968
+caracteristicas_mujer,2025,Etnia,Mestizo,0.10181049239154386
+caracteristicas_mujer,2025,Etnia,Blanco,0.15360344160240985
+caracteristicas_mujer,2025,Estado civil/conyugal,Casado,0.23943347159005712
+caracteristicas_mujer,2025,Estado civil/conyugal,Unión libre,0.17793670957410587
+caracteristicas_mujer,2025,Estado civil/conyugal,Soltero,0.12953289249647282
+caracteristicas_mujer,2025,Estado civil/conyugal,Otros,0.019643004911733236
+caracteristicas_mujer,2025,Nivel de instrucción,Ninguno,0.3481555353419215
+caracteristicas_mujer,2025,Nivel de instrucción,Centro de Alfabetización,0.6454875107604106
+caracteristicas_mujer,2025,Nivel de instrucción,Básica,0.21206439178465583
+caracteristicas_mujer,2025,Nivel de instrucción,Bachillerato,0.11850837027412917
+caracteristicas_mujer,2025,Nivel de instrucción,Superior,0.044461842880520144
+estimadores,2018,Total,valor,0.1086143493530221
+estimadores,2018,Total,error,0.001727069705960185
+estimadores,2018,Total,li,0.1052290299413022
+estimadores,2018,Total,ls,0.111999668764742
+estimadores,2018,Total,cv,1.590093497081867
+estimadores,2018,Urbano,valor,0.05184859821274717
+estimadores,2018,Urbano,error,0.0009372609528099384
+estimadores,2018,Urbano,li,0.05001142413318068
+estimadores,2018,Urbano,ls,0.05368577229231366
+estimadores,2018,Urbano,cv,1.80768812488263
+estimadores,2018,Rural,valor,0.2189969515412719
+estimadores,2018,Rural,error,0.003866691283253611
+estimadores,2018,Rural,li,0.2114176482768163
+estimadores,2018,Rural,ls,0.2265762548057276
+estimadores,2018,Rural,cv,1.765637035602707
+estimadores,2018,Quito,valor,0.03281259917823439
+estimadores,2018,Quito,error,0.001551183198156334
+estimadores,2018,Quito,li,0.0297716010120322
+estimadores,2018,Quito,ls,0.03585359734443658
+estimadores,2018,Quito,cv,4.7274011721244
+estimadores,2018,Guayaquil,valor,0.04190235146765585
+estimadores,2018,Guayaquil,error,0.001628218873424216
+estimadores,2018,Guayaquil,li,0.03871032965221596
+estimadores,2018,Guayaquil,ls,0.04509437328309573
+estimadores,2018,Guayaquil,cv,3.885745826653733
+estimadores,2018,Cuenca,valor,0.05634696294502319
+estimadores,2018,Cuenca,error,0.002337755773065174
+estimadores,2018,Cuenca,li,0.05176393817569269
+estimadores,2018,Cuenca,ls,0.06092998771435368
+estimadores,2018,Cuenca,cv,4.148858520282777
+estimadores,2018,Machala,valor,0.05063955895644841
+estimadores,2018,Machala,error,0.002713174946792761
+estimadores,2018,Machala,li,0.04532054825056338
+estimadores,2018,Machala,ls,0.05595856966233343
+estimadores,2018,Machala,cv,5.357817095378292
+estimadores,2018,Ambato,valor,0.08132275350191533
+estimadores,2018,Ambato,error,0.002760628574752003
+estimadores,2018,Ambato,li,0.07591071291034356
+estimadores,2018,Ambato,ls,0.0867347940934871
+estimadores,2018,Ambato,cv,3.394657037389891
+estimadores,2018,Azuay,valor,0.1161680392836749
+estimadores,2018,Azuay,error,0.006899988395646954
+estimadores,2018,Azuay,li,0.1026430121375129
+estimadores,2018,Azuay,ls,0.129693066429837
+estimadores,2018,Azuay,cv,5.939661578343094
+estimadores,2018,Bolívar,valor,0.2707566955576783
+estimadores,2018,Bolívar,error,0.01422748500857672
+estimadores,2018,Bolívar,li,0.2428686601105445
+estimadores,2018,Bolívar,ls,0.298644731004812
+estimadores,2018,Bolívar,cv,5.254712161142437
+estimadores,2018,Cañar,valor,0.173044416751647
+estimadores,2018,Cañar,error,0.01248064850380782
+estimadores,2018,Cañar,li,0.1485804466495813
+estimadores,2018,Cañar,ls,0.1975083868537128
+estimadores,2018,Cañar,cv,7.212395949023898
+estimadores,2018,Carchi,valor,0.1027319763183531
+estimadores,2018,Carchi,error,0.009843014594200457
+estimadores,2018,Carchi,li,0.08343817001708204
+estimadores,2018,Carchi,ls,0.1220257826196242
+estimadores,2018,Carchi,cv,9.581256924035246
+estimadores,2018,Cotopaxi,valor,0.2384395119451084
+estimadores,2018,Cotopaxi,error,0.01239385550637532
+estimadores,2018,Cotopaxi,li,0.2141456693242876
+estimadores,2018,Cotopaxi,ls,0.2627333545659291
+estimadores,2018,Cotopaxi,cv,5.197903403370719
+estimadores,2018,Chimborazo,valor,0.3033736203975803
+estimadores,2018,Chimborazo,error,0.01437140637260652
+estimadores,2018,Chimborazo,li,0.2752034771781141
+estimadores,2018,Chimborazo,ls,0.3315437636170465
+estimadores,2018,Chimborazo,cv,4.737197108229896
+estimadores,2018,El Oro,valor,0.06190159241853864
+estimadores,2018,El Oro,error,0.003652252030899186
+estimadores,2018,El Oro,li,0.05474262271741561
+estimadores,2018,El Oro,ls,0.06906056211966166
+estimadores,2018,El Oro,cv,5.900093823443206
+estimadores,2018,Esmeraldas,valor,0.0950116281489064
+estimadores,2018,Esmeraldas,error,0.007048394643418172
+estimadores,2018,Esmeraldas,li,0.0811957021758663
+estimadores,2018,Esmeraldas,ls,0.1088275541219465
+estimadores,2018,Esmeraldas,cv,7.41845475205584
+estimadores,2018,Guayas,valor,0.05349438794324051
+estimadores,2018,Guayas,error,0.002008065592545554
+estimadores,2018,Guayas,li,0.04955827383794916
+estimadores,2018,Guayas,ls,0.05743050204853186
+estimadores,2018,Guayas,cv,3.75378739668203
+estimadores,2018,Imbabura,valor,0.1237799432011576
+estimadores,2018,Imbabura,error,0.006652510939319158
+estimadores,2018,Imbabura,li,0.1107400095251538
+estimadores,2018,Imbabura,ls,0.1368198768771613
+estimadores,2018,Imbabura,cv,5.374465981542755
+estimadores,2018,Loja,valor,0.1949191516316641
+estimadores,2018,Loja,error,0.01000852441674926
+estimadores,2018,Loja,li,0.1753009208944996
+estimadores,2018,Loja,ls,0.2145373823688286
+estimadores,2018,Loja,cv,5.13470550890875
+estimadores,2018,Los Ríos,valor,0.08081101629470332
+estimadores,2018,Los Ríos,error,0.004788288434899026
+estimadores,2018,Los Ríos,li,0.07142524238434139
+estimadores,2018,Los Ríos,ls,0.09019679020506524
+estimadores,2018,Los Ríos,cv,5.925291692208145
+estimadores,2018,Manabí,valor,0.1035443718621808
+estimadores,2018,Manabí,error,0.004910988947802664
+estimadores,2018,Manabí,li,0.09391808627662289
+estimadores,2018,Manabí,ls,0.1131706574477386
+estimadores,2018,Manabí,cv,4.742883518902669
+estimadores,2018,Morona Santiago,valor,0.3512354712187393
+estimadores,2018,Morona Santiago,error,0.01693030960339272
+estimadores,2018,Morona Santiago,li,0.3180494883084963
+estimadores,2018,Morona Santiago,ls,0.3844214541289823
+estimadores,2018,Morona Santiago,cv,4.82021634792376
+estimadores,2018,Napo,valor,0.2717613365646279
+estimadores,2018,Napo,error,0.01670220822285256
+estimadores,2018,Napo,li,0.2390224670677682
+estimadores,2018,Napo,ls,0.3045002060614876
+estimadores,2018,Napo,cv,6.145910391076025
+estimadores,2018,Pastaza,valor,0.2832921724110793
+estimadores,2018,Pastaza,error,0.01921674359369417
+estimadores,2018,Pastaza,li,0.2456244309798735
+estimadores,2018,Pastaza,ls,0.3209599138422851
+estimadores,2018,Pastaza,cv,6.783365537473856
+estimadores,2018,Pichincha,valor,0.04214343071619063
+estimadores,2018,Pichincha,error,0.001926489303631392
+estimadores,2018,Pichincha,li,0.03836721854968272
+estimadores,2018,Pichincha,ls,0.04591964288269854
+estimadores,2018,Pichincha,cv,4.571268335046284
+estimadores,2018,Tungurahua,valor,0.1765903578572317
+estimadores,2018,Tungurahua,error,0.006473604518443602
+estimadores,2018,Tungurahua,li,0.1639011079882459
+estimadores,2018,Tungurahua,ls,0.1892796077262176
+estimadores,2018,Tungurahua,cv,3.665887875756686
+estimadores,2018,Zamora Chinchipe,valor,0.2087650302837659
+estimadores,2018,Zamora Chinchipe,error,0.02947325507276172
+estimadores,2018,Zamora Chinchipe,li,0.1509929657399551
+estimadores,2018,Zamora Chinchipe,ls,0.2665370948275766
+estimadores,2018,Zamora Chinchipe,cv,14.11790807718128
+estimadores,2018,Galápagos,valor,0.05678318354464933
+estimadores,2018,Galápagos,error,0.00746101006151651
+estimadores,2018,Galápagos,li,0.04215846856926457
+estimadores,2018,Galápagos,ls,0.0714078985200341
+estimadores,2018,Galápagos,cv,13.13947122328889
+estimadores,2018,Sucumbíos,valor,0.1692289117954763
+estimadores,2018,Sucumbíos,error,0.01761386296985264
+estimadores,2018,Sucumbíos,li,0.1347030602786348
+estimadores,2018,Sucumbíos,ls,0.2037547633123177
+estimadores,2018,Sucumbíos,cv,10.40830599391911
+estimadores,2018,Orellana,valor,0.3347828139231839
+estimadores,2018,Orellana,error,0.03710989882681665
+estimadores,2018,Orellana,li,0.2620417656424842
+estimadores,2018,Orellana,ls,0.4075238622038836
+estimadores,2018,Orellana,cv,11.08476817908924
+estimadores,2018,Santo Domingo,valor,0.0864634272829891
+estimadores,2018,Santo Domingo,error,0.005779025447307105
+estimadores,2018,Santo Domingo,li,0.07513565807942055
+estimadores,2018,Santo Domingo,ls,0.09779119648655765
+estimadores,2018,Santo Domingo,cv,6.683780216568024
+estimadores,2018,Santa Elena,valor,0.06164791399887867
+estimadores,2018,Santa Elena,error,0.005845585646945371
+estimadores,2018,Santa Elena,li,0.05018967667633047
+estimadores,2018,Santa Elena,ls,0.07310615132142688
+estimadores,2018,Santa Elena,cv,9.482211591217341
+estimadores,2019,Total,valor,0.1146368658998235
+estimadores,2019,Total,error,0.002018951673408594
+estimadores,2019,Total,li,0.1106794098607386
+estimadores,2019,Total,ls,0.1185943219389084
+estimadores,2019,Total,cv,1.761171380219757
+estimadores,2019,Urbano,valor,0.05404062874486606
+estimadores,2019,Urbano,error,0.001014120886625665
+estimadores,2019,Urbano,li,0.05205279571250667
+estimadores,2019,Urbano,ls,0.05602846177722546
+estimadores,2019,Urbano,cv,1.876589725507233
+estimadores,2019,Rural,valor,0.2304230021976827
+estimadores,2019,Rural,error,0.004416947193669005
+estimadores,2019,Rural,li,0.2217651058368484
+estimadores,2019,Rural,ls,0.239080898558517
+estimadores,2019,Rural,cv,1.916886400898315
+estimadores,2019,Quito,valor,0.03763406902997784
+estimadores,2019,Quito,error,0.001910961865147894
+estimadores,2019,Quito,li,0.03388773321207035
+estimadores,2019,Quito,ls,0.04138040484788533
+estimadores,2019,Quito,cv,5.07774448632088
+estimadores,2019,Guayaquil,valor,0.04374650926563368
+estimadores,2019,Guayaquil,error,0.001899253436362214
+estimadores,2019,Guayaquil,li,0.04002312717952545
+estimadores,2019,Guayaquil,ls,0.04746989135174191
+estimadores,2019,Guayaquil,cv,4.34149711198609
+estimadores,2019,Cuenca,valor,0.05083698840042779
+estimadores,2019,Cuenca,error,0.002372207383860283
+estimadores,2019,Cuenca,li,0.04618640606713115
+estimadores,2019,Cuenca,ls,0.05548757073372443
+estimadores,2019,Cuenca,cv,4.666301955527171
+estimadores,2019,Machala,valor,0.04564682868053736
+estimadores,2019,Machala,error,0.002621505849024613
+estimadores,2019,Machala,li,0.04050751039367306
+estimadores,2019,Machala,ls,0.05078614696740166
+estimadores,2019,Machala,cv,5.743018572815677
+estimadores,2019,Ambato,valor,0.08265109906565542
+estimadores,2019,Ambato,error,0.002925989510667667
+estimadores,2019,Ambato,li,0.07691485727739371
+estimadores,2019,Ambato,ls,0.08838734085391713
+estimadores,2019,Ambato,cv,3.540170117209637
+estimadores,2019,Azuay,valor,0.127637814722269
+estimadores,2019,Azuay,error,0.007674371916887265
+estimadores,2019,Azuay,li,0.1125948645176245
+estimadores,2019,Azuay,ls,0.1426807649269135
+estimadores,2019,Azuay,cv,6.012616193395477
+estimadores,2019,Bolívar,valor,0.2694601183818361
+estimadores,2019,Bolívar,error,0.01747639754337559
+estimadores,2019,Bolívar,li,0.2352036892109911
+estimadores,2019,Bolívar,ls,0.3037165475526811
+estimadores,2019,Bolívar,cv,6.485708404020967
+estimadores,2019,Cañar,valor,0.1869989970456772
+estimadores,2019,Cañar,error,0.01201047967676084
+estimadores,2019,Cañar,li,0.1634566082133296
+estimadores,2019,Cañar,ls,0.2105413858780247
+estimadores,2019,Cañar,cv,6.42275085241613
+estimadores,2019,Carchi,valor,0.1245747695067436
+estimadores,2019,Carchi,error,0.01484939929520155
+estimadores,2019,Carchi,li,0.09546766125270384
+estimadores,2019,Carchi,ls,0.1536818777607833
+estimadores,2019,Carchi,cv,11.92006965294663
+estimadores,2019,Cotopaxi,valor,0.2413279086263178
+estimadores,2019,Cotopaxi,error,0.01230197898913751
+estimadores,2019,Cotopaxi,li,0.2172141362738256
+estimadores,2019,Cotopaxi,ls,0.2654416809788099
+estimadores,2019,Cotopaxi,cv,5.097619690636948
+estimadores,2019,Chimborazo,valor,0.3239960905857749
+estimadores,2019,Chimborazo,error,0.01532804900324074
+estimadores,2019,Chimborazo,li,0.2939507552297026
+estimadores,2019,Chimborazo,ls,0.3540414259418472
+estimadores,2019,Chimborazo,cv,4.730936405907891
+estimadores,2019,El Oro,valor,0.06798658102167077
+estimadores,2019,El Oro,error,0.003799379159947056
+estimadores,2019,El Oro,li,0.06053921306366473
+estimadores,2019,El Oro,ls,0.0754339489796768
+estimadores,2019,El Oro,cv,5.588425102206569
+estimadores,2019,Esmeraldas,valor,0.08466338003698774
+estimadores,2019,Esmeraldas,error,0.009551415312605003
+estimadores,2019,Esmeraldas,li,0.06594113586020652
+estimadores,2019,Esmeraldas,ls,0.103385624213769
+estimadores,2019,Esmeraldas,cv,11.28163712390431
+estimadores,2019,Guayas,valor,0.05432206627469707
+estimadores,2019,Guayas,error,0.001957417908528348
+estimadores,2019,Guayas,li,0.05048522588612044
+estimadores,2019,Guayas,ls,0.0581589066632737
+estimadores,2019,Guayas,cv,3.603356872748603
+estimadores,2019,Imbabura,valor,0.1112644794591393
+estimadores,2019,Imbabura,error,0.007219608743422299
+estimadores,2019,Imbabura,li,0.0971129350721209
+estimadores,2019,Imbabura,ls,0.1254160238461577
+estimadores,2019,Imbabura,cv,6.488691430110562
+estimadores,2019,Loja,valor,0.2197400119051368
+estimadores,2019,Loja,error,0.0140010482096559
+estimadores,2019,Loja,li,0.1922958023578743
+estimadores,2019,Loja,ls,0.2471842214523993
+estimadores,2019,Loja,cv,6.37164260084788
+estimadores,2019,Los Ríos,valor,0.07584099443437653
+estimadores,2019,Los Ríos,error,0.004348723706656371
+estimadores,2019,Los Ríos,li,0.0673168266091192
+estimadores,2019,Los Ríos,ls,0.08436516225963386
+estimadores,2019,Los Ríos,cv,5.734001431665327
+estimadores,2019,Manabí,valor,0.11474843732138
+estimadores,2019,Manabí,error,0.005306576143479831
+estimadores,2019,Manabí,li,0.1043467312862756
+estimadores,2019,Manabí,ls,0.1251501433564843
+estimadores,2019,Manabí,cv,4.624530204814483
+estimadores,2019,Morona Santiago,valor,0.3915618969756416
+estimadores,2019,Morona Santiago,error,0.01543379119828407
+estimadores,2019,Morona Santiago,li,0.3613092906413325
+estimadores,2019,Morona Santiago,ls,0.4218145033099507
+estimadores,2019,Morona Santiago,cv,3.941596799252451
+estimadores,2019,Napo,valor,0.3179721407889752
+estimadores,2019,Napo,error,0.02590328121180829
+estimadores,2019,Napo,li,0.2671977225530419
+estimadores,2019,Napo,ls,0.3687465590249085
+estimadores,2019,Napo,cv,8.146399602032812
+estimadores,2019,Pastaza,valor,0.3132395680739329
+estimadores,2019,Pastaza,error,0.02512004771104909
+estimadores,2019,Pastaza,li,0.264000408055627
+estimadores,2019,Pastaza,ls,0.3624787280922389
+estimadores,2019,Pastaza,cv,8.019436326486087
+estimadores,2019,Pichincha,valor,0.04535524710425703
+estimadores,2019,Pichincha,error,0.002128690186130524
+estimadores,2019,Pichincha,li,0.04118268668916772
+estimadores,2019,Pichincha,ls,0.04952780751934635
+estimadores,2019,Pichincha,cv,4.6933713782605
+estimadores,2019,Tungurahua,valor,0.1896645700483845
+estimadores,2019,Tungurahua,error,0.007410765673091651
+estimadores,2019,Tungurahua,li,0.1751383286561348
+estimadores,2019,Tungurahua,ls,0.2041908114406342
+estimadores,2019,Tungurahua,cv,3.907301016315869
+estimadores,2019,Zamora Chinchipe,valor,0.2235934131960259
+estimadores,2019,Zamora Chinchipe,error,0.02147493652643531
+estimadores,2019,Zamora Chinchipe,li,0.1814992321589808
+estimadores,2019,Zamora Chinchipe,ls,0.2656875942330711
+estimadores,2019,Zamora Chinchipe,cv,9.604458476425727
+estimadores,2019,Galápagos,valor,0.05251856972283175
+estimadores,2019,Galápagos,error,0.006891358310283688
+estimadores,2019,Galápagos,li,0.03901044670942329
+estimadores,2019,Galápagos,ls,0.06602669273624022
+estimadores,2019,Galápagos,cv,13.12175549839424
+estimadores,2019,Sucumbíos,valor,0.1846850003224868
+estimadores,2019,Sucumbíos,error,0.02188138028812503
+estimadores,2019,Sucumbíos,li,0.1417941269522706
+estimadores,2019,Sucumbíos,ls,0.2275758736927029
+estimadores,2019,Sucumbíos,cv,11.84794663882664
+estimadores,2019,Orellana,valor,0.3712764826511549
+estimadores,2019,Orellana,error,0.05002103368480552
+estimadores,2019,Orellana,li,0.2732275573378539
+estimadores,2019,Orellana,ls,0.4693254079644559
+estimadores,2019,Orellana,cv,13.47271804764549
+estimadores,2019,Santo Domingo,valor,0.0753076322173935
+estimadores,2019,Santo Domingo,error,0.00601093270107546
+estimadores,2019,Santo Domingo,li,0.06352527891408595
+estimadores,2019,Santo Domingo,ls,0.08708998552070106
+estimadores,2019,Santo Domingo,cv,7.98183733054236
+estimadores,2019,Santa Elena,valor,0.065499961303856
+estimadores,2019,Santa Elena,error,0.006164951825915989
+estimadores,2019,Santa Elena,li,0.05341570680907235
+estimadores,2019,Santa Elena,ls,0.07758421579863967
+estimadores,2019,Santa Elena,cv,9.412145752753379
+estimadores,2021,Total,valor,0.1112870395786329
+estimadores,2021,Total,error,0.002821864388367103
+estimadores,2021,Total,li,0.1057548841385519
+estimadores,2021,Total,ls,0.1168191950187139
+estimadores,2021,Total,cv,2.535663091633629
+estimadores,2021,Urbano,valor,0.05480836041563093
+estimadores,2021,Urbano,error,0.001772540862172115
+estimadores,2021,Urbano,li,0.0513333629586817
+estimadores,2021,Urbano,ls,0.05828335787258017
+estimadores,2021,Urbano,cv,3.234070219817412
+estimadores,2021,Rural,valor,0.2177941312691221
+estimadores,2021,Rural,error,0.006047374334013835
+estimadores,2021,Rural,li,0.2059384889646811
+estimadores,2021,Rural,ls,0.2296497735735632
+estimadores,2021,Rural,cv,2.77664705599494
+estimadores,2021,Quito,valor,0.03791232695457036
+estimadores,2021,Quito,error,0.002270713190666852
+estimadores,2021,Quito,li,0.03345921837000765
+estimadores,2021,Quito,ls,0.04236543553913306
+estimadores,2021,Quito,cv,5.989379637361234
+estimadores,2021,Guayaquil,valor,0.04151361429744941
+estimadores,2021,Guayaquil,error,0.002604103219588612
+estimadores,2021,Guayaquil,li,0.03640669262636339
+estimadores,2021,Guayaquil,ls,0.04662053596853543
+estimadores,2021,Guayaquil,cv,6.272889662003261
+estimadores,2021,Cuenca,valor,0.05980624522866765
+estimadores,2021,Cuenca,error,0.00341191496675922
+estimadores,2021,Cuenca,li,0.05311511933451125
+estimadores,2021,Cuenca,ls,0.06649737112282404
+estimadores,2021,Cuenca,cv,5.704947624974366
+estimadores,2021,Machala,valor,0.05425801746756071
+estimadores,2021,Machala,error,0.003009092247858786
+estimadores,2021,Machala,li,0.04835686950411146
+estimadores,2021,Machala,ls,0.06015916543100996
+estimadores,2021,Machala,cv,5.545894207538701
+estimadores,2021,Ambato,valor,0.09699737723710303
+estimadores,2021,Ambato,error,0.004577094476370746
+estimadores,2021,Ambato,li,0.08802121116344079
+estimadores,2021,Ambato,ls,0.1059735433107653
+estimadores,2021,Ambato,cv,4.718781689511431
+estimadores,2021,Azuay,valor,0.1085284886705632
+estimadores,2021,Azuay,error,0.007097415131734208
+estimadores,2021,Azuay,li,0.09461428220004715
+estimadores,2021,Azuay,ls,0.1224426951410793
+estimadores,2021,Azuay,cv,6.539679321692497
+estimadores,2021,Bolívar,valor,0.2623630126526653
+estimadores,2021,Bolívar,error,0.02060827351118009
+estimadores,2021,Bolívar,li,0.2219612935319518
+estimadores,2021,Bolívar,ls,0.3027647317733788
+estimadores,2021,Bolívar,cv,7.854869976837314
+estimadores,2021,Cañar,valor,0.1846232845428579
+estimadores,2021,Cañar,error,0.02077037049181645
+estimadores,2021,Cañar,li,0.143903780592744
+estimadores,2021,Cañar,ls,0.2253427884929717
+estimadores,2021,Cañar,cv,11.25013594208637
+estimadores,2021,Carchi,valor,0.09782467556685888
+estimadores,2021,Carchi,error,0.01271070370384716
+estimadores,2021,Carchi,li,0.07290583505404974
+estimadores,2021,Carchi,ls,0.122743516079668
+estimadores,2021,Carchi,cv,12.99335124823384
+estimadores,2021,Cotopaxi,valor,0.1995833368579662
+estimadores,2021,Cotopaxi,error,0.0147026648020313
+estimadores,2021,Cotopaxi,li,0.1707593340449497
+estimadores,2021,Cotopaxi,ls,0.2284073396709828
+estimadores,2021,Cotopaxi,cv,7.366679520191846
+estimadores,2021,Chimborazo,valor,0.267258172495032
+estimadores,2021,Chimborazo,error,0.02826106782591766
+estimadores,2021,Chimborazo,li,0.2118534476045782
+estimadores,2021,Chimborazo,ls,0.3226628973854858
+estimadores,2021,Chimborazo,cv,10.57444476330953
+estimadores,2021,El Oro,valor,0.06789093645009928
+estimadores,2021,El Oro,error,0.004804230654196491
+estimadores,2021,El Oro,li,0.05847242900566593
+estimadores,2021,El Oro,ls,0.07730944389453262
+estimadores,2021,El Oro,cv,7.076394737503235
+estimadores,2021,Esmeraldas,valor,0.1056034046855707
+estimadores,2021,Esmeraldas,error,0.008164277830480408
+estimadores,2021,Esmeraldas,li,0.08959765536593016
+estimadores,2021,Esmeraldas,ls,0.1216091540052113
+estimadores,2021,Esmeraldas,cv,7.731074442901882
+estimadores,2021,Guayas,valor,0.06004851951255412
+estimadores,2021,Guayas,error,0.004800090402290562
+estimadores,2021,Guayas,li,0.05063812887103983
+estimadores,2021,Guayas,ls,0.06945891015406841
+estimadores,2021,Guayas,cv,7.99368650760328
+estimadores,2021,Imbabura,valor,0.1193780024278844
+estimadores,2021,Imbabura,error,0.0103406541306485
+estimadores,2021,Imbabura,li,0.09910555197325221
+estimadores,2021,Imbabura,ls,0.1396504528825165
+estimadores,2021,Imbabura,cv,8.662110204847188
+estimadores,2021,Loja,valor,0.1961797522109076
+estimadores,2021,Loja,error,0.01389351869743957
+estimadores,2021,Loja,li,0.1689420488822996
+estimadores,2021,Loja,ls,0.2234174555395156
+estimadores,2021,Loja,cv,7.082034991308901
+estimadores,2021,Los Ríos,valor,0.08797908386209578
+estimadores,2021,Los Ríos,error,0.009515986727119943
+estimadores,2021,Los Ríos,li,0.06932336179508396
+estimadores,2021,Los Ríos,ls,0.1066348059291076
+estimadores,2021,Los Ríos,cv,10.8161921099746
+estimadores,2021,Manabí,valor,0.1067215275051865
+estimadores,2021,Manabí,error,0.01188809924856222
+estimadores,2021,Manabí,li,0.08341537105015831
+estimadores,2021,Manabí,ls,0.1300276839602146
+estimadores,2021,Manabí,cv,11.1393638438922
+estimadores,2021,Morona Santiago,valor,0.318254071029942
+estimadores,2021,Morona Santiago,error,0.02594715348908262
+estimadores,2021,Morona Santiago,li,0.2673856852488991
+estimadores,2021,Morona Santiago,ls,0.369122456810985
+estimadores,2021,Morona Santiago,cv,8.152968288861718
+estimadores,2021,Napo,valor,0.304169012322798
+estimadores,2021,Napo,error,0.02306529139751251
+estimadores,2021,Napo,li,0.2589504051466965
+estimadores,2021,Napo,ls,0.3493876194988994
+estimadores,2021,Napo,cv,7.583051021987266
+estimadores,2021,Pastaza,valor,0.3282278291406212
+estimadores,2021,Pastaza,error,0.03875347111485974
+estimadores,2021,Pastaza,li,0.2522531554695908
+estimadores,2021,Pastaza,ls,0.4042025028116516
+estimadores,2021,Pastaza,cv,11.80688158475946
+estimadores,2021,Pichincha,valor,0.0481722965560939
+estimadores,2021,Pichincha,error,0.002516648399294869
+estimadores,2021,Pichincha,li,0.0432385051980384
+estimadores,2021,Pichincha,ls,0.05310608791414941
+estimadores,2021,Pichincha,cv,5.224264939007785
+estimadores,2021,Tungurahua,valor,0.1812101992344548
+estimadores,2021,Tungurahua,error,0.01139258035415111
+estimadores,2021,Tungurahua,li,0.158875488309793
+estimadores,2021,Tungurahua,ls,0.2035449101591165
+estimadores,2021,Tungurahua,cv,6.286942127032859
+estimadores,2021,Zamora Chinchipe,valor,0.2150851736401279
+estimadores,2021,Zamora Chinchipe,error,0.01715972971419917
+estimadores,2021,Zamora Chinchipe,li,0.181444190579401
+estimadores,2021,Zamora Chinchipe,ls,0.2487261567008549
+estimadores,2021,Zamora Chinchipe,cv,7.978109055024945
+estimadores,2021,Galápagos,valor,0.048367429930998
+estimadores,2021,Galápagos,error,0.008264480061352695
+estimadores,2021,Galápagos,li,0.03216523803285735
+estimadores,2021,Galápagos,ls,0.06456962182913865
+estimadores,2021,Galápagos,cv,17.08687038600764
+estimadores,2021,Sucumbíos,valor,0.2244321213424158
+estimadores,2021,Sucumbíos,error,0.03049138920472448
+estimadores,2021,Sucumbíos,li,0.1646549380872867
+estimadores,2021,Sucumbíos,ls,0.2842093045975448
+estimadores,2021,Sucumbíos,cv,13.58601835706209
+estimadores,2021,Orellana,valor,0.3015137810442104
+estimadores,2021,Orellana,error,0.02513734526656787
+estimadores,2021,Orellana,li,0.2522329928040258
+estimadores,2021,Orellana,ls,0.350794569284395
+estimadores,2021,Orellana,cv,8.337046877098473
+estimadores,2021,Santo Domingo,valor,0.1078747470306932
+estimadores,2021,Santo Domingo,error,0.00968493759682296
+estimadores,2021,Santo Domingo,li,0.08888780335119462
+estimadores,2021,Santo Domingo,ls,0.1268616907101918
+estimadores,2021,Santo Domingo,cv,8.977946983335535
+estimadores,2021,Santa Elena,valor,0.04816450413316603
+estimadores,2021,Santa Elena,error,0.003898719581216791
+estimadores,2021,Santa Elena,li,0.04052121594770528
+estimadores,2021,Santa Elena,ls,0.05580779231862678
+estimadores,2021,Santa Elena,cv,8.094590926208948
+estimadores,2022,Total,valor,0.09929810594632137
+estimadores,2022,Total,error,0.003346122434339945
+estimadores,2022,Total,li,0.09273845712890083
+estimadores,2022,Total,ls,0.1058577547637419
+estimadores,2022,Total,cv,3.369774682458489
+estimadores,2022,Urbano,valor,0.04668699794576735
+estimadores,2022,Urbano,error,0.001425909672368903
+estimadores,2022,Urbano,li,0.04389168280723201
+estimadores,2022,Urbano,ls,0.0494823130843027
+estimadores,2022,Urbano,cv,3.054190106687244
+estimadores,2022,Rural,valor,0.1999107643598422
+estimadores,2022,Rural,error,0.007257783869052977
+estimadores,2022,Rural,li,0.1856827992127395
+estimadores,2022,Rural,ls,0.214138729506945
+estimadores,2022,Rural,cv,3.63051178974478
+estimadores,2022,Quito,valor,0.03334539625873027
+estimadores,2022,Quito,error,0.002988834995958477
+estimadores,2022,Quito,li,0.0274845418587044
+estimadores,2022,Quito,ls,0.03920625065875614
+estimadores,2022,Quito,cv,8.963261293306598
+estimadores,2022,Guayaquil,valor,0.03125792280143301
+estimadores,2022,Guayaquil,error,0.002201728610534103
+estimadores,2022,Guayaquil,li,0.02694051791552913
+estimadores,2022,Guayaquil,ls,0.03557532768733689
+estimadores,2022,Guayaquil,cv,7.043745755342276
+estimadores,2022,Cuenca,valor,0.0537463351479744
+estimadores,2022,Cuenca,error,0.003074465320654568
+estimadores,2022,Cuenca,li,0.04771756687316141
+estimadores,2022,Cuenca,ls,0.05977510342278738
+estimadores,2022,Cuenca,cv,5.720325510920792
+estimadores,2022,Machala,valor,0.04416743303099002
+estimadores,2022,Machala,error,0.002569348564816535
+estimadores,2022,Machala,li,0.03912915629049835
+estimadores,2022,Machala,ls,0.0492057097714817
+estimadores,2022,Machala,cv,5.817292037356473
+estimadores,2022,Ambato,valor,0.09384721335853695
+estimadores,2022,Ambato,error,0.004155759196633237
+estimadores,2022,Ambato,li,0.08569811860892025
+estimadores,2022,Ambato,ls,0.1019963081081536
+estimadores,2022,Ambato,cv,4.428218002335817
+estimadores,2022,Azuay,valor,0.1142512873727669
+estimadores,2022,Azuay,error,0.01261224296208191
+estimadores,2022,Azuay,li,0.08952658400202458
+estimadores,2022,Azuay,ls,0.1389759907435091
+estimadores,2022,Azuay,cv,11.03903794180633
+estimadores,2022,Bolívar,valor,0.194142269707883
+estimadores,2022,Bolívar,error,0.01369939136273234
+estimadores,2022,Bolívar,li,0.1672863497242931
+estimadores,2022,Bolívar,ls,0.2209981896914728
+estimadores,2022,Bolívar,cv,7.056367159684076
+estimadores,2022,Cañar,valor,0.1738845544590313
+estimadores,2022,Cañar,error,0.03421095086522573
+estimadores,2022,Cañar,li,0.1068183224877025
+estimadores,2022,Cañar,ls,0.2409507864303601
+estimadores,2022,Cañar,cv,19.6745196671773
+estimadores,2022,Carchi,valor,0.09080311850332914
+estimadores,2022,Carchi,error,0.0184582703872321
+estimadores,2022,Carchi,li,0.05461801951393135
+estimadores,2022,Carchi,ls,0.1269882174927269
+estimadores,2022,Carchi,cv,20.32779346290332
+estimadores,2022,Cotopaxi,valor,0.2137474206278356
+estimadores,2022,Cotopaxi,error,0.01486426267831784
+estimadores,2022,Cotopaxi,li,0.1846079181102329
+estimadores,2022,Cotopaxi,ls,0.2428869231454384
+estimadores,2022,Cotopaxi,cv,6.954124936178113
+estimadores,2022,Chimborazo,valor,0.2599427504599269
+estimadores,2022,Chimborazo,error,0.02962655048696017
+estimadores,2022,Chimborazo,li,0.2018636542285382
+estimadores,2022,Chimborazo,ls,0.3180218466913156
+estimadores,2022,Chimborazo,cv,11.39733669607664
+estimadores,2022,El Oro,valor,0.05751828426434046
+estimadores,2022,El Oro,error,0.005010289518458205
+estimadores,2022,El Oro,li,0.04769624685847608
+estimadores,2022,El Oro,ls,0.06734032167020483
+estimadores,2022,El Oro,cv,8.710777072960136
+estimadores,2022,Esmeraldas,valor,0.09615883574651257
+estimadores,2022,Esmeraldas,error,0.009710247665122473
+estimadores,2022,Esmeraldas,li,0.07712312624595874
+estimadores,2022,Esmeraldas,ls,0.1151945452470664
+estimadores,2022,Esmeraldas,cv,10.09813356176646
+estimadores,2022,Guayas,valor,0.04136531616751996
+estimadores,2022,Guayas,error,0.002627328607412679
+estimadores,2022,Guayas,li,0.03621477152046212
+estimadores,2022,Guayas,ls,0.0465158608145778
+estimadores,2022,Guayas,cv,6.351525506955164
+estimadores,2022,Imbabura,valor,0.09118924570563437
+estimadores,2022,Imbabura,error,0.007613475216062466
+estimadores,2022,Imbabura,li,0.07626399276659891
+estimadores,2022,Imbabura,ls,0.1061144986446698
+estimadores,2022,Imbabura,cv,8.349093313743735
+estimadores,2022,Loja,valor,0.2014815754063931
+estimadores,2022,Loja,error,0.01720448946667864
+estimadores,2022,Loja,li,0.1677543549597555
+estimadores,2022,Loja,ls,0.2352087958530306
+estimadores,2022,Loja,cv,8.538988953196727
+estimadores,2022,Los Ríos,valor,0.0636273380519676
+estimadores,2022,Los Ríos,error,0.006896286207192483
+estimadores,2022,Los Ríos,li,0.05010804324094936
+estimadores,2022,Los Ríos,ls,0.07714663286298584
+estimadores,2022,Los Ríos,cv,10.83855842210457
+estimadores,2022,Manabí,valor,0.07110397244700183
+estimadores,2022,Manabí,error,0.009281174451760719
+estimadores,2022,Manabí,li,0.05290940658414948
+estimadores,2022,Manabí,ls,0.08929853830985417
+estimadores,2022,Manabí,cv,13.05296192653448
+estimadores,2022,Morona Santiago,valor,0.3314764967738951
+estimadores,2022,Morona Santiago,error,0.03718911826259752
+estimadores,2022,Morona Santiago,li,0.258571945186475
+estimadores,2022,Morona Santiago,ls,0.4043810483613153
+estimadores,2022,Morona Santiago,cv,11.21923232100668
+estimadores,2022,Napo,valor,0.3369432197829731
+estimadores,2022,Napo,error,0.0266271966751088
+estimadores,2022,Napo,li,0.2847439764472893
+estimadores,2022,Napo,ls,0.389142463118657
+estimadores,2022,Napo,cv,7.902576787940566
+estimadores,2022,Pastaza,valor,0.3728084060096639
+estimadores,2022,Pastaza,error,0.02573522713892022
+estimadores,2022,Pastaza,li,0.3223577558674591
+estimadores,2022,Pastaza,ls,0.4232590561518686
+estimadores,2022,Pastaza,cv,6.903070511305241
+estimadores,2022,Pichincha,valor,0.04376075552518455
+estimadores,2022,Pichincha,error,0.002957539207230915
+estimadores,2022,Pichincha,li,0.03796287486066127
+estimadores,2022,Pichincha,ls,0.04955863618970784
+estimadores,2022,Pichincha,cv,6.758428120668153
+estimadores,2022,Tungurahua,valor,0.1753755070472209
+estimadores,2022,Tungurahua,error,0.01324725425554538
+estimadores,2022,Tungurahua,li,0.1494059445411798
+estimadores,2022,Tungurahua,ls,0.2013450695532619
+estimadores,2022,Tungurahua,cv,7.553651292924545
+estimadores,2022,Zamora Chinchipe,valor,0.1958732807344147
+estimadores,2022,Zamora Chinchipe,error,0.02544533503493186
+estimadores,2022,Zamora Chinchipe,li,0.1459909273101039
+estimadores,2022,Zamora Chinchipe,ls,0.2457556341587254
+estimadores,2022,Zamora Chinchipe,cv,12.99071263805159
+estimadores,2022,Galápagos,valor,0.03337020583763251
+estimadores,2022,Galápagos,error,0.006421567416361046
+estimadores,2022,Galápagos,li,0.02078153703208468
+estimadores,2022,Galápagos,ls,0.04595887464318033
+estimadores,2022,Galápagos,cv,19.2434156612821
+estimadores,2022,Sucumbíos,valor,0.1890725941978953
+estimadores,2022,Sucumbíos,error,0.02706254491468267
+estimadores,2022,Sucumbíos,li,0.1360199058311571
+estimadores,2022,Sucumbíos,ls,0.2421252825646335
+estimadores,2022,Sucumbíos,cv,14.31330914429476
+estimadores,2022,Orellana,valor,0.364997399370586
+estimadores,2022,Orellana,error,0.05069272211923982
+estimadores,2022,Orellana,li,0.265620744383694
+estimadores,2022,Orellana,ls,0.4643740543574779
+estimadores,2022,Orellana,cv,13.88851597481409
+estimadores,2022,Santo Domingo,valor,0.06700663830769502
+estimadores,2022,Santo Domingo,error,0.006496434729611365
+estimadores,2022,Santo Domingo,li,0.05427120162605698
+estimadores,2022,Santo Domingo,ls,0.07974207498933306
+estimadores,2022,Santo Domingo,cv,9.695210644324053
+estimadores,2022,Santa Elena,valor,0.0452109184735195
+estimadores,2022,Santa Elena,error,0.004723905948394171
+estimadores,2022,Santa Elena,li,0.03595029974959579
+estimadores,2022,Santa Elena,ls,0.05447153719744321
+estimadores,2022,Santa Elena,cv,10.44859540104457
+estimadores,2023,Total,valor,0.09876483771382029
+estimadores,2023,Total,error,0.005010875830198843
+estimadores,2023,Total,li,0.0889416258527489
+estimadores,2023,Total,ls,0.1085880495748917
+estimadores,2023,Total,cv,5.073542311402659
+estimadores,2023,Urbano,valor,0.04150459531937967
+estimadores,2023,Urbano,error,0.00146119479073322
+estimadores,2023,Urbano,li,0.03864010087049273
+estimadores,2023,Urbano,ls,0.0443690897682666
+estimadores,2023,Urbano,cv,3.520561469131943
+estimadores,2023,Rural,valor,0.209058150454735
+estimadores,2023,Rural,error,0.01101212428155085
+estimadores,2023,Rural,li,0.1874702218123623
+estimadores,2023,Rural,ls,0.2306460790971076
+estimadores,2023,Rural,cv,5.267493402002128
+estimadores,2023,Quito,valor,0.03577007369184521
+estimadores,2023,Quito,error,0.002383845965965258
+estimadores,2023,Quito,li,0.03109552431135372
+estimadores,2023,Quito,ls,0.04044462307233671
+estimadores,2023,Quito,cv,6.664358554309387
+estimadores,2023,Guayaquil,valor,0.0305480369432172
+estimadores,2023,Guayaquil,error,0.002003608097197983
+estimadores,2023,Guayaquil,li,0.02661910649921003
+estimadores,2023,Guayaquil,ls,0.03447696738722436
+estimadores,2023,Guayaquil,cv,6.558876764887699
+estimadores,2023,Cuenca,valor,0.05227732896137506
+estimadores,2023,Cuenca,error,0.003803888489493501
+estimadores,2023,Cuenca,li,0.04481817898445088
+estimadores,2023,Cuenca,ls,0.05973647893829925
+estimadores,2023,Cuenca,cv,7.276363511808325
+estimadores,2023,Machala,valor,0.03912143924462434
+estimadores,2023,Machala,error,0.002579667753682756
+estimadores,2023,Machala,li,0.03406289751331377
+estimadores,2023,Machala,ls,0.0441799809759349
+estimadores,2023,Machala,cv,6.594000127531677
+estimadores,2023,Ambato,valor,0.09074819182271658
+estimadores,2023,Ambato,error,0.005194862806643994
+estimadores,2023,Ambato,li,0.08056144189791466
+estimadores,2023,Ambato,ls,0.1009349417475185
+estimadores,2023,Ambato,cv,5.724480788325293
+estimadores,2023,Azuay,valor,0.1037475596496805
+estimadores,2023,Azuay,error,0.007397986560499913
+estimadores,2023,Azuay,li,0.0892447078944684
+estimadores,2023,Azuay,ls,0.1182504114048927
+estimadores,2023,Azuay,cv,7.130757181643927
+estimadores,2023,Bolívar,valor,0.1827820804006544
+estimadores,2023,Bolívar,error,0.02009783371847699
+estimadores,2023,Bolívar,li,0.1433827248278484
+estimadores,2023,Bolívar,ls,0.2221814359734604
+estimadores,2023,Bolívar,cv,10.99551645020287
+estimadores,2023,Cañar,valor,0.238129148807198
+estimadores,2023,Cañar,error,0.08214142759252772
+estimadores,2023,Cañar,li,0.07710088286027753
+estimadores,2023,Cañar,ls,0.3991574147541184
+estimadores,2023,Cañar,cv,34.49448671192866
+estimadores,2023,Carchi,valor,0.1399977511769566
+estimadores,2023,Carchi,error,0.04973874990770837
+estimadores,2023,Carchi,li,0.04249098896511473
+estimadores,2023,Carchi,ls,0.2375045133887985
+estimadores,2023,Carchi,cv,35.52824919654515
+estimadores,2023,Cotopaxi,valor,0.2675235522708234
+estimadores,2023,Cotopaxi,error,0.05077175495120314
+estimadores,2023,Cotopaxi,li,0.1679917094663535
+estimadores,2023,Cotopaxi,ls,0.3670553950752932
+estimadores,2023,Cotopaxi,cv,18.97842433693656
+estimadores,2023,Chimborazo,valor,0.3028319135310787
+estimadores,2023,Chimborazo,error,0.03252492034371064
+estimadores,2023,Chimborazo,li,0.2390707679494565
+estimadores,2023,Chimborazo,ls,0.3665930591127009
+estimadores,2023,Chimborazo,cv,10.74025520113246
+estimadores,2023,El Oro,valor,0.05028378933636618
+estimadores,2023,El Oro,error,0.003632424514114858
+estimadores,2023,El Oro,li,0.04316286341829496
+estimadores,2023,El Oro,ls,0.0574047152544374
+estimadores,2023,El Oro,cv,7.223848007588045
+estimadores,2023,Esmeraldas,valor,0.09269785476925743
+estimadores,2023,Esmeraldas,error,0.01431685894219754
+estimadores,2023,Esmeraldas,li,0.06463139626180325
+estimadores,2023,Esmeraldas,ls,0.1207643132767116
+estimadores,2023,Esmeraldas,cv,15.44464969317243
+estimadores,2023,Guayas,valor,0.03195655113218401
+estimadores,2023,Guayas,error,0.002599300529850549
+estimadores,2023,Guayas,li,0.02686093897563536
+estimadores,2023,Guayas,ls,0.03705216328873267
+estimadores,2023,Guayas,cv,8.133858122232555
+estimadores,2023,Imbabura,valor,0.09965343336746069
+estimadores,2023,Imbabura,error,0.008846838605479454
+estimadores,2023,Imbabura,li,0.08231028361336241
+estimadores,2023,Imbabura,ls,0.116996583121559
+estimadores,2023,Imbabura,cv,8.877605423646312
+estimadores,2023,Loja,valor,0.1750794513080559
+estimadores,2023,Loja,error,0.01527454817609834
+estimadores,2023,Loja,li,0.1451355596810304
+estimadores,2023,Loja,ls,0.2050233429350814
+estimadores,2023,Loja,cv,8.724352322319346
+estimadores,2023,Los Ríos,valor,0.04542145587107833
+estimadores,2023,Los Ríos,error,0.006165011051023707
+estimadores,2023,Los Ríos,li,0.03333570245546254
+estimadores,2023,Los Ríos,ls,0.05750720928669412
+estimadores,2023,Los Ríos,cv,13.57290499124934
+estimadores,2023,Manabí,valor,0.05545024957279742
+estimadores,2023,Manabí,error,0.007245643162118055
+estimadores,2023,Manabí,li,0.04124604849835482
+estimadores,2023,Manabí,ls,0.06965445064724003
+estimadores,2023,Manabí,cv,13.06692615081141
+estimadores,2023,Morona Santiago,valor,0.3182308352234558
+estimadores,2023,Morona Santiago,error,0.03839637617203853
+estimadores,2023,Morona Santiago,li,0.2429594154923545
+estimadores,2023,Morona Santiago,ls,0.3935022549545571
+estimadores,2023,Morona Santiago,cv,12.06557376662676
+estimadores,2023,Napo,valor,0.3674428957061888
+estimadores,2023,Napo,error,0.03620200259269407
+estimadores,2023,Napo,li,0.2964732781555225
+estimadores,2023,Napo,ls,0.4384125132568552
+estimadores,2023,Napo,cv,9.852415985106315
+estimadores,2023,Pastaza,valor,0.4002364932631041
+estimadores,2023,Pastaza,error,0.04787969077932484
+estimadores,2023,Pastaza,li,0.3063741900838153
+estimadores,2023,Pastaza,ls,0.4940987964423929
+estimadores,2023,Pastaza,cv,11.96284986133188
+estimadores,2023,Pichincha,valor,0.04128467420700411
+estimadores,2023,Pichincha,error,0.002244155069089907
+estimadores,2023,Pichincha,li,0.03688528147811011
+estimadores,2023,Pichincha,ls,0.0456840669358981
+estimadores,2023,Pichincha,cv,5.435806657544549
+estimadores,2023,Tungurahua,valor,0.1547215478366491
+estimadores,2023,Tungurahua,error,0.00858665502994918
+estimadores,2023,Tungurahua,li,0.1378884562982826
+estimadores,2023,Tungurahua,ls,0.1715546393750155
+estimadores,2023,Tungurahua,cv,5.549747368747076
+estimadores,2023,Zamora Chinchipe,valor,0.1873505933313353
+estimadores,2023,Zamora Chinchipe,error,0.01411254015644589
+estimadores,2023,Zamora Chinchipe,li,0.1596846769222383
+estimadores,2023,Zamora Chinchipe,ls,0.2150165097404323
+estimadores,2023,Zamora Chinchipe,cv,7.532690399057036
+estimadores,2023,Galápagos,valor,0.0385730708465328
+estimadores,2023,Galápagos,error,0.005094031369325119
+estimadores,2023,Galápagos,li,0.02858684267734694
+estimadores,2023,Galápagos,ls,0.04855929901571865
+estimadores,2023,Galápagos,cv,13.20618570813893
+estimadores,2023,Sucumbíos,valor,0.2626704952028791
+estimadores,2023,Sucumbíos,error,0.04995461141404134
+estimadores,2023,Sucumbíos,li,0.1647405627946058
+estimadores,2023,Sucumbíos,ls,0.3606004276111524
+estimadores,2023,Sucumbíos,cv,19.01797587713757
+estimadores,2023,Orellana,valor,0.3676071324111987
+estimadores,2023,Orellana,error,0.02300139415052574
+estimadores,2023,Orellana,li,0.3225157001951151
+estimadores,2023,Orellana,ls,0.4126985646272823
+estimadores,2023,Orellana,cv,6.257058724528989
+estimadores,2023,Santo Domingo,valor,0.06034086804011268
+estimadores,2023,Santo Domingo,error,0.005625962704231344
+estimadores,2023,Santo Domingo,li,0.04931185326527289
+estimadores,2023,Santo Domingo,ls,0.07136988281495246
+estimadores,2023,Santo Domingo,cv,9.323635683350435
+estimadores,2023,Santa Elena,valor,0.04143380111921903
+estimadores,2023,Santa Elena,error,0.004738454310272876
+estimadores,2023,Santa Elena,li,0.03214463847358023
+estimadores,2023,Santa Elena,ls,0.05072296376485783
+estimadores,2023,Santa Elena,cv,11.43620469828183
+estimadores,2024,Total,valor,0.0945220494061242
+estimadores,2024,Total,error,0.0058779411813221
+estimadores,2024,Total,li,0.0829986045128724
+estimadores,2024,Total,ls,0.106045494299376
+estimadores,2024,Total,cv,6.21859261225589
+estimadores,2024,Urbano,valor,0.0390913722871813
+estimadores,2024,Urbano,error,0.00150538688602239
+estimadores,2024,Urbano,li,0.0361401275759845
+estimadores,2024,Urbano,ls,0.0420426169983782
+estimadores,2024,Urbano,cv,3.85094407779597
+estimadores,2024,Rural,valor,0.200678662128737
+estimadores,2024,Rural,error,0.0120461784167488
+estimadores,2024,Rural,li,0.177062659709253
+estimadores,2024,Rural,ls,0.22429466454822
+estimadores,2024,Rural,cv,6.00272011431945
+estimadores,2024,Quito,valor,0.0366426151130009
+estimadores,2024,Quito,error,0.00387247093066855
+estimadores,2024,Quito,li,0.0290508063497425
+estimadores,2024,Quito,ls,0.0442344238762593
+estimadores,2024,Quito,cv,10.5682165935111
+estimadores,2024,Guayaquil,valor,0.0270216377138592
+estimadores,2024,Guayaquil,error,0.00236293790739081
+estimadores,2024,Guayaquil,li,0.0223892019813415
+estimadores,2024,Guayaquil,ls,0.0316540734463768
+estimadores,2024,Guayaquil,cv,8.7446139734857
+estimadores,2024,Cuenca,valor,0.0507998077780223
+estimadores,2024,Cuenca,error,0.00446553472267227
+estimadores,2024,Cuenca,li,0.0420453235618257
+estimadores,2024,Cuenca,ls,0.0595542919942189
+estimadores,2024,Cuenca,cv,8.79045594460735
+estimadores,2024,Machala,valor,0.0400143330389584
+estimadores,2024,Machala,error,0.00332768513183145
+estimadores,2024,Machala,li,0.0334905528486082
+estimadores,2024,Machala,ls,0.0465381132293087
+estimadores,2024,Machala,cv,8.31623290732242
+estimadores,2024,Ambato,valor,0.0875251641305845
+estimadores,2024,Ambato,error,0.00510150857621003
+estimadores,2024,Ambato,li,0.0775238811750472
+estimadores,2024,Ambato,ls,0.0975264470861218
+estimadores,2024,Ambato,cv,5.82861926268285
+estimadores,2024,Azuay,valor,0.0847106908925616
+estimadores,2024,Azuay,error,0.0119239249208425
+estimadores,2024,Azuay,li,0.0613343610692519
+estimadores,2024,Azuay,ls,0.108087020715871
+estimadores,2024,Azuay,cv,14.0760567470352
+estimadores,2024,Bolívar,valor,0.19389885863934
+estimadores,2024,Bolívar,error,0.0295273103272071
+estimadores,2024,Bolívar,li,0.136011866764919
+estimadores,2024,Bolívar,ls,0.251785850513761
+estimadores,2024,Bolívar,cv,15.2282022361612
+estimadores,2024,Cañar,valor,0.271423065269902
+estimadores,2024,Cañar,error,0.0652276743564285
+estimadores,2024,Cañar,li,0.143547081524143
+estimadores,2024,Cañar,ls,0.399299049015662
+estimadores,2024,Cañar,cv,24.0317359512414
+estimadores,2024,Carchi,valor,0.121853354000422
+estimadores,2024,Carchi,error,0.0571846547597651
+estimadores,2024,Carchi,li,0.00974535605758416
+estimadores,2024,Carchi,ls,0.23396135194326
+estimadores,2024,Carchi,cv,46.9290773560217
+estimadores,2024,Cotopaxi,valor,0.278461024240646
+estimadores,2024,Cotopaxi,error,0.0486329415907607
+estimadores,2024,Cotopaxi,li,0.183118283452653
+estimadores,2024,Cotopaxi,ls,0.373803765028639
+estimadores,2024,Cotopaxi,cv,17.464900778621
+estimadores,2024,Chimborazo,valor,0.268961941165247
+estimadores,2024,Chimborazo,error,0.0276464853764999
+estimadores,2024,Chimborazo,li,0.214762223798131
+estimadores,2024,Chimborazo,ls,0.323161658532362
+estimadores,2024,Chimborazo,cv,10.2789581517462
+estimadores,2024,El Oro,valor,0.0439761407517801
+estimadores,2024,El Oro,error,0.00500428229039665
+estimadores,2024,El Oro,li,0.0341654656489219
+estimadores,2024,El Oro,ls,0.0537868158546383
+estimadores,2024,El Oro,cv,11.3795394612796
+estimadores,2024,Esmeraldas,valor,0.107503548046563
+estimadores,2024,Esmeraldas,error,0.0205066120204988
+estimadores,2024,Esmeraldas,li,0.0673012380410791
+estimadores,2024,Esmeraldas,ls,0.147705858052047
+estimadores,2024,Esmeraldas,cv,19.0752885770959
+estimadores,2024,Guayas,valor,0.0291767330615353
+estimadores,2024,Guayas,error,0.00225794428040965
+estimadores,2024,Guayas,li,0.0247501327120773
+estimadores,2024,Guayas,ls,0.0336033334109932
+estimadores,2024,Guayas,cv,7.7388523096384
+estimadores,2024,Imbabura,valor,0.0867902695490355
+estimadores,2024,Imbabura,error,0.0107211535289723
+estimadores,2024,Imbabura,li,0.0657719200841271
+estimadores,2024,Imbabura,ls,0.107808619013944
+estimadores,2024,Imbabura,cv,12.352944154546
+estimadores,2024,Loja,valor,0.159894501586335
+estimadores,2024,Loja,error,0.0187081782300978
+estimadores,2024,Loja,li,0.123217941845876
+estimadores,2024,Loja,ls,0.196571061326795
+estimadores,2024,Loja,cv,11.7003261803823
+estimadores,2024,Los Ríos,valor,0.048547260135583
+estimadores,2024,Los Ríos,error,0.00824809228041555
+estimadores,2024,Los Ríos,li,0.0323772383650613
+estimadores,2024,Los Ríos,ls,0.0647172819061046
+estimadores,2024,Los Ríos,cv,16.9898203469779
+estimadores,2024,Manabí,valor,0.0459064788353024
+estimadores,2024,Manabí,error,0.0071308756674714
+estimadores,2024,Manabí,li,0.0319267110458851
+estimadores,2024,Manabí,ls,0.0598862466247198
+estimadores,2024,Manabí,cv,15.533484267122
+estimadores,2024,Morona Santiago,valor,0.35282756107019
+estimadores,2024,Morona Santiago,error,0.033463129019753
+estimadores,2024,Morona Santiago,li,0.287224569934412
+estimadores,2024,Morona Santiago,ls,0.418430552205968
+estimadores,2024,Morona Santiago,cv,9.48427297409909
+estimadores,2024,Napo,valor,0.345273097670673
+estimadores,2024,Napo,error,0.0238526084156548
+estimadores,2024,Napo,li,0.298511109049295
+estimadores,2024,Napo,ls,0.39203508629205
+estimadores,2024,Napo,cv,6.90833099264681
+estimadores,2024,Pastaza,valor,0.274068490827634
+estimadores,2024,Pastaza,error,0.0212286405724572
+estimadores,2024,Pastaza,li,0.232450675635353
+estimadores,2024,Pastaza,ls,0.315686306019915
+estimadores,2024,Pastaza,cv,7.74574286462146
+estimadores,2024,Pichincha,valor,0.040485413758532
+estimadores,2024,Pichincha,error,0.00300535613667925
+estimadores,2024,Pichincha,li,0.034593545371746
+estimadores,2024,Pichincha,ls,0.046377282145318
+estimadores,2024,Pichincha,cv,7.42330597040247
+estimadores,2024,Tungurahua,valor,0.151018340870395
+estimadores,2024,Tungurahua,error,0.0101467729055839
+estimadores,2024,Tungurahua,li,0.131126039328933
+estimadores,2024,Tungurahua,ls,0.170910642411857
+estimadores,2024,Tungurahua,cv,6.71890106003216
+estimadores,2024,Zamora Chinchipe,valor,0.225795472417586
+estimadores,2024,Zamora Chinchipe,error,0.0332132290634184
+estimadores,2024,Zamora Chinchipe,li,0.160682399143661
+estimadores,2024,Zamora Chinchipe,ls,0.290908545691512
+estimadores,2024,Zamora Chinchipe,cv,14.7094309322527
+estimadores,2024,Galápagos,valor,0.0507888931796992
+estimadores,2024,Galápagos,error,0.012483069137072
+estimadores,2024,Galápagos,li,0.0263163857383528
+estimadores,2024,Galápagos,ls,0.0752614006210456
+estimadores,2024,Galápagos,cv,24.5783445071444
+estimadores,2024,Sucumbíos,valor,0.169591551221074
+estimadores,2024,Sucumbíos,error,0.0350755453037635
+estimadores,2024,Sucumbíos,li,0.100827488951611
+estimadores,2024,Sucumbíos,ls,0.238355613490537
+estimadores,2024,Sucumbíos,cv,20.6823659853433
+estimadores,2024,Orellana,valor,0.384973883477011
+estimadores,2024,Orellana,error,0.0433874737247758
+estimadores,2024,Orellana,li,0.29991465149395
+estimadores,2024,Orellana,ls,0.470033115460072
+estimadores,2024,Orellana,cv,11.2702382127609
+estimadores,2024,Santo Domingo,valor,0.0687223257603895
+estimadores,2024,Santo Domingo,error,0.0093716126089281
+estimadores,2024,Santo Domingo,li,0.0503496918519305
+estimadores,2024,Santo Domingo,ls,0.0870949596688486
+estimadores,2024,Santo Domingo,cv,13.6369258537664
+estimadores,2024,Santa Elena,valor,0.0309795785437269
+estimadores,2024,Santa Elena,error,0.00504531154931995
+estimadores,2024,Santa Elena,li,0.021088467385177
+estimadores,2024,Santa Elena,ls,0.0408706897022768
+estimadores,2024,Santa Elena,cv,16.2859270089767
+estimadores,2025,Total,valor,0.08800000000000001
+estimadores,2025,Total,error,0.005
+estimadores,2025,Total,li,0.079
+estimadores,2025,Total,ls,0.09699999999999999
+estimadores,2025,Total,cv,5.2
+estimadores,2025,Urbano,valor,0.036000000000000004
+estimadores,2025,Urbano,error,0.002
+estimadores,2025,Urbano,li,0.033
+estimadores,2025,Urbano,ls,0.04
+estimadores,2025,Urbano,cv,4.8
+estimadores,2025,Rural,valor,0.184
+estimadores,2025,Rural,error,0.01
+estimadores,2025,Rural,li,0.166
+estimadores,2025,Rural,ls,0.203
+estimadores,2025,Rural,cv,5.2
+estimadores,2025,Quito,valor,0.028999999999999998
+estimadores,2025,Quito,error,0.003
+estimadores,2025,Quito,li,0.024
+estimadores,2025,Quito,ls,0.034
+estimadores,2025,Quito,cv,9.3
+estimadores,2025,Guayaquil,valor,0.025
+estimadores,2025,Guayaquil,error,0.004
+estimadores,2025,Guayaquil,li,0.017
+estimadores,2025,Guayaquil,ls,0.033
+estimadores,2025,Guayaquil,cv,16.4
+estimadores,2025,Cuenca,valor,0.076
+estimadores,2025,Cuenca,error,0.024
+estimadores,2025,Cuenca,li,0.028999999999999998
+estimadores,2025,Cuenca,ls,0.124
+estimadores,2025,Cuenca,cv,31.9
+estimadores,2025,Machala,valor,0.039
+estimadores,2025,Machala,error,0.003
+estimadores,2025,Machala,li,0.033
+estimadores,2025,Machala,ls,0.046
+estimadores,2025,Machala,cv,8.6
+estimadores,2025,Ambato,valor,0.079
+estimadores,2025,Ambato,error,0.006
+estimadores,2025,Ambato,li,0.068
+estimadores,2025,Ambato,ls,0.091
+estimadores,2025,Ambato,cv,7.1
+estimadores,2025,Azuay,valor,0.099
+estimadores,2025,Azuay,error,0.012
+estimadores,2025,Azuay,li,0.075
+estimadores,2025,Azuay,ls,0.122
+estimadores,2025,Azuay,cv,12.3
+estimadores,2025,Bolívar,valor,0.146
+estimadores,2025,Bolívar,error,0.018000000000000002
+estimadores,2025,Bolívar,li,0.11
+estimadores,2025,Bolívar,ls,0.183
+estimadores,2025,Bolívar,cv,12.6
+estimadores,2025,Cañar,valor,0.135
+estimadores,2025,Cañar,error,0.013999999999999999
+estimadores,2025,Cañar,li,0.10800000000000001
+estimadores,2025,Cañar,ls,0.163
+estimadores,2025,Cañar,cv,10.4
+estimadores,2025,Carchi,valor,0.182
+estimadores,2025,Carchi,error,0.091
+estimadores,2025,Carchi,li,0.003
+estimadores,2025,Carchi,ls,0.36200000000000004
+estimadores,2025,Carchi,cv,50.2
+estimadores,2025,Cotopaxi,valor,0.22399999999999998
+estimadores,2025,Cotopaxi,error,0.024
+estimadores,2025,Cotopaxi,li,0.177
+estimadores,2025,Cotopaxi,ls,0.271
+estimadores,2025,Cotopaxi,cv,10.8
+estimadores,2025,Chimborazo,valor,0.228
+estimadores,2025,Chimborazo,error,0.03
+estimadores,2025,Chimborazo,li,0.168
+estimadores,2025,Chimborazo,ls,0.28800000000000003
+estimadores,2025,Chimborazo,cv,13.3
+estimadores,2025,El Oro,valor,0.057
+estimadores,2025,El Oro,error,0.008
+estimadores,2025,El Oro,li,0.040999999999999995
+estimadores,2025,El Oro,ls,0.073
+estimadores,2025,El Oro,cv,14.2
+estimadores,2025,Esmeraldas,valor,0.07
+estimadores,2025,Esmeraldas,error,0.01
+estimadores,2025,Esmeraldas,li,0.051
+estimadores,2025,Esmeraldas,ls,0.08900000000000001
+estimadores,2025,Esmeraldas,cv,14.1
+estimadores,2025,Guayas,valor,0.028999999999999998
+estimadores,2025,Guayas,error,0.003
+estimadores,2025,Guayas,li,0.023
+estimadores,2025,Guayas,ls,0.034
+estimadores,2025,Guayas,cv,10.5
+estimadores,2025,Imbabura,valor,0.08
+estimadores,2025,Imbabura,error,0.008
+estimadores,2025,Imbabura,li,0.065
+estimadores,2025,Imbabura,ls,0.095
+estimadores,2025,Imbabura,cv,9.6
+estimadores,2025,Loja,valor,0.162
+estimadores,2025,Loja,error,0.018000000000000002
+estimadores,2025,Loja,li,0.126
+estimadores,2025,Loja,ls,0.198
+estimadores,2025,Loja,cv,11.3
+estimadores,2025,Los Ríos,valor,0.033
+estimadores,2025,Los Ríos,error,0.006
+estimadores,2025,Los Ríos,li,0.02
+estimadores,2025,Los Ríos,ls,0.045
+estimadores,2025,Los Ríos,cv,19.9
+estimadores,2025,Manabí,valor,0.049
+estimadores,2025,Manabí,error,0.008
+estimadores,2025,Manabí,li,0.033
+estimadores,2025,Manabí,ls,0.065
+estimadores,2025,Manabí,cv,16.4
+estimadores,2025,Morona Santiago,valor,0.42
+estimadores,2025,Morona Santiago,error,0.049
+estimadores,2025,Morona Santiago,li,0.324
+estimadores,2025,Morona Santiago,ls,0.516
+estimadores,2025,Morona Santiago,cv,11.6
+estimadores,2025,Napo,valor,0.34299999999999997
+estimadores,2025,Napo,error,0.028999999999999998
+estimadores,2025,Napo,li,0.28600000000000003
+estimadores,2025,Napo,ls,0.39899999999999997
+estimadores,2025,Napo,cv,8.4
+estimadores,2025,Pastaza,valor,0.24
+estimadores,2025,Pastaza,error,0.016
+estimadores,2025,Pastaza,li,0.20800000000000002
+estimadores,2025,Pastaza,ls,0.272
+estimadores,2025,Pastaza,cv,6.8
+estimadores,2025,Pichincha,valor,0.043
+estimadores,2025,Pichincha,error,0.008
+estimadores,2025,Pichincha,li,0.027000000000000003
+estimadores,2025,Pichincha,ls,0.059000000000000004
+estimadores,2025,Pichincha,cv,18.7
+estimadores,2025,Tungurahua,valor,0.158
+estimadores,2025,Tungurahua,error,0.009000000000000001
+estimadores,2025,Tungurahua,li,0.14
+estimadores,2025,Tungurahua,ls,0.17600000000000002
+estimadores,2025,Tungurahua,cv,5.8
+estimadores,2025,Zamora Chinchipe,valor,0.196
+estimadores,2025,Zamora Chinchipe,error,0.038
+estimadores,2025,Zamora Chinchipe,li,0.122
+estimadores,2025,Zamora Chinchipe,ls,0.26899999999999996
+estimadores,2025,Zamora Chinchipe,cv,19.2
+estimadores,2025,Galápagos,valor,0.032
+estimadores,2025,Galápagos,error,0.008
+estimadores,2025,Galápagos,li,0.015
+estimadores,2025,Galápagos,ls,0.048
+estimadores,2025,Galápagos,cv,26.3
+estimadores,2025,Sucumbíos,valor,0.146
+estimadores,2025,Sucumbíos,error,0.025
+estimadores,2025,Sucumbíos,li,0.09699999999999999
+estimadores,2025,Sucumbíos,ls,0.195
+estimadores,2025,Sucumbíos,cv,17.1
+estimadores,2025,Orellana,valor,0.379
+estimadores,2025,Orellana,error,0.05
+estimadores,2025,Orellana,li,0.281
+estimadores,2025,Orellana,ls,0.47600000000000003
+estimadores,2025,Orellana,cv,13.1
+estimadores,2025,Santo Domingo,valor,0.053
+estimadores,2025,Santo Domingo,error,0.008
+estimadores,2025,Santo Domingo,li,0.037000000000000005
+estimadores,2025,Santo Domingo,ls,0.069
+estimadores,2025,Santo Domingo,cv,15.6
+estimadores,2025,Santa Elena,valor,0.036000000000000004
+estimadores,2025,Santa Elena,error,0.008
+estimadores,2025,Santa Elena,li,0.02
+estimadores,2025,Santa Elena,ls,0.053
+estimadores,2025,Santa Elena,cv,23.2

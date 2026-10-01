@@ -1,0 +1,176 @@
+accion_id,institucion,titulo,descripcion,tipo,financiamiento,fuente_financiamiento,frecuencia,cobertura_territorial,fecha_inicio,fecha_fin,tipo_meta,meta_anual,componentes,corriente_planificado,inversion_planificado,nota_meta
+entregar-credito-desarrollo-humano-usuarios,MTDH,Entregar el Crédito de Desarrollo Humano a usuarios de Bonos y Pensiones del MTDH,"La Dirección de Emprendimientos brinda el servicio de acceso a financiamiento mediante el Crédito de Desarrollo Humano a usuarios de bonos y pensiones del MTDH con la finalidad de iniciar o fortalecer emprendimientos.
+Para el año 2026, se ha planificado la entrega de 60.000 usuarios, aproximadamente unos 5.000 usuarios de manera mensual, lo que equivale a unos 5 millones de dólares aprox.
+Debido a que el desembolso del CDH se efectúa hasta el último día del mes y el procesamiento de datos —que comprende la recopilación, validación y depuración de información proveniente de múltiples fuentes— demanda plazos técnicos que superan la fecha de corte establecida para la presentación del reporte; en consecuencia, los datos reportados no corresponden al mes inmediato anterior.",Política Pública,Sí,Fiscal,Mensual,Nacional,2026-01-01,2026-12-31,flujo,60000,,63360000,,Meta mensual aproximada (dic. ajusta al total anual).
+desarrollar-capacidades-usuarios-buscan-acceder,MTDH,"Desarrollar las capacidades de los usuarios, que buscan acceder al Crédito de Desarrollo Humano o ampliar sus conocimientos.","El Servicio de desarrollo de capacidades, se ejecuta a través de las Escuelas de Inclusión Económica y de Empleabilidad y Autoempleo, creadas para fortalecer habilidades, competencias integrales, conocimientos técnicos, administrativos  y competencias para crear o consolidar emprendimientos o permitir el acceso al mercado. Para el año en curso se cuenta con una meta anual de 65.780 usuarios capacitados, planificando 5.480 capacitaciones mensuales aproximadamente a nivel nacional.
+El procesamiento de datos —que comprende la recopilación, validación y depuración de información proveniente de múltiples fuentes— demanda plazos técnicos que superan la fecha de corte establecida para la presentación del reporte; en consecuencia, los datos reportados no corresponden al mes inmediato anterior.",Política Pública,No,Fiscal,Mensual,Nacional,2026-01-01,2026-12-31,flujo,65780,,,,Meta mensual aproximada (dic. ajusta al total anual).
+ejecutar-practicas-sistema-nacional-comercializacion,MTDH,Ejecutar de las prácticas del Sistema Nacional de Comercialización Inclusiva,"El Sistema Nacional de Comercialización Inclusiva está dirigido a los emprendimientos de los usuarios de los servicios del MTDH y a los actores de la Economía Popular y Solidaria, priorizando a los usuarios del Crédito de Desarrollo Humano que cuenten con un emprendimiento activo y funcional, y que deseen participar en las diferentes estrategias de inclusión económica y acceso a mercados.
+Para el año 2026, el Ministerio ha establecido una meta de 6.000 participaciones de emprendedores a nivel nacional, aproximadamente unas 500 participaciones de manera mensual, en las diferentes acciones y mecanismos de acceso a mercados impulsados por el Sistema Nacional de Comercialización Inclusiva, consolidando así las oportunidades de inclusión económica y fortalecimiento de los emprendimientos en todo el territorio nacional.
+El procesamiento de datos —que comprende la recopilación, validación y depuración de información proveniente de múltiples fuentes— demanda plazos técnicos que superan la fecha de corte establecida para la presentación del reporte; en consecuencia, los datos reportados no corresponden al mes inmediato anterior.",Política Pública,No,Fiscal,Mensual,Nacional,2026-01-01,2026-12-31,flujo,6000,,,,Meta mensual aproximada (dic. ajusta al total anual).
+desarrollar-capacidades-blandas-jovenes-18,MTDH,Desarrollar las capacidades blandas de los jóvenes de 18 a 29 años con 11 meses en situación de pobreza y pobreza extrema que hayan accedido a servicios de fortalecimiento de capacitaciones para el emprendimiento y empleabilidad.,"Consiste en diseñar e implementar programas de capacitación técnica, profesional y de habilidades blandas dirigidos a jóvenes, con el fin de mejorar sus oportunidades de inserción laboral, emprendimiento y desarrollo personal. Incluye talleres, cursos especializados y procesos de acompañamiento formativo que fomenten liderazgo, pensamiento crítico y resolución de problemas.
+1.- Los datos presentados en el 2025 constituyen una línea base de referencia para el análisis comparativo y el seguimiento de los indicadores correspondientes al año 2026, facilitando la medición de variaciones, tendencias y niveles de cumplimiento de los objetivos establecidos. En este sentido la meta anual referencial es 196 y desagregado mensual es: enero-febrero: 13, marzo-abril: 17, mayo-junio: 16, Julio: 22, Agosto: 20, Septiembre: 13, Octubre: 33, noviembre: 31 y diciembre : 31.
+2.- El procesamiento de datos —que comprende la recopilación, validación y depuración de información proveniente de múltiples fuentes— demanda plazos técnicos que superan la fecha de corte establecida para la presentación del reporte; en consecuencia, los datos reportados no corresponden al mes inmediato anterior.",Programa,No,Fiscal,Mensual,Nacional,2026-01-01,2026-12-31,flujo,196,,,,Programación por tramos (bimestres/meses) tomada de la descripción. Meta anual REFERENCIAL (línea base 2025) según la ficha.
+fortalecer-capacidades-empleabilidad-formativas-jovenes,MTDH,Fortalecer las capacidades para la empleabilidad y formativas de jóvenes en situación de pobreza extrema,"Implementar procesos de formación pertinente, habilidades para la vida o socioemocionales dirigidos a jóvenes de 18 a 29 años en condición de vulnerabilidad, con énfasis en empleabilidad, productividad social y adaptación a contextos económicos y climáticos adversos, como parte del componente de activación social del proyecto Jóvenes en Acción. 
+Meta Anual 16.000 
+Meta Mensual 1.333 
+El procesamiento de datos —que comprende la recopilación, validación y depuración de información proveniente de múltiples fuentes— demanda plazos técnicos que superan la fecha de corte establecida para la presentación del reporte; en consecuencia, los datos reportados no corresponden al mes inmediato anterior.",Proyecto,Sí,Fiscal,Mensual,Nacional,2026-01-01,2026-12-31,flujo,16000,,,246767.33,Meta mensual aproximada (dic. ajusta al total anual).
+promover-talleres-habilidades-blandas-ciudadanos,MTDH,Promover talleres en habilidades blandas para ciudadanos que estén en búsqueda de empleo y personas que no estén vinculadas de manera formal al sector público o privado.,"Promocionar talleres virtuales gratuitos en la plataforma e-learning del Ministerio de Trabajo y Desarrollo Humano (habilidades blandas) sobre las temáticas de generación de idea de negocio; inicie su negocio; relaciones humanas; legislación laboral para emprendedores; marketing digital y; orientación laboral y búsqueda de empleo, con la finalidad de fortalecer el perfil laboral de las personas en búsqueda de empleo o generación de una idea de negocio.
+
+2026: 11.738
+Enero: 978
+Febrero: 978
+Marzo: 978
+Abril: 978
+Mayo: 978
+Junio: 978
+Julio: 978
+Agosto: 978
+Septiembre: 979
+Octubre: 979
+Noviembre: 978
+Diciembre: 978
+
+Indicador: Número de capacitados a través de talleres virtuales gratuitos en la plataforma e-learning del Ministerio del Trabajo (habilidades blandas) sobre las temáticas de generación de idea de negocio; inicie su negocio; relaciones humanas; legislación laboral para emprendedores; marketing digital y; orientación laboral y búsqueda de empleo",Actividad relevante,No,,Mensual,Nacional,2026-01-01,2026-12-31,flujo,11738,,,,Programación mensual tomada de la descripción.
+capacitar-ciudadanos-traves-cursos-gestionados,MTDH,Capacitar a los ciudadanos a través de los cursos gestionados por el Servicio Público de Empleo.,"Gestionar cursos de capacitación gratuitos en coordinación con empresas privadas e instituciones públicas, los cuales buscan dotar a los participantes de herramientas actualizadas y pertinentes que les permitan mejorar su perfil profesional e incrementar su competitividad en el mercado laboral.
+
+2026: 25.766
+Enero: 2.147
+Febrero: 2.147
+Marzo: 2.148
+Abril: 2.147
+Mayo: 2.147
+Junio: 2.147
+Julio: 2.147
+Agosto: 2.148
+Septiembre: 2.147
+Octubre: 2.147
+Noviembre: 2.147
+Diciembre: 2.147
+
+Indicador: Número de personas capacitadas en los cursos gestionados a través del Servicio Público de Empleo.",Actividad relevante,No,,Mensual,Nacional,2026-01-01,2026-12-31,flujo,25766,,,,Programación mensual tomada de la descripción.
+colocar-laboralmente-ciudadanos-traves-ofertas,MTDH,Colocar laboralmente a los ciudadanos a través de las ofertas generadas en el Servicio Público de Empleo.,"Facilitar la inserción laboral de la ciudadanía mediante la difusión y gestión de las ofertas de empleo generadas por las instituciones públicas y privadas a través del Servicio Público de Empleo. Esta acción busca conectar a las personas demandantes de empleo con oportunidades laborales adecuadas a su perfil profesional, promoviendo el acceso equitativo al mercado de trabajo.
+
+2026: 35.648
+Enero: 2.970
+Febrero: 2.971
+Marzo: 2.971
+Abril: 2.970
+Mayo: 2.971
+Junio: 2.971
+Julio: 2.970
+Agosto: 2.971
+Septiembre: 2.971
+Octubre: 2.970
+Noviembre: 2.971
+Diciembre: 2.971
+
+Indicador: Número de colocados en un empleo a través del Servicio Público de Empleo.",Actividad relevante,No,,Mensual,Nacional,2026-01-01,2026-12-31,flujo,35648,,,,Programación mensual tomada de la descripción.
+sensibilizar-sobre-prevencion-trabajo-infantil,MTDH,Sensibilizar sobre la prevención del trabajo infantil.,"Realizar talleres de sensibilización dirigido a empleadores del sector privado, instituciones del sector público, trabajadores y organizaciones de la sociedad civil, sobre derechos laborales de personas de grupos de atención prioritaria, que incluyen la temática sobre la prevención del trabajo infantil.
+
+2026: 177 
+Enero: 14
+Febrero: 15
+Marzo: 15
+Abril:15
+Mayo:15
+Junio:15
+Julio:14
+Agosto:15
+Septiembre: 15
+Octubre:15
+Noviembre:15
+Diciembre:14
+
+Indicador: Número de talleres de sensibilización sobre la prevención del trabajo infantil.",Actividad relevante,No,,Mensual,Nacional,2026-01-01,2026-12-31,flujo,177,,,,Programación mensual tomada de la descripción.
+ejecutar-inspecciones-identificacion-ninas-ninos,MTDH,"Ejecutar inspecciones para la identificación de niñas, niños y adolescentes en situación de trabajo infantil y trabajo adolescente peligroso.","Realizar inspecciones para la identificación de niñas, niños y adolescentes en situación de trabajo infantil y trabajo adolescente peligroso, dirigido a todos los empleadores del sector privado para verificar el cumplimiento de las obligaciones laborales. Los inspectores de las Direcciones Regionales realizan visitas técnicas.
+
+2026: 623
+Enero: 52
+Febrero: 52
+Marzo: 52
+Abril: 52
+Mayo: 52
+Junio: 52
+Julio: 51
+Agosto: 52
+Septiembre: 52
+Octubre: 52
+Noviembre: 52
+Diciembre: 52
+
+Indicador: Número de inspecciones realizadas para la identificación de niñas, niños y adolescentes en situación de trabajo infantil y trabajo adolescente peligroso.",Actividad relevante,No,,Mensual,Nacional,2026-01-01,2026-12-31,flujo,623,,,,Programación mensual tomada de la descripción.
+ejecutar-inspecciones-trabajo-verificar-cumplimiento,MTDH,Ejecutar inspecciones de trabajo para verificar el cumplimiento de obligaciones laborales.,"Realizar inspecciones integrales y focalizadas orientadas a garantizar que, en las relaciones laborales regidas por el Código de Trabajo, se respeten los derechos y se cumplan las obligaciones establecidas por la ley tanto para empleadores como para trabajadores. Los inspectores del trabajo de las Direcciones Regionales realizan visitas técnicas a nivel nacional.
+
+2026: 12.127
+Enero: 1.011
+Febrero: 1.010
+Marzo: 1.011
+Abril: 1.010
+Mayo: 1.011
+Junio: 1.010
+Julio: 1.011
+Agosto: 1.011
+Septiembre: 1.010
+Octubre: 1.011
+Noviembre: 1.010
+Diciembre: 1.011
+
+Indicador: Número de inspecciones integrales y focalizadas de trabajo realizadas.",Actividad relevante,No,,Mensual,Nacional,2026-01-01,2026-12-31,flujo,12127,,,,Programación mensual tomada de la descripción.
+atender-ninas-ninos-1-3,MTDH,"Atender a niñas y niños de 1 a 3 años en situación de pobreza, pobreza extrema y vulnerabilidad en el servicio de Centros de Desarrollo Infantil -CDI a nivel nacional.","Atención mensual a 81.980 entre niñas y niños de 1 a 3 años a través de atención integral y cuidado diario, se desarrollan actividades de juego y aprendizaje, acciones de salud y nutrición, entrega de alimentación, articulación intersectorial, siendo inclusivos e interculturales. Al tratarse de coberturas, la meta mensual es equivalente a la meta anual.
+El procesamiento de datos —que comprende la recopilación, validación y depuración de información proveniente de múltiples fuentes— demanda plazos técnicos que superan la fecha de corte establecida para la presentación del reporte; en consecuencia, los datos reportados no corresponden al mes inmediato anterior.",Política Pública,Sí,Fiscal,Mensual,Nacional,2026-01-01,2026-12-31,cobertura,81980,,180486762.87,,Cobertura: la meta de cada mes es la meta anual.
+atender-ninas-ninos-desde-gestacion,MTDH,"Atender a niñas y niños desde la gestación hasta los 3 años con sus familias, en situación de pobreza y pobreza extrema, en el servicio de atención familiar Creciendo con Nuestros Hijos - CNH a nivel nacional.","Atención mensual a 198.275 entre niñas y niños desde la gestación hasta los 3 años con sus familias, a través de consejerías familiares semanales; el/la educador/a familiar orienta y demuestra actividades de estimulación prenatal, juego, lenguaje, entornos protectores, salud y nutrición; las gestantes y familias se comprometen en realizar lo orientado durante las actividades cotidianas de su vida familiar. Para la protección integral, articula con instituciones y servicios del Estado la provisión del paquete de servicios. Con familias y actores comunitarios, promueve su participación en acciones dirigidas a la consecución de los derechos de las gestantes, niñas y niños.
+Al tratarse de coberturas, la meta mensual es equivalente a la meta anual.
+El procesamiento de datos —que comprende la recopilación, validación y depuración de información proveniente de múltiples fuentes— demanda plazos técnicos que superan la fecha de corte establecida para la presentación del reporte; en consecuencia, los datos reportados no corresponden al mes inmediato anterior",Política Pública,Sí,Fiscal,Mensual,Nacional,2026-01-01,2026-12-31,cobertura,198275,,42589240.58,15239415.62,Cobertura: la meta de cada mes es la meta anual.
+proporcionar-servicios-proteccion-social-personas,MTDH,Proporcionar servicios de protección social para las personas adultas mayores en situación de pobreza y pobreza extrema,"Brindar servicios de protección social dirigidos a personas adultas mayores en condición de pobreza y pobreza extrema, orientados a garantizar el acceso a derechos, la reducción de vulnerabilidades socioeconómicas y la mejora de condiciones mínimas de bienestar, en articulación con la política social nacional.
+El procesamiento de datos —que comprende la recopilación, validación y depuración de información proveniente de múltiples fuentes— demanda plazos técnicos que superan la fecha de corte establecida para la presentación del reporte; en consecuencia, los datos reportados no corresponden al mes inmediato anterior.
+La meta anual corresponde a la cobertura de 116.260 beneficiarios. Al tratarse de un indicador de cobertura, la meta mensual es equivalente a la meta anual",Política Pública,Sí,Fiscal,Mensual,Nacional,2026-01-01,2026-12-31,cobertura,116260,,38745295.86,14722870.44,Cobertura: la meta de cada mes es la meta anual.
+proporcionar-servicios-proteccion-social-jovenes,MTDH,Proporcionar servicios de protección social para jóvenes en situación de pobreza y pobreza extrema,"Proporcionar servicios de protección social a jóvenes en condición de pobreza y pobreza extrema, mediante mecanismos de transferencia monetaria temporal y/o procesos de activación social, formación y vinculación institucional, contribuyendo a la reducción de vulnerabilidades económicas y al acceso efectivo a derechos sociales.
+Inversión: 
+Meta Anual 16.000 Meta Mensual 1.333.
+Los datos se reportan a mes caído por el procesamiento y validación de datos. 
+Corriente: La meta anual de acceso a los servicios es de 10.745,
+El procesamiento de datos —que comprende la recopilación, validación y depuración de información proveniente de múltiples fuentes— demanda plazos técnicos que superan la fecha de corte establecida para la presentación del reporte; en consecuencia, los datos reportados no corresponden al mes inmediato anterior.",Política Pública,Sí,Fiscal,Mensual,Nacional,2026-01-01,2026-12-31,flujo|anual,16000|10745,inversion|corriente,318410.73,1000000,Dos componentes. Meta mensual aproximada (dic. ajusta al total anual). / Meta anual sin programación mensual.
+incrementar-eficiencia-prestacion-servicios-personas,MTDH,"Incrementar la eficiencia en la prestación de los servicios para personas con discapacidad y sus familias, a través de asistencia técnica y seguimiento de las modalidades de atención, con un enfoque social e inclusivo.","Entidades cooperantes y de administración directa reciben asistencia técnica y seguimiento. Se entenderá la asistencia técnica como el seguimiento que se efectúa a la implementación de los servicios, que consiste en el levantamiento de información, emisión de recomendaciones de mejoramiento, visitas in situ de las unidades de atención, como otras, que permitan corroborar la última valoración de la calidad de servicios, así como su plan de mejoras en caso de ser pertinente. 
+El reporte de este indicador para el GPR es SEMESTRAL.
+A diciembre de 2026, 364 Entidades Cooperantes y Servicios de administración directa habrán recibido asistencia técnica y seguimiento: Enero 8, Febrero 31, Marzo 37, Abril 35, Mayo 35, Junio 36, Julio 30, Agosto 40, Septiembre 37, Octubre 36, Noviembre 31, Diciembre 8",Política Pública,Sí,Fiscal,Mensual,Nacional,2026-01-01,2026-12-31,flujo,364,,4000,27000,Programación mensual tomada de la descripción.
+efectuar-seguimiento-desarrollo-habilidades-os,MTDH,Efectuar el seguimiento al desarrollo de habilidades de las/os usuarias/os de los servicios del MTDH para personas con discapacidad.,"Se valora de manera nominal el proceso de desarrollo de habilidades implementado en la unidad de Atención. A diciembre de 2026, un total de 35.345 usuarios de los servicios del MTDH para personas con discapacidad, habrán sido valorados en el desarrollo de sus habilidades.  Los resultados se presentan de manera SEMESTRAL por lo que no se puede desagregar un avance numérico de manera mensual. El reporte semestral (tanto intermedio como final) es sobre el total de los usuarios/as atendidos durante el año. Una acción previa al levantamiento es emitir los lineamientos los mismos que son socializados a nivel nacional el primer semestre del año. El seguimiento se lo realiza de manera telefónica o correo institucional.
+
+ La meta para el primer semestre es de 3261 personas con discapacidad que avanzan en el desarrollo de habilidades.",Política Pública,NO,Fiscal,Semestral,Nacional,2026-01-01,2026-12-31,semestral,35345,,,,Reporte semestral: meta del 1er semestre y total anual (medidas distintas; revisar).
+incluir-5-000-nuevos-beneficiarios,MTDH,Incluir 5.000 nuevos beneficiarios a la transferencia monetaria Bono Joaquín Gallegos.,"Se realizan visitas domiciliarias para inclusión al Bono Joaquín Gallegos Lara.
+El incremento de la meta ( de 3.000 a 5.000) constituye un ajuste técnico que busca asegurar la coherencia entre la planificación, la ejecución y al cumplimiento de los objetivos institucionales y a la mejora continua de la prestación de servicios a la ciudadanía.
+Conforme lo planifica cado para el año 2026:
+Enero 534; febrero 381;  Marzo 462;  abril 306; mayo 326; junio 427; julio 427, agosto 427, septiembre 427; octubre 427; noviembre 427 y diciembre 428.",Política Pública,Sí,Fiscal,Mensual,Nacional,2026-01-01,2026-12-31,flujo,4999,,8400000,,Programación mensual de la ficha; suma 4.999 aunque el título indica 5.000 (revisado 2026-09).
+elaborar-plan-nacional-primera-infancia,MTDH,Elaborar el Plan Nacional de Primera Infancia,"Se elaboró una hoja de ruta para la construcción del Plan Nacional de la Primera Infancia, que contempla el cumplimiento del 100% de las actividades y productos programados para la formulación del Plan, en concordancia con la Ley Orgánica de la Primera Infancia. Este proceso se desarrolla con el apoyo técnico y financiero de UNICEF y CAF.
+
+El producto final es 1 Plan Nacional. Se realizará el reporte de los avances de manera mensual en función de la hoja de ruta.",Política Pública,No,Fiscal,Mensual,Nacional,2026-01-01,2026-07-31,hito,100,,,,Producto/hito: meta 100 % a la fecha de fin.
+implementar-modelo-gestion-territorial-mecanismo,MTDH,"Implementar el modelo de gestión territorial, como mecanismo de articulación y coordinación local que incrementa la identificación y la cobertura del paquete priorizado","A diciembre 2026, el 30% de cantones han implementado el modelo de gestión territorial (3.996 acciones), como mecanismo de articulación y coordinación local que incrementa la identificación y la cobertura del paquete priorizado, la meta trimestral es la siguiente:
+IT. 10% (1.332)
+IIT: 6,67% (888)
+IIIT: 6,67% (888)
+IVT: 6,67% (888)
+El procesamiento de datos —que comprende la recopilación, validación y depuración de información proveniente de múltiples fuentes— demanda plazos técnicos que superan la fecha de corte establecida para la presentación del reporte; en consecuencia, los datos reportados no corresponden al mes inmediato anterior.",Actividad relevante,Sí,Fiscal,Trimestral,Nacional,2026-01-01,2026-12-31,trimestral,3996,,,1727933.29,Metas trimestrales tomadas de la descripción (acumuladas).
+incrementar-participacion-activa-actores-locales,MTDH,"Incrementar la participación activa de actores locales comunitarios, en espacios locales para el cambio social y de comportamiento","A diciembre 2026, el 30% de los espacios locales para el cambio social y de comportamiento cuentan con la participación activa de actores locales comunitarios, la meta anual son 23.976 la cual se distribuye de la siguiente manera:
+IT. 3,98% (3.183)
+IIT: 7,08% (5.661)
+IIIT: 9,47% (7.566)
+IVT: 9,47% (7.566)
+El procesamiento de datos —que comprende la recopilación, validación y depuración de información proveniente de múltiples fuentes— demanda plazos técnicos que superan la fecha de corte establecida para la presentación del reporte; en consecuencia, los datos reportados no corresponden al mes inmediato anterior.",Actividad relevante,Sí,Fiscal,Trimestral,Nacional,2026-01-01,2026-12-31,trimestral,23976,,,1266693.57,Metas trimestrales tomadas de la descripción (acumuladas).
+realizar-seguimiento-monitoreo-plan-estrategico,MTDH,Realizar el seguimiento y monitoreo al Plan Estratégico Intersectorial para la Prevención y Reducción de la Desnutrición Crónica Infantil 2025-2030,"El Plan Estratégico tiene con fin el monitorear los resultados de la política pública, tomando como base los indicadores que cada una de las instituciones reporta sobre la meta periódica planteada, este proceso permite la identificación y gestión de alertas y nudos críticos en los diferentes espacios de gobernanza.
+
+1 Informe de seguimiento y monitoreo al 100% del Porcentaje de Cumplimiento de la Meta anual.",Política Pública,No,Fiscal,Mensual,Nacional,2026-03-01,2026-12-31,hito,100,,,,Producto/hito: meta 100 % a la fecha de fin.
+coordinar-sesiones-comite-intersectorial-prevencion,MTDH,Coordinar las sesiones del Comité Intersectorial para la Prevención y Reducción de la Desnutrición Crónica Infantil,"Se realizarán 4 sesiones en el año de Comité Intersectorial DCI con las máximas autoridades de las instituciones vinculadas al cumplimiento del PEI.
+
+La coordinación de las sesiones dependerán de la disponibilidad de  los ministros, motivo por el cual no se puede establecer periodos específicos para la ejecución de los Comités o desagregarlos de manera mensual.",Política Pública,No,Fiscal,Mensual,Nacional,2026-03-01,2026-12-31,anual,4,,,,Meta anual sin programación mensual.
+coordinar-sesiones-subcomite-tecnico-comite,MTDH,Coordinar las sesiones del Subcomité Técnico del Comité Intersectorial para la Prevención y Reducción de la Desnutrición Crónica,"Espacio técnico conformado por los delegados institucionales de las entidades que forman parte del Comité.
+
+Para cuantificar la meta, se considera como dato referencial las sesiones de Subcomité realizadas en el 2025, por lo que se espera ejecutar 4 sesiones de Subcomité en el presente año.",Política Pública,No,Fiscal,Mensual,Nacional,2026-03-01,2026-12-31,anual,4,,,,Meta anual sin programación mensual.
+ejecutar-consejerias-familiares-paquete-priorizado,MTDH,"Ejecutar consejerías familiares del paquete priorizado en temas de: Lactancia materna exclusiva, Lactancia materna complementaria, Buenas prácticas de higiene y Alimentación complementaria","Orientar aproximadamente 265,000 actividades relacionadas con los temas del paquete priorizado de frecuencia mensual, para ser ejecutadas por las gestantes y familias en las actividades cotidianas. Las actividades consideran las buenas prácticas, saberes, valores de crianza y respeto de la cultura. 
+El procesamiento de datos —que comprende la recopilación, validación y depuración de información proveniente de múltiples fuentes— demanda plazos técnicos que superan la fecha de corte establecida para la presentación del reporte; en consecuencia, los datos reportados no corresponden al mes inmediato anterior.",Política Pública,No,Fiscal,Mensual,Nacional,2026-01-01,2026-12-31,cobertura,265000,,,,Cobertura: la meta de cada mes es la meta anual.
+acceso-servicios-atencion-gerontologica,MTDH,Acceso a servicios de atención gerontológica,"Garantizar el acceso de las personas adultas mayores en condición de pobreza, extrema pobreza y vulnerabilidad a servicios de atención gerontológica integral, a través de convenios de cooperación con gobiernos autónomos descentralizados, organizaciones de la sociedad civil, organizaciones religiosas y otras entidades cooperantes.
+El procesamiento de datos —que comprende la recopilación, validación y depuración de información proveniente de múltiples fuentes— demanda plazos técnicos que superan la fecha de corte establecida para la presentación del reporte; en consecuencia, los datos reportados no corresponden al mes inmediato anterior.
+La meta anual corresponde a la cobertura de 85.029 beneficiarios. Al tratarse de un indicador de cobertura, la meta mensual es equivalente a la meta anual.",Actividad relevante,Sí,Cooperación no rembolsable,Mensual,Nacional,2026-01-01,2026-12-31,cobertura,85029,,35223275.89,5189342.28,Cobertura: la meta de cada mes es la meta anual.
+gestionar-provision-servicios-gerontologicos-directos,MTDH,Gestionar la provisión de servicios gerontológicos directos no médicos,"Implementar la provisión de servicios gerontológicos no médicos mediante atención directa a personas adultas mayores en situación de vulnerabilidad, a través de la aplicación de criterios de focalización territorial, mediante las modalidades de atención, Residencial, Diurno y Atención Domiciliara sin discapacitada, contribuyendo al incremento de la cobertura efectiva y al mejoramiento del bienestar de las personas adultas mayores.
+El procesamiento de datos —que comprende la recopilación, validación y depuración de información proveniente de múltiples fuentes— demanda plazos técnicos que superan la fecha de corte establecida para la presentación del reporte; en consecuencia, los datos reportados no corresponden al mes inmediato anterior.
+La meta anual de acceso a los servicios es de 31.231, y al ser un indicador de cobertura, la meta mensual es equivalente a la meta anual.",Actividad relevante,Sí,Fiscal,Mensual,Nacional,2026-01-01,2026-12-31,cobertura,31231,,3522019.97,9533528.16,Cobertura: la meta de cada mes es la meta anual.
+coordinar-provision-servicios-gerontologicos-no,MTDH,Coordinar la provisión de servicios gerontológicos no médicos interinstitucionalmente,"Coordinar mecanismos de seguimiento mediante la articulación interinstitucional con el IESS, ISSFA y MTDH para la complementariedad de los servicios gerontológicos no médicos, el intercambio de información, la reportaría interinstitucional y el fortalecimiento de la cobertura efectiva, garantizando el acceso oportuno de las personas adultas mayores a los servicios.
+Es pertinente destacar que la información se reporta de manera anual, de conformidad con la periodicidad definida para el seguimiento y cumplimiento del indicador establecido en el Plan Nacional de Desarrollo (PND).",Actividad relevante,No,Fiscal,Mensual,Nacional,2026-01-01,2026-12-31,hito,100,,,,Producto/hito: meta 100 % a la fecha de fin.

@@ -1,0 +1,12 @@
+indicador_id,accion_id,num_en_ficha,es_principal
+brecha-salarial,sensibilizar-sobre-inclusion-equidad-paridad,1,1
+desempleo-juvenil,gestionar-pasantias-sector-privado-verificacion,1,1
+desempleo-juvenil,capacitar-jovenes-entre-18-29,2,1
+desempleo-juvenil,colocar-laboralmente-jovenes-entre-18,3,1
+empleo-adecuado,promover-talleres-habilidades-blandas-ciudadanos,1,1
+empleo-adecuado,capacitar-ciudadanos-traves-cursos-gestionados,2,1
+empleo-adecuado,colocar-laboralmente-ciudadanos-traves-ofertas,3,1
+trabajo-infantil,sensibilizar-sobre-prevencion-trabajo-infantil,1,1
+trabajo-infantil,ejecutar-inspecciones-identificacion-ninas-ninos,2,1
+percepcion-calidad,otorgar-reconocimientos-entidades-publicas-implementan,1,1
+percepcion-calidad,controlar-tiempo-atencion-requerimientos-ciudadanos,2,1

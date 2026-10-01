@@ -1,0 +1,123 @@
+anio,mes_inicio,mes_fin,parcial,dimension,categoria,codigo,expedientes,monto_usd
+2023,1,12,FALSE,total,Total,,693,34185483.42
+2023,1,12,FALSE,sexo,Mujeres,,386,18518417.86
+2023,1,12,FALSE,sexo,Hombres,,307,15667065.56
+2023,1,12,FALSE,regimen,Código del Trabajo,,267,15798428.42
+2023,1,12,FALSE,regimen,LOEI,,334,14517392.50
+2023,1,12,FALSE,regimen,LOSEP,,92,3869662.50
+2023,1,12,FALSE,provincia,Azuay,01,20,948159.00
+2023,1,12,FALSE,provincia,Bolívar,02,18,889139.00
+2023,1,12,FALSE,provincia,Cañar,03,15,857178.72
+2023,1,12,FALSE,provincia,Carchi,04,5,202084.00
+2023,1,12,FALSE,provincia,Cotopaxi,05,17,1040196.22
+2023,1,12,FALSE,provincia,Chimborazo,06,14,841514.86
+2023,1,12,FALSE,provincia,El Oro,07,26,1313244.56
+2023,1,12,FALSE,provincia,Esmeraldas,08,28,1299414.75
+2023,1,12,FALSE,provincia,Guayas,09,122,5786753.10
+2023,1,12,FALSE,provincia,Imbabura,10,12,683751.47
+2023,1,12,FALSE,provincia,Loja,11,18,833784.50
+2023,1,12,FALSE,provincia,Los Ríos,12,30,1307206.30
+2023,1,12,FALSE,provincia,Manabí,13,162,7423136.68
+2023,1,12,FALSE,provincia,Morona Santiago,14,4,193225.00
+2023,1,12,FALSE,provincia,Napo,15,7,345904.77
+2023,1,12,FALSE,provincia,Pastaza,16,10,512706.07
+2023,1,12,FALSE,provincia,Pichincha,17,127,6569101.10
+2023,1,12,FALSE,provincia,Tungurahua,18,10,639745.86
+2023,1,12,FALSE,provincia,Zamora Chinchipe,19,6,390570.80
+2023,1,12,FALSE,provincia,Galápagos,20,3,132882.40
+2023,1,12,FALSE,provincia,Sucumbíos,21,3,124785.00
+2023,1,12,FALSE,provincia,Orellana,22,3,157660.00
+2023,1,12,FALSE,provincia,Santo Domingo de los Tsáchilas,23,23,1171951.24
+2023,1,12,FALSE,provincia,Santa Elena,24,10,521388.02
+2024,1,12,FALSE,total,Total,,4960,244417078.66
+2024,1,12,FALSE,sexo,Mujeres,,2905,141850533.65
+2024,1,12,FALSE,sexo,Hombres,,2055,102566545.01
+2024,1,12,FALSE,regimen,Código del Trabajo,,1077,61400047.41
+2024,1,12,FALSE,regimen,LOEI,,2377,111753375.00
+2024,1,12,FALSE,regimen,LOSEP,,1506,71263656.26
+2024,1,12,FALSE,provincia,Azuay,01,218,10596685.96
+2024,1,12,FALSE,provincia,Bolívar,02,122,6330505.90
+2024,1,12,FALSE,provincia,Cañar,03,99,5025146.57
+2024,1,12,FALSE,provincia,Carchi,04,74,3872421.87
+2024,1,12,FALSE,provincia,Cotopaxi,05,154,8141708.06
+2024,1,12,FALSE,provincia,Chimborazo,06,215,10746550.82
+2024,1,12,FALSE,provincia,El Oro,07,283,14373667.47
+2024,1,12,FALSE,provincia,Esmeraldas,08,223,11242239.79
+2024,1,12,FALSE,provincia,Guayas,09,855,40735733.09
+2024,1,12,FALSE,provincia,Imbabura,10,164,8413972.77
+2024,1,12,FALSE,provincia,Loja,11,233,11679292.94
+2024,1,12,FALSE,provincia,Los Ríos,12,251,11763326.80
+2024,1,12,FALSE,provincia,Manabí,13,469,22756050.12
+2024,1,12,FALSE,provincia,Morona Santiago,14,63,3221670.50
+2024,1,12,FALSE,provincia,Napo,15,54,2728325.60
+2024,1,12,FALSE,provincia,Pastaza,16,40,1988667.00
+2024,1,12,FALSE,provincia,Pichincha,17,1056,52083633.63
+2024,1,12,FALSE,provincia,Tungurahua,18,138,6739556.93
+2024,1,12,FALSE,provincia,Zamora Chinchipe,19,50,2678467.20
+2024,1,12,FALSE,provincia,Galápagos,20,13,538670.49
+2024,1,12,FALSE,provincia,Sucumbíos,21,23,1101814.25
+2024,1,12,FALSE,provincia,Orellana,22,23,1036748.00
+2024,1,12,FALSE,provincia,Santo Domingo de los Tsáchilas,23,107,5041178.81
+2024,1,12,FALSE,provincia,Santa Elena,24,33,1581044.10
+2025,1,12,FALSE,total,Total,,4651,229741736.32
+2025,1,12,FALSE,sexo,Mujeres,,2591,128153125.08
+2025,1,12,FALSE,sexo,Hombres,,2060,101588611.24
+2025,1,12,FALSE,regimen,Código del Trabajo,,897,50929993.82
+2025,1,12,FALSE,regimen,LOEI,,2690,128380460.00
+2025,1,12,FALSE,regimen,LOSEP,,1056,50017987.50
+2025,1,12,FALSE,regimen,LOSE,,8,413295.00
+2025,1,12,FALSE,provincia,Azuay,01,179,8886258.38
+2025,1,12,FALSE,provincia,Bolívar,02,93,4891027.44
+2025,1,12,FALSE,provincia,Cañar,03,111,5573917.60
+2025,1,12,FALSE,provincia,Carchi,04,109,5782191.48
+2025,1,12,FALSE,provincia,Cotopaxi,05,146,7614199.36
+2025,1,12,FALSE,provincia,Chimborazo,06,180,9219948.10
+2025,1,12,FALSE,provincia,El Oro,07,230,11722077.76
+2025,1,12,FALSE,provincia,Esmeraldas,08,224,11052971.37
+2025,1,12,FALSE,provincia,Guayas,09,800,37649058.30
+2025,1,12,FALSE,provincia,Imbabura,10,177,8976462.80
+2025,1,12,FALSE,provincia,Loja,11,285,14542358.48
+2025,1,12,FALSE,provincia,Los Ríos,12,168,8000901.40
+2025,1,12,FALSE,provincia,Manabí,13,331,16061531.48
+2025,1,12,FALSE,provincia,Morona Santiago,14,49,2666971.60
+2025,1,12,FALSE,provincia,Napo,15,62,3283591.51
+2025,1,12,FALSE,provincia,Pastaza,16,51,2560952.47
+2025,1,12,FALSE,provincia,Pichincha,17,1032,50181715.27
+2025,1,12,FALSE,provincia,Tungurahua,18,120,6145354.08
+2025,1,12,FALSE,provincia,Zamora Chinchipe,19,74,3817984.05
+2025,1,12,FALSE,provincia,Galápagos,20,16,738759.15
+2025,1,12,FALSE,provincia,Sucumbíos,21,38,1779037.00
+2025,1,12,FALSE,provincia,Orellana,22,21,989660.20
+2025,1,12,FALSE,provincia,Santo Domingo de los Tsáchilas,23,94,4759036.04
+2025,1,12,FALSE,provincia,Santa Elena,24,61,2845771.00
+2026,1,8,TRUE,total,Total,,4686,229841799.89
+2026,1,8,TRUE,sexo,Mujeres,,2603,127426028.41
+2026,1,8,TRUE,sexo,Hombres,,2083,102415771.48
+2026,1,8,TRUE,regimen,Código del Trabajo,,1102,60014458.22
+2026,1,8,TRUE,regimen,LOEI,,2738,129713241.67
+2026,1,8,TRUE,regimen,LOSEP,,840,39807447.50
+2026,1,8,TRUE,regimen,LOSE,,6,306652.50
+2026,1,8,TRUE,provincia,Azuay,01,167,8221900.24
+2026,1,8,TRUE,provincia,Bolívar,02,105,5498889.29
+2026,1,8,TRUE,provincia,Cañar,03,93,4682363.86
+2026,1,8,TRUE,provincia,Carchi,04,79,4040436.63
+2026,1,8,TRUE,provincia,Cotopaxi,05,147,7873236.66
+2026,1,8,TRUE,provincia,Chimborazo,06,219,11053634.75
+2026,1,8,TRUE,provincia,El Oro,07,288,14639036.00
+2026,1,8,TRUE,provincia,Esmeraldas,08,239,11690485.17
+2026,1,8,TRUE,provincia,Guayas,09,722,33487620.87
+2026,1,8,TRUE,provincia,Imbabura,10,164,8371929.77
+2026,1,8,TRUE,provincia,Loja,11,271,13722249.44
+2026,1,8,TRUE,provincia,Los Ríos,12,220,10398933.85
+2026,1,8,TRUE,provincia,Manabí,13,470,22768191.31
+2026,1,8,TRUE,provincia,Morona Santiago,14,66,3456408.12
+2026,1,8,TRUE,provincia,Napo,15,55,2799392.12
+2026,1,8,TRUE,provincia,Pastaza,16,50,2544783.50
+2026,1,8,TRUE,provincia,Pichincha,17,872,42060625.85
+2026,1,8,TRUE,provincia,Tungurahua,18,160,7950788.96
+2026,1,8,TRUE,provincia,Zamora Chinchipe,19,50,2673086.99
+2026,1,8,TRUE,provincia,Galápagos,20,20,962857.30
+2026,1,8,TRUE,provincia,Sucumbíos,21,51,2456293.93
+2026,1,8,TRUE,provincia,Orellana,22,25,1171814.23
+2026,1,8,TRUE,provincia,Santo Domingo de los Tsáchilas,23,104,4947353.25
+2026,1,8,TRUE,provincia,Santa Elena,24,49,2369487.80

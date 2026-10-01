@@ -1,0 +1,339 @@
+indicador,provincia,c,v,pob
+saneamiento,Guayas,Guayaquil,1.6037,2880.6
+saneamiento,Guayas,A. Baquerizo Moreno,0.43,136.3
+saneamiento,Guayas,Durán,0.3099,293.9
+saneamiento,Guayas,El Empalme,0.2338,182.6
+saneamiento,Guayas,Salitre,0.1332,91.5
+saneamiento,Santa Elena,Santa Elena,0.4196,214.5
+saneamiento,Santa Elena,Salinas,0.0496,86.9
+saneamiento,Santa Elena,La Libertad,0.0399,120.5
+saneamiento,Manabí,Portoviejo,0.3958,419.7
+saneamiento,Manabí,Montecristi,0.2501,231.3
+saneamiento,Manabí,Manta,0.1536,228.8
+saneamiento,Manabí,Pichincha,0.1252,83.6
+saneamiento,Manabí,Sucre,0.1139,62.9
+saneamiento,Santo Domingo de los Tsáchilas,Santo Domingo,0.1681,469.5
+saneamiento,Santo Domingo de los Tsáchilas,La Concordia,0.1046,68
+saneamiento,Los Ríos,Valencia,0.2144,164.5
+saneamiento,Los Ríos,Quevedo,0.1461,118.3
+saneamiento,Los Ríos,Babahoyo,0.0849,224.5
+saneamiento,Los Ríos,Vinces,0.0848,115.8
+saneamiento,Los Ríos,Buena Fe,0.0292,75.6
+saneamiento,Pichincha,Cayambe,0.2488,240.6
+saneamiento,Pichincha,D.M. De Quito,0.0621,2835.6
+saneamiento,Pichincha,Mejía,0.0335,88.2
+saneamiento,Pichincha,Puerto Quito,0.0221,30.4
+saneamiento,Pichincha,P.V. Maldonado,0.004,30.8
+saneamiento,Esmeraldas,Quinindé,0.0895,162.5
+saneamiento,Esmeraldas,San Lorenzo,0.0777,92.8
+saneamiento,Esmeraldas,Atacames,0.0761,81.5
+saneamiento,Esmeraldas,Eloy Alfaro,0.0521,66.7
+saneamiento,Esmeraldas,Esmeraldas,0.0362,220.7
+saneamiento,Loja,Saraguro,0.0597,45.5
+saneamiento,Loja,Loja,0.0477,218.3
+saneamiento,Loja,Catamayo,0.0188,51.9
+saneamiento,Loja,Espíndola,0.0082,9.5
+saneamiento,Loja,Zapotillo,0.0037,28.3
+saneamiento,Imbabura,Cotacachi,0.0553,100.5
+saneamiento,Imbabura,Ibarra,0.023,218.5
+saneamiento,Imbabura,Otavalo,0.0204,136.9
+saneamiento,Imbabura,Pimampiro,0.0047,9.6
+saneamiento,Imbabura,Antonio Ante,0.0025,47.5
+saneamiento,El Oro,Machala,0.0413,294.7
+saneamiento,El Oro,Huaquillas,0.0176,63
+saneamiento,El Oro,El Guabo,0.0157,115.4
+saneamiento,El Oro,Pasaje,0.0111,68.4
+saneamiento,El Oro,Santa Rosa,0.0048,57.7
+saneamiento,Azuay,Cuenca,0.0711,687.8
+saneamiento,Azuay,C.P. Enríquez,0.0117,26
+saneamiento,Azuay,Gualaceo,0.0076,61.7
+saneamiento,Morona Santiago,Taisha,0.0565,155.3
+saneamiento,Morona Santiago,Morona,0.0028,8.1
+saneamiento,Morona Santiago,Logroño,0.0022,10.4
+saneamiento,Morona Santiago,Huamboya,0.0018,6.2
+saneamiento,Morona Santiago,Tiwintza,0.0018,11.1
+saneamiento,Cotopaxi,La Maná,0.0496,78.2
+saneamiento,Cotopaxi,Saquisilí,0.0058,81.2
+saneamiento,Cotopaxi,Salcedo,0.0009,51.7
+saneamiento,Cotopaxi,Pujilí,0.0007,48.5
+saneamiento,Chimborazo,Colta,0.019,39.4
+saneamiento,Chimborazo,Cumandá,0.0059,16.7
+saneamiento,Chimborazo,Riobamba,0.0026,322.6
+saneamiento,Chimborazo,Alausí,0.0025,140.9
+saneamiento,Bolívar,Guaranda,0.0202,172.2
+saneamiento,Bolívar,Las Naves,0.0045,4.2
+saneamiento,Bolívar,Caluma,0.004,11.3
+saneamiento,Bolívar,San Miguel,0.0024,37.3
+saneamiento,Cañar,La Troncal,0.0119,76
+saneamiento,Cañar,Azogues,0.0063,105.9
+saneamiento,Cañar,Cañar,0.0056,66.2
+saneamiento,Cañar,Suscal,0.0041,10.7
+saneamiento,Orellana,F. De Orellana,0.0185,72.4
+saneamiento,Orellana,La Joya De Los Sachas,0.0009,21.3
+saneamiento,Orellana,Loreto,0.0003,25.4
+saneamiento,Sucumbíos,Lago Agrio,0.0115,121
+saneamiento,Sucumbíos,Shushufindi,0.0051,66.1
+saneamiento,Sucumbíos,Cascales,0.0023,12.9
+saneamiento,Galápagos,Santa Cruz,0.0145,21.8
+saneamiento,Carchi,Tulcán,0.0065,135.6
+saneamiento,Carchi,Montúfar,0.0013,31.5
+saneamiento,Carchi,Bolívar,0.0005,7.6
+saneamiento,Tungurahua,Ambato,0.0071,451.2
+saneamiento,Tungurahua,Stgo. De Píllaro,0.0021,38.8
+saneamiento,Zamora Chinchipe,Palanda,0.0038,9.6
+saneamiento,Zamora Chinchipe,Chinchipe,0.0018,8.8
+saneamiento,Zamora Chinchipe,Yantzaza,0.0007,19.4
+saneamiento,Zamora Chinchipe,Zamora,0.0007,31.8
+saneamiento,Napo,Tena,0.0017,90.9
+saneamiento,Napo,C.J. Arosemena Tola,0.0013,7.7
+saneamiento,Pastaza,Pastaza,0.0044,86.1
+saneamiento,Pastaza,Santa Clara,0.0003,8.4
+educ,Pichincha,D.M. De Quito,1.2395,2835.6
+educ,Pichincha,Cayambe,0.2698,240.6
+educ,Pichincha,Mejía,0.0534,88.2
+educ,Pichincha,S.M. De Los Bancos,0.0393,35.9
+educ,Pichincha,Puerto Quito,0.0306,30.4
+educ,Guayas,Guayaquil,1.1146,2880.6
+educ,Guayas,Palestina,0.0838,127.2
+educ,Guayas,A. Baquerizo Moreno,0.0821,136.3
+educ,Guayas,Durán,0.038,293.9
+educ,Guayas,Santa Lucía,0.0139,67.5
+educ,Azuay,Cuenca,0.3083,687.8
+educ,Azuay,Gualaceo,0.138,61.7
+educ,Azuay,Sígsig,0.0572,57.9
+educ,Azuay,Nabón,0.0171,12.9
+educ,Azuay,C.P. Enríquez,0.0147,26
+educ,El Oro,Machala,0.1126,294.7
+educ,El Oro,Huaquillas,0.0781,63
+educ,El Oro,Pasaje,0.0632,68.4
+educ,El Oro,El Guabo,0.0257,115.4
+educ,El Oro,Portovelo,0.022,9.2
+educ,Manabí,Portoviejo,0.1272,419.7
+educ,Manabí,Montecristi,0.0766,231.3
+educ,Manabí,Manta,0.0666,228.8
+educ,Manabí,Junín,0.0656,66.6
+educ,Manabí,24 De Mayo,0.0236,102.3
+educ,Tungurahua,Ambato,0.2787,451.2
+educ,Tungurahua,Patate,0.0123,13.3
+educ,Tungurahua,Baños,0.0108,30.6
+educ,Tungurahua,Stgo. De Píllaro,0.0082,38.8
+educ,Tungurahua,S.P. De Pelileo,0.0053,53.6
+educ,Imbabura,Otavalo,0.1035,136.9
+educ,Imbabura,Ibarra,0.0763,218.5
+educ,Imbabura,Cotacachi,0.0745,100.5
+educ,Imbabura,Antonio Ante,0.0335,47.5
+educ,Imbabura,Pimampiro,0.009,9.6
+educ,Los Ríos,Buena Fe,0.0929,75.6
+educ,Los Ríos,Babahoyo,0.0438,224.5
+educ,Los Ríos,Quevedo,0.0379,118.3
+educ,Los Ríos,Palenque,0.0319,30.8
+educ,Los Ríos,Vinces,0.0319,115.8
+educ,Loja,Loja,0.0831,218.3
+educ,Loja,Celica,0.0504,63.9
+educ,Loja,Paltas,0.026,42.7
+educ,Loja,Espíndola,0.0197,9.5
+educ,Loja,Puyango,0.0161,6.6
+educ,Cañar,Cañar,0.084,66.2
+educ,Cañar,Azogues,0.0654,105.9
+educ,Cañar,Déleg,0.033,23.9
+educ,Cañar,La Troncal,0.0126,76
+educ,Esmeraldas,San Lorenzo,0.0486,92.8
+educ,Esmeraldas,Esmeraldas,0.0415,220.7
+educ,Esmeraldas,Quinindé,0.0254,162.5
+educ,Esmeraldas,Eloy Alfaro,0.0245,66.7
+educ,Esmeraldas,Atacames,0.0222,81.5
+educ,Santa Elena,La Libertad,0.0872,120.5
+educ,Santa Elena,Santa Elena,0.0597,214.5
+educ,Santa Elena,Salinas,0.0175,86.9
+educ,Cotopaxi,Pujilí,0.0434,48.5
+educ,Cotopaxi,Latacunga,0.0422,164
+educ,Cotopaxi,La Maná,0.0413,78.2
+educ,Cotopaxi,Saquisilí,0.0147,81.2
+educ,Chimborazo,Riobamba,0.0645,322.6
+educ,Chimborazo,Colta,0.0154,39.4
+educ,Chimborazo,Cumandá,0.0085,16.7
+educ,Chimborazo,Alausí,0.006,140.9
+educ,Santo Domingo de los Tsáchilas,Santo Domingo,0.0849,469.5
+educ,Santo Domingo de los Tsáchilas,La Concordia,0.0018,68
+educ,Sucumbíos,Lago Agrio,0.0514,121
+educ,Sucumbíos,Shushufindi,0.011,66.1
+educ,Sucumbíos,Cascales,0.0044,12.9
+educ,Bolívar,Guaranda,0.0578,172.2
+educ,Bolívar,San Miguel,0.0037,37.3
+educ,Bolívar,Caluma,0.0029,11.3
+educ,Carchi,Tulcán,0.0291,135.6
+educ,Carchi,Espejo,0.0107,14.3
+educ,Carchi,Montúfar,0.0107,31.5
+educ,Zamora Chinchipe,Yantzaza,0.0179,19.4
+educ,Zamora Chinchipe,Zamora,0.0091,31.8
+educ,Zamora Chinchipe,Palanda,0.0048,9.6
+educ,Orellana,F. De Orellana,0.0233,72.4
+educ,Orellana,La Joya De Los Sachas,0.0061,21.3
+educ,Orellana,Loreto,0.0022,25.4
+educ,Napo,Tena,0.0209,90.9
+educ,Napo,Archidona,0.0034,40.9
+educ,Pastaza,Pastaza,0.013,86.1
+educ,Pastaza,Arajuno,0.0062,14.5
+educ,Pastaza,Santa Clara,0.0037,8.4
+educ,Morona Santiago,Huamboya,0.0074,6.2
+educ,Morona Santiago,Gualaquiza,0.0033,6.2
+educ,Morona Santiago,Morona,0.0017,8.1
+educ,Galápagos,Santa Cruz,0.0066,21.8
+educ,Galápagos,San Cristóbal,0.0011,11.7
+hacinamiento,Guayas,Guayaquil,1.6195,2880.6
+hacinamiento,Guayas,Durán,0.2247,293.9
+hacinamiento,Guayas,El Empalme,0.1238,182.6
+hacinamiento,Guayas,Santa Lucía,0.1027,67.5
+hacinamiento,Guayas,Daule,0.1023,136.9
+hacinamiento,Manabí,Pichincha,0.1403,83.6
+hacinamiento,Manabí,Portoviejo,0.1135,419.7
+hacinamiento,Manabí,Montecristi,0.0749,231.3
+hacinamiento,Manabí,24 De Mayo,0.0321,102.3
+hacinamiento,Manabí,Jipijapa,0.0162,55.5
+hacinamiento,Los Ríos,Palenque,0.0717,30.8
+hacinamiento,Los Ríos,Babahoyo,0.0477,224.5
+hacinamiento,Los Ríos,Buena Fe,0.0359,75.6
+hacinamiento,Los Ríos,Vinces,0.0286,115.8
+hacinamiento,Los Ríos,Urdaneta,0.0226,30.7
+hacinamiento,Santa Elena,Salinas,0.1265,86.9
+hacinamiento,Santa Elena,Santa Elena,0.122,214.5
+hacinamiento,Santa Elena,La Libertad,0.0445,120.5
+hacinamiento,El Oro,Arenillas,0.0873,57.6
+hacinamiento,El Oro,Machala,0.0851,294.7
+hacinamiento,El Oro,Huaquillas,0.0267,63
+hacinamiento,El Oro,Zaruma,0.0212,44.1
+hacinamiento,El Oro,Pasaje,0.0158,68.4
+hacinamiento,Pichincha,D.M. De Quito,0.232,2835.6
+hacinamiento,Pichincha,Cayambe,0.0099,240.6
+hacinamiento,Pichincha,S.M. De Los Bancos,0.0018,35.9
+hacinamiento,Pichincha,Mejía,0.0018,88.2
+hacinamiento,Azuay,Cuenca,0.1913,687.8
+hacinamiento,Azuay,Sígsig,0.0369,57.9
+hacinamiento,Azuay,C.P. Enríquez,0.005,26
+hacinamiento,Santo Domingo de los Tsáchilas,Santo Domingo,0.1331,469.5
+hacinamiento,Santo Domingo de los Tsáchilas,La Concordia,0.0062,68
+hacinamiento,Esmeraldas,Esmeraldas,0.0506,220.7
+hacinamiento,Esmeraldas,San Lorenzo,0.042,92.8
+hacinamiento,Esmeraldas,Atacames,0.0162,81.5
+hacinamiento,Esmeraldas,Eloy Alfaro,0.0073,66.7
+hacinamiento,Esmeraldas,Quinindé,0.0055,162.5
+hacinamiento,Loja,Loja,0.0439,218.3
+hacinamiento,Loja,Saraguro,0.0261,45.5
+hacinamiento,Loja,Macará,0.0143,22.9
+hacinamiento,Loja,Catamayo,0.0139,51.9
+hacinamiento,Loja,Paltas,0.0085,42.7
+hacinamiento,Cotopaxi,La Maná,0.0672,78.2
+hacinamiento,Cotopaxi,Saquisilí,0.0144,81.2
+hacinamiento,Cotopaxi,Latacunga,0.0046,164
+hacinamiento,Imbabura,Ibarra,0.0389,218.5
+hacinamiento,Imbabura,Otavalo,0.021,136.9
+hacinamiento,Imbabura,Cotacachi,0.0172,100.5
+hacinamiento,Chimborazo,Riobamba,0.0489,322.6
+hacinamiento,Chimborazo,Alausí,0.0116,140.9
+hacinamiento,Cañar,La Troncal,0.033,76
+hacinamiento,Cañar,Biblián,0.0132,33.9
+hacinamiento,Cañar,Cañar,0.0072,66.2
+hacinamiento,Cañar,Azogues,0.004,105.9
+hacinamiento,Bolívar,Guaranda,0.0189,172.2
+hacinamiento,Bolívar,San Miguel,0.0032,37.3
+hacinamiento,Bolívar,Las Naves,0.0024,4.2
+hacinamiento,Carchi,Montúfar,0.0125,31.5
+hacinamiento,Carchi,Tulcán,0.0092,135.6
+hacinamiento,Orellana,F. De Orellana,0.0167,72.4
+hacinamiento,Orellana,Loreto,0.0024,25.4
+hacinamiento,Sucumbíos,Lago Agrio,0.0128,121
+hacinamiento,Sucumbíos,Shushufindi,0.0009,66.1
+hacinamiento,Tungurahua,Ambato,0.0333,451.2
+hacinamiento,Tungurahua,S.P. De Pelileo,0.0023,53.6
+hacinamiento,Tungurahua,Stgo. De Píllaro,0.0021,38.8
+hacinamiento,Morona Santiago,Sucúa,0.0036,8.6
+hacinamiento,Morona Santiago,Huamboya,0.0019,6.2
+hacinamiento,Morona Santiago,Morona,0.001,8.1
+hacinamiento,Galápagos,Santa Cruz,0.0081,21.8
+hacinamiento,Zamora Chinchipe,Centinela Del Cóndor,0.0033,4.4
+hacinamiento,Zamora Chinchipe,Nangaritza,0.0024,22.8
+hacinamiento,Zamora Chinchipe,Zamora,0.0017,31.8
+hacinamiento,Napo,Tena,0.0082,90.9
+hacinamiento,Napo,Archidona,0.0056,40.9
+hacinamiento,Pastaza,Pastaza,0.0053,86.1
+hacinamiento,Pastaza,Santa Clara,0.0007,8.4
+basura,Guayas,Playas,0.9095,422.5
+basura,Guayas,Daule,0.1175,136.9
+basura,Guayas,El Empalme,0.1131,182.6
+basura,Guayas,Guayaquil,0.0766,2880.6
+basura,Guayas,Salitre,0.0628,91.5
+basura,Manabí,Pichincha,0.1291,83.6
+basura,Manabí,Santa Ana,0.1016,56.1
+basura,Manabí,Portoviejo,0.1007,419.7
+basura,Manabí,Junín,0.0798,66.6
+basura,Manabí,Jipijapa,0.0636,55.5
+basura,Pichincha,Cayambe,0.3298,240.6
+basura,Pichincha,D.M. De Quito,0.0555,2835.6
+basura,Pichincha,Pedro Moncayo,0.037,42
+basura,Pichincha,Puerto Quito,0.0314,30.4
+basura,Pichincha,Mejía,0.0116,88.2
+basura,Loja,Loja,0.0762,218.3
+basura,Loja,Celica,0.0739,63.9
+basura,Loja,Paltas,0.0414,42.7
+basura,Loja,Sozoranga,0.038,19
+basura,Loja,Zapotillo,0.0341,28.3
+basura,Los Ríos,Vinces,0.0557,115.8
+basura,Los Ríos,Puebloviejo,0.051,94.4
+basura,Los Ríos,Ventanas,0.044,76.8
+basura,Los Ríos,Babahoyo,0.0338,224.5
+basura,Los Ríos,Quevedo,0.0308,118.3
+basura,Cotopaxi,Saquisilí,0.0441,81.2
+basura,Cotopaxi,Pangua,0.0377,72.1
+basura,Cotopaxi,La Maná,0.0366,78.2
+basura,Cotopaxi,Latacunga,0.0349,164
+basura,Cotopaxi,Sigchos,0.0325,48.9
+basura,Azuay,Gualaceo,0.0878,61.7
+basura,Azuay,Cuenca,0.0697,687.8
+basura,Azuay,Santa Isabel,0.0302,9
+basura,Azuay,El Pan,0.0148,6.7
+basura,Azuay,Sígsig,0.0128,57.9
+basura,Bolívar,Guaranda,0.1346,172.2
+basura,Bolívar,San Miguel,0.0503,37.3
+basura,Bolívar,Chillanes,0.0169,9.6
+basura,Imbabura,Cotacachi,0.0655,100.5
+basura,Imbabura,Ibarra,0.0377,218.5
+basura,Imbabura,Otavalo,0.0184,136.9
+basura,Imbabura,Antonio Ante,0.0074,47.5
+basura,Esmeraldas,Quinindé,0.0531,162.5
+basura,Esmeraldas,Eloy Alfaro,0.03,66.7
+basura,Esmeraldas,San Lorenzo,0.0165,92.8
+basura,Santo Domingo de los Tsáchilas,Santo Domingo,0.0954,469.5
+basura,Santo Domingo de los Tsáchilas,La Concordia,0.0072,68
+basura,Morona Santiago,Taisha,0.0842,155.3
+basura,Morona Santiago,Huamboya,0.0102,6.2
+basura,Morona Santiago,Morona,0.003,8.1
+basura,Chimborazo,Riobamba,0.0424,322.6
+basura,Chimborazo,Alausí,0.029,140.9
+basura,Chimborazo,Colta,0.0165,39.4
+basura,Cañar,Déleg,0.0369,23.9
+basura,Cañar,Cañar,0.0277,66.2
+basura,Cañar,Azogues,0.0251,105.9
+basura,Tungurahua,Ambato,0.0422,451.2
+basura,Tungurahua,Patate,0.0129,13.3
+basura,Tungurahua,Stgo. De Píllaro,0.0115,38.8
+basura,El Oro,Zaruma,0.026,44.1
+basura,El Oro,Santa Rosa,0.0124,57.7
+basura,El Oro,Machala,0.0116,294.7
+basura,Carchi,Montúfar,0.0243,31.5
+basura,Carchi,Tulcán,0.0175,135.6
+basura,Carchi,Mira,0.0093,7.9
+basura,Sucumbíos,Lago Agrio,0.0453,121
+basura,Sucumbíos,Shushufindi,0.016,66.1
+basura,Orellana,F. De Orellana,0.0188,72.4
+basura,Orellana,Aguarico,0.011,56
+basura,Orellana,La Joya De Los Sachas,0.0052,21.3
+basura,Napo,Tena,0.0128,90.9
+basura,Napo,C.J. Arosemena Tola,0.0056,7.7
+basura,Napo,Archidona,0.0049,40.9
+basura,Pastaza,Pastaza,0.0159,86.1
+basura,Pastaza,Mera,0.0012,12
+basura,Zamora Chinchipe,Yantzaza,0.0368,19.4
+basura,Zamora Chinchipe,Palanda,0.01,9.6
+basura,Zamora Chinchipe,El Pangui,0.0055,18.4
+basura,Galápagos,San Cristóbal,0.0008,11.7
+basura,Santa Elena,Santa Elena,0.001,214.5

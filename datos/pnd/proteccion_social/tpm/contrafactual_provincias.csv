@@ -1,0 +1,97 @@
+indicador,p,v
+saneamiento,Guayas,3.29
+saneamiento,Manabí,1.103
+saneamiento,Los Ríos,0.639
+saneamiento,Santa Elena,0.509
+saneamiento,Pichincha,0.373
+saneamiento,Esmeraldas,0.365
+saneamiento,Santo Domingo de los Tsáchilas,0.273
+saneamiento,Loja,0.15
+saneamiento,Imbabura,0.106
+saneamiento,El Oro,0.095
+saneamiento,Azuay,0.091
+saneamiento,Morona Santiago,0.066
+saneamiento,Cotopaxi,0.057
+saneamiento,Chimborazo,0.034
+saneamiento,Bolívar,0.032
+saneamiento,Cañar,0.028
+saneamiento,Orellana,0.02
+saneamiento,Sucumbíos,0.019
+saneamiento,Galápagos,0.014
+saneamiento,Tungurahua,0.01
+saneamiento,Carchi,0.009
+saneamiento,Zamora Chinchipe,0.007
+saneamiento,Pastaza,0.005
+saneamiento,Napo,0.003
+educ,Pichincha,1.687
+educ,Guayas,1.378
+educ,Azuay,0.572
+educ,El Oro,0.382
+educ,Manabí,0.363
+educ,Tungurahua,0.321
+educ,Imbabura,0.305
+educ,Los Ríos,0.287
+educ,Loja,0.26
+educ,Cañar,0.198
+educ,Esmeraldas,0.179
+educ,Santa Elena,0.164
+educ,Cotopaxi,0.151
+educ,Chimborazo,0.102
+educ,Santo Domingo de los Tsáchilas,0.087
+educ,Sucumbíos,0.084
+educ,Bolívar,0.066
+educ,Carchi,0.063
+educ,Zamora Chinchipe,0.043
+educ,Orellana,0.033
+educ,Napo,0.026
+educ,Pastaza,0.025
+educ,Morona Santiago,0.017
+educ,Galápagos,0.009
+hacinamiento,Guayas,2.314
+hacinamiento,Manabí,0.408
+hacinamiento,Los Ríos,0.294
+hacinamiento,Santa Elena,0.293
+hacinamiento,El Oro,0.256
+hacinamiento,Pichincha,0.246
+hacinamiento,Azuay,0.233
+hacinamiento,Santo Domingo de los Tsáchilas,0.139
+hacinamiento,Esmeraldas,0.129
+hacinamiento,Loja,0.126
+hacinamiento,Cotopaxi,0.086
+hacinamiento,Imbabura,0.081
+hacinamiento,Chimborazo,0.061
+hacinamiento,Cañar,0.058
+hacinamiento,Tungurahua,0.038
+hacinamiento,Bolívar,0.027
+hacinamiento,Carchi,0.025
+hacinamiento,Orellana,0.021
+hacinamiento,Sucumbíos,0.014
+hacinamiento,Napo,0.014
+hacinamiento,Zamora Chinchipe,0.011
+hacinamiento,Morona Santiago,0.01
+hacinamiento,Galápagos,0.008
+hacinamiento,Pastaza,0.007
+basura,Guayas,1.486
+basura,Manabí,0.621
+basura,Pichincha,0.476
+basura,Loja,0.394
+basura,Los Ríos,0.287
+basura,Cotopaxi,0.238
+basura,Azuay,0.237
+basura,Bolívar,0.203
+basura,Imbabura,0.133
+basura,Esmeraldas,0.116
+basura,Santo Domingo de los Tsáchilas,0.103
+basura,Morona Santiago,0.102
+basura,Chimborazo,0.098
+basura,Cañar,0.095
+basura,Tungurahua,0.084
+basura,El Oro,0.066
+basura,Sucumbíos,0.063
+basura,Carchi,0.061
+basura,Zamora Chinchipe,0.057
+basura,Orellana,0.037
+basura,Napo,0.023
+basura,Pastaza,0.018
+basura,Galápagos,0.001
+basura,Santa Elena,0.001

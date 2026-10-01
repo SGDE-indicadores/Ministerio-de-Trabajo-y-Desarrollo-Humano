@@ -1,0 +1,7 @@
+indicador_id,orden,codigo_meta,eje,nombre,nombre_corto,unidad,sentido,linea_base,anio_base,meta_2029,pagina
+pobreza-extrema,1,,Eje Social,Tasa de pobreza extrema por ingresos,Pobreza extrema por ingresos,%,bajar,8.81,2024,7.79,pobreza_extrema.html
+tpm,2,1.1.2,Eje Social,Tasa de pobreza multidimensional,Pobreza multidimensional (TPM),%,bajar,36.85,2024,32.59,tpm.html
+usuarios-ps,3,,Eje Social,Porcentaje de usuarios de los servicios de protección social que se encuentran en condición de pobreza y pobreza extrema,Usuarios de protección social en pobreza,%,subir,74.61,2024,90.23,proteccion_social.html
+primera-infancia,4,,Eje Social,"Porcentaje de gestantes, niñas y niños menores de 6 años que reciben servicios para la primera infancia",Primera infancia,%,subir,38.91,2024,42.51,primera_infancia.html
+dci,5,1.2.2,Eje Social,Prevalencia de desnutrición crónica en niñas y niños menores de dos años,Desnutrición crónica infantil,%,bajar,19.27,2024,15.27,dci.html
+gerontologicos,6,,Eje Social,Tasa de Cobertura de Servicios Gerontológicos Públicos No Médicos,Servicios gerontológicos,%,subir,7.72,2024,8.71,gerontologicos.html

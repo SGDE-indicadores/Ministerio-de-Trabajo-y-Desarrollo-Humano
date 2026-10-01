@@ -1,0 +1,784 @@
+{
+ "CORTES_META": {
+  "2026-01": "Enero 2026",
+  "2026-02": "Febrero 2026",
+  "2026-03": "Marzo 2026",
+  "2026-04": "Abril 2026",
+  "2026-05": "Mayo 2026"
+ },
+ "CRON_DATA": {
+  "MTDH": {
+   "nombre": "Ministerio de Trabajo y Desarrollo Humano",
+   "sigla": "MTDH",
+   "indicadores": [
+    "Desempleo/subempleo",
+    "No contrib. pensiones",
+    "Educ. superior económica"
+   ],
+   "acciones": [
+    {
+     "num": 1,
+     "titulo": "Entregar el Crédito de Desarrollo Humano a usuarios de Bonos y Pensiones del MTDH",
+     "desc": "Acceso a financiamiento mediante CDH a usuarios de bonos y pensiones para iniciar o fortalecer emprendimientos.",
+     "tipo": "Política Pública",
+     "fecha_ini": "Ene 2026",
+     "fecha_fin": "Dic 2026",
+     "frecuencia": "Mensual"
+    },
+    {
+     "num": 2,
+     "titulo": "Desarrollar las capacidades de usuarios que buscan acceder al CDH o ampliar conocimientos",
+     "desc": "Escuelas de Inclusión Económica (EIE) y Empleabilidad y Autoempleo (EEA) para fortalecer competencias.",
+     "tipo": "Política Pública",
+     "fecha_ini": "Ene 2026",
+     "fecha_fin": "Dic 2026",
+     "frecuencia": "Mensual"
+    },
+    {
+     "num": 3,
+     "titulo": "Ejecutar las prácticas del Sistema Nacional de Comercialización Inclusiva",
+     "desc": "Acceso a mercados para emprendedores del CDH y la Economía Popular y Solidaria.",
+     "tipo": "Política Pública",
+     "fecha_ini": "Ene 2026",
+     "fecha_fin": "Nov 2026",
+     "frecuencia": "Mensual"
+    },
+    {
+     "num": 4,
+     "titulo": "Desarrollar capacidades blandas de jóvenes de 18-29 años en situación de pobreza",
+     "desc": "Capacitación técnica, profesional y habilidades blandas para jóvenes vulnerables.",
+     "tipo": "Programa",
+     "fecha_ini": "Ene 2026",
+     "fecha_fin": "Dic 2026",
+     "frecuencia": "Mensual"
+    },
+    {
+     "num": 5,
+     "titulo": "Fortalecer las capacidades para la empleabilidad de jóvenes en vulnerabilidad",
+     "desc": "Formación socioemocional y empleabilidad juvenil — Proyecto Jóvenes en Acción.",
+     "tipo": "Proyecto",
+     "fecha_ini": "Ene 2026",
+     "fecha_fin": "Dic 2026",
+     "frecuencia": "Trimestral"
+    }
+   ],
+   "cortes": {
+    "2026-03": {
+     "datos": {
+      "1": {
+       "resultados": "Marzo 2026: 4.183 CDH entregados — USD $4.451.142",
+       "pct": 7.02,
+       "estado": "En ejecución",
+       "justificacion": "Cumplido conforme al monto planificado mensualmente.",
+       "enlace": "https://info.desarrollohumano.gob.ec"
+      },
+      "2": {
+       "resultados": "6.840 personas capacitadas en EIE y EEA a marzo 2026.",
+       "pct": 10.4,
+       "estado": "En ejecución",
+       "justificacion": "Cumplido conforme al periodo de Marzo 2026.",
+       "enlace": "https://info.desarrollohumano.gob.ec"
+      },
+      "3": {
+       "resultados": "522 emprendedores participaron en prácticas del SNCI en marzo 2026.",
+       "pct": 100,
+       "estado": "Cumplido",
+       "justificacion": "Meta del periodo alcanzada al 100%.",
+       "enlace": "https://minube.desarrollohumano.gob.ec"
+      },
+      "4": {
+       "resultados": "67 jóvenes capacitados en habilidades blandas a marzo 2026.",
+       "pct": 100,
+       "estado": "Cumplido",
+       "justificacion": "Cumplido en el periodo reportado.",
+       "enlace": "https://minube.desarrollohumano.gob.ec"
+      },
+      "5": {
+       "resultados": "1.718 jóvenes capacitados; 1.289 con atención integral via Analistas de Juventudes.",
+       "pct": 10.61,
+       "estado": "En ejecución",
+       "justificacion": "Retraso en contratación de mentores. Ejecución presupuestaria en inversión: 11%.",
+       "enlace": "https://n9.cl/55b8k"
+      }
+     }
+    },
+    "2026-04": {
+     "datos": {
+      "3": {
+       "resultados": "1.814 emprendedores participantes en el SNCI",
+       "pct": 30.23,
+       "estado": "En ejecución",
+       "justificacion": "Durante el período correspondiente de enero a abril de 2026 se registró la participación de 1814 emprendedores en las prácticas del Sistema Nacional de Comercialización Inclusiva.\n\nhttps://minube.desarrollohumano.gob.ec/s/2CwMn3SLdqsMHJZ\n\nDificultades: La insuficiente disponibilidad de personal técnico en territorio genera sobrecarga operativa, limitaciones en la planificación y seguimiento de prácticas, menor cobertura territorial, retrasos en la articulación interinstitucional y dificultades en el acompañamiento oportuno a emprendedores, afectando la calidad, sostenibilidad y cumplimiento de metas del SNCI.",
+       "enlace": "https://minube.desarrollohumano.gob.ec/s/2CwMn3SLdqsMHJZ"
+      },
+      "4": {
+       "resultados": "180 jóvenes capacitados en habilidades blandas",
+       "pct": 91.84,
+       "estado": "En ejecución",
+       "justificacion": "Se ajusta la acción planificada, con el propósito de evidenciar las actividades desarrolladas, conforme a la información que se encuentra en esta  Subsecretaría, a través del fortalecimiento de capacidades mediante las capacitaciones de habilidades blandas y técnicas realizadas durante los meses de enero, febrero,marzo y abril  de 2026.\nLa información correspondiente a este período ha sido debidamente consolidada y validada en base a los registros institucionales https://minube.desarrollohumano.gob.ec/s/qt4zecagg89NRrQ\n\nDificultades: Limitado acceso de los jóvenes a conectividad y/o recursos económicos para asistir a las capacitaciones virtuales, la falta de motivación para garantizar permanencia en los procesos formativos, brechas a nivel de educación que dificultan el aprendizaje.",
+       "enlace": "https://minube.desarrollohumano.gob.ec/s/qt4zecagg89NRrQ"
+      },
+      "5": {
+       "resultados": "1.280 jóvenes capacitados (980 con atención integral)",
+       "pct": 8,
+       "estado": "En ejecución",
+       "justificacion": "En Abril de 2026 se ha capacitado a 1280 jóvenes de los cuales 980 jóvenes recibieron atención integral (transferencia monetaria + procesos formativos), a través de la gestión del proyecto.                       https://app.powerbi.com/view?r=eyJrIjoiMzc3NGVjMTktNGYyMy00M2NmLTkzMzItMDdmZmZlOGU4NTg5IiwidCI6ImRiYzc3YzA3LTRkMjAtNDczYi1hY2ZiLWQ4ZTg0MGM5MWMxMSIsImMiOjR9\n\nDificultades: Los procesos de contratación o rotación del personal del proyecto han ralentizado los procesos de capacitación, cabe indicar que la población objetivo ha bajado mínimamente su participación pudiendo ser por razones ajenas al proyecto.",
+       "enlace": "https://app.powerbi.com/view?r=eyJrIjoiMzc3NGVjMTktNGYyMy00M2NmLTkzMzItMDdmZmZlOGU4NTg5IiwidCI6ImRiYzc3YzA3LTRkMjAtNDczYi1hY2ZiLWQ4ZTg0MGM5MWMxMSIsImMiOjR9"
+      }
+     }
+    },
+    "2026-05": {
+     "datos": {
+      "1": {
+       "resultados": "Durante el período de enero a abril del 2026, se entregaron 19.265 CDH con un monto total de USD $ 20´076.667",
+       "pct": 32.11,
+       "estado": "En ejecución",
+       "justificacion": "Se ha logrado colocar conforme al monto planificado mensualmente para entrega de CDH para el período solicitado.\n\nhttps://info.desarrollohumano.gob.ec/index.php/cdh/historico\n\nDificultades: La contactabilidad a los usuarios ha sido muy complicada debido a que cambian de número con facilidad y viven en áreas con poca cobertura. Adicionalmente, uno de los requisitos de elegibilidad para que los beneficiarios de bonos y pensiones accedan al Crédito de Desarrollo Humano (CDH) es encontrarse por debajo de la línea de pobreza establecida por el Registro Social. Con base a la actualización de dicha línea de corte, varios usuarios quedaron por encima del nuevo umbral y, en consecuencia, no cumplen con los criterios para acceder al servicio del CDH.",
+       "enlace": "https://info.desarrollohumano.gob.ec/index.php/cdh/historico"
+      },
+      "2": {
+       "resultados": "22.168 personas capacitadas en EIE y EEA",
+       "pct": 33.7,
+       "estado": "En ejecución",
+       "justificacion": "Conforme al periodo se ha cumplido capacitando en las EIE y EEA.\n\nhttps://info.desarrollohumano.gob.ec/index.php/gestion-de-conocimiento/escuelas-de-inclusion-economica-fase-1-y-2\n\nDificultades: Perdida de continuidad en los procesos operativos y técnicos.\n-Necesidad recurrente de inducción y capacitación a nuevo personal lo que incrementa tiempos y carga administrativa",
+       "enlace": "https://info.desarrollohumano.gob.ec/index.php/gestion-de-conocimiento/escuelas-de-inclusion-economica-fase-1-y-2"
+      }
+     }
+    }
+   }
+  },
+  "MINEDEC": {
+   "nombre": "Ministerio de Educación, Deporte y Cultura",
+   "sigla": "MINEDEC",
+   "indicadores": [
+    "No acceso a educación superior (económica)",
+    "Logro educativo incompleto"
+   ],
+   "acciones": [
+    {
+     "num": 1,
+     "titulo": "Otorgar becas para estudios de cuarto nivel, enfocadas al sector hidrocarburos",
+     "desc": "Becas de estudio para especialización de la industria de hidrocarburos, contribuyendo al desarrollo del talento humano del país.",
+     "tipo": "Programa",
+     "fecha_ini": "Abr 2026",
+     "fecha_fin": "Jun 2026",
+     "frecuencia": "Trimestral"
+    },
+    {
+     "num": 2,
+     "titulo": "Implementar programa de becas para reducción de la brecha digital",
+     "desc": "Becas enfocadas al cierre de la brecha digital en zonas urbano-marginales, rurales y fronterizas.",
+     "tipo": "Programa",
+     "fecha_ini": "Jul 2026",
+     "fecha_fin": "Sep 2026",
+     "frecuencia": "Trimestral"
+    },
+    {
+     "num": 3,
+     "titulo": "Otorgar becas y ayudas económicas para estudios de educación superior y capacitación continua",
+     "desc": "Proyecto Desarrollando el Talento Humano: acceso a tercer y cuarto nivel, formación continua y empleabilidad. Presupuesto inversión: $13.538.810,17.",
+     "tipo": "Proyecto",
+     "fecha_ini": "Oct 2026",
+     "fecha_fin": "Nov 2026",
+     "frecuencia": "Trimestral"
+    },
+    {
+     "num": 4,
+     "titulo": "Fortalecer el acceso a educación superior técnica mediante el curso de nivelación IMPÚLSAT",
+     "desc": "Curso de nivelación para aspirantes de 18-29 años a institutos técnicos y tecnológicos públicos.",
+     "tipo": "Programa",
+     "fecha_ini": "Ene 2026",
+     "fecha_fin": "Dic 2026",
+     "frecuencia": "Trimestral"
+    },
+    {
+     "num": 5,
+     "titulo": "Aplicar políticas de acción afirmativa para postulantes en situación de vulnerabilidad socioeconómica",
+     "desc": "Mecanismos de priorización por condición socioeconómica y grupos de atención prioritaria en el acceso a educación superior pública.",
+     "tipo": "Política Pública",
+     "fecha_ini": "Ene 2026",
+     "fecha_fin": "Nov 2026",
+     "frecuencia": "Trimestral"
+    },
+    {
+     "num": 6,
+     "titulo": "Gestionar con las IES el registro de oferta de cupos por período académico",
+     "desc": "Coordinación con instituciones de educación superior públicas para carga de cupos conforme al cronograma nacional.",
+     "tipo": "Actividad relevante",
+     "fecha_ini": "Ene 2026",
+     "fecha_fin": "Dic 2026",
+     "frecuencia": "Trimestral"
+    },
+    {
+     "num": 7,
+     "titulo": "Gestionar los procesos de acceso a la educación superior de personas privadas de la libertad",
+     "desc": "Coordinación con el SNAI para que las PPL puedan acceder al proceso de admisión a la educación superior.",
+     "tipo": "Actividad relevante",
+     "fecha_ini": "Ene 2026",
+     "fecha_fin": "Dic 2026",
+     "frecuencia": "Trimestral"
+    }
+   ],
+   "cortes": {
+    "2026-05": {
+     "datos": {
+      "1": {
+       "resultados": "En ejecución. Período en curso (abr–jun 2026). Presupuesto codificado: $1.037.621,77.",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Si los adjudicatarios no suscriben los contratos de financiamiento, el monto planificado podría no ejecutarse en su integridad.",
+       "enlace": ""
+      },
+      "2": {
+       "resultados": "Acción no iniciada. Mintel aún no ha confirmado la transferencia de recursos a Minedec.",
+       "pct": 0,
+       "estado": "No iniciada",
+       "justificacion": "Mintel aún no ha confirmado la transferencia de recursos. Sin convenio interinstitucional firmado, Minedec no puede asumir la ejecución.",
+       "enlace": ""
+      },
+      "3": {
+       "resultados": "Acción no iniciada. El proyecto aún no cuenta con Dictamen de Prioridad.",
+       "pct": 0,
+       "estado": "No iniciada",
+       "justificacion": "La Secretaría General de la Administración Pública, Planificación y Gabinete aún no ha emitido el Dictamen de Prioridad requerido para acceder a los recursos de inversión asignados.",
+       "enlace": ""
+      },
+      "4": {
+       "resultados": "3.967 estudiantes matriculados en el Primer Período Académico 2026 (52,46% de avance respecto a la meta anual).",
+       "pct": 52,
+       "estado": "En ejecución",
+       "justificacion": "La información corresponde al Primer Período Académico 2026. Los resultados del segundo período se reportarán en el siguiente corte. Riesgo: baja difusión podría reducir la participación de aspirantes.",
+       "enlace": ""
+      },
+      "5": {
+       "resultados": "216.678 postulantes beneficiados con políticas de acción afirmativa en procesos de acceso a educación superior pública (58% de avance).",
+       "pct": 58,
+       "estado": "En ejecución",
+       "justificacion": "Se reporta el avance del Primer Período Académico 2026. Riesgo: inconsistencias en información de carteras de Estado pueden afectar la identificación de beneficiarios.",
+       "enlace": ""
+      },
+      "6": {
+       "resultados": "141.424 cupos registrados en el sistema para el Primer Período Académico 2026 (50% de avance respecto a la meta anual de dos períodos).",
+       "pct": 50,
+       "estado": "En ejecución",
+       "justificacion": "La información corresponde al Primer Período Académico 2026. Riesgo: disminución del presupuesto a educación superior podría reducir el número de cupos ofertados.",
+       "enlace": ""
+      },
+      "7": {
+       "resultados": "128 personas privadas de la libertad (PPL) postulantes al proceso de acceso a educación superior en el Primer Período Académico 2026 (50% de avance).",
+       "pct": 50,
+       "estado": "En ejecución",
+       "justificacion": "Riesgo: crisis penitenciarias de seguridad podrían disminuir el número de PPL participantes.",
+       "enlace": ""
+      }
+     }
+    }
+   }
+  },
+  "MDT": {
+   "nombre": "Ministerio del Trabajo",
+   "sigla": "MDT",
+   "indicadores": [
+    "Desempleo o empleo inadecuado",
+    "Empleo infantil y adolescente"
+   ],
+   "acciones": [
+    {
+     "num": 1,
+     "titulo": "Promover talleres en habilidades blandas para ciudadanos en búsqueda de empleo",
+     "desc": "Talleres virtuales gratuitos en la plataforma e-learning sobre generación de negocio, legislación laboral, marketing digital y orientación laboral.",
+     "tipo": "Actividad relevante",
+     "fecha_ini": "Ene 2026",
+     "fecha_fin": "Dic 2026",
+     "frecuencia": "Trimestral"
+    },
+    {
+     "num": 2,
+     "titulo": "Capacitar a ciudadanos a través de los cursos del Servicio Público de Empleo",
+     "desc": "Cursos de capacitación gratuitos coordinados con empresas privadas e instituciones públicas para mejorar el perfil profesional.",
+     "tipo": "Actividad relevante",
+     "fecha_ini": "Ene 2026",
+     "fecha_fin": "Dic 2026",
+     "frecuencia": "Trimestral"
+    },
+    {
+     "num": 3,
+     "titulo": "Colocar laboralmente a ciudadanos a través del Servicio Público de Empleo",
+     "desc": "Facilitación de inserción laboral mediante difusión y gestión de ofertas de empleo conectando demandantes con oportunidades acordes a su perfil.",
+     "tipo": "Actividad relevante",
+     "fecha_ini": "Ene 2026",
+     "fecha_fin": "Dic 2026",
+     "frecuencia": "Trimestral"
+    },
+    {
+     "num": 4,
+     "titulo": "Sensibilizar sobre la prevención del trabajo infantil",
+     "desc": "Talleres a empleadores, instituciones públicas, trabajadores y sociedad civil sobre derechos laborales y prevención del trabajo infantil.",
+     "tipo": "Actividad relevante",
+     "fecha_ini": "Ene 2026",
+     "fecha_fin": "Dic 2026",
+     "frecuencia": "Trimestral"
+    },
+    {
+     "num": 5,
+     "titulo": "Ejecutar inspecciones para identificar niñas, niños y adolescentes en trabajo infantil",
+     "desc": "Inspecciones a empleadores del sector privado para verificar cumplimiento de obligaciones laborales en materia de trabajo infantil y adolescente peligroso.",
+     "tipo": "Actividad relevante",
+     "fecha_ini": "Ene 2026",
+     "fecha_fin": "Dic 2026",
+     "frecuencia": "Mensual"
+    },
+    {
+     "num": 6,
+     "titulo": "Ejecutar inspecciones para verificar el cumplimiento de obligaciones laborales",
+     "desc": "Inspecciones integrales y focalizadas en relaciones laborales del Código de Trabajo, garantizando derechos y obligaciones legales.",
+     "tipo": "Actividad relevante",
+     "fecha_ini": "Ene 2026",
+     "fecha_fin": "Dic 2026",
+     "frecuencia": "Mensual"
+    }
+   ],
+   "cortes": {
+    "2026-01": {
+     "datos": {
+      "1": {
+       "resultados": "1.866 ciudadanos capacitados en talleres de habilidades blandas",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Dato mensual de Enero 2026 extraído del informe consolidado de seguimiento (corte mayo 2026). Ver el reporte completo de mayo para el detalle y las dificultades reportadas.",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      },
+      "2": {
+       "resultados": "1.672 ciudadanos capacitados en cursos del Servicio Público de Empleo",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Dato mensual de Enero 2026 extraído del informe consolidado de seguimiento (corte mayo 2026). Ver el reporte completo de mayo para el detalle y las dificultades reportadas.",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      },
+      "3": {
+       "resultados": "3.411 personas colocadas laboralmente vía el Servicio Público de Empleo",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Dato mensual de Enero 2026 extraído del informe consolidado de seguimiento (corte mayo 2026). Ver el reporte completo de mayo para el detalle y las dificultades reportadas.",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      },
+      "4": {
+       "resultados": "11 talleres de sensibilización ejecutados",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Dato mensual de Enero 2026 extraído del informe consolidado de seguimiento (corte mayo 2026). Ver el reporte completo de mayo para el detalle y las dificultades reportadas.",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      },
+      "5": {
+       "resultados": "70 inspecciones para identificación de trabajo infantil y adolescente",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Dato mensual de Enero 2026 extraído del informe consolidado de seguimiento (corte mayo 2026). Ver el reporte completo de mayo para el detalle y las dificultades reportadas.",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      },
+      "6": {
+       "resultados": "1.141 inspecciones de trabajo realizadas",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Dato mensual de Enero 2026 extraído del informe consolidado de seguimiento (corte mayo 2026). Ver el reporte completo de mayo para el detalle y las dificultades reportadas.",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      }
+     }
+    },
+    "2026-02": {
+     "datos": {
+      "1": {
+       "resultados": "902 ciudadanos capacitados en talleres de habilidades blandas",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Dato mensual de Febrero 2026 extraído del informe consolidado de seguimiento (corte mayo 2026). Ver el reporte completo de mayo para el detalle y las dificultades reportadas.",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      },
+      "2": {
+       "resultados": "2.567 ciudadanos capacitados en cursos del Servicio Público de Empleo",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Dato mensual de Febrero 2026 extraído del informe consolidado de seguimiento (corte mayo 2026). Ver el reporte completo de mayo para el detalle y las dificultades reportadas.",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      },
+      "3": {
+       "resultados": "3.427 personas colocadas laboralmente vía el Servicio Público de Empleo",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Dato mensual de Febrero 2026 extraído del informe consolidado de seguimiento (corte mayo 2026). Ver el reporte completo de mayo para el detalle y las dificultades reportadas.",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      },
+      "4": {
+       "resultados": "19 talleres de sensibilización ejecutados",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Dato mensual de Febrero 2026 extraído del informe consolidado de seguimiento (corte mayo 2026). Ver el reporte completo de mayo para el detalle y las dificultades reportadas.",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      },
+      "5": {
+       "resultados": "61 inspecciones para identificación de trabajo infantil y adolescente",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Dato mensual de Febrero 2026 extraído del informe consolidado de seguimiento (corte mayo 2026). Ver el reporte completo de mayo para el detalle y las dificultades reportadas.",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      },
+      "6": {
+       "resultados": "1.133 inspecciones de trabajo realizadas",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Dato mensual de Febrero 2026 extraído del informe consolidado de seguimiento (corte mayo 2026). Ver el reporte completo de mayo para el detalle y las dificultades reportadas.",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      }
+     }
+    },
+    "2026-03": {
+     "datos": {
+      "1": {
+       "resultados": "1.816 ciudadanos capacitados en talleres de habilidades blandas",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Dato mensual de Marzo 2026 extraído del informe consolidado de seguimiento (corte mayo 2026). Ver el reporte completo de mayo para el detalle y las dificultades reportadas.",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      },
+      "2": {
+       "resultados": "2.203 ciudadanos capacitados en cursos del Servicio Público de Empleo",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Dato mensual de Marzo 2026 extraído del informe consolidado de seguimiento (corte mayo 2026). Ver el reporte completo de mayo para el detalle y las dificultades reportadas.",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      },
+      "3": {
+       "resultados": "2.167 personas colocadas laboralmente vía el Servicio Público de Empleo",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Dato mensual de Marzo 2026 extraído del informe consolidado de seguimiento (corte mayo 2026). Ver el reporte completo de mayo para el detalle y las dificultades reportadas.",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      },
+      "4": {
+       "resultados": "11 talleres de sensibilización ejecutados",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Dato mensual de Marzo 2026 extraído del informe consolidado de seguimiento (corte mayo 2026). Ver el reporte completo de mayo para el detalle y las dificultades reportadas.",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      },
+      "5": {
+       "resultados": "71 inspecciones para identificación de trabajo infantil y adolescente",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Dato mensual de Marzo 2026 extraído del informe consolidado de seguimiento (corte mayo 2026). Ver el reporte completo de mayo para el detalle y las dificultades reportadas.",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      },
+      "6": {
+       "resultados": "1.203 inspecciones de trabajo realizadas",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Dato mensual de Marzo 2026 extraído del informe consolidado de seguimiento (corte mayo 2026). Ver el reporte completo de mayo para el detalle y las dificultades reportadas.",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      }
+     }
+    },
+    "2026-04": {
+     "datos": {
+      "1": {
+       "resultados": "1.689 ciudadanos capacitados en talleres de habilidades blandas",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Dato mensual de Abril 2026 extraído del informe consolidado de seguimiento (corte mayo 2026). Ver el reporte completo de mayo para el detalle y las dificultades reportadas.",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      },
+      "2": {
+       "resultados": "2.157 ciudadanos capacitados en cursos del Servicio Público de Empleo",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Dato mensual de Abril 2026 extraído del informe consolidado de seguimiento (corte mayo 2026). Ver el reporte completo de mayo para el detalle y las dificultades reportadas.",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      },
+      "3": {
+       "resultados": "3.132 personas colocadas laboralmente vía el Servicio Público de Empleo",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Dato mensual de Abril 2026 extraído del informe consolidado de seguimiento (corte mayo 2026). Ver el reporte completo de mayo para el detalle y las dificultades reportadas.",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      },
+      "4": {
+       "resultados": "15 talleres de sensibilización ejecutados",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Dato mensual de Abril 2026 extraído del informe consolidado de seguimiento (corte mayo 2026). Ver el reporte completo de mayo para el detalle y las dificultades reportadas.",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      },
+      "5": {
+       "resultados": "48 inspecciones para identificación de trabajo infantil y adolescente",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Dato mensual de Abril 2026 extraído del informe consolidado de seguimiento (corte mayo 2026). Ver el reporte completo de mayo para el detalle y las dificultades reportadas.",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      },
+      "6": {
+       "resultados": "1.174 inspecciones de trabajo realizadas",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Dato mensual de Abril 2026 extraído del informe consolidado de seguimiento (corte mayo 2026). Ver el reporte completo de mayo para el detalle y las dificultades reportadas.",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      }
+     }
+    },
+    "2026-05": {
+     "datos": {
+      "1": {
+       "resultados": "8.187 ciudadanos capacitados a nivle nacional",
+       "pct": 69.75,
+       "estado": "En ejecución",
+       "justificacion": "Se capacitó a 8.187  beneficiarios a nivel nacional, a través de seis talleres Fortalece Empleo y Emprende EC. Las personas capacitadas aprobaron los talleres con una calificación igual o superior a 7, registrando un cumplimiento mensual de 195,71% y un avance anual de 69,75%.\n\nResultados Mayo de 2026: 1.914\n\nEnlace verificable:\nhttps://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su\n\nDificultades: No se presentó ningún tipo de dificultad para el cumplimiento de la meta establecida de la acción planificada",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      },
+      "2": {
+       "resultados": "10.752 ciudadanos capacitados",
+       "pct": 41.73,
+       "estado": "En ejecución",
+       "justificacion": "De enero a mayo 2026 se capacitó a 10.752 personas a nivel nacional en herramientas actualizadas y pertinentes que les permitan mejorar su perfil profesional e incrementar su competitividad en el mercado laboral. Se iene un avance anual del 41,73% y mensual del 100,28%\n\nResultados Resultados Mayo de 2026: 2.153\n\nEnlace verificable:\nhttps://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su\n\nDificultades: No se presentó ningún tipo de dificultad para el cumplimiento de la meta establecida de la acción planificada",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      },
+      "3": {
+       "resultados": "15.229 personas colocadas",
+       "pct": 42.72,
+       "estado": "En ejecución",
+       "justificacion": "De enero a mayo 2026, el Servicio Público de Empleo (SPE) registró la colocación laboral de 15.229 personas a nivel nacional, con un avance anual del 42,72% y menual del 104,07%.\n\nResultados Mayo de 2026: 3.092\n\nEnlace verificable:\nhttps://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su\n\nDificultades: No se presentó ningún tipo de dificultad para el cumplimiento de la meta establecida de la acción planificada",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      },
+      "4": {
+       "resultados": "70 talleres de sensibilización",
+       "pct": 39.55,
+       "estado": "En ejecución",
+       "justificacion": "De enero a mayo 2026, se ejecutaron 70 talleres institucionales beneficiando a 2.329 personas. Registrando un cumplimiento mensual de 93,33% y avance anual del 39,55%.  No se cumplió con la meta establecida debido a una limitada participación activa por parte de empleadores del sector privado, instituciones del sector público, trabajadores y organizaciones de la sociedad civil, factor externo que persistió a pesar de la ejecución de las fases de socialización del servicio.\n\nResultados Mayo de 2026: 14\n\nEnlace verificable: https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su\n\nDificultades: Durante el mes de mayo se presentó una baja demanda del servicio, ya que, pese a su socialización, no se evidenció una participación activa de empleadores del sector privado, instituciones públicas, trabajadores ni organizaciones de la sociedad civil. Esta limitada respuesta afectó directamente el alcance esperado de los talleres e impidió el cumplimiento de la meta programada del indicador.",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      },
+      "5": {
+       "resultados": "293 inspecciones para la identificación de niñas, niños de trabajo infantil y trabajo adolescente peligroso.",
+       "pct": 47.03,
+       "estado": "En ejecución",
+       "justificacion": "Se realizaron 293 inspecciones a nivel nacional entre enero y mayo de 2026. En el mes de mayo se efectuaron 43 inspecciones, con un cumplimiento mensual de 82,69% y un avance anual de 47,03%. Estas inspecciones forman parte de la planificación anual de 623 inspecciones, orientadas a la identificación de niñas, niños y adolescentes en situación de trabajo infantil y trabajo adolescente peligroso.\n\nResultados Mayo de 2026: 43\n\nEnlance verificable: https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su\n\nDificultades: La principal limitación identificada es el déficit de inspectores para dar cumplimiento a la planificación mensual. Aunque esto ha generado retrasos en los cronogramas del periodo actual, la meta general presenta un nivel de sobrecumplimiento.",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      },
+      "6": {
+       "resultados": "5.809 inspecciones de trabajo",
+       "pct": 47.9,
+       "estado": "En ejecución",
+       "justificacion": "Se realizaron 5.809 inspecciones a nivel nacional entre enero y mayo de 2026. En el mes de mayo se efectuaron 1.158 inspecciones, con un cumplimiento mensual de 114,54% y un avance anual de 47.90%. Estas inspecciones forman parte de la planificación anual de 12.127 inspecciones de trabajo, orientadas al cumplimiento de las obligaciones laborales.\n\nResultados Mayo de 2026: 1.158\n\nEnlance verificable: https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su\n\nDificultades: No se presentó ningún tipo de dificultad para el cumplimiento de la meta establecida de la acción planificada",
+       "enlace": "https://drive.google.com/drive/folders/1nJRiGt4wUOW-Nuzco8ewlFWoYlUKq-Su"
+      }
+     }
+    }
+   }
+  },
+  "MAE": {
+   "nombre": "Ministerio de Ambiente y Energía",
+   "sigla": "MAE",
+   "indicadores": [
+    "Saneamiento básico",
+    "Gestión integral de residuos (GIRS)",
+    "Responsabilidad Extendida del Productor"
+   ],
+   "acciones": [
+    {
+     "num": 1,
+     "titulo": "Emitir viabilidades técnicas de proyectos de saneamiento",
+     "desc": "El Viceministerio de Agua, brinda el servicio de emisión de viabilidades técnicas de proyectos de saneamiento, el total de viabilidades técnicas al 31 de diciembre de 2026 es de 60, es decir que se reportara mensualmente 5 viabilidades técnicas",
+     "tipo": "Política Pública",
+     "fecha_ini": "Ene 2026",
+     "fecha_fin": "Dic 2026",
+     "frecuencia": "Mensual"
+    },
+    {
+     "num": 2,
+     "titulo": "Emitir viabilidades técnicas a proyectos de gestión de residuos y desechos sólidos no peligrosos municipales.",
+     "desc": "Emisión de viabilidades técnicas a proyectos de cierre técnico de botaderos, implementación de celdas emergentes y/o de gestión integral de residuos y desechos sólidos no peligrosos o cualquiera de sus fases, presentados por los Gobiernos Autónomos Descenralizados Municipales (GADM), previa evaluación técnica de sus estudios de diseño y documentación habilitante para el efecto, conforme lo determina la normativa ambiental vigente, Art. 580 del Reglamento al CODA y demás regulaciones nacionales aplicables; contribuyendo de esta forma al fortalecimiento de la infraestructura y de los servicios para el manejo adecuado de residuos en el territorio nacional.",
+     "tipo": "Actividad relevante",
+     "fecha_ini": "Ene 2026",
+     "fecha_fin": "Dic 2026",
+     "frecuencia": "Trimestral"
+    },
+    {
+     "num": 3,
+     "titulo": "Capacitar y brindar asesoría técnica - normativa, lineamientos y herramientas técnicas emitidas por MAE sobre gestión integral de residuos y desechos sólidos no peligrosos (GIRS) a los Gobiernos Autónomos Descentralizados Municipales.",
+     "desc": "Procesos de capacitación y asistencia técnica dirigido a los GADM, mediante socialización y fortalecimiento de conocimientos sobre políticas públicas, normativa ambiental, lineamientos y herramientas técnicas relacionadas con la GIRS, conforme lo establecido en los literales n) y o) del Art. 573 del RCODA, con el propósito de fortalecer las capacidades institucionales y técnicas de los GADM, para optimizar la GIRS y promover el cumplimiento de la normativa ambiental vigente.",
+     "tipo": "Actividad relevante",
+     "fecha_ini": "Ene 2026",
+     "fecha_fin": "Dic 2026",
+     "frecuencia": "Trimestral"
+    },
+    {
+     "num": 4,
+     "titulo": "Emitir evaluaciones especializadas sobre Responsabilidad Extendida del Productor en el sector privado.",
+     "desc": "Elaborar evaluaciones especializadas relacionadas con la implementación y cumplimiento del principio de Responsabilidad Extendida del Productor (REP) en el sector privado, a fin de verificar el cumplimiento de la normativa ambiental vigente para la recuperación de los residuos bajo REP.",
+     "tipo": "Política Pública",
+     "fecha_ini": "Ene 2026",
+     "fecha_fin": "Dic 2026",
+     "frecuencia": "Trimestral"
+    },
+    {
+     "num": 5,
+     "titulo": "Brindar capacitaciones y asesoría técnica de políticas públicas emitidas relacionadas a REP al sector privado.",
+     "desc": "Brindar capacitaciones y asesoría técnica al sector privado relacionadas con la implementación del principio de Responsabilidad Extendida del Productor (REP), a fin de fortalecer el cumplimiento de las obligaciones ambientales administristrativas ambientales para la recuperación de residuos regulados bajo este principio.",
+     "tipo": "Política Pública",
+     "fecha_ini": "Ene 2026",
+     "fecha_fin": "Dic 2026",
+     "frecuencia": "Trimestral"
+    }
+   ],
+   "cortes": {
+    "2026-05": {
+     "datos": {
+      "1": {
+       "resultados": "28 viabilidades técnicas de saneamiento emitidas",
+       "pct": 46.66,
+       "estado": "En ejecución",
+       "justificacion": "En el periodo de enero a mayo de 2026 se han emitido 28 viabilidades tecnicas\n\nDificultades: La falta de emison de viabilidades tecnicas, depende por la calidad de los estudios presentados por los prestadores de servicio",
+       "enlace": ""
+      },
+      "2": {
+       "resultados": "Sin resultados reportados al período.",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Sin justificación reportada.",
+       "enlace": ""
+      },
+      "3": {
+       "resultados": "Sin resultados reportados al período.",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Sin justificación reportada.",
+       "enlace": ""
+      },
+      "4": {
+       "resultados": "Sin resultados reportados al período.",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Sin justificación reportada.",
+       "enlace": ""
+      },
+      "5": {
+       "resultados": "Sin resultados reportados al período.",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "Sin justificación reportada.",
+       "enlace": ""
+      }
+     }
+    }
+   }
+  },
+  "MIT": {
+   "nombre": "Ministerio de Infraestructura y Transporte",
+   "sigla": "MIT",
+   "indicadores": [
+    "Déficit habitacional",
+    "Acceso a vivienda de interés social"
+   ],
+   "acciones": [
+    {
+     "num": 1,
+     "titulo": "Entregar 2937 soluciones habitacionales VIS *",
+     "desc": "Se entregan viviendas 100% subencionadas construidas en terreno propio y en terreno del Estado",
+     "tipo": "Proyecto",
+     "fecha_ini": "Ene 2026",
+     "fecha_fin": "Dic 2026",
+     "frecuencia": "Mensual"
+    },
+    {
+     "num": 2,
+     "titulo": "Colocar 3328 créditos hipotecarios con tasa preferencial VIS y VIP",
+     "desc": "Colocar créditos hipotecarios con tasa preferencial VIS y VIP a través de las IFIS que operan con el MIT",
+     "tipo": "Proyecto",
+     "fecha_ini": "Ene 2026",
+     "fecha_fin": "Dic 2026",
+     "frecuencia": "Mensual"
+    },
+    {
+     "num": 3,
+     "titulo": "Entregar 5000 incentivos para titulaciones de terrenos ocupados o destinados a vivienda",
+     "desc": "Entregar incentivos para titulaciones de terrenos ocupados o destinados a vivienda",
+     "tipo": "Proyecto",
+     "fecha_ini": "Ene 2026",
+     "fecha_fin": "Dic 2026",
+     "frecuencia": "Mensual"
+    },
+    {
+     "num": 4,
+     "titulo": "Entregar 2269 incentivos para el mejoramiento y/o ampliación de vivienda **",
+     "desc": "Entregar incentivos para el mejoramiento y/o ampliación de vivienda (kits de agua y saneamiento y 1000 pisos para jugar Ecuador)",
+     "tipo": "Proyecto",
+     "fecha_ini": "Ene 2026",
+     "fecha_fin": "Dic 2026",
+     "frecuencia": "Mensual"
+    },
+    {
+     "num": 5,
+     "titulo": "Entregar 508 subsidios parciales",
+     "desc": "Entregar subsidios parciales para la adquisición de vivienda, para beneficiarios calificados por el MIT",
+     "tipo": "Proyecto",
+     "fecha_ini": "Ene 2026",
+     "fecha_fin": "Dic 2026",
+     "frecuencia": "Mensual"
+    },
+    {
+     "num": 6,
+     "titulo": "Entregar 58 bonos de arrendamiento",
+     "desc": "Entregar bonos de arrendamiento",
+     "tipo": "Proyecto",
+     "fecha_ini": "Ene 2026",
+     "fecha_fin": "Dic 2026",
+     "frecuencia": "Mensual"
+    }
+   ],
+   "cortes": {
+    "2026-05": {
+     "datos": {
+      "1": {
+       "resultados": "47 viviendas VIS terminadas (de 2937 planificadas)",
+       "pct": 1.6,
+       "estado": "En ejecución",
+       "justificacion": "La acción actualmente no cumple la meta establecida de 2937 viviendas de interés social (100% subvencionadas) terminadas, pues a la fecha de corte de información (15-05-2026), entregada el 01 de junio 2026 por la EP VDU, se tiene 47 viviendas construidas en terreno propio del beneficiario terminadas con Acta Entrega Recepción Provisional de Obra. Existen varios contratos en ejecución con porcentajes de avance de obra entre el 42% y 99%; así también, están próximos a contratar nuevos proyectos de vivienda que se ejecutarán durante el año 2026. \nEn la provincia de Cañar: 6 Cañar; 1 Azoguez; 3 El Tambo\nEn la provincia de Imbabura: 22 Ibarra; 5 Pimapiro; 10 San Miguel de Urcuquí  \nhttps://drive.google.com/drive/folders/1WJeUO5yXxTURSoyE8GhHOkfhq3HkYF4u?usp=drive_link\n\nDificultades: -Limitada operatividad de administradores y fiscalizadores de obra de parte de la EP VDU para el seguimiento, ejecución y terminación de los proyectos de vivienda.\n-Cambios de beneficiarios por desistimientos, fallecimientos o propietarios de lotes que no cumplen con las medidas mínimas para implantación de viviendas de interés social.\n- El retraso en los trabajos preliminares a cargo de los GAD’s cantonales, impide un normal desarrollo en la ejecución de los proyectos de vivienda urbanizados por el Estado. Así también, se evidencia tiempos muy extensos en la obtención de permisos de construcción en los respectivos GAD’s.\n-La inseguridad en los sectores donde se construyen los proyectos de vivienda de interés social, impide la culminación oportuna y entrega a los beneficiarios.",
+       "enlace": "https://drive.google.com/drive/folders/1WJeUO5yXxTURSoyE8GhHOkfhq3HkYF4u?usp=drive_link"
+      },
+      "2": {
+       "resultados": "1.593 créditos hipotecarios VIS/VIP colocados",
+       "pct": 47.87,
+       "estado": "En ejecución",
+       "justificacion": "Se han colocado 1593 créditos hipotecarios con tasa preferencial, acorde al reporte de las Instituciones Financieras participantes del programa, esta información tiene corte 31 de mayo de 2026, cabe señalar que generalmente las IFI reportan al mes siguiente de la colocación. Durante el período Enero - Mayo se ha colocado principalmente en cinco provincias del Ecuador: Pichincha, Guayas, Azuay, Imbabura y Manabí.\nhttps://drive.google.com/drive/folders/1WJeUO5yXxTURSoyE8GhHOkfhq3HkYF4u?usp=drive_link\n\nDificultades: La colocación de créditos hipotecarios de vivienda VIP y VIS está directamente vinculada al número de operaciones colocadas por las instituciones financieras que operan en coordinación con el MIT. Esta dependencia resalta la importancia de una gestión eficiente y constante por parte de dichas entidades para garantizar el  alcance y efectividad del programa. Por esta dependencia directa la información suele ser reportada al mes siguiente de la colocación. Para el presente reporte el corte de información es 31 de mayo de 2026 (Banco General Rumiñahui, Mutualista Azuay, Mutualista Pichincha, Banco Pichincha, Banco Pacífico).",
+       "enlace": "https://drive.google.com/drive/folders/1WJeUO5yXxTURSoyE8GhHOkfhq3HkYF4u?usp=drive_link"
+      },
+      "3": {
+       "resultados": "948 títulos de propiedad emitidos (de 5000 planificados)",
+       "pct": 18.96,
+       "estado": "En ejecución",
+       "justificacion": "Se ha emitido 948 títulos de propiedad, frente a una meta programada de 1600 durante el mes de enero, febrero, marzo, abril y mayo. En relación con la meta anual de 5.000 títulos, el avance corresponde al 18,96%, manteniendo un progreso acorde al proceso gradual que requiere la regularización y titularización de predios. La provincia que genero más títulos fue Manabí.\nhttps://drive.google.com/drive/folders/1WJeUO5yXxTURSoyE8GhHOkfhq3HkYF4u?usp=drive_link\n\nDificultades: Una vez que se cuenta con los recursos económicos necesarios y se ha ejecutado el proceso de desconcentración correspondiente, se dispone de las resoluciones de adjudicación para avanzar con la titularización de terrenos; sin embargo, existe el riesgo de retrasos en la culminación del proceso debido a que la emisión e inscripción de las escrituras dependen de los tiempos y procedimientos propios de las notarías y de los Registros de la Propiedad, entidades externas a la gestión institucional, lo que podría afectar el cumplimiento oportuno de la meta de entrega de incentivos para titulaciones de terrenos.",
+       "enlace": "https://drive.google.com/drive/folders/1WJeUO5yXxTURSoyE8GhHOkfhq3HkYF4u?usp=drive_link"
+      },
+      "4": {
+       "resultados": "46 incentivos de servicios públicos terminados",
+       "pct": 2.03,
+       "estado": "En ejecución",
+       "justificacion": "La acción actualmente no cumple la meta establecida de 2269 incentivos terminados, pues a la fecha de corte de información (15-05-2026), entregada el 01 de junio 2026 por la EP VDU, se tiene 46 incentivos de servicios públicos terminados con Acta Entrega Recepción Provicional de Obra. A la presente fecha se tiene contratos que encuentran en ejecución con porcentajes de avance de obra entre el 42% y 99%; así también, están próximos a contratar nuevos proyectos de vivienda que contemplan incentivos de servicios públicos a ejecutar durante el año 2026. \nProvincia del Cañar: 5 Cañar; 1 Azoguez; 3 El Tambo\nProvincia de Imbabura: 22 Ibarra; 5 Pimapiro; 10 San Miguel de Urcuquí https://drive.google.com/drive/folders/1WJeUO5yXxTURSoyE8GhHOkfhq3HkYF4u?usp=drive_link\n\nDificultades: -Limitada operatividad de administradores y fiscalizadores de obra de parte de la EP VDU para el seguimiento, ejecución y terminación de los proyectos.\n-Cambios de beneficiarios por desistimientos, fallecimientos o propietarios de lotes que no cumplen con las medidas mínimas para implantación de viviendas de interés social y por ende incentivos de servicios públicos.\n- Tiempos muy extensos en trámites internos de los GAD's cantonales, impiden la celeridad en la obtención de permisos de construcción.\n-La inseguridad en los sectores donde se construyen los proyectos de vivienda de interés social, impide la culminación oportuna y entrega a los beneficiarios.\n-La disminución en el presupuesto destinado a la contratación de incentivos de mejoramientos.",
+       "enlace": "https://drive.google.com/drive/folders/1WJeUO5yXxTURSoyE8GhHOkfhq3HkYF4u?usp=drive_link"
+      },
+      "5": {
+       "resultados": "0 subsidios parciales entregados (proceso de calificación en curso)",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "En el marco de la planificación conjunta con el Banco Mundial, durante el primer semestre de 2026 se han calificado 240 beneficiarios, y se realicen las gestiones para certificar al menos 60 en junio; y en el segundo semestre de 2026 calificar un total de 268 beneficiarios adicionales, y se certifique la diferencia, con el objetivo de que en el último trimestre del año se proceda con el pago de los subsidios correspondientes.\nSe prevé que en el segundo semestre, se continúe haciendo las gestiones pertinentes para la certificación de recusrosos de los beneficiarios ya calificados.\n\nDificultades: Retrocesos en el proceso de calificación, derivados de observaciones técnicas y documentales detectados en varios expedientes, lo que ha requerido subsanaciones y revisiones adicionales.\nTiempos asociados a la emisión de la reforma de la escritura de constitución del fideicomiso, necesario para continuar con la reserva de recursos y el posterior pago de los subsidios, lo cual depende de los procesos de revisión y pronunciamiento de las instancias correspondientes.",
+       "enlace": ""
+      },
+      "6": {
+       "resultados": "0 bonos de arrendamiento entregados (recursos en descentralización)",
+       "pct": 0,
+       "estado": "En ejecución",
+       "justificacion": "La descentralización de los recursos se encuentra aprobada por el MEF por un valor de $24.160,00 correspondientes a las provincias Esmeraldas, El Oro, Loja y Manabí.\nLas Direcciones Distritales se encuentran realizando la documentación para Certificación Presupuetaria y pago posterior. Actualmente se encuentra los expedientes en revisión.\n\nDificultades: ´Verificación y depuración de expedientes de los beneficiarios proceso necesario para asegurar el cumplimiento de los criterios técnicos y normativos previos a la autorización de pago.\n- Por verificación y control interno, se han añadido nuevos pasos para la obtención de la Certificación POA y AVAL, que podría generar demoras en el proceso.",
+       "enlace": ""
+      }
+     }
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,44 @@
+indicador_id,periodo,anio,valor,numerador,denominador,fuente,nota
+brecha-salarial,2018,2018,19.86,,,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+brecha-salarial,2019,2019,18.68,,,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+brecha-salarial,2021,2021,17.83,,,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+brecha-salarial,2022,2022,19.23,,,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+brecha-salarial,2023,2023,15.39,,,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+brecha-salarial,2024,2024,16.65,,,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+brecha-salarial,2025,2025,14.24,,,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+desempleo-juvenil,2018,2018,8.61,175462,2037860,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+desempleo-juvenil,2019,2019,9.33,190708,2044347,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+desempleo-juvenil,2021,2021,10.34,222776,2155131,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+desempleo-juvenil,2022,2022,9.29,197503,2125506,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+desempleo-juvenil,2023,2023,8.16,172245,2110881,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+desempleo-juvenil,2024,2024,9.24,188387,2039057,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+desempleo-juvenil,2025,2025,8.39,175431,2091145,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+empleo-adecuado,2018,2018,40.21,3258518,8104747,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+empleo-adecuado,2019,2019,38.31,3164531,8259354,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+empleo-adecuado,2021,2021,32.51,2718798,8362453,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+empleo-adecuado,2022,2022,34.41,2914727,8471135,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+empleo-adecuado,2023,2023,36.31,3062162,8434079,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+empleo-adecuado,2024,2024,35.88,3047415,8494264,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+empleo-adecuado,2025,2025,37.13,3197616,8612073,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+trabajo-infantil,2018,2018,6.93,249306,3597082,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+trabajo-infantil,2019,2019,7.67,280749,3661426,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+trabajo-infantil,2021,2021,6.98,260567,3734861,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+trabajo-infantil,2022,2022,5.78,218321,3776998,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+trabajo-infantil,2023,2023,6.6,253810,3844408,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+trabajo-infantil,2024,2024,7.01,279791,3988581,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+trabajo-infantil,2025,2025,4.99,200463,4015780,"INEC · ENEMDU Anual Acumulada (serie de la ficha metodológica, versión 25/09/2026)",
+percepcion-calidad,Jun_11,2011,6.11,,,"INEC · ENEMDU / Encuesta Multipropósito (serie de la ficha metodológica, versión 25/09/2026)",ENEMDU
+percepcion-calidad,Jun_12,2012,6.67,,,"INEC · ENEMDU / Encuesta Multipropósito (serie de la ficha metodológica, versión 25/09/2026)",ENEMDU
+percepcion-calidad,Dic_13,2013,6.94,,,"INEC · ENEMDU / Encuesta Multipropósito (serie de la ficha metodológica, versión 25/09/2026)",ENEMDU
+percepcion-calidad,Jun_14,2014,6.94,,,"INEC · ENEMDU / Encuesta Multipropósito (serie de la ficha metodológica, versión 25/09/2026)",ENEMDU
+percepcion-calidad,Jun_15,2015,6.7,,,"INEC · ENEMDU / Encuesta Multipropósito (serie de la ficha metodológica, versión 25/09/2026)",ENEMDU
+percepcion-calidad,Jun_16,2016,6.55,,,"INEC · ENEMDU / Encuesta Multipropósito (serie de la ficha metodológica, versión 25/09/2026)",ENEMDU
+percepcion-calidad,Jun_17,2017,6.66,,,"INEC · ENEMDU / Encuesta Multipropósito (serie de la ficha metodológica, versión 25/09/2026)",ENEMDU
+percepcion-calidad,Dic_18,2018,6.31,,,"INEC · ENEMDU / Encuesta Multipropósito (serie de la ficha metodológica, versión 25/09/2026)",Encuesta Multipropósito
+percepcion-calidad,Dic_19,2019,6.24,,,"INEC · ENEMDU / Encuesta Multipropósito (serie de la ficha metodológica, versión 25/09/2026)",Encuesta Multipropósito
+percepcion-calidad,Dic_20,2020,6.08,,,"INEC · ENEMDU / Encuesta Multipropósito (serie de la ficha metodológica, versión 25/09/2026)",Encuesta Multipropósito
+percepcion-calidad,Dic_21,2021,5.99,,,"INEC · ENEMDU / Encuesta Multipropósito (serie de la ficha metodológica, versión 25/09/2026)",ENEMDU diciembre
+percepcion-calidad,Dic_22,2022,6.05,,,"INEC · ENEMDU / Encuesta Multipropósito (serie de la ficha metodológica, versión 25/09/2026)",ENEMDU diciembre
+percepcion-calidad,Dic_23,2023,5.71,,,"INEC · ENEMDU / Encuesta Multipropósito (serie de la ficha metodológica, versión 25/09/2026)",ENEMDU diciembre
+percepcion-calidad,Dic_24,2024,6.35,,,"INEC · ENEMDU / Encuesta Multipropósito (serie de la ficha metodológica, versión 25/09/2026)",ENEMDU diciembre
+percepcion-calidad,Dic_25,2025,5.92,,,"INEC · ENEMDU / Encuesta Multipropósito (serie de la ficha metodológica, versión 25/09/2026)",ENEMDU diciembre
