@@ -756,7 +756,6 @@ body.has-sidebar { margin-left: var(--sidebar-w); }
           <th onclick="sortT(4)">L. Inferior</th>
           <th onclick="sortT(5)">L. Superior</th>
           <th onclick="sortT(6)">CV</th>
-          <th onclick="sortT(7)">vs Meta 2029</th>
         </tr></thead>
         <tbody id="tbody-tabla"></tbody>
       </table></div>
@@ -1205,16 +1204,14 @@ function renderTabla(){
   if(sortCol>=0)data.sort((a,b)=>{const av=a[sortCol],bv=b[sortCol];if(av==null)return 1;if(bv==null)return -1;return(av<bv?-1:av>bv?1:0)*sortDir;});
   document.getElementById('ft-count').textContent=data.length+' filas';
   const tbody=document.getElementById('tbody-tabla');
-  if(!data.length){tbody.innerHTML='<tr><td colspan="8" class="no-rows">Sin resultados</td></tr>';return;}
+  if(!data.length){tbody.innerHTML='<tr><td colspan="7" class="no-rows">Sin resultados</td></tr>';return;}
   tbody.innerHTML=data.map(r=>{
     const cvCls=r[6]>.20?'td-rojo':r[6]>.15?'td-ambar':'';
-    const cumple=r[3]<=META;
     return '<tr><td>'+r[0]+'</td><td><span class="badge-fuente">'+r[1]+'</span></td><td>'+r[2]+'</td>'+
       '<td class="td-num">'+pct(r[3])+'</td>'+
       '<td class="td-num">'+(r[4]?pct(r[4]):'—')+'</td>'+
       '<td class="td-num">'+(r[5]?pct(r[5]):'—')+'</td>'+
-      '<td class="td-num '+cvCls+'">'+(r[6]*100).toFixed(1)+'%</td>'+
-      '<td style="text-align:center">'+(cumple?'<span class="td-verde">✓</span>':'<span class="td-rojo">✗</span>')+'</td></tr>';
+      '<td class="td-num '+cvCls+'">'+(r[6]*100).toFixed(1)+'%</td></tr>';
   }).join('');
 }
 function sortT(col){

@@ -223,7 +223,7 @@
     document.querySelectorAll('#historial tbody tr').forEach(tr => tr.addEventListener('click', () => {
       document.getElementById('corte').value = tr.dataset.p; irA('seguimiento'); pintar(tr.dataset.p); }));
     const primero = filas.filter(f => f.periodo.slice(0, 4) === anio)[0];
-    document.getElementById('nota-hist').innerHTML = '<b>Cómo se calcula:</b> el portal recalcula los porcentajes y acumulados a partir de la meta programada y la meta alcanzada de cada mes; el acumulado se reinicia cada año. ' +
+    document.getElementById('nota-hist').innerHTML = '<b>Cómo se calcula:</b> los porcentajes y acumulados se calculan a partir de la meta programada y la meta alcanzada de cada mes; el acumulado se reinicia cada año. ' +
       (primero && primero.periodo.slice(5) !== '01' ? `El histórico de ${anio} comienza en ${per(primero.periodo)}: el acumulado solo suma desde ese mes.` : '');
   }
 
@@ -232,7 +232,7 @@
     document.getElementById('ficha').innerHTML = renderFichaIndicador({
       queMide: cat.indicador,
       paraQue: cat.resultado_esperado,
-      formula: 'La ficha técnica del KPI aún no ha sido entregada. El portal calcula el avance acumulado como la suma de la meta alcanzada de cada mes y el avance anual como avance acumulado ÷ meta anual.',
+      formula: 'Avance acumulado = suma de la meta alcanzada de cada mes del año. Avance anual = avance acumulado ÷ meta anual.',
       unidad: cat.unidad, tipo: (cat.tipo || '').toUpperCase(), periodicidad: (cat.periodicidad || '').toUpperCase(), desagregacion: '',
       fuente: 'Formato de Seguimiento de KPI MTDH (reporte mensual de la dirección responsable).',
       sistema: 'FORMATO DE SEGUIMIENTO DE KPI (EXCEL)', recurso: 'ARCHIVO EXCEL/CSV', acceso: 'INSTITUCIONAL',

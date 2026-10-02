@@ -26,7 +26,7 @@ import sys
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATOS = os.path.join(REPO, "datos", "pnd", "trabajo")
-FUENTE = "INEC · ENEMDU Anual Acumulada · panel ENEMDU del portal (cálculo MTDH)"
+FUENTE = "INEC · ENEMDU Anual Acumulada (cálculo MTDH)"
 CAMPOS = ["indicador_id", "periodo", "tipo_periodo", "dimension", "categoria", "valor", "cv_pct", "li", "ls",
           "n_muestral", "ingreso_hombres", "ingreso_mujeres", "fuente", "nota"]
 PROVINCIAS = ["Azuay", "Bolívar", "Cañar", "Carchi", "Cotopaxi", "Chimborazo", "El Oro", "Esmeraldas", "Guayas",

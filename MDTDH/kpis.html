@@ -245,11 +245,11 @@ function buildPsSerieBars(rawRows, selectedYear){
   } else {
     rows = rawRows.filter(r => String(r.anio) === String(selectedYear)).slice().sort((a,b) => a.mes.localeCompare(b.mes));
     labelSuffix = `serie mensual ${selectedYear}`;
-    note = 'Cada valor corresponde al número de usuarios atendidos al corte de fin de cada mes. Los meses sin dato real cargado se muestran como valores provisionales hasta contar con la base oficial.';
+    note = 'Cada valor corresponde al número de usuarios atendidos al corte de fin de cada mes. Los valores mensuales son preliminares, sujetos a actualización.';
   }
   if(!rows.length) return { barsHtml: '<div class="pres-note">No hay datos para este año.</div>', labelSuffix, note: '' };
   if(rows.length && rows.every(r => !r.esReal)){
-    note = 'Serie histórica PROVISIONAL (placeholder): aún no hay una base oficial mensual/anual cargada para este indicador. Estos valores se reemplazarán cuando se reciba el dato real.';
+    note = 'Valores preliminares, sujetos a actualización.';
   }
   const maxV = Math.max(...rows.map(r => r.usuarios));
   const lastIdx = rows.length - 1;

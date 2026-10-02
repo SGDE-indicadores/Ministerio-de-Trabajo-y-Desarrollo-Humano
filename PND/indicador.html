@@ -6,6 +6,10 @@
 <title>Indicador PND · Trabajo y Oportunidades | MTDH</title>
 <link rel="stylesheet" href="../assets/css/shared.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="../assets/js/geojson_js.js"></script>
+<script src="../assets/js/ecuador-map.js"></script>
 <style>
   /* Plantilla de indicador PND · Trabajo y Oportunidades.
      Todo el contenido sale de datos/pnd/trabajo/ (no hay cifras en este HTML). */
@@ -51,6 +55,29 @@
   .leyenda-b span{display:inline-flex;align-items:center;gap:6px}
   .leyenda-b i{display:inline-block;width:16px;height:10px;border-radius:2px}
   .aviso-err{background:#FDECEA;border:1px solid #F3A8AC;color:#C4262E;border-radius:8px;padding:12px 16px;margin-bottom:14px}
+  /* mapa provincial (mismo módulo que el resto del portal) */
+  .mapa-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;align-items:start}
+  #map-wrap{position:relative}
+  #ec-map{height:520px;border-radius:8px;background:#EAF2FB}
+  .leaflet-container{font-family:Arial,sans-serif}
+  .prov-tooltip{font-family:Arial,sans-serif;font-size:12px}.prov-tooltip b{color:var(--azul)}
+  #gal-inset{position:absolute;left:12px;bottom:12px;width:140px;background:#fff;border:2px solid var(--gris-bd);border-radius:8px;box-shadow:0 4px 16px rgba(13,43,85,.18);overflow:hidden;z-index:500}
+  .inset-label{font-size:10px;font-weight:700;color:var(--azul);text-transform:uppercase;letter-spacing:.4px;padding:5px 8px 3px;border-bottom:1px solid var(--gris-bd)}
+  #ec-map-gal{height:86px;cursor:pointer}
+  .legend-box{display:flex;align-items:center;gap:8px;padding:10px 4px 2px;font-size:11px;color:var(--subtexto)}
+  .legend-scale{flex:1;height:10px;border-radius:6px;background:linear-gradient(90deg,#F5F6F8,#4F449A)}
+  #prov-lista{display:flex;flex-direction:column;gap:3px;max-height:380px;overflow-y:auto}
+  .prov-row{display:flex;align-items:center;gap:9px;padding:6px 8px;border-radius:8px;cursor:pointer;font-size:12.5px}
+  .prov-row:hover,.prov-row.sel{background:var(--azul-pale)}
+  .prov-row .rank{width:18px;font-weight:700;color:var(--subtexto);font-size:11px}
+  .prov-row .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+  .prov-row .nom{flex:1}.prov-row .val{font-weight:700;color:var(--azul);font-variant-numeric:tabular-nums;text-align:right}
+  .prov-row .val small{display:block;font-weight:400;font-size:10px;color:#8A5A00}
+  .prov-detalle{border:1px solid var(--gris-bd);border-radius:10px;padding:12px 14px;margin-top:10px;background:var(--azul-pale)}
+  .prov-detalle .pd-nombre{font-size:13px;font-weight:700;color:var(--azul);margin-bottom:6px}
+  .prov-detalle .pd-fila{display:flex;justify-content:space-between;font-size:12px;color:var(--subtexto);padding:3px 0;border-bottom:1px dashed var(--gris-bd)}
+  .prov-detalle .pd-fila:last-child{border-bottom:none}.prov-detalle .pd-fila b{color:var(--texto)}
+  @media (max-width:860px){.mapa-grid{grid-template-columns:1fr}#ec-map{height:420px}}
   @media (max-width:760px){.chart-box{height:280px}.k .v{font-size:24px}.bar-row{grid-template-columns:96px 1fr 78px}}
 </style>
 </head>
@@ -117,7 +144,7 @@
   const DIM = {
     sexo:      { t: 'Sexo', p: 'Hombres y mujeres.' },
     area:      { t: 'Área (urbano / rural)', p: 'Anual y trimestral.' },
-    provincia: { t: 'Provincia', p: 'Solo con la base anual acumulada; revisar el CV por provincia.' },
+    provincia: { t: 'Provincia', p: 'Base anual acumulada.' },
     trimestre: { t: 'Trimestral', p: 'Trimestral acumulada desde el IV trimestre 2020; se compara con el mismo trimestre de otros años.' },
   };
   const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -230,19 +257,19 @@
     if (cambios.length) notas.push(`La serie combina fuentes distintas (${[...new Set(serie.map(s => s.nota).filter(Boolean))].join(' → ')}); los cambios se marcan con línea punteada y limitan la comparabilidad.`);
     const variaciones = serie.slice(1).map((s, i) => Math.abs(s.valor - serie[i].valor));
     if (pen && variaciones.length > 2 && Math.abs(ult.valor - pen.valor) >= Math.max(...variaciones)) {
-      notas.push(`La variación del último año (${fmtD(ult.valor - pen.valor)}) es la mayor de la serie; conviene confirmarla antes de interpretarla como tendencia.`);
+      notas.push(`La variación del último año (${fmtD(ult.valor - pen.valor)}) es la mayor de la serie.`);
     }
     notas.push('Las metas intermedias 2025–2028 no constan en la ficha metodológica; se muestran solo la línea base y la meta 2029.');
     if ((ind.fuente || '').includes('ENEMDU')) notas.push('Desde 2026 una nueva encuesta del INEC reemplaza a la ENEMDU y puede afectar la comparabilidad de la serie.');
     document.getElementById('g-nota').innerHTML = '<b>Notas:</b> ' + notas.map(esc).join(' ');
 
     const conND = serie.some(s => s.numerador != null), conFuente = cambios.length > 0;
-    let t = `<thead><tr><th>Periodo</th><th class="n">Valor</th>${conND ? '<th class="n">Numerador</th><th class="n">Denominador</th>' : ''}<th class="n">Variación</th><th class="n">Distancia a la meta 2029</th>${conFuente ? '<th>Fuente</th>' : ''}</tr></thead><tbody>`;
+    let t = `<thead><tr><th>Periodo</th><th class="n">Valor</th>${conND ? '<th class="n">Numerador</th><th class="n">Denominador</th>' : ''}<th class="n">Variación</th>${conFuente ? '<th>Fuente</th>' : ''}</tr></thead><tbody>`;
     serie.forEach((r, i) => {
       const p = i ? serie[i - 1] : null;
       const v = p ? fmtD(r.valor - p.valor) + (r.anio - p.anio > 1 ? ` <span style="color:#6B7280">(vs ${p.anio})</span>` : '') : '—';
       t += `<tr><td>${esc(perTxt(r.periodo))}${String(r.anio) === ind.anio_base ? '<span class="chip lb">línea base</span>' : ''}</td><td class="n"><b>${fmtV(r.valor)}</b></td>
-        ${conND ? `<td class="n">${fmtN(r.numerador)}</td><td class="n">${fmtN(r.denominador)}</td>` : ''}<td class="n">${v}</td><td class="n">${fmtD(r.valor - meta)}</td>${conFuente ? `<td>${esc(r.nota)}</td>` : ''}</tr>`;
+        ${conND ? `<td class="n">${fmtN(r.numerador)}</td><td class="n">${fmtN(r.denominador)}</td>` : ''}<td class="n">${v}</td>${conFuente ? `<td>${esc(r.nota)}</td>` : ''}</tr>`;
     });
     document.getElementById('tabla-serie').innerHTML = t + '</tbody>';
   }
@@ -252,15 +279,81 @@
     const el = document.getElementById('p-desagregaciones');
     const dims = (ind.desag_dims || '').split('|').filter(Boolean);
     const hay = d => d === 'trimestre' ? desag.some(r => r.tipo_periodo === 'trimestral') : desag.some(r => r.dimension === d && r.tipo_periodo !== 'trimestral');
+    const disponibles = dims.filter(hay);
+    // Sin desagregaciones calculadas: no se muestra la pestaña
+    if (!disponibles.length) {
+      document.querySelector('.ind-tabs button[data-tab="desagregaciones"]').remove();
+      const visible = !el.hidden;
+      el.remove();
+      if (visible) document.querySelector('.ind-tabs button[data-tab="resultados"]').click();
+      return;
+    }
     let html = `<div class="card-b"><div class="h"><div><b>Desagregaciones oficiales de la ficha</b><div class="sub">${esc(ind.desag_geografica)} · Otras: ${esc(ind.desag_general)}</div></div></div>
       <div class="c"><div class="d-grid">
         <div class="d-card"><h4>Nacional</h4><p>Serie oficial de la ficha metodológica.</p><span class="chip ok">● Disponible</span></div>
-        ${dims.map(d => `<div class="d-card"><h4>${DIM[d].t}</h4><p>${DIM[d].p}</p><span class="chip ${hay(d) ? 'ok' : 'pend'}">${hay(d) ? '● Disponible' : '● Pendiente de cálculo'}</span></div>`).join('')}
+        ${disponibles.map(d => `<div class="d-card"><h4>${DIM[d].t}</h4><p>${DIM[d].p}</p><span class="chip ok">● Disponible</span></div>`).join('')}
       </div></div><div class="nota">${esc(ind.nota_desag)} Las estimaciones con coeficiente de variación mayor a 15 % se muestran rayadas: son referenciales.</div></div>`;
-    const conDatos = dims.filter(d => d !== 'trimestre' && hay(d));
+    const conDatos = disponibles.filter(d => d !== 'trimestre');
     conDatos.forEach(d => { html += `<div class="card-b" data-dim="${d}"></div>`; });
     el.innerHTML = html;
-    conDatos.forEach(d => pintarDim(el.querySelector(`[data-dim="${d}"]`), d));
+    conDatos.forEach(d => (d === 'provincia' ? pintarProvincia : pintarDim)(el.querySelector(`[data-dim="${d}"]`), d));
+  }
+
+  // ---- provincia: mapa coroplético (mismo módulo que el resto del portal)
+  let mapaProv = null, dibujarMapa = null;
+  function pintarProvincia(card, d, periodoSel){
+    const filas = desag.filter(r => r.dimension === 'provincia' && r.tipo_periodo !== 'trimestral');
+    const periodos = [...new Set(filas.map(r => r.periodo))].sort();
+    const per = periodoSel || periodos[periodos.length - 1];
+    const rs = filas.filter(r => r.periodo === per).map(r => ({ ...r, v: num(r.valor), li: num(r.li), ls: num(r.ls), cv: num(r.cv_pct) })).sort((a, b) => b.v - a.v);
+    const nacS = serie.find(s => s.periodo === per || String(s.anio) === per);
+    const nac = nacS ? nacS.valor : null;
+    const fuente = rs[0] ? rs[0].fuente : '';
+    const datos = rs.map(r => ({ p: r.categoria, value: r.v, cvAlto: r.cv != null && r.cv > 15, r,
+      tooltip: fmtV(r.v) + (r.li != null ? `<br>IC 95 %: ${fmtV(r.li)} – ${fmtV(r.ls)}` : '') + (r.cv != null ? `<br>CV ${r.cv.toLocaleString('es-EC', { maximumFractionDigits: 1 })} %` : '') }));
+    if (mapaProv) { mapaProv.destroy(); mapaProv = null; }
+    card.innerHTML = `<div class="h"><div><b>Por provincia · ${esc(per)}</b><div class="sub">${esc(fuente)} · haz clic en una provincia</div></div>
+        <label style="font-size:12px;color:var(--subtexto)">Año <select class="sel">${periodos.map(p => `<option ${p === per ? 'selected' : ''}>${esc(p)}</option>`).join('')}</select></label></div>
+      <div class="c"><div class="mapa-grid">
+        <div id="map-wrap"><div id="ec-map"></div><div id="gal-inset"><div class="inset-label">Galápagos</div><div id="ec-map-gal"></div></div></div>
+        <div>
+          <div id="prov-lista"></div>
+          <div class="legend-box"><span id="leg-min"></span><div class="legend-scale"></div><span id="leg-max"></span></div>
+          <div class="leyenda-b">${nac != null ? `<span><i style="background:#B07F00;width:3px;height:14px"></i>Nacional ${esc(per)}: ${fmtV(nac)}</span>` : ''}
+            ${rs.some(r => r.cv > 15) ? '<span><i style="background:#C9C4EA"></i>CV &gt; 15 % (referencial, color atenuado)</span>' : ''}</div>
+          <div class="prov-detalle" id="prov-detalle" hidden></div>
+        </div></div></div>`;
+    card.querySelector('select').addEventListener('change', e => pintarProvincia(card, d, e.target.value));
+    const detalle = p => {
+      const x = datos.find(f => f.p === p); if (!x) return;
+      const r = x.r;
+      mapaProv && mapaProv.highlight(p);
+      card.querySelectorAll('.prov-row').forEach(el => el.classList.toggle('sel', el.dataset.p === p));
+      const box = card.querySelector('#prov-detalle'); box.hidden = false;
+      box.innerHTML = `<div class="pd-nombre">${esc(p)} · ${esc(per)}</div>
+        <div class="pd-fila"><span>Valor</span><b>${fmtV(r.v)}</b></div>
+        ${r.li != null ? `<div class="pd-fila"><span>IC 95 %</span><b>${fmtV(r.li)} – ${fmtV(r.ls)}</b></div>` : ''}
+        ${r.cv != null ? `<div class="pd-fila"><span>Coeficiente de variación</span><b>${r.cv.toLocaleString('es-EC', { maximumFractionDigits: 1 })} %${r.cv > 15 ? ' (referencial)' : ''}</b></div>` : ''}
+        ${nac != null ? `<div class="pd-fila"><span>Nacional ${esc(per)}</span><b>${fmtV(nac)}</b></div>` : ''}
+        <div class="pd-fila"><span>Posición</span><b>${datos.indexOf(x) + 1} de ${datos.length}</b></div>`;
+    };
+    dibujarMapa = () => {
+      if (card.offsetParent === null) return;            // el panel está oculto: se dibuja al abrir la pestaña
+      if (!mapaProv) {
+        mapaProv = crearMapaEcuador({ mapId: 'ec-map', galId: 'ec-map-gal', onSelect: p => detalle(p) });
+        const maxV = mapaProv.render(datos, '#4F449A');
+        card.querySelector('#leg-min').textContent = fmtV(0);
+        card.querySelector('#leg-max').textContent = fmtV(maxV);
+        card.querySelector('#prov-lista').innerHTML = datos.map((x, i) => {
+          const color = _ecmapInterpola('#D9D2E8', '#4F449A', Math.sqrt(maxV > 0 ? x.value / maxV : 0));
+          return `<div class="prov-row" data-p="${esc(x.p)}"><span class="rank">${i + 1}</span><span class="dot" style="background:${color}"></span>
+            <span class="nom">${esc(x.p)}</span><span class="val">${fmtV(x.value)}${x.cvAlto ? '<small>referencial</small>' : ''}</span></div>`;
+        }).join('');
+        card.querySelectorAll('.prov-row').forEach(el => el.addEventListener('click', () => detalle(el.dataset.p)));
+      }
+      setTimeout(() => mapaProv && mapaProv.invalidateSize(), 40);
+    };
+    dibujarMapa();
   }
 
   function pintarDim(card, d, periodoSel){
@@ -324,6 +417,7 @@
   document.querySelectorAll('.ind-tabs button').forEach(b => b.addEventListener('click', () => {
     document.querySelectorAll('.ind-tabs button').forEach(x => x.setAttribute('aria-selected', String(x === b)));
     document.querySelectorAll('.ind-panel').forEach(p => p.hidden = p.id !== 'p-' + b.dataset.tab);
+    if (b.dataset.tab === 'desagregaciones' && dibujarMapa) dibujarMapa();
     if (b.dataset.tab === 'acciones' && !accionesMontadas) {
       accionesMontadas = true;
       PndPsAcciones.montar('#acciones-ps', { indicador: ID, raiz: RAIZ, indicadoresCsv: 'indicadores.csv' });

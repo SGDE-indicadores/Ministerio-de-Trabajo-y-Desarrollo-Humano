@@ -1494,9 +1494,7 @@ body.has-sidebar { margin-left: var(--sidebar-w); }
   <!-- Nota plantilla -->
   <div style="margin-top:16px;padding:12px 16px;background:var(--azul-pale);border-radius:8px;
               border-left:4px solid var(--azul);font-size:11px;color:var(--subtexto);">
-    <strong style="color:var(--azul);">📋 Actualización de datos:</strong>
-    Para agregar o actualizar información de una institución, completa la plantilla Excel estandarizada y
-    entrega al equipo técnico para su carga en el dashboard.
+    <strong style="color:var(--azul);">📋 Estados:</strong>
     Los estados se asignan automáticamente: <strong style="color:var(--verde);">verde = Cumplido</strong>,
     <strong style="color:#7F6000;">amarillo = En ejecución</strong>,
     <strong style="color:var(--rojo);">rojo = No iniciado / Vencido</strong>.
@@ -2400,7 +2398,6 @@ function renderCronTabla(inst) {
       <tr><td colspan="9" style="text-align:center;padding:40px;color:var(--subtexto);">
         <div style="font-size:28px;margin-bottom:8px;">🏗️</div>
         <div style="font-size:14px;font-weight:600;">Información próximamente disponible</div>
-        <div style="font-size:12px;margin-top:4px;">Completa la plantilla Excel y entrégala al equipo técnico.</div>
       </td></tr>`;
     document.getElementById('cron-kpis').innerHTML = '';
     if (d) {

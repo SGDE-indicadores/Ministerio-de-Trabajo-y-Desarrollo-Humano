@@ -127,7 +127,7 @@
       </div>
       <div class="card-b" id="bloque-mensual" hidden><div class="h"><div><b>Expedientes pagados por mes</b><div class="sub">Según mes de pago</div></div></div>
         <div class="c"><div class="chart-box"><canvas id="g-mes" role="img" aria-label="Expedientes pagados por mes"></canvas></div></div></div>
-      <div class="card-b"><div class="h"><div><b>Notas para la lectura</b><div class="sub">Pendientes de confirmar con el área responsable</div></div></div>
+      <div class="card-b"><div class="h"><div><b>Notas para la lectura</b><div class="sub">Consideraciones sobre las cifras</div></div></div>
         <ul class="notas" id="notas"></ul></div>
     </div>
 
@@ -384,11 +384,8 @@
   function notas(){
     const ult = anios[anios.length - 1], n = [];
     if (esParcial(ult)) n.push(`<b>${ult} es un año en curso</b> (enero–${MES[tot(ult).mes_fin - 1]}); sus cifras no son comparables con los años completos.`);
-    n.push('Las cifras corresponden a <b>expedientes (EXP.)</b> del reporte de gestión. Falta confirmar si cada expediente equivale a una persona y si corresponde a un pago efectivamente realizado, como exige la definición del indicador («compensados económicamente»).');
-    if (G.some(r => r.categoria === 'LOSE')) n.push('El régimen <b>«LOSE»</b> (2025–2026) está pendiente de confirmar: puede ser la Ley Orgánica del Servicio Exterior o un error de digitación de LOSEP.');
-    if (bajo(anios[0])) n.push(`<b>${anios[0]}</b> registra muchos menos expedientes que los años siguientes: por confirmar si es un año parcial o el inicio del proyecto.`);
+    n.push('Las cifras corresponden a <b>expedientes</b> del reporte de gestión.');
     n.push('Montos en dólares corrientes, sin ajuste por inflación. Sexo, régimen y provincia vienen como totales separados: no se pueden cruzar entre sí (por ejemplo, mujeres por provincia).');
-    n.push(`Fuente: ${esc(corte.archivo)} · cargado el ${esc(corte.fecha_carga)} con scripts/actualizar_jubilados.py.`);
     document.getElementById('notas').innerHTML = n.map(x => `<li>${x}</li>`).join('');
   }
 
@@ -397,7 +394,7 @@
     document.getElementById('ficha').innerHTML = renderFichaIndicador({
       queMide: m.queMide, paraQue: m.decision, formula: m.formula,
       unidad: m.unidad, tipo: m.tipo, periodicidad: m.periodicidad, desagregacion: 'NACIONAL, PROVINCIAL, SEXO Y RÉGIMEN',
-      fuente: `Reporte de gestión de compensación jubilar por género, provincia y régimen (${corte.archivo}), corte ${MES[+corte.corte.slice(5) - 1]} ${corte.corte.slice(0, 4)}.`,
+      fuente: `Reporte de gestión de compensación jubilar por género, provincia y régimen, corte ${MES[+corte.corte.slice(5) - 1]} ${corte.corte.slice(0, 4)}.`,
       sistema: m.sistema, recurso: m.recurso, acceso: m.acceso,
       calidad: m.calidad, prioridad: m.prioridad, disponibilidad: m.estado, genera: m.responsable, valida: m.validacion,
       observacion: m.observacion

@@ -572,7 +572,6 @@ body.has-sidebar { margin-left: var(--sidebar-w); }
             <th onclick="ordenar(3)">Numerador</th>
             <th onclick="ordenar(4)">Denominador</th>
             <th onclick="ordenar(5)">Meta proyectada</th>
-            <th onclick="ordenar(6)">vs Meta 2029</th>
           </tr></thead>
           <tbody id="tbody"></tbody>
         </table>
@@ -944,7 +943,6 @@ function renderTabla() {
   document.getElementById('tbody').innerHTML = data.map(r => {
     const esProy = r[1] === 'Proyectado';
     const ma     = META_ANIO[r[0]];
-    const cumple = r[2] >= META;
     return '<tr>' +
       '<td>ago ' + r[0] + '</td>' +
       '<td><span class="' + (esProy ? 'bproy' : 'bobs') + '">' + (esProy ? '◈ Proyectado' : '● Observado') + '</span></td>' +
@@ -952,7 +950,6 @@ function renderTabla() {
       '<td class="tn">' + fmt(r[3]) + '</td>' +
       '<td class="tn">' + fmt(r[4]) + '</td>' +
       '<td class="tn">' + (ma ? ma.toFixed(2) + '%' : '—') + '</td>' +
-      '<td style="text-align:center">' + (cumple ? '<span class="tverde">✓</span>' : '<span class="tazul">▲</span>') + '</td>' +
       '</tr>';
   }).join('');
 }

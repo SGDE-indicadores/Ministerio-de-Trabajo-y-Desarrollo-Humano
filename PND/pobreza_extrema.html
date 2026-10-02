@@ -741,7 +741,6 @@ body.has-sidebar { margin-left: var(--sidebar-w); }
             <th onclick="sortTabla(2)">Estimador</th><th onclick="sortTabla(3)">L. Inferior</th>
             <th onclick="sortTabla(4)">L. Superior</th><th onclick="sortTabla(5)">CV</th>
             <th onclick="sortTabla(6)">Numerador</th><th onclick="sortTabla(7)">Denominador</th>
-            <th onclick="sortTabla(8)">vs Meta 2029</th>
           </tr></thead>
           <tbody id="tbody-anual"></tbody>
         </table></div>
@@ -1234,11 +1233,10 @@ function renderTablaAnual(){
   if(sortColAnual>=0)data.sort((a,b)=>{const av=a[sortColAnual],bv=b[sortColAnual];if(av==null)return 1;if(bv==null)return -1;return(av<bv?-1:av>bv?1:0)*sortDirAnual;});
   document.getElementById('f-count').textContent=data.length+' filas';
   const tbody=document.getElementById('tbody-anual');
-  if(!data.length){tbody.innerHTML='<tr><td colspan="9" class="no-rows">Sin resultados</td></tr>';return;}
+  if(!data.length){tbody.innerHTML='<tr><td colspan="8" class="no-rows">Sin resultados</td></tr>';return;}
   tbody.innerHTML=data.map(r=>{
     const cvCls=r[5]>.20?'td-rojo':r[5]>.15?'td-ambar':'';
-    const vsm=r[2]<=META?'<span class="td-verde">✓</span>':'<span class="td-rojo">✗</span>';
-    return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td class="td-num">'+pct(r[2])+'</td><td class="td-num">'+pct(r[3])+'</td><td class="td-num">'+pct(r[4])+'</td><td class="td-num '+cvCls+'">'+(r[5]*100).toFixed(1)+'%</td><td class="td-num">'+(r[6]?r[6].toLocaleString('es-EC'):'—')+'</td><td class="td-num">'+(r[7]?r[7].toLocaleString('es-EC'):'—')+'</td><td style="text-align:center">'+vsm+'</td></tr>';
+    return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td class="td-num">'+pct(r[2])+'</td><td class="td-num">'+pct(r[3])+'</td><td class="td-num">'+pct(r[4])+'</td><td class="td-num '+cvCls+'">'+(r[5]*100).toFixed(1)+'%</td><td class="td-num">'+(r[6]?r[6].toLocaleString('es-EC'):'—')+'</td><td class="td-num">'+(r[7]?r[7].toLocaleString('es-EC'):'—')+'</td></tr>';
   }).join('');
 }
 function sortTabla(col){

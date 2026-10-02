@@ -309,7 +309,11 @@ function buildHistoricalDataset() {
 function transferYearRangeLabel(year) {
   const months = validMonthsForYear(year);
   if (!months.length) return String(year);
-  if (months.length < 12) return `${TRANSFER_MONTHS[months[0]]} ${year} – ${TRANSFER_MONTHS[months[months.length - 1]]} ${year}`;
+  // El año en curso empieza con un bloque acumulado desde enero (p. ej. julio 2026 = enero–julio),
+  // por eso su rango se rotula desde enero.
+  const enCurso = String(year) === PERIOD_MAX.slice(0, 4);
+  const desde = enCurso ? '01' : months[0];
+  if (months.length < 12) return `${TRANSFER_MONTHS[desde]} ${year} – ${TRANSFER_MONTHS[months[months.length - 1]]} ${year}`;
   return `ene ${year} – dic ${year}`;
 }
 function validMonthsForYear(year) {
@@ -978,12 +982,15 @@ function getTransferSelectionKey(){
   return `month:${year}-${month}`;
 }
 
+/* CARACTERIZACIÓN DE TRANSFERENCIAS (oculta por ahora; ver también selectTransferDetailTab
+   y el botón comentado en MDTDH/transferencias.html)
 function getTransferProgramData(periodKey, slug){
   const meta = getTransferProgramMetaBySlug(slug);
   const dataset = getTransferDataset(periodKey);
   if(!meta || !dataset) return null;
   return dataset.programas.find(p => p.name === meta.name) || null;
 }
+*/
 
 function renderTransferCategoryChips(){
   const availableSlugs = new Set(TRANSFER_ROWS.map(r => r.slug));
@@ -1107,12 +1114,12 @@ function showTransferLatestYear(){
 function indicatorInfoText(value){
   const text = String(value || '').trim();
   const cls = text ? 'indicator-info-text' : 'indicator-info-text muted';
-  return `<div class="${cls}">${richText(text || 'Información pendiente de cargar')}</div>`;
+  return `<div class="${cls}">${richText(text || 'En construcción')}</div>`;
 }
 
 function indicatorInfoList(items){
   const clean = Array.isArray(items) ? items.filter(x => String(x || '').trim()) : [];
-  if(!clean.length) return `<div class="indicator-info-text muted">Información pendiente de cargar</div>`;
+  if(!clean.length) return `<div class="indicator-info-text muted">En construcción</div>`;
   return `<ul class="tm-modal-reqs">${clean.map(item => `<li>${richText(item)}</li>`).join('')}</ul>`;
 }
 
@@ -1166,7 +1173,7 @@ function openIndicatorInfo(model){
 
   document.getElementById('tmModalNote').textContent = model.hasInfo
     ? `${model.source} Esta ventana informativa es independiente de la ficha técnica del indicador.`
-    : 'La estructura se mantiene igual para todos los indicadores. Esta información breve aún está pendiente de cargar y es independiente de la ficha técnica del indicador.';
+    : 'En construcción.';
   backdrop.classList.add('open');
 }
 
@@ -1189,13 +1196,15 @@ function closeTransferInfo(){
 }
 
 function renderTransferFallbackFicha(meta, info){
-  return `<div class="placeholder-box"><div class="icon">📄</div><div class="msg">Ficha técnica institucional no cargada</div><div>No se ha cargado una ficha técnica específica desde una fuente oficial del portal para <strong>${escHtml(meta?.name || 'este programa')}</strong>. Se conservan sus datos de cobertura y presupuesto, pero no se completa una ficha con información inferida.</div></div>`;
+  return '<div class="placeholder-box"><div class="icon">🛠</div><div class="msg">En construcción</div></div>';
 }
 
+/* CARACTERIZACIÓN DE TRANSFERENCIAS (oculta por ahora)
 function renderTransferCaracterizacion(meta, data, record, info){
   const desag = record?.desagregacion || 'no especificada en la matriz institucional cargada';
   return `<div class="placeholder-box"><div class="icon">🛠</div><div class="msg">Caracterización en construcción</div><div>Aún no hay resultados de caracterización cargados para este programa. La ficha técnica disponible declara una desagregación a nivel <strong>${escHtml(desag)}</strong>.</div></div>`;
 }
+*/
 
 let currentTransferCoveragePeriod = PERIOD_MAX;
 
@@ -1217,7 +1226,8 @@ function renderTransferDetail(slug){
 }
 
 function selectTransferDetailTab(tab){
-  ['cobertura','presupuesto','caracterizacion','ficha'].forEach(t => {
+  // Para volver a mostrar Caracterización, agregar 'caracterizacion' a esta lista (ver bloque comentado abajo)
+  ['cobertura','presupuesto','ficha'].forEach(t => {
     document.getElementById('btn-transfer-' + t).classList.toggle('active', t === tab);
   });
   const el = document.getElementById('transferDetailContent');
@@ -1231,11 +1241,13 @@ function selectTransferDetailTab(tab){
     return;
   }
 
+  /* CARACTERIZACIÓN DE TRANSFERENCIAS (oculta por ahora)
   if(tab === 'caracterizacion'){
     const data = getTransferProgramData(currentTransferPeriod, currentTransferDetailSlug);
     el.innerHTML = renderTransferCaracterizacion(meta, data, record, info);
     return;
   }
+  */
 
   if(tab === 'presupuesto'){
     el.innerHTML = `
@@ -1253,23 +1265,25 @@ function selectTransferDetailTab(tab){
   renderTransferCoverageByPeriod(currentTransferCoveragePeriod);
 }
 
-function renderTransferCoverageByPeriod(period){
-  currentTransferCoveragePeriod = (/^\d{4}-\d{2}$/.test(String(period || ''))) ? String(period) : PERIOD_MAX;
+function renderTransferCoverageByPeriod(){
+  // Cobertura al último corte disponible DE CADA PROGRAMA (sin selector de año y mes):
+  // los programas que aún no tienen el mes más reciente muestran su último corte.
   const el = document.getElementById('transferDetailContent');
   const meta = getTransferProgramMetaBySlug(currentTransferDetailSlug);
   if(!el || !meta) return;
+  const periodosPrograma = TRANSFER_ROWS.filter(r => r.slug === currentTransferDetailSlug && /^\d{4}-\d{2}$/.test(r.periodo)).map(r => r.periodo).sort();
+  currentTransferCoveragePeriod = periodosPrograma.length ? periodosPrograma[periodosPrograma.length - 1] : PERIOD_MAX;
   const data = buildCoverageSnapshot(currentTransferCoveragePeriod, currentTransferDetailSlug);
   const style = getTransferCategoryStyle(meta.category);
   const periodLabel = coveragePeriodLabel(currentTransferCoveragePeriod);
-  el.innerHTML = renderCoveragePeriodFilter('transferCov', currentTransferCoveragePeriod, 'renderTransferCoverageByPeriod') + (data ? `
+  el.innerHTML = data ? `
     <div class="stat-card">
       <div class="stat-label">Beneficiarios</div>
       <div class="stat-value">${fmtInt(data.users)}</div>
-      <div class="stat-note">Cobertura acumulada a <strong>${periodLabel}</strong>. El valor cambia según el año y mes seleccionados.</div>
+      <div class="stat-note">Corte: <strong>${periodLabel}</strong>.</div>
     </div>
-    <div class="coverage-cut-note"><strong>Dato real:</strong> cobertura tomada directamente de los archivos de transferencias cargados en datos/ para el corte seleccionado.</div>
     <div class="source-note" style="text-align:left;margin-top:12px;">Categoría del programa: <strong style="color:${style.color};">${style.label}</strong>.</div>`
-  : `<div class="placeholder-box"><div class="icon">🛠</div><div class="msg">Cobertura en construcción</div><div>No hay una cifra de cobertura disponible para este programa en el corte <strong>${periodLabel}</strong>.</div></div>`);
+  : '<div class="placeholder-box"><div class="icon">🛠</div><div class="msg">En construcción</div></div>';
 }
 
 function selectTransferBudgetPeriod(periodo){
@@ -1295,7 +1309,7 @@ function selectTransferBudgetPeriod(periodo){
     <div class="ind-grid">
       <div class="ind-card"><div class="ind-stripe"></div><div class="ind-body"><div class="ind-tag">Presupuesto</div><div class="ind-nombre">Ejecutado</div><div class="ind-metric-row"><span class="ind-metric-label">Monto</span><span class="ind-metric-value money">USD ${program.budget}</span></div><div class="ind-metric-row"><span class="ind-metric-label">Periodo</span><span class="ind-metric-value" style="font-size:12px;">${dataset.rangeLabel}</span></div></div></div>
       <div class="ind-card"><div class="ind-stripe"></div><div class="ind-body"><div class="ind-tag">Participación</div><div class="ind-nombre">Peso dentro del total</div><div class="ind-metric-row"><span class="ind-metric-label">Participación</span><span class="ind-metric-value">${share.toFixed(2)}%</span></div><div class="ind-bar-track"><div class="ind-bar-fill" style="width:${Math.max(share,1)}%;"></div></div></div></div>
-      <div class="ind-card"><div class="ind-stripe"></div><div class="ind-body"><div class="ind-tag">Contexto</div><div class="ind-nombre">Total del corte</div><div class="ind-metric-row"><span class="ind-metric-label">Total agregado</span><span class="ind-metric-value money">${dataset.total}</span></div><div style="font-size:12px;color:var(--subtexto);line-height:1.5;margin-top:8px;">Dato calculado exclusivamente con registros reales cargados en datos/.</div></div></div>
+      <div class="ind-card"><div class="ind-stripe"></div><div class="ind-body"><div class="ind-tag">Contexto</div><div class="ind-nombre">Total del corte</div><div class="ind-metric-row"><span class="ind-metric-label">Total agregado</span><span class="ind-metric-value money">${dataset.total}</span></div></div></div>
     </div>`;
 }
 
@@ -1421,7 +1435,6 @@ function renderCovInfografia(c){
               <div class="infog-stat-label">Cifra destacada</div>
               <div class="infog-stat-value">${fmtInt(d.registros)}</div>
               <div style="font-size:11.5px;color:var(--subtexto);margin-top:2px;">créditos otorgados en julio 2026</div>
-              <div class="infog-trend infog-trend-up">▲ Dato real de julio 2026</div>
             </div>
             ${ringHtml}
           </div>
@@ -1455,7 +1468,7 @@ function selectCovTab(tab){
       const aGrupoItems = (obj) => Object.entries(obj || {}).map(([categoria, v]) => ({ categoria, usuarios: v.registros }));
       el.innerHTML = `
         <div class="filter-bar coverage-filter-bar">
-          <div class="filter-status">Mostrando: <b>Mes de julio 2026</b> · dato real (suma de 12 y 24 meses)</div>
+          <div class="filter-status">Mostrando: <b>Mes de julio 2026</b> · créditos de 12 y 24 meses</div>
         </div>` +
         renderCaracterizacionGroup('Género', aGrupoItems(porGrupo.genero)) +
         renderCaracterizacionGroup('Rango de edad', aGrupoItems(porGrupo.rango_edad)) +
@@ -1523,7 +1536,7 @@ function renderCovHistoricalSeries(registro){
     <div class="ind-card">
       <div class="ind-stripe" style="background:var(--azul);"></div>
       <div class="ind-body">
-        <div class="ind-tag">Dato real · diciembre de cada año</div>
+        <div class="ind-tag">Corte a diciembre de cada año</div>
         <div class="ind-nombre">Usuarios atendidos · ${primero.anio}–${ultimo.anio}</div>
         <div class="ind-metric-row"><span class="ind-metric-label">${primero.anio}</span><span class="ind-metric-value">${fmtInt(primero.usuarios)}</span></div>
         <div class="ind-metric-row"><span class="ind-metric-label">${ultimo.anio}</span><span class="ind-metric-value money">${fmtInt(ultimo.usuarios)}</span></div>
@@ -1574,11 +1587,11 @@ function renderCovCoverageByPeriod(period){
   if(ps){
     const serieHistorica = renderCovHistoricalSeries(c.registro);
     el.innerHTML = `
-      <div class="filter-status" style="margin-bottom:14px;">Último corte disponible: <b>julio 2026</b> · dato real. La serie histórica anual se muestra debajo.</div>
+      <div class="filter-status" style="margin-bottom:14px;">Último corte disponible: <b>julio 2026</b>. La serie histórica anual se muestra debajo.</div>
       <div class="ind-card">
         <div class="ind-stripe" style="background:var(--azul);"></div>
         <div class="ind-body">
-          <div class="ind-tag">Dato real · corte julio 2026</div>
+          <div class="ind-tag">Corte julio 2026</div>
           <div class="ind-nombre">${escHtml(m ? m.nombre : c.label)}</div>
           <div class="ind-metric-row"><span class="ind-metric-label">Usuarios atendidos</span><span class="ind-metric-value money">${fmtInt(ps.total)}</span></div>
         </div>
@@ -1614,7 +1627,7 @@ function selectCovPeriodo(periodo){
       <div class="ind-card">
         <div class="ind-stripe" style="background:var(--verde);"></div>
         <div class="ind-body">
-          <div class="ind-tag">Dato real · monto ejecutado</div>
+          <div class="ind-tag">Monto ejecutado</div>
           <div class="ind-nombre">${escHtml(rango)}</div>
           <div class="ind-metric-row"><span class="ind-metric-label">Presupuesto ejecutado</span><span class="ind-metric-value money">USD ${fmtMoneyM(montoJulio/1e6)}</span></div>
         </div>
@@ -1633,12 +1646,11 @@ function selectCovPeriodo(periodo){
       <div class="ind-card">
         <div class="ind-stripe" style="background:var(--verde);"></div>
         <div class="ind-body">
-          <div class="ind-tag">Dato real · archivo presupuesto_proteccion_social.csv</div>
+          <div class="ind-tag">Presupuesto ejecutado</div>
           <div class="ind-nombre">${title}</div>
           <div class="ind-metric-row"><span class="ind-metric-label">Presupuesto</span><span class="ind-metric-value money">USD ${fmtMoneyM(value)}</span></div>
         </div>
-      </div>
-      <div class="pres-note" style="margin-top:10px;">Se muestran únicamente los montos disponibles en la base real. No se estima presupuesto codificado ni se distribuyen valores entre meses sin respaldo.</div>`;
+      </div>`;
     return;
   }
 

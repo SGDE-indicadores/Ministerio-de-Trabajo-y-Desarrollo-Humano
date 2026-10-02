@@ -99,7 +99,10 @@
       <div class="toggle-group">
         <button class="toggle-btn active" id="btn-transfer-cobertura" onclick="selectTransferDetailTab('cobertura')">Cobertura</button>
         <button class="toggle-btn" id="btn-transfer-presupuesto" onclick="selectTransferDetailTab('presupuesto')">Presupuesto</button>
+        <!-- Caracterización: oculta por ahora. Para volver a mostrarla, quitar este comentario
+             y activar el bloque "CARACTERIZACIÓN DE TRANSFERENCIAS" en assets/js/shared.js.
         <button class="toggle-btn" id="btn-transfer-caracterizacion" onclick="selectTransferDetailTab('caracterizacion')">Caracterización</button>
+        -->
         <button class="toggle-btn" id="btn-transfer-ficha" onclick="selectTransferDetailTab('ficha')">Ficha del indicador</button>
       </div>
     </div>
@@ -182,7 +185,7 @@ function renderTransferInfografia(){
           <div class="infog-kicker">Panorama general · ${d.programas.filter(p => p.budgetM > 0 || p.users > 0).length} programas con registros</div>
           <div class="infog-title">Transferencias monetarias no contributivas</div>
           <div class="infog-def-label">¿Qué agrupa esta cifra?</div>
-          <div class="infog-def">Acumulado calculado exclusivamente con los registros disponibles en datos/ para el período ${escHtml(d.rangeLabel)}.</div>
+          <div class="infog-def">Acumulado del período ${escHtml(d.rangeLabel)}.</div>
           <div class="infog-def-label">Top 3 programas por beneficiarios</div>
           <div class="infog-rank-list">${rankHtml}</div>
         </div>
