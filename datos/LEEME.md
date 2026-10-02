@@ -11,7 +11,7 @@ de su código qué archivos lee (`cargarDatos({...})` o `fetchCSV(...)`). Para a
 | `transferencias/` | Bonos y pensiones: beneficiarios y montos por programa, provincia y mes | `MDTDH/transferencias.html` | A mano (agregar filas del nuevo mes) | Mensual |
 | `kpis/` | Tarjetas del «Panorama destacado» de cada área (`kpi_*.csv`) | `MDTDH/kpis.html` | A mano o por script (ver `kpis/LEEME.md`) | Mensual |
 | `kpis/proteccion_social/` | Usuarios, caracterización, presupuesto y serie histórica de los servicios (DII, PAM, PCD, PE) | `MDTDH/kpis.html#/kpis-proteccion-social` | `scripts/actualizar_proteccion_social.py` (presupuesto, a mano) | Mensual |
-| `kpis/movilidad_social/` | Crédito de Desarrollo Humano: cobertura y caracterización | `MDTDH/kpis.html#/cobertura-movilidad-social` | A mano | Mensual |
+| `kpis/movilidad_social/` | Crédito de Desarrollo Humano: cobertura y caracterización | `MDTDH/kpis.html#/cobertura-movilidad-social` | `scripts/actualizar_cdh.py` | Mensual |
 | `kpis/pueblos/` | KPIs de Pueblos y Nacionalidades (catálogo + seguimiento) | `MDTDH/kpis.html#/kpis-pueblos`, `MDTDH/kpi.html` | `scripts/actualizar_kpis.py` | Mensual |
 | `kpis/jubilados/` | Compensación jubilar | `MDTDH/kpi_jubilados.html` | `scripts/actualizar_jubilados.py` | Mensual |
 | `pnd/proteccion_social/` | PND · Protección Social: catálogo de indicadores, acciones y seguimiento (`<año>/`) | Páginas `PND/*.html` (sección «Acciones») | `scripts/actualizar_pnd_ps.py` (ver su LEEME) | Mensual |

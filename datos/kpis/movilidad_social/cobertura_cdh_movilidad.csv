@@ -1,3 +1,5 @@
 registro_id,indicador,anio,mes,tipo_credito,registros,monto_total_usd,monto_promedio_usd,es_dato_real,nota
 12,Crédito de Desarrollo Humano y Movilidad Social,2026,07,12 MESES,1007,620105.29,615.79,TRUE,Dato real (resumen_CDH_enero_julio_2026.xlsx). Presupuesto de este programa sigue pendiente.
 12,Crédito de Desarrollo Humano y Movilidad Social,2026,07,24 MESES,4073,4839904.97,1188.29,TRUE,Dato real (resumen_CDH_enero_julio_2026.xlsx). Presupuesto de este programa sigue pendiente.
+12,Crédito de Desarrollo Humano y Movilidad Social,2026,09,12 MESES,595,367746.05,618.06,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,Crédito de Desarrollo Humano y Movilidad Social,2026,09,24 MESES,3931,4676822.58,1189.73,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).

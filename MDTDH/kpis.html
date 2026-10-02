@@ -310,7 +310,20 @@ function renderAreaInfografia(areaKey){
   // y el año en curso hasta el último corte real), guardamos las filas crudas para el selector de año; por
   // defecto se muestra la serie anual (corte a diciembre de cada año).
   item.serieMonthlyRaw = null;
-  if(areaKey === 'kpis-proteccion-social' && ['5','6','7','8','12'].includes(String(item.registro))){
+  // Movilidad Social (registro 12): serie anual real de créditos otorgados por año
+  // (datos/kpis/movilidad_social/serie_anual_cdh.csv). El año en curso es parcial (enero–último mes).
+  if(areaKey === 'kpis-proteccion-social' && String(item.registro) === '12'
+     && typeof CDH_SERIE_ANUAL !== 'undefined' && CDH_SERIE_ANUAL.length){
+    const anual = CDH_SERIE_ANUAL;
+    const ult = anual[anual.length - 1];
+    const parcial = ult.meses && ult.meses !== 'enero-diciembre';
+    item.serie = anual.map((r, i) => ({ y: String(r.anio) + (parcial && i === anual.length - 1 ? '*' : ''), v: r.creditos }));
+    item.serieReal = true;
+    item.serieTitulo = 'Serie histórica · créditos otorgados por año';
+    item.serieNota = 'Cada valor es el total de créditos otorgados en el año (12 y 24 meses).' +
+      (parcial ? ` *${ult.anio}: ${ult.meses.replace('-', '–')}.` : '');
+    item.trendText = `Serie histórica disponible: ${anual[0].anio}-${ult.anio} · créditos otorgados por año`;
+  } else if(areaKey === 'kpis-proteccion-social' && ['5','6','7','8'].includes(String(item.registro))){
     const hist = (typeof PS_COBERTURA_HISTORICA !== 'undefined'
       ? PS_COBERTURA_HISTORICA[String(item.registro)]
       : null) || [];
@@ -379,14 +392,14 @@ function renderAreaInfografia(areaKey){
     const maxV = Math.max(...item.serie.map(s => s.v));
     const lastIdx = item.serie.length - 1;
     const barsHtml = item.serie.map((s,i) => `
-      <div class="infog-bar-col${i === lastIdx ? ' current' : ''}">
+      <div class="infog-bar-col${i === lastIdx ? ' current' : ''}" title="${escHtml(s.y)}: ${formatSeriesValue(s.v, item.unit)}">
         <div class="infog-bar-value">${formatSeriesValue(s.v, item.unit)}</div>
         <div class="infog-bar-track"><div class="infog-bar-fill" style="height:${Math.max((s.v/maxV*100),6).toFixed(0)}%;"></div></div>
         <div class="infog-bar-label">${escHtml(s.y)}</div>
       </div>`).join('');
     seriesBlock = `
       <div class="infog-series-label">${escHtml(item.serieTitulo || 'Serie histórica · corte a diciembre de cada año')}</div>
-      <div class="infog-bars">${barsHtml}</div>
+      <div class="infog-bars${item.serie.length > 10 ? ' denso' : ''}">${barsHtml}</div>
       ${(item.serieNota !== undefined ? item.serieNota : 'Cada valor corresponde al número de usuarios atendidos al corte de diciembre de ese año.') ? `<div class="pres-note" style="margin-top:10px;">${escHtml(item.serieNota !== undefined ? item.serieNota : 'Cada valor corresponde al número de usuarios atendidos al corte de diciembre de ese año.')}</div>` : ''}`;
   }
 

@@ -28,3 +28,33 @@ registro_id,anio,mes,tipo_credito,grupo,categoria,registros,monto_total_usd,es_d
 12,2026,07,12 MESES,pobreza,Pobreza extrema,423,261544.01,TRUE,Dato real (resumen_CDH_enero_julio_2026.xlsx). Presupuesto de este programa sigue pendiente.
 12,2026,07,24 MESES,pobreza,Pobreza,2283,2710782.25,TRUE,Dato real (resumen_CDH_enero_julio_2026.xlsx). Presupuesto de este programa sigue pendiente.
 12,2026,07,24 MESES,pobreza,Pobreza extrema,1790,2129122.72,TRUE,Dato real (resumen_CDH_enero_julio_2026.xlsx). Presupuesto de este programa sigue pendiente.
+12,2026,09,12 MESES,genero,FEMENINO,568,350696.36,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,12 MESES,genero,MASCULINO,27,17049.69,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,24 MESES,genero,FEMENINO,3740,4443952.09,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,24 MESES,genero,MASCULINO,191,232870.49,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,12 MESES,rango_edad,Edad 18 a 29 años,162,100920.54,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,12 MESES,rango_edad,Edad 30 a 45 años,311,191393.37,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,12 MESES,rango_edad,Edad 46 a 65 años,122,75432.14,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,24 MESES,rango_edad,Edad 18 a 29 años,938,1131483.06,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,24 MESES,rango_edad,Edad 30 a 45 años,2183,2587132.6,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,24 MESES,rango_edad,Edad 46 a 65 años,804,950999.43,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,24 MESES,rango_edad,Mayor a 65 años Tercera Edad,1,1219.8,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,24 MESES,rango_edad,Sin información,5,5987.69,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,12 MESES,etnia,Afroecuatoriano(a),15,9357.25,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,12 MESES,etnia,Blanco(a),1,631.47,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,12 MESES,etnia,Indígena,13,8036.91,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,12 MESES,etnia,Mestizo(a),447,276297.49,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,12 MESES,etnia,Montuvio(a),105,64697.15,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,12 MESES,etnia,Mulato(a),13,8151.71,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,12 MESES,etnia,Otro,1,574.07,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,24 MESES,etnia,Afroecuatoriano(a),215,258138.53,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,24 MESES,etnia,Blanco(a),22,25945.12,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,24 MESES,etnia,Indígena,664,788909.61,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,24 MESES,etnia,Mestizo(a),2310,2755070.47,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,24 MESES,etnia,Montuvio(a),634,746082.25,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,24 MESES,etnia,Mulato(a),75,89815.35,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,24 MESES,etnia,Otro,11,12861.25,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,12 MESES,pobreza,Pobreza,347,214126.29,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,12 MESES,pobreza,Pobreza extrema,248,153619.76,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,24 MESES,pobreza,Pobreza,1959,2325362.33,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
+12,2026,09,24 MESES,pobreza,Pobreza extrema,1972,2351460.25,TRUE,Dato real (resumen_CDH_septiembre_2026.xlsx).
