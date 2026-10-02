@@ -101,7 +101,8 @@ registro_id,servicio,anio,mes,usuarios,es_dato_real,nota
 5,Desarrollo Infantil Integral (DII),2026,04,273055,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
 5,Desarrollo Infantil Integral (DII),2026,05,281841,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
 5,Desarrollo Infantil Integral (DII),2026,06,284400,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
-5,Desarrollo Infantil Integral (DII),2026,07,285729,TRUE,"Dato real, corte julio 2026 (resumen_usuarios_por_servicio.xlsx)."
+5,Desarrollo Infantil Integral (DII),2026,07,285762,TRUE,"Dato real, corte julio 2026 (resumen_usuarios_por_servicio_JULIO.xlsx)."
+5,Desarrollo Infantil Integral (DII),2026,08,274975,TRUE,"Dato real, corte agosto 2026 (resumen_usuarios_por_servicio_AGOSTO.xlsx)."
 7,Personas con Discapacidad (PCD),2018,01,33391,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
 7,Personas con Discapacidad (PCD),2018,02,32828,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
 7,Personas con Discapacidad (PCD),2018,03,33402,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
@@ -204,7 +205,8 @@ registro_id,servicio,anio,mes,usuarios,es_dato_real,nota
 7,Personas con Discapacidad (PCD),2026,04,36677,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
 7,Personas con Discapacidad (PCD),2026,05,36496,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
 7,Personas con Discapacidad (PCD),2026,06,36823,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
-7,Personas con Discapacidad (PCD),2026,07,37052,TRUE,"Dato real, corte julio 2026 (resumen_usuarios_por_servicio.xlsx)."
+7,Personas con Discapacidad (PCD),2026,07,37052,TRUE,"Dato real, corte julio 2026 (resumen_usuarios_por_servicio_JULIO.xlsx)."
+7,Personas con Discapacidad (PCD),2026,08,37039,TRUE,"Dato real, corte agosto 2026 (resumen_usuarios_por_servicio_AGOSTO.xlsx)."
 6,Protección Especial (PE),2018,01,12836,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
 6,Protección Especial (PE),2018,02,12522,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
 6,Protección Especial (PE),2018,03,12834,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
@@ -307,7 +309,8 @@ registro_id,servicio,anio,mes,usuarios,es_dato_real,nota
 6,Protección Especial (PE),2026,04,30372,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
 6,Protección Especial (PE),2026,05,30368,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
 6,Protección Especial (PE),2026,06,30339,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
-6,Protección Especial (PE),2026,07,29918,TRUE,"Dato real, corte julio 2026 (resumen_usuarios_por_servicio.xlsx)."
+6,Protección Especial (PE),2026,07,29918,TRUE,"Dato real, corte julio 2026 (resumen_usuarios_por_servicio_JULIO.xlsx)."
+6,Protección Especial (PE),2026,08,29528,TRUE,"Dato real, corte agosto 2026 (resumen_usuarios_por_servicio_AGOSTO.xlsx)."
 8,Personas Adultas Mayores (PAM),2018,01,89860,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
 8,Personas Adultas Mayores (PAM),2018,02,92738,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
 8,Personas Adultas Mayores (PAM),2018,03,93524,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
@@ -410,7 +413,8 @@ registro_id,servicio,anio,mes,usuarios,es_dato_real,nota
 8,Personas Adultas Mayores (PAM),2026,04,113312,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
 8,Personas Adultas Mayores (PAM),2026,05,112050,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
 8,Personas Adultas Mayores (PAM),2026,06,112218,FALSE,Valor provisional/estimado para completar la serie mensual mientras se carga el dato real mes a mes.
-8,Personas Adultas Mayores (PAM),2026,07,113496,TRUE,"Dato real, corte julio 2026 (resumen_usuarios_por_servicio.xlsx)."
+8,Personas Adultas Mayores (PAM),2026,07,113497,TRUE,"Dato real, corte julio 2026 (resumen_usuarios_por_servicio_JULIO.xlsx)."
+8,Personas Adultas Mayores (PAM),2026,08,114697,TRUE,"Dato real, corte agosto 2026 (resumen_usuarios_por_servicio_AGOSTO.xlsx)."
 12,Movilidad Social,2018,01,2902,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
 12,Movilidad Social,2018,02,3012,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.
 12,Movilidad Social,2018,03,2930,FALSE,Serie histórica PROVISIONAL (placeholder) mientras se carga la base oficial mensual de Movilidad Social. No usar como dato real.

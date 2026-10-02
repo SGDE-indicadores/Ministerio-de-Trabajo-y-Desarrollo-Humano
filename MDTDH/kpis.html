@@ -230,7 +230,7 @@ const infografiaIndexByArea = {};
 // ---------- Selector de año para la serie histórica de Protección Social ----------
 // Por defecto se muestra la serie anual (corte a diciembre de cada año, como antes);
 // al elegir un año específico se muestra su serie mensual (enero-diciembre, o
-// enero-julio en 2026, que es donde llega el último dato real disponible).
+// el año en curso hasta el último dato real disponible).
 let currentPsSerieYear = 'all';
 let currentPsSerieRawRows = null;
 
@@ -307,7 +307,7 @@ function renderAreaInfografia(areaKey){
 
   // Para los cuatro servicios de Protección Social con serie histórica real
   // (datos/kpis/proteccion_social/series_historicas_servicios.csv, ahora mensual: enero-diciembre 2018-2025
-  // y enero-julio 2026), guardamos las filas crudas para el selector de año; por
+  // y el año en curso hasta el último corte real), guardamos las filas crudas para el selector de año; por
   // defecto se muestra la serie anual (corte a diciembre de cada año).
   item.serieMonthlyRaw = null;
   if(areaKey === 'kpis-proteccion-social' && ['5','6','7','8','12'].includes(String(item.registro))){

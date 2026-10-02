@@ -7,6 +7,21 @@
 | `movilidad_social/` | Crédito de Desarrollo Humano: cobertura y caracterización por mes y tipo de crédito | `MDTDH/kpis.html#/cobertura-movilidad-social` |
 | `pueblos/`, `jubilados/` | KPIs con formato de seguimiento mensual (ver abajo) | `MDTDH/kpi.html`, `MDTDH/kpi_jubilados.html` |
 
+## Protección Social e Inclusión Económica (DII, PAM, PCD, PE)
+
+Fuente: `resumen_usuarios_por_servicio_<MES>.xlsx` (hojas Resumen, Sexo, Rango edad, Etnia, Pobreza 2018,
+Pobreza 2025). Cada mes:
+
+    python scripts/actualizar_proteccion_social.py --archivo "C:/ps/resumen_usuarios_por_servicio_SEPTIEMBRE.xlsx" --corte 2026-09
+
+- `proteccion_social/caracterizacion_proteccion_social.csv` se reemplaza por el corte cargado (la página
+  muestra «Corte: <mes> <año>» según las columnas `anio_corte` y `mes_corte`).
+- `proteccion_social/series_historicas_servicios.csv`: el mes del corte queda como dato real (se agrega o se corrige).
+- `kpi_proteccion_social.csv`: cifra destacada y textos «corte <mes> <año>» de las tarjetas.
+- Si llega un mes anterior revisado: el mismo comando con `--solo-serie` corrige solo ese mes de la serie.
+- Si los totales por sexo, edad, etnia o pobreza no cuadran con el total del servicio, el script no escribe nada.
+- `presupuesto_proteccion_social.csv` no viene en ese Excel: se actualiza a mano.
+
 ## KPIs con formato de seguimiento mensual
 
 Fuente: "Formato de Seguimiento de KPI MTDH" (Excel con las hojas Catálogo_KPIs y Seguimiento_Mensual).

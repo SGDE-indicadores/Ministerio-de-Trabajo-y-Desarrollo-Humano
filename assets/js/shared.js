@@ -45,11 +45,11 @@ function fetchCSV(path) {
 // ============================================================
 // PROTECCIÓN SOCIAL — 4 componentes (DII, PAM, PCD, Protección Especial)
 // Datos reales:
-// - caracterizacion_proteccion_social.csv: corte julio 2026.
+// - caracterizacion_proteccion_social.csv: último corte (columnas anio_corte/mes_corte).
 // - presupuesto_proteccion_social.csv: acumulado 2023-2025 + julio 2026.
 // - series_historicas_servicios.csv: usuarios atendidos en diciembre de 2018 a 2025.
-// La serie histórica es anual; julio 2026 se conserva como último corte disponible
-// y se muestra por separado para no mezclar un corte de julio con los diciembres.
+// La serie histórica anual usa el corte de diciembre; el último corte mensual se
+// muestra por separado para no mezclarlo con los diciembres.
 // ============================================================
 let PS_CARACTERIZACION = {};      // registro -> { total, sexo:[...], rango_edad:[...], etnia:[...], pobreza_2018:[...], pobreza_2025:[...] }
 let PS_PRESUPUESTO = {};          // registro -> { gobierno: musd, fiscal: musd }
@@ -66,6 +66,8 @@ function fetchProteccionSocialData(){
     car.forEach(r => {
       const reg = r.registro_id;
       if (!PS_CARACTERIZACION[reg]) PS_CARACTERIZACION[reg] = { total: 0 };
+      // Etiqueta del corte (p. ej. "agosto 2026"), tomada del propio archivo
+      if (r.anio_corte && r.mes_corte) PS_CARACTERIZACION[reg].corte = (TRANSFER_MONTHS[String(r.mes_corte).padStart(2, '0')] || r.mes_corte) + ' ' + r.anio_corte;
       if (r.grupo === 'total') {
         PS_CARACTERIZACION[reg].total = Number(r.usuarios) || 0;
       } else {
@@ -1478,7 +1480,7 @@ function selectCovTab(tab){
     }
     const ps = PS_CARACTERIZACION[String(c.registro)];
     if(ps){
-      el.innerHTML = `<div class="filter-status" style="margin-bottom:6px;">Corte: <b>julio 2026</b></div>` +
+      el.innerHTML = `<div class="filter-status" style="margin-bottom:6px;">Corte: <b>${escHtml(ps.corte || '')}</b></div>` +
         renderCaracterizacionGroup('Sexo', ps.sexo) +
         renderCaracterizacionGroup('Rango de edad', ps.rango_edad) +
         renderCaracterizacionGroup('Etnia', ps.etnia) +
@@ -1507,7 +1509,8 @@ function selectCovTab(tab){
 
 
 function renderCovHistoricalSeries(registro){
-  const rows = PS_COBERTURA_HISTORICA[String(registro)] || [];
+  // Serie anual: solo el corte de diciembre de cada año (el archivo es mensual)
+  const rows = (PS_COBERTURA_HISTORICA[String(registro)] || []).filter(r => r.mes === '12');
   if(!rows.length) return '';
 
   const maxUsuarios = Math.max(...rows.map(r => r.usuarios), 1);
@@ -1545,7 +1548,7 @@ function renderCovHistoricalSeries(registro){
           <thead><tr><th>Año</th><th>Usuarios</th><th>Magnitud relativa de la serie</th></tr></thead>
           <tbody>${filas}</tbody>
         </table>
-        <div class="pres-note" style="margin-top:10px;">La serie histórica muestra el número de usuarios atendidos al corte de diciembre de cada año. Cada valor corresponde únicamente a ese corte anual y no representa un acumulado entre años. El dato de julio 2026 se presenta arriba como último corte disponible y no se incorpora a esta comparación anual.</div>
+        <div class="pres-note" style="margin-top:10px;">La serie histórica muestra el número de usuarios atendidos al corte de diciembre de cada año. Cada valor corresponde únicamente a ese corte anual y no representa un acumulado entre años. El último corte mensual se presenta arriba y no se incorpora a esta comparación anual.</div>
       </div>
     </div>`;
 }
@@ -1587,11 +1590,11 @@ function renderCovCoverageByPeriod(period){
   if(ps){
     const serieHistorica = renderCovHistoricalSeries(c.registro);
     el.innerHTML = `
-      <div class="filter-status" style="margin-bottom:14px;">Último corte disponible: <b>julio 2026</b>. La serie histórica anual se muestra debajo.</div>
+      <div class="filter-status" style="margin-bottom:14px;">Último corte disponible: <b>${escHtml(ps.corte || '')}</b>. La serie histórica anual se muestra debajo.</div>
       <div class="ind-card">
         <div class="ind-stripe" style="background:var(--azul);"></div>
         <div class="ind-body">
-          <div class="ind-tag">Corte julio 2026</div>
+          <div class="ind-tag">Corte ${escHtml(ps.corte || '')}</div>
           <div class="ind-nombre">${escHtml(m ? m.nombre : c.label)}</div>
           <div class="ind-metric-row"><span class="ind-metric-label">Usuarios atendidos</span><span class="ind-metric-value money">${fmtInt(ps.total)}</span></div>
         </div>
