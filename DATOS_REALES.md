@@ -24,7 +24,7 @@ Esta versión del portal aplica una regla estricta: **solo se muestran cifras re
 
 ## Secciones en construcción
 - Presupuesto general.
-- Incentivos Temporales sin base oficial.
+- Incentivos Temporales: compensación de combustible y migrantes retornados (Jóvenes en Acción ya tiene datos).
 
 Estas secciones muestran únicamente «En construcción».
 

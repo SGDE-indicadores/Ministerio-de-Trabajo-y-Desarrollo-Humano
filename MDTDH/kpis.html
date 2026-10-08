@@ -474,6 +474,29 @@ function renderAreaInfografia(areaKey){
   const total = slides.length;
   const item = slides[idx];
 
+  // Jóvenes en Acción (Incentivos Temporales): la diapositiva toma sus cifras del mismo archivo que
+  // la página del programa (datos/kpis/jovenes_accion/periodos.csv), para no duplicar números.
+  if(areaKey === 'kpis-incentivos' && /Jóvenes en Acción/.test(item.kicker) && !item._jaCargado){
+    item._jaCargado = true;
+    fetchCSV('../datos/kpis/jovenes_accion/periodos.csv').then(rows => {
+      const P = rows.map(r => ({ periodo:r.periodo, etiqueta:r.etiqueta, estado:r.estado, b:Number(r.beneficiarios) || 0, reg:Number(r.registrados) || 0 }));
+      const impl = P.filter(p => p.estado !== 'programado'), amp = P.find(p => p.estado === 'programado');
+      const tot = impl.reduce((s, p) => s + p.b, 0);
+      Object.assign(item, {
+        construction:false, real:true, color:'var(--azul)', light:'var(--azul-pale)',
+        headline: tot.toLocaleString('es-EC'),
+        headlineSuffix: `beneficiarios acumulados en ${impl.length} períodos implementados`,
+        trendDir: amp ? 'up' : undefined,
+        trendText: amp ? `Ampliación prevista: hasta ${amp.b.toLocaleString('es-EC')} jóvenes (${amp.etiqueta})` : '',
+        impact: 'Mecanismo dirigido a jóvenes de 18 a 29 años, orientado al fortalecimiento de capacidades y participación, mediante transferencias monetarias temporales vinculadas al cumplimiento de actividades.',
+        serie: impl.map(p => ({ y:`${p.periodo.replace(' período', '')} ${p.etiqueta}`, v:p.b })),
+        serieReal:true, serieTitulo:'Beneficiarios por período', serieNota:'Jóvenes atendidos o habilitados en cada convocatoria.',
+        tabulado: [['Período', 'Postulaciones / registros', 'Beneficiarios']].concat(P.filter(p => p.reg).map(p => [`${p.periodo} (${p.etiqueta})`, p.reg.toLocaleString('es-EC'), p.b.toLocaleString('es-EC')]))
+      });
+      renderAreaInfografia(areaKey);
+    }).catch(() => {});
+  }
+
   // Para los cuatro servicios de Protección Social con serie histórica real
   // (datos/kpis/proteccion_social/series_historicas_servicios.csv, ahora mensual: enero-diciembre 2018-2025
   // y el año en curso hasta el último corte real), guardamos las filas crudas para el selector de año; por
@@ -618,6 +641,7 @@ function renderAreaInfografia(areaKey){
           ${seriesBlock}
           ${tableBlock}
           ${areaKey === 'kpis-proteccion-social' && String(item.registro) === '16' ? '<a class="kc-cta" href="suusen.html">Explorar alertas SUUSEN <span>→</span></a>' : ''}
+          ${areaKey === 'kpis-incentivos' && /Jóvenes en Acción/.test(item.kicker) && item.real ? '<a class="kc-cta" href="jovenes_accion.html">Explorar Jóvenes en Acción <span>→</span></a>' : ''}
         </div>
       </div>
     </div>

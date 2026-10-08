@@ -27,7 +27,7 @@
   /* tarjetas */
   .k-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}
   .k{background:#fff;border:1px solid var(--gris-bd);border-radius:10px;padding:14px 16px;border-top:3px solid var(--azul)}
-  .k.main{border-top-color:var(--amarillo)}
+  .k.dest{border-top-color:var(--amarillo)}
   .k .l{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--subtexto)}
   .k .v{font-size:26px;font-weight:700;color:var(--azul);line-height:1.1;margin:6px 0 2px;font-variant-numeric:tabular-nums}
   .k .s{font-size:12px;color:var(--subtexto);line-height:1.45}
@@ -323,7 +323,7 @@ function renderKpis(){
     ? `Vigentes ${fmt(estado.get(0))} · Finalizados ${fmt(estado.get(1))}`
     : `${pct(total, suma(estado))} de los registrados`;
   $('kpis').innerHTML = `
-    <div class="k main"><div class="l">${etqTotal}</div><div class="v">${fmt(total)}</div><div class="s">${subTotal}</div></div>
+    <div class="k dest"><div class="l">${etqTotal}</div><div class="v">${fmt(total)}</div><div class="s">${subTotal}</div></div>
     <div class="k"><div class="l">Empresas</div><div class="v">${emp ? fmt(emp[2]) : '–'}</div>
       <div class="s${empParcial ? ' warn' : ''}">${empParcial ? 'Solo responde a estado y provincia' : 'Razones sociales distintas'}</div></div>
     <div class="k"><div class="l">Con discapacidad</div><div class="v">${fmt(disc.get(1))}</div><div class="s">${pct(disc.get(1) || 0, total)} de los contratos</div></div>

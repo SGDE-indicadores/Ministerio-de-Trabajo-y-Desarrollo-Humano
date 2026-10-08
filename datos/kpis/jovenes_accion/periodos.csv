@@ -1,0 +1,5 @@
+orden,periodo,etiqueta,estado,inicio,fin,registrados,beneficiarios,beneficiarios_es_maximo,transferencias,monto_transferencia_usd,presupuesto_usd,ejecucion_usd,corte_ejecucion,nota
+1,Primer período,2024–2025,ejecutado,2024-12,2025-08,,75467,FALSE,,,,97290000,2025-08,"Inició en diciembre de 2024; ejecución histórica registrada hasta agosto de 2025."
+2,Segundo período,2025,ejecutado,2025-10,2025-12,592603,80000,FALSE,3,400,96000000,,,"Postulaciones registradas: 592.603; beneficiarios atendidos: 80.000."
+3,Tercer período,2026,en_ejecucion,2026-06,,637808,150000,FALSE,3,400,180000000,107475600,2026-09,"Registro efectuado en junio de 2026; 150.000 jóvenes habilitados de 637.808 registrados."
+4,Ampliación,4.º trimestre de 2026,programado,2026-10,2026-11,,700000,TRUE,2,400,560000000,,,"Nueva fase prevista para octubre y noviembre de 2026, sujeta a la implementación operativa y normativa; hasta 700.000 jóvenes adicionales."

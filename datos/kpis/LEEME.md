@@ -96,3 +96,12 @@ y luego se copia `data/dashboard_data.json` a `datos/kpis/contratos/`.
 
 - Registrados = vigentes + finalizados, sin anulados. Las regiones (Sierra, Costa, Oriente) se asignan a la provincia de su cantón.
 - Si alguna desagregación no suma el total de registrados, no reemplaza el JSON.
+
+## Incentivos Temporales · Jóvenes en Acción
+
+| Archivo | Contenido |
+|---|---|
+| `jovenes_accion/periodos.csv` | Una fila por período (primero, segundo, tercero y ampliación): estado (`ejecutado`, `en_ejecucion`, `programado`), fechas (AAAA-MM), registros o postulaciones, beneficiarios (`beneficiarios_es_maximo` = TRUE cuando es un «hasta»), número y monto de transferencias, presupuesto, ejecución y su fecha de corte |
+
+Lo leen `MDTDH/jovenes_accion.html` y la diapositiva del carrusel de Incentivos Temporales (`MDTDH/kpis.html`).
+Para actualizar la ejecución o agregar un período, se edita solo este archivo.

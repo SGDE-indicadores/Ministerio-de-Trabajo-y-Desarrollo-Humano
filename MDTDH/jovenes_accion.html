@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Jóvenes en Acción | KPIs MTDH</title>
+<link rel="stylesheet" href="../assets/css/shared.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="../assets/js/export-utils.js"></script>
+<style>
+  /* Plantilla de las páginas de KPI del portal (Contratos, Compensación jubilar, Alertas SUUSEN) */
+  :root{--ejec:#4F449A;--curso:#C99200;--prog:#B9B2DE}
+  .k-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+  .k{background:#fff;border:1px solid var(--gris-bd);border-radius:10px;padding:14px 16px;border-top:3px solid var(--azul)}
+  .k.dest{border-top-color:var(--amarillo)}
+  .k .l{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--subtexto)}
+  .k .v{font-size:26px;font-weight:700;color:var(--azul);line-height:1.1;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+  .k .s{font-size:12px;color:var(--subtexto);line-height:1.45}
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .card-b{background:#fff;border:1px solid var(--gris-bd);border-radius:10px;margin-bottom:16px;overflow:hidden}
+  .card-b .h{padding:12px 16px;border-bottom:1px solid var(--gris-bd);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+  .card-b .h b{color:var(--azul);font-size:13.5px}
+  .card-b .h .sub{font-size:12px;color:var(--subtexto);margin-top:2px}
+  .card-b .c{padding:16px}
+  .chart-box{position:relative;height:270px}
+  .leyenda{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--subtexto);margin-bottom:8px}
+  .leyenda i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+  .nota{font-size:12px;color:var(--subtexto);line-height:1.55;margin-top:8px}
+
+  /* Línea de tiempo de períodos */
+  .tl{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;margin:6px 0 4px}
+  .tl::before{content:"";position:absolute;left:12.5%;right:12.5%;top:21px;height:3px;background:var(--gris-bd);border-radius:2px}
+  .tl-p{position:relative;text-align:center;cursor:pointer;padding:0 6px 10px;border:0;background:none;font:inherit;color:inherit}
+  .tl-dot{width:44px;height:44px;border-radius:50%;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:#fff;position:relative;z-index:1;border:3px solid #fff;box-shadow:0 0 0 2px var(--gris-bd);transition:transform .2s,box-shadow .2s}
+  .tl-p.ejecutado .tl-dot{background:var(--ejec)}
+  .tl-p.en_ejecucion .tl-dot{background:var(--curso)}
+  .tl-p.programado .tl-dot{background:#fff;color:var(--azul);box-shadow:0 0 0 2px var(--prog);border:2px dashed var(--prog)}
+  .tl-p:hover .tl-dot{transform:scale(1.06)}
+  .tl-p.sel .tl-dot{transform:scale(1.12);box-shadow:0 0 0 3px var(--amarillo)}
+  .tl-p.en_ejecucion .tl-dot::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--curso);animation:jaPulso 1.8s infinite}
+  @keyframes jaPulso{0%{opacity:.8;transform:scale(1)}100%{opacity:0;transform:scale(1.35)}}
+  .tl-n{font-size:12.5px;font-weight:700;color:var(--azul)}
+  .tl-f{font-size:11.5px;color:var(--subtexto);margin-top:2px}
+  .tl-b{font-size:13px;font-weight:700;color:var(--texto);margin-top:4px;font-variant-numeric:tabular-nums}
+  .badge{display:inline-block;font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:12px;text-transform:uppercase;letter-spacing:.4px}
+  .badge.ejecutado{background:var(--azul-pale);color:var(--ejec)}
+  .badge.en_ejecucion{background:var(--amarillo-l);color:#7A5800}
+  .badge.programado{background:#F1EFFA;color:#5B4FA8;border:1px dashed var(--prog)}
+  .det{border-top:1px solid var(--gris-bd);margin-top:10px;padding-top:14px;animation:jaEntra .35s ease both}
+  @keyframes jaEntra{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .det-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+  .det-h b{font-size:15px;color:var(--azul)}
+  .det-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+  .det-i{background:var(--gris);border-radius:8px;padding:10px 12px}
+  .det-i .l{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--subtexto)}
+  .det-i .v{font-size:18px;font-weight:700;color:var(--azul);margin-top:3px;font-variant-numeric:tabular-nums}
+  .det-i .s{font-size:11.5px;color:var(--subtexto);margin-top:2px}
+  .barra{height:8px;background:var(--gris-bd);border-radius:4px;overflow:hidden;margin-top:6px}
+  .barra div{height:100%;background:var(--curso);border-radius:4px;width:0;transition:width .9s cubic-bezier(.2,.8,.2,1)}
+
+  /* Cobertura 2026 */
+  .cob{display:flex;height:38px;border-radius:8px;overflow:hidden;background:var(--gris-bd)}
+  .cob div{display:flex;align-items:center;padding:0 10px;font-size:12px;font-weight:700;white-space:nowrap;width:0;transition:width 1s cubic-bezier(.2,.8,.2,1)}
+  .cob .a{background:var(--curso);color:#fff}
+  .cob .b{background:repeating-linear-gradient(135deg,#E3DFF5 0 8px,#D2CCEE 8px 16px);color:#3D3380;border-left:2px solid #fff}
+  .cob-pie{display:flex;justify-content:space-between;font-size:12px;color:var(--subtexto);margin-top:8px;flex-wrap:wrap;gap:6px}
+  .cob-pie b{color:var(--azul)}
+
+  ul.lista{margin:0;padding:0 0 0 20px;font-size:13px;line-height:1.6;color:var(--texto)}
+  ul.lista li{margin:6px 0}
+  .bloque + .bloque{margin-top:14px;padding-top:14px;border-top:1px dashed var(--gris-bd)}
+  .bloque .t{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--subtexto);margin-bottom:5px}
+  .bloque p{margin:0;font-size:13px;line-height:1.6;color:var(--texto)}
+  ul.notas{margin:0;padding:14px 18px 14px 34px;font-size:12.5px;line-height:1.65;color:var(--texto)}
+  .aviso-err{background:#FDECEA;border:1px solid #F3A8AC;color:#C4262E;border-radius:8px;padding:12px 16px;margin:14px 0}
+  @media(max-width:900px){.k-grid,.det-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.g2{grid-template-columns:1fr}.k .v{font-size:22px}}
+  @media(max-width:560px){.tl{grid-template-columns:1fr 1fr;row-gap:14px}.tl::before{display:none}}
+  @media(prefers-reduced-motion:reduce){.tl-p.en_ejecucion .tl-dot::after,.det{animation:none}.barra div,.cob div{transition:none}}
+</style>
+</head>
+<body>
+<div id="app-sidebar-mount"></div>
+<div class="logo-bar"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="El Nuevo Ecuador" style="height:34px;"></div>
+<header class="header"><div class="header-left"><div class="header-logo">MTDH</div><div><div class="header-title">Ministerio de Trabajo y Desarrollo Humano</div><div class="header-sub">Dirección de Estudios y Análisis · Subsecretaría de Gestión de Datos y Estudios</div></div></div><div class="header-badge">Incentivos Temporales</div></header>
+<nav class="breadcrumb"><a href="../index.html">Inicio</a><span class="bc-sep">›</span><a href="kpis.html#/kpis">KPIs</a><span class="bc-sep">›</span><a href="kpis.html#/kpis-incentivos">Incentivos Temporales</a><span class="bc-sep">›</span><span class="bc-current">Jóvenes en Acción</span></nav>
+<main class="main"><section class="page active">
+
+<div class="hero">
+  <div class="hero-eyebrow">KPIs · Incentivos Temporales · Jóvenes en Acción</div>
+  <h1>Jóvenes en Acción</h1>
+  <p>Mecanismo dirigido a jóvenes de 18 a 29 años, orientado al fortalecimiento de capacidades y participación, mediante transferencias monetarias temporales vinculadas al cumplimiento de actividades.</p>
+  <p id="interpretacion" style="margin-top:6px"></p>
+</div>
+
+<div id="error"></div>
+<div id="contenido" hidden>
+  <div class="k-grid" id="kpis"></div>
+
+  <div class="card-b">
+    <div class="h"><div><b>Períodos del programa</b><div class="sub">Haz clic en un período para ver su detalle</div></div>
+      <div class="leyenda" style="margin:0"><span><i style="background:var(--ejec)"></i>Ejecutado</span><span><i style="background:var(--curso)"></i>En ejecución</span><span><i style="background:#fff;border:1.5px dashed var(--prog)"></i>Programado</span></div></div>
+    <div class="c"><div class="tl" id="tl"></div><div id="detalle"></div></div>
+  </div>
+
+  <div class="g2">
+    <div class="card-b">
+      <div class="h"><div><b>Beneficiarios por período</b><div class="sub">La ampliación es una meta («hasta»), no un dato ejecutado</div></div></div>
+      <div class="c"><div class="chart-box"><canvas id="g-benef" role="img" aria-label="Beneficiarios por período"></canvas></div></div>
+    </div>
+    <div class="card-b">
+      <div class="h"><div><b>Postulaciones frente a beneficiarios</b><div class="sub">Demanda registrada y jóvenes atendidos o habilitados</div></div></div>
+      <div class="c"><div class="leyenda"><span><i style="background:#D2CCEE"></i>Postulaciones / registros</span><span><i style="background:var(--ejec)"></i>Beneficiarios</span></div>
+        <div class="chart-box" style="height:240px"><canvas id="g-demanda" role="img" aria-label="Postulaciones frente a beneficiarios"></canvas></div>
+        <div class="nota" id="nota-demanda"></div></div>
+    </div>
+  </div>
+
+  <div class="card-b">
+    <div class="h"><div><b>Cobertura prevista en 2026</b><div class="sub">Habilitados del tercer período más la ampliación del cuarto trimestre</div></div></div>
+    <div class="c"><div class="cob" id="cob"></div><div class="cob-pie" id="cob-pie"></div></div>
+  </div>
+
+  <div class="g2">
+    <div class="card-b">
+      <div class="h"><div><b>Cómo funciona</b><div class="sub">Modalidad de la transferencia</div></div></div>
+      <div class="c">
+        <div class="bloque"><div class="t">Transferencia</div><p>Transferencia monetaria temporal, vinculada al cumplimiento de las actividades establecidas dentro del programa.</p></div>
+        <div class="bloque"><div class="t">Pago</div><p>Los pagos se realizan mediante transferencia a la cuenta bancaria registrada a nombre del beneficiario, con base en los listados validados por las entidades ejecutoras y el cumplimiento de los requisitos y actividades correspondientes.</p></div>
+        <div class="bloque"><div class="t">Monto por joven</div><p id="montos"></p></div>
+        <div class="bloque"><div class="t">Nueva fase · cuarto trimestre de 2026</div><p>Mantiene el carácter temporal de la transferencia, con una intervención más orientada al fortalecimiento de capacidades, formación para la empleabilidad, orientación ocupacional y participación juvenil.</p></div>
+      </div>
+    </div>
+    <div class="card-b">
+      <div class="h"><div><b>Requisitos de elegibilidad</b><div class="sub">Ampliación · según la actualización técnica del proyecto</div></div></div>
+      <div class="c"><ul class="lista">
+        <li>Ser ecuatoriano/a y tener entre 18 y 29 años 11 meses al momento del registro.</li>
+        <li>Realizar el registro dentro del período y canal institucional habilitado para la convocatoria.</li>
+        <li>No contar con seguridad social contributiva, de acuerdo con las validaciones administrativas correspondientes; se contempla la excepción de jóvenes con afiliación voluntaria al IESS que no mantengan relación de dependencia.</li>
+        <li>No encontrarse habilitado para recibir una transferencia monetaria regular administrada por el MTDH, salvo las excepciones que determine la normativa.</li>
+        <li>No haber recibido transferencias de Jóvenes en Acción en períodos anteriores, con el fin de evitar duplicidad.</li>
+        <li>Registrar una cuenta bancaria o financiera activa a nombre del beneficiario, que pueda ser validada para realizar las transferencias.</li>
+        <li>Completar el proceso de vinculación y las actividades definidas dentro del programa.</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <div class="card-b">
+    <div class="h"><div><b>Notas para la lectura</b><div class="sub">Consideraciones sobre las cifras</div></div></div>
+    <ul class="notas" id="notas"></ul>
+  </div>
+</div>
+
+<div class="gov-close"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="Gobierno del Ecuador"></div>
+</section></main>
+<footer class="dashboard-footer"><strong>Ministerio de Trabajo y Desarrollo Humano</strong> · Subsecretaría de Gestión de Datos y Estudios · Portal de Indicadores</footer>
+<script src="../assets/js/shared.js"></script>
+<script>
+(function(){
+'use strict';
+const PATH = '../datos/kpis/jovenes_accion/periodos.csv';
+const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const ESTADO = { ejecutado:'Ejecutado', en_ejecucion:'En ejecución', programado:'Programado' };
+const COLOR = { ejecutado:'#4F449A', en_ejecucion:'#C99200', programado:'#D2CCEE' };
+const $ = id => document.getElementById(id);
+const fmt = n => Number(n || 0).toLocaleString('es-EC');
+const usd = n => 'USD ' + fmt(n);
+const musd = n => 'USD ' + (n / 1e6).toLocaleString('es-EC', { minimumFractionDigits:2, maximumFractionDigits:2 }) + ' M';
+const pct = (a, b) => (100 * a / b).toLocaleString('es-EC', { minimumFractionDigits:1, maximumFractionDigits:1 }) + ' %';
+const mes = ym => ym ? `${MESES[+ym.slice(5) - 1]} de ${ym.slice(0, 4)}` : '';
+const corto = v => v >= 1e3 ? (v / 1e3).toLocaleString('es-EC', { maximumFractionDigits:0 }) + ' mil' : fmt(v);
+const REDUCIDO = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+initSidebar({ activeId:'kpis-incentivos', basePath:'../' });
+
+let P = [], sel = null;
+
+function contar(el, hasta, f){
+  if (REDUCIDO){ el.textContent = f(hasta); return; }
+  const t0 = performance.now();
+  const paso = t => { const k = Math.min(1, (t - t0) / 1000), e = 1 - Math.pow(1 - k, 3); el.textContent = f(hasta * e); if (k < 1) requestAnimationFrame(paso); };
+  requestAnimationFrame(paso);
+}
+
+function kpis(){
+  const impl = P.filter(p => p.estado !== 'programado');
+  const tot = impl.reduce((s, p) => s + p.beneficiarios, 0);
+  const actual = P.find(p => p.estado === 'en_ejecucion') || impl[impl.length - 1];
+  const amp = P.find(p => p.estado === 'programado');
+  $('kpis').innerHTML = `
+    <div class="k dest"><div class="l">Beneficiarios acumulados</div><div class="v" id="k1">0</div><div class="s">${impl.length} períodos implementados</div></div>
+    <div class="k"><div class="l">${actual.periodo} · habilitados</div><div class="v" id="k2">0</div><div class="s">${actual.registrados ? `de ${fmt(actual.registrados)} registrados (${pct(actual.beneficiarios, actual.registrados)})` : ''}</div></div>
+    <div class="k"><div class="l">${actual.periodo} · ejecución</div><div class="v">${actual.ejecucion ? musd(actual.ejecucion) : '–'}</div><div class="s">${actual.ejecucion && actual.presupuesto ? `${pct(actual.ejecucion, actual.presupuesto)} de ${musd(actual.presupuesto)} · a ${mes(actual.corte)}` : ''}</div></div>
+    <div class="k"><div class="l">Ampliación prevista</div><div class="v">${amp ? 'hasta ' + corto(amp.beneficiarios) : '–'}</div><div class="s">${amp ? `jóvenes adicionales · inversión de ${musd(amp.presupuesto)}` : ''}</div></div>`;
+  contar($('k1'), tot, fmt); contar($('k2'), actual.beneficiarios, fmt);
+  $('interpretacion').innerHTML = `Los ${impl.length} períodos implementados acumulan <b>${fmt(tot)}</b> beneficiarios.` +
+    (amp ? ` Para ${amp.etiqueta.replace('4.º', 'el cuarto')} se prevé una ampliación de hasta <b>${fmt(amp.beneficiarios)}</b> jóvenes adicionales.` : '');
+}
+
+function timeline(){
+  $('tl').innerHTML = P.map((p, i) => `
+    <button class="tl-p ${p.estado}${p === sel ? ' sel' : ''}" type="button" data-i="${i}" aria-pressed="${p === sel}">
+      <div class="tl-dot">${p.estado === 'programado' ? '+' : p.orden}</div>
+      <div class="tl-n">${p.periodo}</div>
+      <div class="tl-f">${p.etiqueta}</div>
+      <div class="tl-b">${p.max ? 'hasta ' : ''}${fmt(p.beneficiarios)}</div>
+    </button>`).join('');
+  document.querySelectorAll('.tl-p').forEach(b => b.onclick = () => { sel = P[+b.dataset.i]; timeline(); detalle(); });
+}
+
+function detalle(){
+  const p = sel;
+  const fechas = p.estado === 'programado' ? `Previsto para ${p.fin ? MESES[+p.inicio.slice(5) - 1] + ' y ' + mes(p.fin) : mes(p.inicio)}`
+    : p.fin ? `${mes(p.inicio)} – ${mes(p.fin)}` : `Registro en ${mes(p.inicio)}`;
+  const porJoven = p.transferencias && p.monto ? p.transferencias * p.monto : 0;
+  const items = [
+    p.registrados ? ['Postulaciones / registros', fmt(p.registrados), ''] : null,
+    ['Beneficiarios', (p.max ? 'hasta ' : '') + fmt(p.beneficiarios), p.registrados ? pct(p.beneficiarios, p.registrados) + ' de los registros' : (p.estado === 'programado' ? 'jóvenes adicionales' : '')],
+    porJoven ? ['Transferencias', `${p.transferencias} × ${usd(p.monto)}`, `${usd(porJoven)} por joven`] : null,
+    p.presupuesto ? [p.estado === 'programado' ? 'Inversión prevista' : 'Presupuesto', musd(p.presupuesto), ''] : null,
+    p.ejecucion ? ['Ejecución', musd(p.ejecucion), p.presupuesto ? `${pct(p.ejecucion, p.presupuesto)} del presupuesto · a ${mes(p.corte)}` : `acumulada a ${mes(p.corte)}`, p.presupuesto ? p.ejecucion / p.presupuesto : null] : null
+  ].filter(Boolean);
+  $('detalle').innerHTML = `<div class="det">
+    <div class="det-h"><b>${p.periodo} · ${p.etiqueta}</b><span class="badge ${p.estado}">${ESTADO[p.estado]}</span><span style="font-size:12px;color:var(--subtexto)">${fechas}</span></div>
+    <div class="det-grid">${items.map(([l, v, s, r]) => `<div class="det-i"><div class="l">${l}</div><div class="v">${v}</div>${s ? `<div class="s">${s}</div>` : ''}${r != null ? `<div class="barra"><div data-w="${(100 * r).toFixed(1)}"></div></div>` : ''}</div>`).join('')}</div>
+    ${p.nota ? `<div class="nota">${p.nota}</div>` : ''}</div>`;
+  requestAnimationFrame(() => requestAnimationFrame(() => document.querySelectorAll('.barra div').forEach(d => d.style.width = d.dataset.w + '%')));
+}
+
+function graficos(){
+  new Chart($('g-benef'), { type:'bar',
+    data:{ labels:P.map(p => [p.periodo, p.etiqueta]), datasets:[{ data:P.map(p => p.beneficiarios), backgroundColor:P.map(p => COLOR[p.estado]),
+      borderColor:P.map(p => p.estado === 'programado' ? '#8E84C8' : COLOR[p.estado]), borderWidth:P.map(p => p.estado === 'programado' ? 1.5 : 0),
+      borderDash:[4, 3], borderRadius:4, maxBarThickness:70 }] },
+    options:{ responsive:true, maintainAspectRatio:false, animation: REDUCIDO ? false : { duration:900 },
+      plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ title: it => P[it[0].dataIndex].periodo + ' · ' + P[it[0].dataIndex].etiqueta,
+        label: c => ` ${P[c.dataIndex].max ? 'Hasta ' : ''}${fmt(c.raw)} jóvenes · ${ESTADO[P[c.dataIndex].estado].toLowerCase()}` } } },
+      scales:{ y:{ beginAtZero:true, grid:{ color:'#EEF1F6' }, ticks:{ callback:corto, color:'#6B7A90' } }, x:{ grid:{ display:false }, ticks:{ color:'#33415C' } } } } });
+
+  const D = P.filter(p => p.registrados);
+  new Chart($('g-demanda'), { type:'bar',
+    data:{ labels:D.map(p => [p.periodo, p.etiqueta]), datasets:[
+      { label:'Postulaciones / registros', data:D.map(p => p.registrados), backgroundColor:'#D2CCEE', borderRadius:4, maxBarThickness:46 },
+      { label:'Beneficiarios', data:D.map(p => p.beneficiarios), backgroundColor:'#4F449A', borderRadius:4, maxBarThickness:46 }] },
+    options:{ responsive:true, maintainAspectRatio:false, animation: REDUCIDO ? false : { duration:900 },
+      plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label: c => ` ${c.dataset.label}: ${fmt(c.raw)}`,
+        footer: it => `Cobertura de la demanda: ${pct(D[it[0].dataIndex].beneficiarios, D[it[0].dataIndex].registrados)}` } } },
+      scales:{ y:{ beginAtZero:true, grid:{ color:'#EEF1F6' }, ticks:{ callback:corto, color:'#6B7A90' } }, x:{ grid:{ display:false }, ticks:{ color:'#33415C' } } } } });
+  $('nota-demanda').innerHTML = D.map(p => `${p.periodo}: <b>${pct(p.beneficiarios, p.registrados)}</b> de las postulaciones o registros fue atendido o habilitado.`).join('<br>');
+}
+
+function cobertura(){
+  const a = P.find(p => p.estado === 'en_ejecucion'), b = P.find(p => p.estado === 'programado');
+  if (!a || !b) { $('cob').parentElement.parentElement.hidden = true; return; }
+  const t = a.beneficiarios + b.beneficiarios;
+  $('cob').innerHTML = `<div class="a" data-w="${100 * a.beneficiarios / t}">${fmt(a.beneficiarios)}</div><div class="b" data-w="${100 * b.beneficiarios / t}">hasta ${fmt(b.beneficiarios)}</div>`;
+  $('cob-pie').innerHTML = `<span><b>${fmt(a.beneficiarios)}</b> habilitados en el ${a.periodo.toLowerCase()}</span><span>+ hasta <b>${fmt(b.beneficiarios)}</b> en la ampliación</span><span>= hasta <b>${fmt(t)}</b> jóvenes en 2026</span>`;
+  const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ document.querySelectorAll('#cob div').forEach(d => d.style.width = d.dataset.w + '%'); obs.disconnect(); } }), { threshold:.3 });
+  obs.observe($('cob'));
+}
+
+function textos(){
+  const conMonto = P.filter(p => p.transferencias && p.monto);
+  $('montos').innerHTML = conMonto.map(p => `${p.periodo} (${p.etiqueta}): ${p.transferencias} transferencias de ${usd(p.monto)} = <b>${usd(p.transferencias * p.monto)}</b>`).join('<br>');
+  const amp = P.find(p => p.estado === 'programado');
+  $('notas').innerHTML = [
+    'Los beneficiarios del primer al tercer período corresponden a jóvenes atendidos o habilitados en cada convocatoria.',
+    'La ejecución del primer período es la acumulada hasta agosto de 2025; la del tercer período es la reportada a septiembre de 2026.',
+    'El segundo período no tiene ejecución reportada; se muestra su presupuesto.',
+    amp ? `La ampliación (${MESES[+amp.inicio.slice(5) - 1]} y ${mes(amp.fin)}) es una programación institucional, sujeta a la implementación operativa y normativa correspondiente; sus cifras son máximas («hasta»).` : '',
+    'La cobertura 2026 suma los habilitados del tercer período y el máximo previsto de la ampliación.'
+  ].filter(Boolean).map(t => `<li>${t}</li>`).join('');
+}
+
+fetch(PATH, { cache:'no-cache' })
+  .then(r => { if (!r.ok) throw Error('HTTP ' + r.status); return r.text(); })
+  .then(txt => {
+    P = parseCSV(txt.replace(/^﻿/, '')).map(r => ({ orden:+r.orden, periodo:r.periodo, etiqueta:r.etiqueta, estado:r.estado,
+      inicio:r.inicio, fin:r.fin, registrados:+r.registrados || 0, beneficiarios:+r.beneficiarios || 0, max:/^true$/i.test(r.beneficiarios_es_maximo),
+      transferencias:+r.transferencias || 0, monto:+r.monto_transferencia_usd || 0, presupuesto:+r.presupuesto_usd || 0,
+      ejecucion:+r.ejecucion_usd || 0, corte:r.corte_ejecucion, nota:r.nota })).sort((a, b) => a.orden - b.orden);
+    if (!P.length) throw Error('sin períodos');
+    sel = P.find(p => p.estado === 'en_ejecucion') || P[P.length - 1];
+    $('contenido').hidden = false;
+    kpis(); timeline(); detalle(); graficos(); cobertura(); textos();
+  })
+  .catch(err => {
+    $('error').innerHTML = `<div class="aviso-err"><b>No se pudieron cargar los datos de Jóvenes en Acción.</b><br>${err.message}<br>
+      <span style="font-size:12px">Revisa que exista <code>datos/kpis/jovenes_accion/periodos.csv</code> y abre el portal mediante un servidor local o GitHub Pages.</span></div>`;
+  });
+})();
+</script>
+</body>
+</html>

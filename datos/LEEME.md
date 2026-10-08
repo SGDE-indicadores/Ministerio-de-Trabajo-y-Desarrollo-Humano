@@ -23,7 +23,7 @@ de su código qué archivos lee (`cargarDatos({...})` o `fetchCSV(...)`). Para a
 | `_archivo/` | Archivos antiguos que ninguna página usa. Se guardan solo como respaldo | — | No se tocan | — |
 
 Secciones que **aún no tienen archivo** (Presupuesto general,
-Incentivos Temporales) muestran solo «En construcción».
+Incentivos Temporales salvo Jóvenes en Acción) muestran solo «En construcción».
 
 ## Reglas para todos los CSV
 
