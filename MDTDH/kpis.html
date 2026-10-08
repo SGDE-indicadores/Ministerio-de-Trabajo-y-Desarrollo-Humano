@@ -523,6 +523,11 @@ function renderAreaInfografia(areaKey){
     return;
   }
 
+  if(areaKey === 'kpis-proteccion-social' && String(item.registro) === '16'){
+    // Serie nacional real y enlace al módulo específico.
+    item.serieTitulo = 'Porcentaje gestionado · diciembre de cada año y julio de 2026*';
+    item.serieNota = '* 2026 representa julio, no diciembre. Los cortes históricos no deben sumarse.';
+  }
   if(item.construction){
     wrap.innerHTML = `
       <div class="infog-card" style="--accent:${item.color}; --accent-light:${item.light};">
@@ -612,6 +617,7 @@ function renderAreaInfografia(areaKey){
           </div>
           ${seriesBlock}
           ${tableBlock}
+          ${areaKey === 'kpis-proteccion-social' && String(item.registro) === '16' ? '<a class="kc-cta" href="suusen.html">Explorar alertas SUUSEN <span>→</span></a>' : ''}
         </div>
       </div>
     </div>

@@ -508,14 +508,14 @@ const kpiMetadata = {
     "lugar": "KPIS-PROTECCION SOCIAL E INCLUSION ECONOMICA-MOVILIDAD SOCIAL"
   },
   "16": {
-    "nombre": "Porcentaje de alertas gestionada en el SUUSEN",
+    "nombre": "Porcentaje de alertas vencidas gestionadas en SUUSEN",
     "queMide": "Relación porcentual entre el número total de alertas gestionadas vencidas; en relación al total de alertas generadas vencidas",
     "decision": "Identificar brechas y retrasos en la atención de alertas, priorizar territorios, tipos de alerta y entidades responsables, y fortalecer la coordinación interinstitucional.",
     "formula": "Sumatoria de las alertas con gestión vencidas / Total de alertas generadas vencidas",
     "unidad": "Porcentaje",
     "tipo": "RESULTADO",
-    "periodicidad": "TRIMESTRAL",
-    "desagregacion": "PARROQUIAL",
+    "periodicidad": "MENSUAL (ficha metodológica; reporte institucional trimestral)",
+    "desagregacion": "NACIONAL EN LA SERIE ADJUNTA",
     "sistema": "SISTEMA UNIFICADO Y UNIVERSAL DE SEGUIMIENTO NOMINAL",
     "recurso": "BASE DE DATOS",
     "acceso": "INSTITUCIONAL",
@@ -1396,7 +1396,7 @@ const coberturas12 = [
   { n:2, slug:'pam', label:'Cobertura Personas Adultas Mayores (PAM)', disponible:true, registro:8, icon:'elders' },
   { n:3, slug:'pcd', label:'Cobertura Personas con Discapacidad (PCD)', disponible:true, registro:7, icon:'careheart' },
   { n:4, slug:'pe', label:'Cobertura Protección Especial (PE)', disponible:true, registro:6, icon:'shield' },
-  { n:5, slug:'alertas-suusen', label:'Alertas SUUSEN', disponible:false, registro:16, icon:'doc' },
+  { n:5, slug:'alertas-suusen', label:'Alertas SUUSEN', disponible:true, registro:16, icon:'doc', linkOverride:'suusen.html' },
   { n:6, slug:'movilidad-social', label:'Movilidad Social', disponible:true, registro:12, icon:'movilidad', linkOverride:'cobertura-movilidad-social' }
 ];
 
@@ -1408,7 +1408,7 @@ function renderCoberturas12(){
     const statusBadge = c.disponible
       ? '<span class="badge-ok">● Disponible</span>'
       : '<span class="badge-pend">● En construcción</span>';
-    return `<div class="tm-card" onclick="nav('${c.linkOverride || ('proteccion-' + c.slug)}')" style="border-top:4px solid var(--azul);">
+    return `<div class="tm-card" onclick="${c.linkOverride && c.linkOverride.endsWith('.html') ? `window.location.href='${c.linkOverride}'` : `nav('${c.linkOverride || ('proteccion-' + c.slug)}')`}" style="border-top:4px solid var(--azul);">
       <div class="tm-card-top">
         <div class="tm-icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">${TRANSFER_ICONS[c.icon] || TRANSFER_ICONS.doc}</svg></div>
         <div class="tm-share-tag">1 indicador</div>
