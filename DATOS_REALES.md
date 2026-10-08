@@ -16,12 +16,14 @@ Esta versión del portal aplica una regla estricta: **solo se muestran cifras re
   (datos/kpis/jubilados/, `scripts/actualizar_jubilados.py`; página MDTDH/kpi_jubilados.html).
 - KPIs · Pueblos y Nacionalidades: subproyectos comunitarios activados y convenios suscritos, seguimiento mensual
   desde agosto 2026 (datos/kpis/pueblos/, `scripts/actualizar_kpis.py`).
+- KPIs · Trabajo · Contratos registrados (SUT): foto diaria de vigentes y finalizados por provincia, cantón,
+  actividad, tipo de contrato, sexo, grupo etario, discapacidad, etnia y nacionalidad
+  (datos/kpis/contratos/dashboard_data.json, generado en la carpeta de extracción; página MDTDH/kpi_contratos.html).
 - PND · Protección Social: series de los 6 indicadores (datos/pnd/proteccion_social/<indicador>/).
 - ENEMDU anual (10 indicadores, 2018–2025) y trimestral (IV-2020 a I-2026) (datos/enemdu/).
 
 ## Secciones en construcción
 - Presupuesto general.
-- KPIs de Trabajo · Contratos.
 - Incentivos Temporales sin base oficial.
 
 Estas secciones muestran únicamente «En construcción».

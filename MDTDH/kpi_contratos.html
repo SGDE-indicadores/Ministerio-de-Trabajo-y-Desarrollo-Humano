@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Contratos de trabajo | KPIs MTDH</title>
+<link rel="stylesheet" href="../assets/css/shared.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="../assets/js/geojson_js.js"></script>
+<script src="../assets/js/ecuador-map.js"></script>
+<script src="../assets/js/export-utils.js"></script>
+<style>
+  :root{--hombre:#1A5FA8;--mujer:#C0395A;--neutro:#B9C0CE}   /* sexo: mismos colores y siluetas que PND y jubilados */
+  /* filtros */
+  .fbar{position:sticky;top:0;z-index:1000;background:#fff;border:1px solid var(--gris-bd);border-radius:10px;padding:12px 14px;margin:0 0 16px;box-shadow:var(--shadow)}
+  .fbar .fila{display:flex;gap:10px 14px;align-items:flex-end;flex-wrap:wrap}
+  .fbar label{display:block;font-size:10.5px;font-weight:700;color:var(--subtexto);margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px}
+  .fbar select{padding:7px 9px;border:1px solid var(--gris-bd);border-radius:7px;background:#fff;color:var(--texto);font-size:12.5px;min-width:120px}
+  .fbar select.wide{min-width:200px}
+  .fbar .sep{width:1px;align-self:stretch;background:var(--gris-bd)}
+  .btn-limpiar{padding:7px 12px;border:1px solid var(--gris-bd);border-radius:7px;background:var(--azul-pale);color:var(--azul);font-weight:700;font-size:12px;cursor:pointer}
+  .btn-limpiar:hover{background:var(--azul-light)}
+  .activos{font-size:12px;color:var(--subtexto);margin-top:8px;min-height:16px}
+  .activos b{color:var(--azul)}
+  .toggle-group.sm .toggle-btn{padding:6px 12px;font-size:12px}
+  /* tarjetas */
+  .k-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}
+  .k{background:#fff;border:1px solid var(--gris-bd);border-radius:10px;padding:14px 16px;border-top:3px solid var(--azul)}
+  .k.main{border-top-color:var(--amarillo)}
+  .k .l{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--subtexto)}
+  .k .v{font-size:26px;font-weight:700;color:var(--azul);line-height:1.1;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+  .k .s{font-size:12px;color:var(--subtexto);line-height:1.45}
+  .k .s.warn{color:#8A6100}
+  /* tarjetas de contenido */
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  /* siluetas por sexo (mismo diseño que PND y jubilados) */
+  .siluetas{display:flex;justify-content:center;align-items:stretch;padding:8px 0}
+  .silueta{flex:1;text-align:center;padding:6px 18px;border-radius:10px;cursor:pointer}
+  .silueta:hover{background:var(--azul-pale)}
+  .silueta.sel{outline:2px solid var(--amarillo)}
+  .silueta + .silueta{border-left:1px solid var(--gris-bd);border-radius:0}
+  .silueta img{width:84px;height:84px;object-fit:contain;display:block;margin:0 auto}
+  .silueta .val{font-size:30px;font-weight:700;line-height:1;margin-top:10px;font-variant-numeric:tabular-nums}
+  .silueta .lab{font-size:13px;font-weight:700;color:var(--texto);margin-top:4px}
+  .silueta .det{font-size:12px;color:var(--subtexto);margin-top:6px;line-height:1.55}
+  .card-b{background:#fff;border:1px solid var(--gris-bd);border-radius:10px;margin-bottom:16px;overflow:hidden}
+  .card-b .h{padding:12px 16px;border-bottom:1px solid var(--gris-bd);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+  .card-b .h b{color:var(--azul);font-size:13.5px}
+  .card-b .h .sub{font-size:12px;color:var(--subtexto);margin-top:2px}
+  .card-b .c{padding:16px}
+  .chart-box{position:relative;height:280px}
+  .nota{font-size:12px;color:var(--subtexto);line-height:1.55;margin-top:8px}
+  .nota.aviso{background:var(--amarillo-l);border-radius:7px;padding:8px 10px;color:#5E4500}
+  table.t{width:100%;border-collapse:collapse;font-size:12.5px}
+  table.t th{background:var(--azul-pale);color:var(--azul);text-align:left;padding:8px 12px;font-weight:700;border-bottom:1px solid var(--gris-bd);position:sticky;top:0}
+  table.t td{padding:7px 12px;border-bottom:1px solid var(--gris-bd);vertical-align:top}
+  table.t td.n,table.t th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  details.tabla{border-top:1px solid var(--gris-bd)}
+  details.tabla summary{padding:10px 16px;font-size:12.5px;font-weight:700;color:var(--azul);cursor:pointer}
+  .table-wrap{overflow:auto;max-height:420px}
+  .buscar{margin:0 16px 10px;padding:7px 10px;border:1px solid var(--gris-bd);border-radius:7px;width:calc(100% - 32px);max-width:320px}
+  .aviso-err{background:#FDECEA;border:1px solid #F3A8AC;color:#C4262E;border-radius:8px;padding:12px 16px;margin:14px 0}
+  /* mapa (mismo módulo que PND y jubilados) */
+  .mapa-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;align-items:start}
+  #map-wrap{position:relative}
+  #ec-map{height:470px;border-radius:8px;background:#EAF2FB}
+  .leaflet-container{font-family:Arial,sans-serif}
+  .prov-tooltip{font-family:Arial,sans-serif;font-size:12px}.prov-tooltip b{color:var(--azul)}
+  #gal-inset{position:absolute;left:12px;bottom:12px;width:140px;background:#fff;border:2px solid var(--gris-bd);border-radius:8px;box-shadow:0 4px 16px rgba(13,43,85,.18);overflow:hidden;z-index:500}
+  .inset-label{font-size:10px;font-weight:700;color:var(--azul);text-transform:uppercase;letter-spacing:.4px;padding:5px 8px 3px;border-bottom:1px solid var(--gris-bd)}
+  #ec-map-gal{height:86px;cursor:pointer}
+  .legend-box{display:flex;align-items:center;gap:8px;padding:10px 4px 2px;font-size:11px;color:var(--subtexto)}
+  .legend-scale{flex:1;height:10px;border-radius:6px;background:linear-gradient(90deg,#F5F6F8,#4F449A)}
+  #prov-lista{display:flex;flex-direction:column;gap:2px;max-height:430px;overflow-y:auto}
+  .prov-row{display:flex;align-items:center;gap:9px;padding:5px 8px;border-radius:8px;cursor:pointer;font-size:12.5px}
+  .prov-row:hover,.prov-row.sel{background:var(--azul-pale)}
+  .prov-row.sel{outline:2px solid var(--amarillo)}
+  .prov-row .rank{width:18px;font-weight:700;color:var(--subtexto);font-size:11px}
+  .prov-row .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+  .prov-row .nom{flex:1}.prov-row .val{font-weight:700;color:var(--azul);font-variant-numeric:tabular-nums}
+  .prov-row .pct{width:46px;text-align:right;color:var(--subtexto);font-size:11.5px;font-variant-numeric:tabular-nums}
+  .drill{border:1px solid var(--gris-bd);border-radius:10px;margin-top:12px;background:var(--azul-pale)}
+  .drill .dh{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;font-size:12.5px}
+  .drill .dh b{color:var(--azul)}
+  .drill .x{border:none;background:none;color:var(--subtexto);cursor:pointer;font-size:16px;line-height:1}
+  .drill table.t th{background:#fff}
+  .leyenda{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--subtexto);margin-bottom:8px}
+  .leyenda i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+  @media(max-width:860px){.g2,.mapa-grid{grid-template-columns:1fr}.siluetas{flex-direction:column}.silueta + .silueta{border-left:0;border-top:1px solid var(--gris-bd)}.k .v{font-size:22px}#ec-map{height:380px}.fbar{position:static}.fbar .sep{display:none}}
+</style>
+</head>
+<body>
+<div id="app-sidebar-mount"></div>
+<div class="logo-bar"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="El Nuevo Ecuador" style="height:34px;"></div>
+<header class="header"><div class="header-left"><div class="header-logo">MTDH</div><div><div class="header-title">Ministerio de Trabajo y Desarrollo Humano</div><div class="header-sub">Dirección de Estudios y Análisis · Subsecretaría de Gestión de Datos y Estudios</div></div></div><div class="header-badge">Trabajo</div></header>
+<nav class="breadcrumb"><a href="../index.html">Inicio</a><span class="bc-sep">›</span><a href="kpis.html#/kpis">KPIs</a><span class="bc-sep">›</span><a href="kpis.html#/kpis-trabajo">Trabajo</a><span class="bc-sep">›</span><span class="bc-current">Contratos</span></nav>
+<main class="main"><section class="page active">
+
+<div class="hero">
+  <div class="hero-eyebrow">KPIs · Trabajo · Contratos</div>
+  <h1 id="titulo">Número de contratos registrados</h1>
+  <p id="interpretacion">Cargando datos del Sistema Único de Trabajo…</p>
+  <div class="hero-chips" id="chips"></div>
+</div>
+
+<div id="error"></div>
+
+<div class="fbar" id="fbar" hidden>
+  <div class="fila">
+    <div><label>Estado del contrato</label>
+      <div class="toggle-group sm" id="f-estado" role="group" aria-label="Estado del contrato">
+        <button class="toggle-btn active" data-v="all">Registrados</button>
+        <button class="toggle-btn" data-v="0">Vigentes</button>
+        <button class="toggle-btn" data-v="1">Finalizados</button>
+      </div></div>
+    <div class="sep"></div>
+    <div><label for="f-prov">Provincia</label><select id="f-prov" class="wide"></select></div>
+    <div><label for="f-sexo">Sexo</label><select id="f-sexo"></select></div>
+    <div><label for="f-edad">Grupo etario</label><select id="f-edad" class="wide"></select></div>
+    <div><label for="f-disc">Discapacidad</label><select id="f-disc"></select></div>
+    <button class="btn-limpiar" id="f-limpiar" type="button">Limpiar filtros</button>
+  </div>
+  <div class="activos" id="activos"></div>
+</div>
+
+<div id="contenido" hidden>
+  <div class="k-grid" id="kpis"></div>
+
+  <div class="card-b">
+    <div class="h"><div><b>Distribución territorial</b><div class="sub">Provincia del contrato · haz clic en una provincia para filtrar todo el tablero</div></div></div>
+    <div class="c">
+      <div class="mapa-grid">
+        <div id="map-wrap"><div id="ec-map"></div>
+          <div id="gal-inset"><div class="inset-label">Galápagos</div><div id="ec-map-gal"></div></div></div>
+        <div>
+          <div id="prov-lista"></div>
+          <div class="legend-box"><span id="leg-min"></span><div class="legend-scale"></div><span id="leg-max"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card-b">
+      <div class="h"><div><b>Contratos por cantón</b><div class="sub" id="sub-canton"></div></div></div>
+      <div class="c"><div class="chart-box" style="height:420px"><canvas id="g-canton"></canvas></div></div>
+      <details class="tabla"><summary>Ver todos los cantones</summary>
+        <input class="buscar" id="buscar-canton" type="search" placeholder="Buscar cantón o provincia…">
+        <div class="table-wrap"><table class="t" id="t-canton"></table></div></details>
+    </div>
+    <div class="card-b">
+      <div class="h"><div><b>Actividad económica de la empresa</b><div class="sub">Actividad padre · haz clic en una barra para ver la actividad detallada</div></div></div>
+      <div class="c"><div class="chart-box" id="box-rama" style="height:420px"><canvas id="g-rama"></canvas></div>
+        <div class="nota aviso" id="nota-rama" hidden></div>
+        <div class="drill" id="act-detalle" hidden></div></div>
+    </div>
+  </div>
+
+  <div class="card-b">
+    <div class="h"><div><b>Tipo de contrato</b><div class="sub" id="sub-tipo"></div></div></div>
+    <div class="c"><div class="chart-box" style="height:320px"><canvas id="g-tipo"></canvas></div></div>
+    <details class="tabla"><summary>Ver todos los tipos de contrato</summary><div class="table-wrap"><table class="t" id="t-tipo"></table></div></details>
+  </div>
+
+  <div class="g2">
+    <div class="card-b">
+      <div class="h"><div><b>Contratos por sexo</b><div class="sub">Haz clic en una figura para filtrar el tablero</div></div></div>
+      <div class="c"><div class="siluetas" id="siluetas"></div><div class="nota" id="nota-sexo"></div></div>
+    </div>
+    <div class="card-b">
+      <div class="h"><div><b>Grupo etario por sexo</b><div class="sub">Edad a la fecha de inicio del contrato</div></div></div>
+      <div class="c"><div class="leyenda" id="ley-edad"></div><div class="chart-box" style="height:200px"><canvas id="g-edad"></canvas></div>
+        <div class="nota" id="nota-edad"></div></div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card-b">
+      <div class="h"><div><b>Etnia del trabajador</b><div class="sub">Autoidentificación del trabajador</div></div></div>
+      <div class="c"><div class="chart-box" style="height:280px"><canvas id="g-etnia"></canvas></div></div>
+    </div>
+    <div class="card-b">
+      <div class="h"><div><b>Trabajadores extranjeros</b><div class="sub" id="sub-nac">Nacionalidad · 10 principales</div></div></div>
+      <div class="c"><div class="chart-box" style="height:280px"><canvas id="g-nac"></canvas></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="gov-close"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="Gobierno del Ecuador"></div>
+</section></main>
+<footer class="dashboard-footer"><strong>Ministerio de Trabajo y Desarrollo Humano</strong> · Subsecretaría de Gestión de Datos y Estudios · Portal de Indicadores</footer>
+<script src="../assets/js/shared.js"></script>
+<script>
+(function(){
+'use strict';
+// Origen de los datos:
+// - En GitHub Pages (usuario.github.io/repo/…) se leen los datos diarios desde la rama «datos-contratos»,
+//   que el script publicar_contratos.ps1 reemplaza cada día (sin acumular versiones).
+// - En local (python -m http.server) o si la rama no responde, se usa la copia de datos/.
+// Si el portal se publica con dominio propio, escribir aquí la URL completa en DATOS_REMOTOS.
+const RAMA_DATOS = 'datos-contratos';
+const PATH_LOCAL = '../datos/kpis/contratos/dashboard_data.json';
+const DATOS_REMOTOS = (() => {
+  const h = location.hostname;
+  if (!h.endsWith('.github.io')) return null;
+  const usuario = h.replace(/\.github\.io$/, '');
+  const repo = location.pathname.split('/').filter(Boolean)[0];
+  return repo ? `https://raw.githubusercontent.com/${usuario}/${repo}/${RAMA_DATOS}/dashboard_data.json` : null;
+})();
+function cargarDatos(){
+  const pedir = url => fetch(url, { cache:'no-cache' }).then(r => { if (!r.ok) throw Error('HTTP ' + r.status + ' en ' + url); return r.json(); });
+  if (!DATOS_REMOTOS) return pedir(PATH_LOCAL);
+  return pedir(DATOS_REMOTOS).catch(err => {
+    console.warn('No se pudo leer la rama de datos, se usa la copia local:', err.message);
+    return pedir(PATH_LOCAL).then(d => { d._respaldo = true; return d; });
+  });
+}
+const C = { azul:'#4F449A', hom:'#1A5FA8', muj:'#C0395A', neutro:'#B9C0CE' };
+const MESES_L = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const fmt = n => Number(n || 0).toLocaleString('es-EC');
+const pct = (a, b) => b > 0 ? (100 * a / b).toLocaleString('es-EC', { minimumFractionDigits:1, maximumFractionDigits:1 }).replace(/^-/, '−') + ' %' : '–';
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+const $ = id => document.getElementById(id);
+// Categorías de actividad que no son una rama CIIU real (se muestran en gris, al final)
+const esOtros = s => /^(otros tipos de actividad|sin dato$|verificar$|sin actividad econ|bajo relaci[oó]n de dependencia)/i.test(s);
+const fecha = (iso, largo) => { const d = new Date(iso + 'T12:00:00');
+  return largo ? `${d.getDate()} de ${MESES_L[d.getMonth()]} de ${d.getFullYear()}` : d.toLocaleDateString('es-EC', { day:'2-digit', month:'2-digit', year:'numeric' }); };
+
+initSidebar({ activeId:'kpis-trabajo', basePath:'../' });
+const meta = kpiMetadata['2'];
+
+let D, F, charts = {}, mapa = null, ramaSel = null;
+
+// ───────────────────────── filtros ─────────────────────────
+// Columnas comunes de las tablas: [estado, sexo, edad, disc, prov|cantón, (categoría), n]
+const defaults = () => ({ e:'all', s:'all', g:'all', d:'all', p:'all' });
+const val = v => v === 'all' ? 'all' : Number(v);
+
+function pasa(r, tabla, ign){
+  if (F.e !== 'all' && r[0] !== F.e) return false;
+  if (!ign.s && F.s !== 'all' && r[1] !== F.s) return false;
+  if (!ign.g && F.g !== 'all' && r[2] !== F.g) return false;
+  if (!ign.d && F.d !== 'all' && r[3] !== F.d) return false;
+  if (!ign.p && F.p !== 'all'){
+    const p = tabla === 'canton' ? D.dic.canton[r[4]][0] : r[4];
+    if (p !== F.p) return false;
+  }
+  return true;
+}
+function agrega(tabla, col, ign = {}){
+  const out = new Map();
+  for (const r of D.t[tabla]) if (pasa(r, tabla, ign)) out.set(r[col], (out.get(r[col]) || 0) + r[r.length - 1]);
+  return out;
+}
+const suma = m => { let s = 0; m.forEach(v => s += v); return s; };
+const ordenDesc = m => [...m.entries()].sort((a, b) => b[1] - a[1]);
+const filtrosExtra = () => ['s', 'g', 'd'].filter(k => F[k] !== 'all').length;
+
+function textoActivos(){
+  const t = [];
+  if (F.e !== 'all') t.push(`<b>${D.dic.estado[F.e].toLowerCase()}s</b>`);
+  if (F.p !== 'all') t.push(`<b>${esc(D.dic.prov[F.p])}</b>`);
+  if (F.s !== 'all') t.push(`<b>${D.dic.sexo[F.s].toLowerCase()}</b>`);
+  if (F.g !== 'all') t.push(`<b>${D.dic.edad[F.g].toLowerCase()}</b>`);
+  if (F.d !== 'all') t.push(`<b>${D.dic.disc[F.d].toLowerCase()}</b>`);
+  return t.length ? 'Filtros activos: ' + t.join(' · ') : `Sin filtros: todos los contratos registrados (vigentes y finalizados) al ${fecha(D.fecha_corte, true)}.`;
+}
+function sincronizarControles(){
+  $('f-prov').value = F.p; $('f-sexo').value = F.s; $('f-edad').value = F.g; $('f-disc').value = F.d;
+  document.querySelectorAll('#f-estado .toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.v === String(F.e)));
+}
+function montarFiltros(){
+  const opts = (lista, todos) => `<option value="all">${todos}</option>` + lista.map((v, i) => `<option value="${i}">${esc(v)}</option>`).join('');
+  $('f-prov').innerHTML = opts(D.dic.prov, 'Todas');
+  $('f-sexo').innerHTML = opts(D.dic.sexo.slice(0, 2), 'Todos');
+  $('f-edad').innerHTML = opts(D.dic.edad, 'Todos');
+  $('f-disc').innerHTML = opts(D.dic.disc, 'Todos');
+  $('f-prov').onchange = e => { F.p = val(e.target.value); render(); };
+  $('f-sexo').onchange = e => { F.s = val(e.target.value); render(); };
+  $('f-edad').onchange = e => { F.g = val(e.target.value); render(); };
+  $('f-disc').onchange = e => { F.d = val(e.target.value); render(); };
+  document.querySelectorAll('#f-estado .toggle-btn').forEach(b => b.onclick = () => { F.e = val(b.dataset.v); render(); });
+  $('f-limpiar').onclick = () => { F = defaults(); ramaSel = null; render(); };
+  $('buscar-canton').oninput = () => renderTablaCanton();
+}
+
+// ───────────────────────── gráficos ─────────────────────────
+function fmtCorto(v){
+  if (Math.abs(v) >= 1e6) return (v / 1e6).toLocaleString('es-EC', { maximumFractionDigits:1 }) + ' M';
+  if (Math.abs(v) >= 1e3) return (v / 1e3).toLocaleString('es-EC', { maximumFractionDigits:0 }) + ' mil';
+  return fmt(v);
+}
+function barras(key, id, labels, data, opt = {}){
+  if (charts[key]) charts[key].destroy();
+  charts[key] = new Chart($(id), {
+    type:'bar',
+    data:{ labels, datasets:[{ label:'Contratos', data, backgroundColor: opt.colors || C.azul,
+      borderRadius:4, borderSkipped:'start', maxBarThickness:28, categoryPercentage:.85, barPercentage:.9 }] },
+    options:{
+      indexAxis:'y', responsive:true, maintainAspectRatio:false, animation:false,
+      // diferido: el gráfico se recrea y no debe destruirse dentro de su propio evento
+      onClick: opt.onClick ? (ev, el) => { if (el.length){ const i = el[0].index; setTimeout(() => opt.onClick(i), 0); } } : undefined,
+      onHover: opt.onClick ? (ev, el) => { ev.native.target.style.cursor = el.length ? 'pointer' : 'default'; } : undefined,
+      plugins:{ legend:{ display:false }, tooltip:{ callbacks:{
+        title: items => opt.titulos ? opt.titulos[items[0].dataIndex] : items[0].label,
+        label: c => ` ${fmt(c.raw)} contratos` + (opt.total ? ` · ${pct(c.raw, opt.total)}` : '') } } },
+      scales:{
+        x:{ beginAtZero:true, grid:{ color:'#EEF1F6' }, ticks:{ callback:v => fmtCorto(v), color:'#6B7A90' } },
+        y:{ grid:{ display:false }, ticks:{ color:'#33415C',
+          callback(v){ const l = this.getLabelForValue(v), m = opt.maxLabel || 34; return l.length > m ? l.slice(0, m - 1) + '…' : l; } } }
+      }
+    }
+  });
+}
+
+// ───────────────────────── secciones ─────────────────────────
+function renderKpis(){
+  const total = suma(agrega('base', 0));
+  const disc = agrega('base', 3);
+  const extr = suma(agrega('nac', 5));
+  const ef = F.e; F.e = 'all'; const estado = agrega('base', 0); F.e = ef;
+  const emp = D.t.empresas.find(r => r[0] === (F.e === 'all' ? -1 : F.e) && r[1] === (F.p === 'all' ? -1 : F.p));
+  const empParcial = filtrosExtra() > 0;
+  const etqTotal = F.e === 'all' ? 'Contratos registrados' : 'Contratos ' + D.dic.estado[F.e].toLowerCase() + 's';
+  const subTotal = F.e === 'all'
+    ? `Vigentes ${fmt(estado.get(0))} · Finalizados ${fmt(estado.get(1))}`
+    : `${pct(total, suma(estado))} de los registrados`;
+  $('kpis').innerHTML = `
+    <div class="k main"><div class="l">${etqTotal}</div><div class="v">${fmt(total)}</div><div class="s">${subTotal}</div></div>
+    <div class="k"><div class="l">Empresas</div><div class="v">${emp ? fmt(emp[2]) : '–'}</div>
+      <div class="s${empParcial ? ' warn' : ''}">${empParcial ? 'Solo responde a estado y provincia' : 'Razones sociales distintas'}</div></div>
+    <div class="k"><div class="l">Con discapacidad</div><div class="v">${fmt(disc.get(1))}</div><div class="s">${pct(disc.get(1) || 0, total)} de los contratos</div></div>
+    <div class="k"><div class="l">Trabajadores extranjeros</div><div class="v">${fmt(extr)}</div><div class="s">${pct(extr, total)} de los contratos</div></div>`;
+}
+
+function renderTerritorio(){
+  const porProv = agrega('base', 4, { p:true });
+  const total = suma(porProv);
+  const filas = ordenDesc(porProv).map(([p, n]) => ({ idx:p, p:D.dic.prov[p], value:n, tooltip:`${fmt(n)} contratos · ${pct(n, total)}` }));
+  const sinGeo = p => p === 'Sin provincia' || p === 'Zonas no delimitadas';
+  if (!mapa) mapa = crearMapaEcuador({ mapId:'ec-map', galId:'ec-map-gal',
+    overrides:{ 'SANTO DOMINGO':'Santo Domingo de los Tsáchilas' },
+    onSelect: p => { const i = D.dic.prov.indexOf(p); F.p = (F.p === i) ? 'all' : i; render(); } });
+  const maxV = mapa.render(filas.filter(f => !sinGeo(f.p)), C.azul);
+  if (F.p !== 'all') mapa.highlight(D.dic.prov[F.p]);
+  $('leg-min').textContent = '0'; $('leg-max').textContent = fmtCorto(maxV);
+  let rank = 0;
+  $('prov-lista').innerHTML = filas.map(d => {
+    const sg = sinGeo(d.p);
+    const color = sg ? C.neutro : _ecmapInterpola('#F5F6F8', C.azul, Math.sqrt(maxV > 0 ? d.value / maxV : 0));
+    return `<div class="prov-row${F.p === d.idx ? ' sel' : ''}" data-i="${d.idx}" title="${sg ? 'Contratos sin provincia ni cantón identificables' : 'Filtrar por ' + esc(d.p)}">
+      <span class="rank">${sg ? '' : ++rank}</span><span class="dot" style="background:${color}"></span>
+      <span class="nom">${esc(d.p)}</span><span class="val">${fmt(d.value)}</span><span class="pct">${pct(d.value, total)}</span></div>`;
+  }).join('');
+  document.querySelectorAll('#prov-lista .prov-row').forEach(el => el.onclick = () => { const i = +el.dataset.i; F.p = F.p === i ? 'all' : i; render(); });
+}
+
+let cantonFilas = [];
+function renderCanton(){
+  const m = agrega('canton', 4); const total = suma(m);
+  cantonFilas = ordenDesc(m).map(([c, n]) => ({ c:D.dic.canton[c][1], p:D.dic.prov[D.dic.canton[c][0]], n }));
+  const top = cantonFilas.slice(0, 15), conProv = F.p === 'all';
+  barras('canton', 'g-canton', top.map(f => f.c), top.map(f => f.n), { total, titulos: top.map(f => conProv ? `${f.c} (${f.p})` : f.c) });
+  $('sub-canton').textContent = `${conProv ? 'Nacional' : D.dic.prov[F.p]} · 15 principales de ${fmt(cantonFilas.length)} cantones`;
+  renderTablaCanton(total);
+}
+function renderTablaCanton(total){
+  total = total ?? cantonFilas.reduce((s, f) => s + f.n, 0);
+  const norm = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const q = norm($('buscar-canton').value || '');
+  const fil = q ? cantonFilas.filter(f => norm(f.c + ' ' + f.p).includes(q)) : cantonFilas;
+  $('t-canton').innerHTML = '<thead><tr><th>#</th><th>Cantón</th><th>Provincia</th><th class="n">Contratos</th><th class="n">%</th></tr></thead><tbody>' +
+    fil.map(f => `<tr><td>${cantonFilas.indexOf(f) + 1}</td><td>${esc(f.c)}</td><td>${esc(f.p)}</td><td class="n">${fmt(f.n)}</td><td class="n">${pct(f.n, total)}</td></tr>`).join('') + '</tbody>';
+}
+
+function renderRama(){
+  const m = agrega('rama', 5); const total = suma(m);
+  const filas = ordenDesc(m).map(([r, n]) => ({ r, nom:D.dic.rama[r], n }));
+  const orden = [...filas.filter(f => !esOtros(f.nom)), ...filas.filter(f => esOtros(f.nom))];
+  $('box-rama').style.height = Math.max(240, 30 * orden.length + 40) + 'px';
+  barras('rama', 'g-rama', orden.map(f => f.nom), orden.map(f => f.n), {
+    total, titulos: orden.map(f => f.nom),
+    colors: orden.map(f => esOtros(f.nom) ? C.neutro : (ramaSel === f.r ? C.muj : C.azul)),
+    onClick: i => { ramaSel = ramaSel === orden[i].r ? null : orden[i].r; renderRama(); } });
+  const nSc = filas.filter(f => esOtros(f.nom)).reduce((s, f) => s + f.n, 0);
+  $('nota-rama').hidden = !(total && nSc / total > 0.05);
+  $('nota-rama').innerHTML = `<b>${pct(nSc, total)}</b> de los contratos (${fmt(nSc)}) no tiene una rama CIIU identificada («Bajo relación de dependencia», «Verificar», «Sin actividad económica» o sin dato), por eso se muestran en gris al final. Las barras azules comparan solo las actividades identificadas.`;
+  renderDrill();
+}
+function renderDrill(){
+  const box = $('act-detalle');
+  if (ramaSel === null){ box.hidden = true; return; }
+  const m = new Map();
+  for (const r of D.t.act){
+    if (F.e !== 'all' && r[0] !== F.e) continue;
+    if (F.p !== 'all' && r[1] !== F.p) continue;
+    if (D.dic.act[r[2]][0] !== ramaSel) continue;
+    m.set(r[2], (m.get(r[2]) || 0) + r[3]);
+  }
+  const filas = ordenDesc(m), total = suma(m);
+  box.hidden = false;
+  box.innerHTML = `<div class="dh"><div><b>${esc(D.dic.rama[ramaSel])}</b> · actividad detallada (${fmt(filas.length)})</div><button class="x" title="Cerrar" aria-label="Cerrar">×</button></div>
+    ${filtrosExtra() ? '<div class="nota" style="margin:0 12px 8px">Este detalle responde solo a estado y provincia.</div>' : ''}
+    <div class="table-wrap" style="max-height:260px"><table class="t"><thead><tr><th>Actividad detallada</th><th class="n">Contratos</th><th class="n">%</th></tr></thead><tbody>
+    ${filas.map(([a, n]) => `<tr><td>${esc(D.dic.act[a][1])}</td><td class="n">${fmt(n)}</td><td class="n">${pct(n, total)}</td></tr>`).join('')}</tbody></table></div>`;
+  box.querySelector('.x').onclick = () => { ramaSel = null; renderRama(); };
+}
+
+function renderTipo(){
+  const m = agrega('tipo', 5); const total = suma(m);
+  const filas = ordenDesc(m).map(([t, n]) => ({ nom:D.dic.tipo[t], n }));
+  const TOP = 8, top = filas.slice(0, TOP), resto = filas.slice(TOP);
+  const vis = resto.length ? [...top, { nom:`Otras modalidades (${resto.length})`, n:resto.reduce((s, f) => s + f.n, 0), otras:true }] : top;
+  barras('tipo', 'g-tipo', vis.map(f => f.nom), vis.map(f => f.n), { total, titulos: vis.map(f => f.nom), colors: vis.map(f => f.otras ? C.neutro : C.azul) });
+  $('sub-tipo').textContent = `${fmt(filas.length)} tipos registrados · se muestran los ${Math.min(TOP, filas.length)} principales`;
+  $('t-tipo').innerHTML = '<thead><tr><th>#</th><th>Tipo de contrato</th><th class="n">Contratos</th><th class="n">%</th></tr></thead><tbody>' +
+    filas.map((f, i) => `<tr><td>${i + 1}</td><td>${esc(f.nom)}</td><td class="n">${fmt(f.n)}</td><td class="n">${pct(f.n, total)}</td></tr>`).join('') + '</tbody>';
+}
+
+function renderSexo(){
+  const m = agrega('base', 1, { s:true }), total = suma(m);
+  const SEXO = [[0, 'Hombres', C.hom, '../imagenes/hombre.png'], [1, 'Mujeres', C.muj, '../imagenes/mujer.png']];
+  $('siluetas').innerHTML = SEXO.map(([k, l, c, img]) => {
+    const n = m.get(k) || 0, sel = F.s === k;
+    return `<div class="silueta${sel ? ' sel' : ''}" data-s="${k}" title="${sel ? 'Quitar filtro' : 'Filtrar por ' + l.toLowerCase()}">
+      <img src="${img}" alt="${l}"><div class="val" style="color:${c}">${fmt(n)}</div>
+      <div class="lab">${l}</div><div class="det">${pct(n, total)} de los contratos</div></div>`;
+  }).join('');
+  document.querySelectorAll('#siluetas .silueta').forEach(el => el.onclick = () => { const k = +el.dataset.s; F.s = F.s === k ? 'all' : k; render(); });
+  const sd = m.get(2) || 0;
+  $('nota-sexo').textContent = sd ? `${fmt(sd)} contratos sin sexo registrado (${pct(sd, total)}).` : '';
+}
+
+function renderPerfil(){
+  renderSexo();
+  const mat = D.dic.edad.map(() => [0, 0, 0]);
+  for (const r of D.t.base) if (pasa(r, 'base', {})) mat[r[2]][r[1]] += r[5];
+  const total = mat.flat().reduce((a, b) => a + b, 0);
+  const series = [['Hombres', 0, C.hom], ['Mujeres', 1, C.muj]].concat(mat.some(f => f[2] > 0) ? [['Sin dato', 2, C.neutro]] : []);
+  if (charts.edad) charts.edad.destroy();
+  charts.edad = new Chart($('g-edad'), { type:'bar',
+    data:{ labels:D.dic.edad, datasets: series.map(([l, k, c]) => ({ label:l, data:mat.map(f => f[k]), backgroundColor:c, borderColor:'#fff', borderWidth:{ right:2 }, borderSkipped:false, maxBarThickness:30 })) },
+    options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, animation:false,
+      plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label: c => ` ${c.dataset.label}: ${fmt(c.raw)} · ${pct(c.raw, mat[c.dataIndex].reduce((a, b) => a + b, 0))} del grupo` } } },
+      scales:{ x:{ stacked:true, beginAtZero:true, grid:{ color:'#EEF1F6' }, ticks:{ callback:v => fmtCorto(v), color:'#6B7A90' } },
+               y:{ stacked:true, grid:{ display:false }, ticks:{ color:'#33415C', callback(v){ return this.getLabelForValue(v).replace(/ \(.*/, ''); } } } } } });
+  $('ley-edad').innerHTML = series.map(([l, , c]) => `<span><i style="background:${c}"></i>${l}</span>`).join('');
+  $('nota-edad').innerHTML = D.dic.edad.map((e, i) => { const n = mat[i].reduce((a, b) => a + b, 0); return `${esc(e)}: <b>${fmt(n)}</b> (${pct(n, total)})`; }).join('<br>');
+
+  const me = agrega('etnia', 5), te = suma(me);
+  const fe = ordenDesc(me).map(([k, n]) => ({ nom:D.dic.etnia[k], n }));
+  barras('etnia', 'g-etnia', fe.map(f => f.nom), fe.map(f => f.n), { total:te, maxLabel:18, titulos: fe.map(f => f.nom), colors: fe.map(f => /^sin dato$/i.test(f.nom) ? C.neutro : C.azul) });
+
+  const mn = agrega('nac', 5), tn = suma(mn);
+  const fn = ordenDesc(mn).slice(0, 10).map(([k, n]) => ({ nom:D.dic.nac[k], n }));
+  barras('nac', 'g-nac', fn.map(f => f.nom), fn.map(f => f.n), { total:tn, maxLabel:18, titulos: fn.map(f => f.nom) });
+  $('sub-nac').textContent = `${fmt(tn)} contratos de ${fmt(mn.size)} nacionalidades distintas a la ecuatoriana · 10 principales`;
+}
+
+function render(){
+  sincronizarControles();
+  $('activos').innerHTML = textoActivos();
+  renderKpis(); renderTerritorio(); renderCanton(); renderRama(); renderTipo(); renderPerfil();
+}
+
+// ───────────────────────── carga ─────────────────────────
+cargarDatos()
+  .then(d => {
+    D = d; F = defaults();
+    $('interpretacion').innerHTML = `Existen <b>${fmt(D.registrados)}</b> contratos registrados en el Sistema Único de Trabajo (SUT) al ${fecha(D.fecha_corte, true)}.`;
+    $('chips').innerHTML = D._respaldo ? '<span>⚠ No se pudieron cargar los datos más recientes</span>' : '';
+    $('fbar').hidden = false; $('contenido').hidden = false;
+    montarFiltros(); render();
+  })
+  .catch(err => {
+    $('interpretacion').textContent = meta.definicion || '';
+    $('error').innerHTML = `<div class="aviso-err"><b>No se pudieron cargar los datos de contratos.</b><br>${esc(err.message)}<br>
+      <span class="nota">Revisa que la rama <code>datos-contratos</code> exista (la crea <code>publicar_contratos.ps1</code>) o, en local, copia <code>data/dashboard_data.json</code> en <code>datos/kpis/contratos/</code>
+      y abre el portal mediante un servidor local o GitHub Pages (no con file://).</span></div>`;
+  });
+})();
+</script>
+</body>
+</html>

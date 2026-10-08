@@ -77,3 +77,22 @@ Lee el formato actual (hojas POR PROVINCIA / POR REGIMEN / GENERO con bloques po
 de entrega nuevo (`Formato_entrega_jubilados_MTDH.xlsx`, hojas Expedientes o Agregado). Si los totales
 de sexo, régimen y provincia no cuadran en algún año, no escribe nada. Revisar
 `reportes/kpis/validacion_jubilados_<AAAA-MM>.md`. Página: `MDTDH/kpi_jubilados.html`.
+
+## Trabajo · Contratos registrados (SUT)
+
+Ficha metodológica 18. Fuente: `datalake.public.mdt02_contratos`, que es una **foto diaria** del SUT
+(no guarda histórico). El portal muestra solo la foto vigente: cada actualización reemplaza la anterior.
+
+| Archivo | Contenido |
+|---|---|
+| `contratos/dashboard_data.json` | Foto del día: registrados por estado × provincia × sexo × grupo etario × discapacidad, y con esas mismas variables: cantón, actividad padre, tipo de contrato, etnia y nacionalidad; actividad detallada por estado y provincia; empresas por estado y provincia |
+
+Se genera fuera del portal, en la carpeta de extracción (`actualizar_dashboard.py` + `sql/kpi_contratos_foto.sql`
++ `.env`). La consulta está organizada según la sección 5 de la ficha y se puede correr tal cual en DBeaver.
+
+    python actualizar_dashboard.py
+
+y luego se copia `data/dashboard_data.json` a `datos/kpis/contratos/`.
+
+- Registrados = vigentes + finalizados, sin anulados. Las regiones (Sierra, Costa, Oriente) se asignan a la provincia de su cantón.
+- Si alguna desagregación no suma el total de registrados, no reemplaza el JSON.

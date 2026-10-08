@@ -366,11 +366,14 @@ const kpiMetadata = {
     "nombre": "Número de contratos de trabajo registrados a nivel nacional",
     "queMide": "Validar  el incremento y decremento mes por mes del registro de los trabajadores en el Sistema Único de Trabajo (SUT) según lo establecido en el Acuerdo Ministerial Nro. MDT-2023-140, para garantizar el soporte documental y técnico para el proceso de inspecciones del trabajo",
     "decision": "Permite identificar variaciones, tendencias e inconsistencias en el registro de contratos de trabajo para fortalecer la toma de decisiones, el control de obligaciones laborales y la planificación de las inspecciones del trabajo.",
-    "formula": "Sumatoria de contratos nuevos registrados en el año.",
+    "definicion": "Corresponde a los contratos registrados en el Sistema Único de Trabajo (SUT) a la fecha de corte de la información. Contrato registrado: cargado por el empleador en el SUT, en estado vigente o finalizado; se excluyen los anulados.",
+    "formula": "NCont = Σ Nsut, desde el mes de inicio (i) hasta el mes de corte (j); Nsut = número de contratos registrados en el periodo de referencia.",
+    "interpretacion": "Existen XX contratos registrados en el Sistema Único de Trabajo (SUT) en el mes XX del año XX.",
+    "disponibilidad": "Diciembre 2015",
     "unidad": "Número",
     "tipo": "RESULTADO",
     "periodicidad": "MENSUAL",
-    "desagregacion": "NACIONAL",
+    "desagregacion": "Provincia y cantón del contrato; sexo, grupo etario, discapacidad, etnia y nacionalidad del trabajador; tipo de contrato; actividad económica (padre y detallada)",
     "sistema": "SUT - Sistema Único de Trabajo",
     "recurso": "SISTEMA",
     "acceso": "RESTRINGIDO",
@@ -379,7 +382,7 @@ const kpiMetadata = {
     "estado": "DISPONIBLE",
     "responsable": "Directora de Control, Inspecciones y Coactivas",
     "validacion": "Subsecretaria de Trabajo",
-    "observacion": "La información de los contratos de trabajo registrada en el Sistema Único de Trabajo (SUT) es de naturaleza transaccional y se actualiza continuamente conforme a las acciones realizadas por los empleadores (registro, modificación, legalización, terminación u otras operaciones). En virtud de esta característica, los datos reportados pueden presentar diferencias entre distintos cortes de información o respecto de cifras acumuladas, por cuanto corresponden al estado de la base de datos al momento de su consulta y extracción.",
+    "observacion": "La información disponible en el SUT está sujeta al registro y actualización realizados por los empleadores; pueden existir desfases cuando no registran o actualizan oportunamente los datos, así como subregistro o registro tardío. La información de los contratos de trabajo registrada en el Sistema Único de Trabajo (SUT) es de naturaleza transaccional y se actualiza continuamente conforme a las acciones realizadas por los empleadores (registro, modificación, legalización, terminación u otras operaciones). En virtud de esta característica, los datos reportados pueden presentar diferencias entre distintos cortes de información o respecto de cifras acumuladas, por cuanto corresponden al estado de la base de datos al momento de su consulta y extracción.",
     "fuente": "",
     "lugar": "KPIS-TRABAJO-Contratos"
   },
@@ -1686,13 +1689,13 @@ const itemLists = {
     desc:'Selecciona el componente que quieres consultar.',
     items:[
       { name:kpiMetadata['1'].nombre, href:'kpi_jubilados.html', badge:'● Disponible', sub:'Expedientes y montos 2023 – agosto 2026 · sexo, régimen y provincia' },
-      { name:'Contratos', badge:'● En construcción' }
+      { name:'Contratos', href:'kpi_contratos.html', badge:'● Disponible', sub:'Serie mensual desde dic. 2015 · estado, territorio, actividad, tipo de contrato, sexo, edad, etnia, discapacidad y nacionalidad' }
     ]
   },
   'trabajo-contratos': {
     eyebrow:'KPIs · Trabajo · Contratos', title:'Contratos',
     desc:'Indicador asociado a este componente.',
-    items:[{ name:kpiMetadata['2'].nombre, badge:'● En construcción' }]
+    items:[{ name:kpiMetadata['2'].nombre, href:'kpi_contratos.html', badge:'● Disponible' }]
   },
   'kpis-pueblos': {
     eyebrow:'KPIs · Pueblos y Nacionalidades', title:'Pueblos y Nacionalidades',
@@ -1780,7 +1783,7 @@ const ICONS = {
 
 const kpisAreas = [
   { key:'proteccion-social', label:'Protección Social e Inclusión Económica', icon:'familia', disponible:true, desc:'Servicios de desarrollo infantil, movilidad social, personas adultas mayores, discapacidad, protección especial y alertas SUUSEN.', route:'kpis-proteccion-social' },
-  { key:'trabajo', label:'Trabajo', icon:'trabajo', disponible:true, desc:'Compensación jubilar de exservidores y extrabajadores; contratos (en construcción).', route:'kpis-trabajo' },
+  { key:'trabajo', label:'Trabajo', icon:'trabajo', disponible:true, desc:'Compensación jubilar de exservidores y extrabajadores; contratos de trabajo registrados en el SUT.', route:'kpis-trabajo' },
   { key:'pueblos', label:'Pueblos y Nacionalidades', icon:'pueblos', disponible:true, desc:'Economía comunitaria y productiva, y convenios de financiamiento no reembolsable.', route:'kpis-pueblos' },
   { key:'incentivos', label:'Incentivos Temporales', icon:'incentivos', disponible:false, desc:'Jóvenes en acción, compensación de combustible, migrantes retornados.', route:'kpis-incentivos' }
 ];

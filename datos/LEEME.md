@@ -21,7 +21,7 @@ de su código qué archivos lee (`cargarDatos({...})` o `fetchCSV(...)`). Para a
 | `enemdu/trimestral/` | ENEMDU trimestral: poblaciones, tasas, caracterización y sectorización | `ENEMDU/<tema>_trimestral.html` | A mano o desde el pipeline ENEMDU | Trimestral |
 | `_archivo/` | Archivos antiguos que ninguna página usa. Se guardan solo como respaldo | — | No se tocan | — |
 
-Secciones que **aún no tienen archivo** (Presupuesto general, KPIs Trabajo · Contratos,
+Secciones que **aún no tienen archivo** (Presupuesto general,
 Incentivos Temporales) muestran solo «En construcción».
 
 ## Reglas para todos los CSV
