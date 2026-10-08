@@ -195,8 +195,24 @@ function fetchTransferData() {
   // aquí, en memoria, en la misma forma que el resto del código ya sabe leer.
   transferDataPromise = Promise.all([
     fetchCSV('../datos/transferencias/transferencias_mensual.csv'),
-    fetchCSV('../datos/transferencias/transferencias_nacional.csv')
-  ]).then(([provincial, nacional]) => {
+    fetchCSV('../datos/transferencias/transferencias_nacional.csv'),
+    // Información descriptiva de cada programa (ventana «i» de las tarjetas), tomada de las
+    // fichas metodológicas. Si el archivo no existe, las tarjetas muestran «En construcción».
+    fetchCSV('../datos/transferencias/informacion_programas.csv').catch(() => [])
+  ]).then(([provincial, nacional, info]) => {
+    const lista = v => String(v || '').split('|').map(x => x.trim()).filter(Boolean);
+    info.forEach(r => {
+      const meta = getTransferProgramMetaBySlug(r.programa_slug);
+      if (!meta) return;
+      transferProgramInfo[meta.name] = {
+        desc: r.descripcion || '', amount: r.monto_modalidad || '',
+        reqs: lista(r.criterios), details: lista(r.informacion_adicional), source: r.fuente || ''
+      };
+    });
+    // Programas de cobertura sin ficha metodológica (Orfandad por Femicidio, Contingencias, BCENA):
+    // la ventana «i» se arma con lo que registra el propio portal en transferencias_nacional.csv,
+    // de modo que se actualiza sola al agregar meses.
+    describirCoberturasDesdeDatos(nacional);
     // La fila con nota "Acumulado real nov 2023-dic 2025" no es un dato de
     // diciembre-2025: es 26 meses (nov-2023 a dic-2025) comprimidos en un solo
     // registro porque el Excel VIS-VIE no permite desagregarlo por mes. Si se
@@ -834,6 +850,40 @@ const TRANSFER_MONTHS = {
   '07':'julio','08':'agosto','09':'septiembre','10':'octubre','11':'noviembre','12':'diciembre'
 };
 
+function describirCoberturasDesdeDatos(nacional){
+  const usd = (v, dec = 2) => 'USD ' + v.toLocaleString('es-EC', { minimumFractionDigits:dec, maximumFractionDigits:dec });
+  const mesTxt = r => `${TRANSFER_MONTHS[String(r.mes).padStart(2, '0')] || r.mes} de ${r.anio}`;
+  const porSlug = {};
+  nacional.forEach(r => { (porSlug[r.programa_slug] = porSlug[r.programa_slug] || []).push(r); });
+  Object.entries(porSlug).forEach(([slug, filas]) => {
+    const meta = getTransferProgramMetaBySlug(slug);
+    if (!meta || transferProgramInfo[meta.name]) return;          // si existe ficha, manda la ficha
+    filas = filas.map(r => ({ ...r, b: Number(r.beneficiarios) || 0, m: (Number(r.monto_devengado_musd) || 0) * 1e6 }))
+                 .sort((x, y) => (x.anio + x.mes).localeCompare(y.anio + y.mes));
+    const conPago = filas.filter(r => r.b > 0 && r.m > 0);
+    if (!conPago.length) return;
+    const ini = conPago[0], ult = filas[filas.length - 1], ultPago = conPago[conPago.length - 1];
+    const doce = conPago.slice(-12);
+    const prom = doce.reduce((s, r) => s + r.m, 0) / doce.reduce((s, r) => s + r.b, 0);
+    const montoTotal = filas.reduce((s, r) => s + r.m, 0);
+    transferProgramInfo[meta.name] = {
+      desc: `Transferencia monetaria no contributiva de cobertura, registrada a nivel nacional. ` +
+            `El portal cuenta con pagos desde ${mesTxt(ini)} hasta ${mesTxt(ult)}; en ${mesTxt(ult)} se registraron ` +
+            `${ult.b.toLocaleString('es-EC')} beneficiarios.`,
+      amount: `Los pagos se registran por mes. En los últimos ${doce.length} meses con pago, el monto devengado ` +
+              `promedio fue de ${usd(prom)} por beneficiario (monto devengado ÷ beneficiarios); el valor varía entre meses.`,
+      reqs: [],
+      details: [
+        `Monto devengado acumulado desde ${mesTxt(ini)}: ${usd(montoTotal / 1e6, 1)} millones.`,
+        `Último mes con pago registrado: ${mesTxt(ultPago)} (${ultPago.b.toLocaleString('es-EC')} beneficiarios, ${usd(ultPago.m, 0)}).`,
+        'Información disponible solo a nivel nacional, sin desagregación provincial.',
+        'Los beneficiarios de distintos meses no deben sumarse: una misma persona puede recibir pagos en varios meses.'
+      ],
+      source: 'Fuente: datos de pagos registrados en el portal (transferencias de cobertura, nivel nacional).'
+    };
+  });
+}
+
 function getTransferProgramMetaByName(name){
   return TRANSFER_PROGRAM_META.find(p => p.name === name) || null;
 }
@@ -848,7 +898,7 @@ function formatTransferPeriodLong(period){
   return `${TRANSFER_MONTHS[month]} ${year}`;
 }
 
-const transferProgramInfo = {}; // Sin datos incrustados: información adicional pendiente de una fuente en datos/.
+const transferProgramInfo = {}; // Se llena en fetchTransferData() desde datos/transferencias/informacion_programas.csv
 
 
 // Información breve para el botón (i). Esta fuente es independiente de la ficha técnica.
@@ -1176,26 +1226,23 @@ function openIndicatorInfo(model){
   document.getElementById('tmModalKicker').textContent = model.isTransfer ? 'Información de la transferencia' : 'Información del indicador';
 
   const content = document.getElementById('tmModalContent');
-  content.innerHTML = `
+  // Con información cargada, las secciones sin contenido se omiten (no se muestra «En construcción»);
+  // sin información, se mantienen las cuatro secciones con «En construcción».
+  const lleno = v => Array.isArray(v) ? v.some(x => String(x || '').trim()) : !!String(v || '').trim();
+  const secciones = [
+    ['Descripción', model.desc, indicatorInfoText],
+    ['Monto / modalidad', model.amount, indicatorInfoText],
+    ['Criterios de aplicación', model.reqs, indicatorInfoList],
+    ['Información adicional', model.details, indicatorInfoList]
+  ].filter(([, v]) => !model.hasInfo || lleno(v));
+  content.innerHTML = secciones.map(([etq, v, fn]) => `
     <div class="indicator-info-section">
-      <div class="indicator-info-label">Descripción</div>
-      ${indicatorInfoText(model.desc)}
-    </div>
-    <div class="indicator-info-section">
-      <div class="indicator-info-label">Monto / modalidad</div>
-      ${indicatorInfoText(model.amount)}
-    </div>
-    <div class="indicator-info-section">
-      <div class="indicator-info-label">Criterios de aplicación</div>
-      ${indicatorInfoList(model.reqs)}
-    </div>
-    <div class="indicator-info-section">
-      <div class="indicator-info-label">Información adicional</div>
-      ${indicatorInfoList(model.details)}
-    </div>`;
+      <div class="indicator-info-label">${etq}</div>
+      ${fn(v)}
+    </div>`).join('');
 
   document.getElementById('tmModalNote').textContent = model.hasInfo
-    ? `${model.source} Esta ventana informativa es independiente de la ficha técnica del indicador.`
+    ? (model.isTransfer ? model.source : `${model.source} Esta ventana informativa es independiente de la ficha técnica del indicador.`)
     : 'En construcción.';
   backdrop.classList.add('open');
 }

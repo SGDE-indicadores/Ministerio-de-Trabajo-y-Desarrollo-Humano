@@ -9,6 +9,7 @@ de su código qué archivos lee (`cargarDatos({...})` o `fetchCSV(...)`). Para a
 | Carpeta | Qué contiene | Página(s) | Cómo se actualiza | Frecuencia |
 |---|---|---|---|---|
 | `transferencias/` | Bonos y pensiones: beneficiarios y montos por programa, provincia y mes | `MDTDH/transferencias.html` | A mano (agregar filas del nuevo mes) | Mensual |
+| `transferencias/informacion_programas.csv` | Descripción, monto / modalidad, criterios e información adicional de cada programa (ventana «i» de las tarjetas), tomados de las fichas metodológicas. Listas separadas por «\|» | `MDTDH/transferencias.html` | A mano, cuando cambie la ficha o la normativa | Eventual |
 | `kpis/` | Tarjetas del «Panorama destacado» de cada área (`kpi_*.csv`) | `MDTDH/kpis.html` | A mano o por script (ver `kpis/LEEME.md`) | Mensual |
 | `kpis/proteccion_social/` | Usuarios, caracterización, presupuesto y serie histórica de los servicios (DII, PAM, PCD, PE) | `MDTDH/kpis.html#/kpis-proteccion-social` | `scripts/actualizar_proteccion_social.py` (presupuesto, a mano) | Mensual |
 | `kpis/movilidad_social/` | Crédito de Desarrollo Humano: cobertura y caracterización | `MDTDH/kpis.html#/cobertura-movilidad-social` | `scripts/actualizar_cdh.py` | Mensual |
