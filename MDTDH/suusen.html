@@ -1,47 +1,263 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Alertas SUUSEN | KPIs MTDH</title>
 <link rel="stylesheet" href="../assets/css/shared.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="../assets/js/export-utils.js"></script>
 <style>
-:root{--su:#154c78;--su-muted:#62768b;--su-line:#dbe5ee}
-.su-main{max-width:1200px;margin:auto;padding:22px 24px 90px;font-family:Arial,sans-serif;color:#1d2e40}
-.su-crumb{font-size:13px;margin:10px 0 22px;color:var(--su-muted)}.su-crumb a{color:var(--su);text-decoration:none}
-.su-hero{background:linear-gradient(110deg,#163f68,#276b92);border-radius:17px;padding:29px;color:white}.su-hero h1{font-size:30px;margin:5px 0 10px;color:white}.su-hero p{font-size:14px;line-height:1.65;color:#e3f1fb;max-width:850px}.su-tag{font-size:11px;text-transform:uppercase;letter-spacing:1.2px;font-weight:700;color:#dbedff}
-.su-filters{display:flex;align-items:end;flex-wrap:wrap;gap:12px;margin:19px 0}.su-filters label{display:block;font-size:12px;font-weight:700;margin-bottom:5px;color:var(--su-muted)}.su-filters select,.su-btn{border:1px solid var(--su-line);border-radius:9px;background:white;padding:11px 13px;font-size:14px;min-height:43px;color:#233c56}.su-btn{cursor:pointer;font-weight:700}.su-btn:hover{background:#edf5fa}.su-note{font-size:12px;color:var(--su-muted);margin-left:auto;padding-bottom:8px}
-.su-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}.su-card,.su-panel{background:white;border:1px solid var(--su-line);border-radius:12px;padding:18px;box-shadow:0 2px 11px rgba(20,55,85,.035)}.su-card .title{font-size:12px;color:var(--su-muted);font-weight:700;min-height:30px}.su-card .number{font-size:clamp(22px,2.6vw,30px);font-weight:800;letter-spacing:-.7px;margin:8px 0;color:var(--su)}.su-card .detail{font-size:12px;color:var(--su-muted)}.su-variance{color:#ad3c35!important}
-.su-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:16px;margin-top:16px}.su-panel h2{font-size:18px;margin:0 0 7px;color:#193f60}.su-panel p{font-size:12px;color:var(--su-muted);line-height:1.55}.su-chart{width:100%;height:auto;min-height:240px;display:block}.su-legend{display:flex;gap:15px;flex-wrap:wrap;color:var(--su-muted);font-size:12px;margin-top:8px}.su-legend i{display:inline-block;width:12px;height:4px;background:#2477aa;vertical-align:middle;margin-right:5px}.su-table-wrap{overflow-x:auto}.su-table{width:100%;border-collapse:collapse;font-size:13px;white-space:nowrap}.su-table th,.su-table td{padding:11px 12px;border-bottom:1px solid var(--su-line);text-align:right}.su-table th:first-child,.su-table td:first-child{text-align:left}.su-table th{background:#f0f6fa;color:#315772}.su-table tr:hover td{background:#f7fafc}.su-method{background:#f6f9fc;border-left:4px solid #2777aa;padding:13px 17px;border-radius:7px;margin-top:16px;font-size:13px;line-height:1.6}.su-method strong{color:#164b75}.su-flex{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}.su-tablepanel{margin-top:16px}.su-empty{color:#9b3f36;padding:30px}.su-insights{padding-left:19px;font-size:13px;line-height:1.7;color:#334d65}.su-insights li{margin:8px 0}
-@media(max-width:900px){.su-kpis{grid-template-columns:repeat(2,1fr)}.su-grid{grid-template-columns:1fr}}@media(max-width:520px){.su-main{padding:14px 12px 50px}.su-hero{padding:22px}.su-hero h1{font-size:23px}.su-kpis{gap:8px}.su-card{padding:12px}.su-card .number{font-size:22px}.su-note{margin-left:0}}
+  /* Misma plantilla que las páginas de KPI del portal (Contratos, Compensación jubilar) */
+  .fbar{position:sticky;top:var(--fbar-top,148px);z-index:90;background:#fff;border:1px solid var(--gris-bd);border-radius:10px;padding:12px 14px;margin:0 0 16px;box-shadow:var(--shadow)}
+  .fbar .fila{display:flex;gap:10px 14px;align-items:flex-end;flex-wrap:wrap}
+  .fbar label{display:block;font-size:10.5px;font-weight:700;color:var(--subtexto);margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px}
+  .fbar select{padding:7px 9px;border:1px solid var(--gris-bd);border-radius:7px;background:#fff;color:var(--texto);font-size:12.5px;min-width:170px}
+  .btn-limpiar{padding:7px 12px;border:1px solid var(--gris-bd);border-radius:7px;background:var(--azul-pale);color:var(--azul);font-weight:700;font-size:12px;cursor:pointer}
+  .btn-limpiar:hover{background:var(--azul-light)}
+  .activos{font-size:12px;color:var(--subtexto);margin-top:8px}
+  .activos b{color:var(--azul)}
+  .k-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+  .k{background:#fff;border:1px solid var(--gris-bd);border-radius:10px;padding:14px 16px;border-top:3px solid var(--azul)}
+  .k.main{border-top-color:var(--amarillo)}
+  .k .l{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--subtexto)}
+  .k .v{font-size:26px;font-weight:700;color:var(--azul);line-height:1.1;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+  .k .s{font-size:12px;color:var(--subtexto);line-height:1.45}
+  .k .s .up{color:#1B7A4A;font-weight:700}.k .s .down{color:#C4262E;font-weight:700}
+  .g2{display:grid;grid-template-columns:1.5fr 1fr;gap:16px}
+  .card-b{background:#fff;border:1px solid var(--gris-bd);border-radius:10px;margin-bottom:16px;overflow:hidden}
+  .card-b .h{padding:12px 16px;border-bottom:1px solid var(--gris-bd);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+  .card-b .h b{color:var(--azul);font-size:13.5px}
+  .card-b .h .sub{font-size:12px;color:var(--subtexto);margin-top:2px}
+  .card-b .c{padding:16px}
+  .chart-box{position:relative;height:290px}
+  .lectura{list-style:none;margin:0;padding:0}
+  .lectura li{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px dashed var(--gris-bd);font-size:13px;color:var(--subtexto)}
+  .lectura li b{color:var(--texto);text-align:right;font-variant-numeric:tabular-nums}
+  .formula{margin-top:14px;background:var(--azul-pale);border-left:4px solid var(--azul);border-radius:8px;padding:12px 14px;font-size:12.5px;color:var(--texto);line-height:1.55}
+  .formula .f{font-size:14px;font-weight:700;color:var(--azul);margin:4px 0 6px}
+  .leyenda{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--subtexto);margin-bottom:8px}
+  .leyenda i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+  table.t{width:100%;border-collapse:collapse;font-size:12.5px}
+  table.t th{background:var(--azul-pale);color:var(--azul);text-align:left;padding:8px 12px;font-weight:700;border-bottom:1px solid var(--gris-bd);position:sticky;top:0}
+  table.t td{padding:7px 12px;border-bottom:1px solid var(--gris-bd)}
+  table.t td.n,table.t th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  table.t tr.sel td{background:var(--amarillo-l)}
+  .table-wrap{overflow:auto;max-height:440px}
+  ul.notas{margin:0;padding:14px 18px 14px 34px;font-size:12.5px;line-height:1.65;color:var(--texto)}
+  ul.notas li{margin:4px 0}
+  .aviso-err{background:#FDECEA;border:1px solid #F3A8AC;color:#C4262E;border-radius:8px;padding:12px 16px;margin:14px 0}
+  @media(max-width:900px){.k-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.g2{grid-template-columns:1fr}.k .v{font-size:22px}.fbar{position:static}}
 </style>
 </head>
 <body>
-<div class="logo-bar"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="El Nuevo Ecuador" style="height:34px"></div>
-<header class="header"><div class="header-left"><div class="header-logo">MTDH</div><div><div class="header-title">Ministerio de Trabajo y Desarrollo Humano</div><div class="header-sub">Dirección de Estudios y Análisis · Indicadores de gestión</div></div></div><div class="header-badge">KPIs · SUUSEN</div></header>
-<main class="su-main">
-<div class="su-crumb"><a href="../index.html">Inicio</a> / <a href="kpis.html">KPIs</a> / <a href="kpis.html#/kpis-proteccion-social">Protección Social</a> / Alertas SUUSEN</div>
-<section class="su-hero"><span class="su-tag">Protección Social e Inclusión Económica · Seguimiento nominal</span><h1>Alertas SUUSEN</h1><p><strong>Porcentaje de alertas que han sido gestionadas.</strong> Mide las alertas vencidas que registraron una gestión respecto del total de alertas vencidas al corte. Incluye alertas asociadas a la prevención y reducción de la desnutrición crónica infantil.</p></section>
-<div class="su-filters"><div><label for="year">Año</label><select id="year"><option value="all">Todos los años</option></select></div><div><label for="month">Mes de corte</label><select id="month"></select></div><button class="su-btn" id="download">↓ Descargar CSV filtrado</button><div class="su-note" id="sourceNote">Fuente: reporte gerencial SUUSEN · Exportado 08/10/2026 · Alcance nacional</div></div>
-<div class="su-kpis" id="cards"></div>
-<div class="su-grid"><section class="su-panel"><h2>Evolución del porcentaje gestionado</h2><p id="chartSubtitle">Porcentaje registrado para cada corte. Los periodos no se suman.</p><svg id="chart" class="su-chart" role="img" aria-label="Evolución mensual del porcentaje de alertas vencidas gestionadas" viewBox="0 0 720 270" preserveAspectRatio="xMidYMid meet"></svg><div class="su-legend"><span><i></i>Alertas vencidas gestionadas (%)</span></div></section><section class="su-panel"><h2>Lectura del indicador</h2><div id="insights"></div><div class="su-method"><strong>Fórmula oficial</strong><div style="font-size:17px;font-weight:700;margin:8px 0">(Alertas vencidas gestionadas / Total de alertas vencidas) × 100</div>La gestión significa que el proceso de atención fue tramitado y registrado. <strong>No equivale necesariamente a que se haya prestado el servicio.</strong></div></section></div>
-<section class="su-panel su-tablepanel"><div class="su-flex"><div><h2>Serie histórica y componentes</h2><p>Cada fila corresponde al corte reportado; no son flujos mensuales independientes.</p></div><span id="count" style="font-size:12px;color:var(--su-muted)"></span></div><div class="su-table-wrap"><table class="su-table"><thead><tr><th>Corte</th><th>Alertas vencidas gestionadas</th><th>Alertas vencidas</th><th>Sin gestión registrada</th><th>Porcentaje (%)</th></tr></thead><tbody id="tbody"></tbody></table></div></section>
-<section class="su-method"><strong>Alcance y metodología:</strong> la serie nacional procede del archivo «REPORTE INDICADOR ALERTAS GESTIONADAS.xlsx», exportado desde SUUSEN el 8 de octubre de 2026, con cortes desde julio de 2022 hasta julio de 2026. La ficha metodológica «44.PAC_alertas_gestionadas.pdf» define una medición mensual con un mes de rezago, referida a la fecha de envío de la alerta. El archivo no incluye provincia, institución, sexo ni tipo de alerta; por ello esas desagregaciones no se presentan. Los datos pueden cambiar con las actualizaciones de registros administrativos. No se dispone de una meta institucional validada para mostrar cumplimiento.</section>
-</main>
+<div id="app-sidebar-mount"></div>
+<div class="logo-bar"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="El Nuevo Ecuador" style="height:34px;"></div>
+<header class="header"><div class="header-left"><div class="header-logo">MTDH</div><div><div class="header-title">Ministerio de Trabajo y Desarrollo Humano</div><div class="header-sub">Dirección de Estudios y Análisis · Subsecretaría de Gestión de Datos y Estudios</div></div></div><div class="header-badge">Protección Social</div></header>
+<nav class="breadcrumb"><a href="../index.html">Inicio</a><span class="bc-sep">›</span><a href="kpis.html#/kpis">KPIs</a><span class="bc-sep">›</span><a href="kpis.html#/kpis-proteccion-social">Protección Social e Inclusión Económica</a><span class="bc-sep">›</span><span class="bc-current">Alertas SUUSEN</span></nav>
+<main class="main"><section class="page active">
+
+<div class="hero">
+  <div class="hero-eyebrow">KPIs · Protección Social e Inclusión Económica · Alertas SUUSEN</div>
+  <h1 id="titulo">Porcentaje de alertas vencidas gestionadas</h1>
+  <p id="interpretacion">Cargando datos…</p>
+</div>
+
+<div id="error"></div>
+
+<div class="fbar" id="fbar" hidden>
+  <div class="fila">
+    <div><label for="f-anio">Año</label><select id="f-anio"></select></div>
+    <div><label for="f-mes">Mes de corte</label><select id="f-mes"></select></div>
+    <button class="btn-limpiar" id="f-limpiar" type="button">Ver último corte</button>
+  </div>
+  <div class="activos" id="activos"></div>
+</div>
+
+<div id="contenido" hidden>
+  <div class="k-grid" id="kpis"></div>
+
+  <div class="g2">
+    <div class="card-b">
+      <div class="h"><div><b>Evolución del porcentaje gestionado</b><div class="sub" id="sub-evol"></div></div></div>
+      <div class="c"><div class="chart-box"><canvas id="g-pct" role="img" aria-label="Evolución del porcentaje de alertas vencidas gestionadas"></canvas></div></div>
+    </div>
+    <div class="card-b">
+      <div class="h"><div><b>Lectura del corte</b><div class="sub" id="sub-lectura"></div></div></div>
+      <div class="c">
+        <ul class="lectura" id="lectura"></ul>
+        <div class="formula"><div>Fórmula</div><div class="f">(Alertas vencidas gestionadas ÷ Total de alertas vencidas) × 100</div>
+          La gestión significa que el proceso de atención fue tramitado y registrado; no equivale necesariamente a que se haya prestado el servicio.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-b">
+    <div class="h"><div><b>Alertas vencidas por corte</b><div class="sub">Gestionadas y sin gestión registrada</div></div></div>
+    <div class="c"><div class="leyenda"><span><i style="background:#4F449A"></i>Gestionadas</span><span><i style="background:#C99200"></i>Sin gestión registrada</span></div>
+      <div class="chart-box"><canvas id="g-vol" role="img" aria-label="Alertas vencidas gestionadas y sin gestión por corte"></canvas></div></div>
+  </div>
+
+  <div class="card-b">
+    <div class="h"><div><b>Serie por corte</b><div class="sub" id="sub-tabla"></div></div></div>
+    <div class="table-wrap"><table class="t" id="t-serie"></table></div>
+  </div>
+
+  <div class="card-b">
+    <div class="h"><div><b>Notas para la lectura</b><div class="sub">Consideraciones sobre las cifras</div></div></div>
+    <ul class="notas">
+      <li>Cada corte es un valor acumulado al momento del reporte, no un flujo mensual independiente: los cortes no deben sumarse.</li>
+      <li>La medición es mensual, con un mes de rezago, y se refiere a la fecha de envío de la alerta.</li>
+      <li>La gestión indica que la alerta fue tramitada y registrada; no equivale necesariamente a que se haya prestado el servicio.</li>
+      <li>Las cifras se presentan a nivel nacional; no hay desagregación por provincia, institución, sexo ni tipo de alerta.</li>
+      <li>Los registros administrativos se actualizan continuamente, por lo que las cifras de cortes anteriores pueden variar.</li>
+      <li>No se dispone de una meta institucional validada para mostrar cumplimiento.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="gov-close"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="Gobierno del Ecuador"></div>
+</section></main>
+<footer class="dashboard-footer"><strong>Ministerio de Trabajo y Desarrollo Humano</strong> · Subsecretaría de Gestión de Datos y Estudios · Portal de Indicadores</footer>
+<script src="../assets/js/shared.js"></script>
 <script>
+(function(){
 'use strict';
-let series=[];
-const $=id=>document.getElementById(id);
-const number=new Intl.NumberFormat('es-EC',{maximumFractionDigits:0});
-const pct=n=>Number(n).toLocaleString('es-EC',{minimumFractionDigits:2,maximumFractionDigits:2})+' %';
-const shortMonth=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-const months=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-function parseCSV(s){const lines=s.replace(/^\uFEFF/,'').trim().split(/\r?\n/);const keys=lines.shift().split(',');return lines.map(l=>{const v=l.split(',');return Object.fromEntries(keys.map((k,i)=>[k,v[i]??'']));});}
-const round2=n=>Math.round((n+Number.EPSILON)*100)/100;
-const diff=(a,b)=>a&&b?`${a-b>0?'+':''}${(a-b).toLocaleString('es-EC',{minimumFractionDigits:2,maximumFractionDigits:2})} p. p.`:'—';
-function rebuildMonths(){const y=$('year').value;const current=$('month').value;const options=series.filter(d=>y==='all'||d.year===y).map(d=>d.periodo).reverse();$('month').innerHTML='<option value="latest">Último corte del periodo</option>'+options.map(x=>`<option value="${x}">${months[Number(x.slice(5))-1]} ${x.slice(0,4)}</option>`).join('');$('month').value=options.includes(current)?current:'latest';}
-function selected(){const y=$('year').value;const d=series.filter(x=>y==='all'||x.year===y);const mo=$('month').value;return {all:d,shown:mo==='latest'?d:d.filter(x=>x.periodo<=mo),point:mo==='latest'?d[d.length-1]:d.find(x=>x.periodo===mo)};}
-function drawChart(rs){const svg=$('chart');if(!rs.length){svg.innerHTML='';return;}const W=720,H=270,L=51,R=15,T=16,B=38;const min=Math.max(0,Math.floor((Math.min(...rs.map(x=>x.porcentaje))-5)/5)*5),max=100;const yy=v=>T+(max-v)/(max-min)*(H-T-B),xx=i=>L+(rs.length===1?(W-L-R)/2:i*(W-L-R)/(rs.length-1));const grid=[0,1,2,3,4].map(i=>{const val=min+(max-min)*i/4,y=yy(val);return `<line x1="${L}" y1="${y}" x2="${W-R}" y2="${y}" stroke="#e0eaf1"/><text x="${L-8}" y="${y+4}" text-anchor="end" font-size="11" fill="#65788b">${val.toFixed(0)}%</text>`;}).join('');const pts=rs.map((r,i)=>`${xx(i).toFixed(2)},${yy(r.porcentaje).toFixed(2)}`).join(' ');let labels='';const step=Math.max(1,Math.ceil(rs.length/8));rs.forEach((r,i)=>{if(i%step===0||i===rs.length-1)labels+=`<text x="${xx(i)}" y="${H-12}" text-anchor="middle" font-size="11" fill="#63778a">${shortMonth[Number(r.periodo.slice(5))-1]} ${r.periodo.slice(2,4)}</text>`});svg.innerHTML=grid+`<polyline fill="none" stroke="#1979b3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="${pts}"/>`+rs.map((r,i)=>`<circle cx="${xx(i)}" cy="${yy(r.porcentaje)}" r="${i===rs.length-1?5:3}" fill="${i===rs.length-1?'#df9f19':'#1979b3'}"><title>${r.periodo}: ${pct(r.porcentaje)}</title></circle>`).join('')+labels;}
-function draw(){const {all,shown,point}=selected();if(!point)return;const idx=series.findIndex(x=>x.periodo===point.periodo);const prev=series[idx-1];const lastYear=series.find(x=>x.periodo===String(Number(point.year)-1)+point.periodo.slice(4));const change=prev?diff(point.porcentaje,prev.porcentaje):'Sin comparación';const yoy=lastYear?diff(point.porcentaje,lastYear.porcentaje):'Sin comparación interanual';const cards=[['Gestión de alertas vencidas',pct(point.porcentaje),'Indicador oficial al corte'],['Alertas vencidas gestionadas',number.format(point.numerador),'Numerador'],['Total de alertas vencidas',number.format(point.denominador),'Denominador'],['Sin gestión registrada',number.format(point.no_gestionadas),pct(point.no_gestionadas/point.denominador*100)+' del denominador']];$('cards').innerHTML=cards.map(([label,value,foot])=>`<div class="su-card"><div class="title">${label}</div><div class="number">${value}</div><div class="detail">${foot}</div></div>`).join('');$('insights').innerHTML=`<ul class="su-insights"><li><b>Corte seleccionado:</b> ${months[Number(point.periodo.slice(5))-1]} ${point.year}.</li><li><b>Variación frente al corte anterior:</b> ${change}.</li><li><b>Variación interanual:</b> ${yoy}.</li><li><b>Alertas vencidas sin gestión registrada:</b> ${number.format(point.no_gestionadas)} (${pct(point.no_gestionadas/point.denominador*100)}).</li></ul>`;drawChart(shown);$('chartSubtitle').textContent=`${shown.length} cortes desde ${shown[0].periodo} hasta ${point.periodo}. Porcentaje de alertas vencidas gestionadas.`;$('tbody').innerHTML=shown.slice().reverse().map(x=>`<tr><td>${months[Number(x.periodo.slice(5))-1]} ${x.year}</td><td>${number.format(x.numerador)}</td><td>${number.format(x.denominador)}</td><td>${number.format(x.no_gestionadas)}</td><td><b>${pct(x.porcentaje)}</b></td></tr>`).join('');$('count').textContent=`${shown.length} cortes mostrados`;}
-function exportCSV(){const {shown}=selected();const head='periodo,numerador,denominador,no_gestionadas,porcentaje\n';const data=shown.map(x=>[x.periodo,x.numerador,x.denominador,x.no_gestionadas,x.porcentaje].join(',')).join('\n');const blob=new Blob(['\uFEFF'+head+data],{type:'text/csv;charset=utf-8'});const u=URL.createObjectURL(blob);const a=document.createElement('a');a.href=u;a.download='alertas_suusen_'+(shown.at(-1)?.periodo||'serie')+'.csv';a.click();URL.revokeObjectURL(u);}
-fetch('../datos/kpis/suusen/serie_mensual.csv').then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.text()}).then(s=>{series=parseCSV(s).map(d=>({...d,year:d.periodo.slice(0,4),numerador:Number(d.numerador),denominador:Number(d.denominador),porcentaje:Number(d.porcentaje),no_gestionadas:Number(d.no_gestionadas)})).filter(d=>d.periodo&&d.denominador>0).sort((a,b)=>a.periodo.localeCompare(b.periodo));if(!series.length)throw Error('Serie vacía');[...new Set(series.map(x=>x.year))].sort().reverse().forEach(y=>$('year').add(new Option(y,y)));rebuildMonths();draw();$('year').addEventListener('change',()=>{rebuildMonths();draw();});$('month').addEventListener('change',draw);$('download').addEventListener('click',exportCSV);}).catch(e=>{$('cards').innerHTML=`<div class="su-empty">No se pudo cargar la serie histórica SUUSEN: ${e.message}. Verifique que el portal se sirva mediante HTTP y que el CSV exista.</div>`;});
-</script></body></html>
+const PATH = '../datos/kpis/suusen/serie_mensual.csv';
+const C = { azul:'#4F449A', ambar:'#C99200', ult:'#F1B620', grid:'#EEF1F6' };
+const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const MES_C = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const $ = id => document.getElementById(id);
+const fmt = n => Number(n || 0).toLocaleString('es-EC');
+const pct = n => Number(n).toLocaleString('es-EC', { minimumFractionDigits:2, maximumFractionDigits:2 }) + ' %';
+const pp = d => (d > 0 ? '+' : d < 0 ? '−' : '') + Math.abs(d).toLocaleString('es-EC', { minimumFractionDigits:2, maximumFractionDigits:2 }) + ' p. p.';
+const etq = p => `${MESES[+p.slice(5) - 1]} de ${p.slice(0, 4)}`;
+const etqC = p => `${MES_C[+p.slice(5) - 1]} ${p.slice(2, 4)}`;
+
+initSidebar({ activeId:'kpis-proteccion-social', basePath:'../' });
+const meta = (typeof kpiMetadata !== 'undefined' && kpiMetadata['16']) || {};
+if (meta.nombre) $('titulo').textContent = meta.nombre;
+
+// Barra de filtros fija justo debajo de la cabecera del portal (no encima)
+function ajustarFiltroFijo(){
+  let tope = 0;
+  document.querySelectorAll('.header, .mega-nav, .breadcrumb').forEach(el => {
+    const cs = getComputedStyle(el);
+    if (cs.position === 'sticky' || cs.position === 'fixed') tope = Math.max(tope, (parseFloat(cs.top) || 0) + el.offsetHeight);
+  });
+  document.documentElement.style.setProperty('--fbar-top', (tope + 8) + 'px');
+}
+window.addEventListener('resize', ajustarFiltroFijo); window.addEventListener('load', ajustarFiltroFijo); setTimeout(ajustarFiltroFijo, 300);
+
+let S = [], charts = {};
+
+function montarFiltros(){
+  const anios = [...new Set(S.map(d => d.anio))].sort().reverse();
+  $('f-anio').innerHTML = '<option value="all">Todos los años</option>' + anios.map(a => `<option value="${a}">${a}</option>`).join('');
+  $('f-anio').onchange = () => { meses(); render(); };
+  $('f-mes').onchange = render;
+  $('f-limpiar').onclick = () => { $('f-anio').value = 'all'; meses(); $('f-mes').value = 'ultimo'; render(); };
+  meses();
+}
+function meses(){
+  const a = $('f-anio').value, prev = $('f-mes').value;
+  const ps = S.filter(d => a === 'all' || d.anio === a).map(d => d.periodo).reverse();
+  $('f-mes').innerHTML = '<option value="ultimo">Último corte disponible</option>' + ps.map(p => `<option value="${p}">${etq(p)}</option>`).join('');
+  $('f-mes').value = ps.includes(prev) ? prev : 'ultimo';
+}
+function seleccion(){
+  const a = $('f-anio').value, m = $('f-mes').value;
+  const rango = S.filter(d => a === 'all' || d.anio === a);
+  const punto = m === 'ultimo' ? rango[rango.length - 1] : rango.find(d => d.periodo === m);
+  return { rango: rango.filter(d => d.periodo <= punto.periodo), punto };
+}
+
+function renderKpis(p){
+  const i = S.indexOf(p), ant = S[i - 1];
+  const d = ant ? p.porcentaje - ant.porcentaje : null;
+  const flecha = d === null ? '' : `<span class="${d >= 0 ? 'up' : 'down'}">${pp(d)}</span> frente a ${etq(ant.periodo)}`;
+  $('kpis').innerHTML = `
+    <div class="k main"><div class="l">Alertas vencidas gestionadas</div><div class="v">${pct(p.porcentaje)}</div><div class="s">${flecha || 'Primer corte de la serie'}</div></div>
+    <div class="k"><div class="l">Gestionadas</div><div class="v">${fmt(p.numerador)}</div><div class="s">Alertas vencidas con gestión registrada</div></div>
+    <div class="k"><div class="l">Total de alertas vencidas</div><div class="v">${fmt(p.denominador)}</div><div class="s">Al corte de ${etq(p.periodo)}</div></div>
+    <div class="k"><div class="l">Sin gestión registrada</div><div class="v">${fmt(p.no_gestionadas)}</div><div class="s">${pct(100 * p.no_gestionadas / p.denominador)} del total</div></div>`;
+}
+
+function renderLectura(p){
+  const i = S.indexOf(p), ant = S[i - 1];
+  const ia = S.find(d => d.periodo === (+p.anio - 1) + p.periodo.slice(4));
+  const filas = [
+    ['Corte', etq(p.periodo)],
+    ['Porcentaje gestionado', pct(p.porcentaje)],
+    ['Variación frente al corte anterior', ant ? pp(p.porcentaje - ant.porcentaje) : '–'],
+    ['Variación interanual', ia ? pp(p.porcentaje - ia.porcentaje) : '–'],
+    ['Alertas vencidas sin gestión', `${fmt(p.no_gestionadas)} (${pct(100 * p.no_gestionadas / p.denominador)})`]
+  ];
+  $('lectura').innerHTML = filas.map(([k, v]) => `<li><span>${k}</span><b>${v}</b></li>`).join('');
+  $('sub-lectura').textContent = etq(p.periodo);
+}
+
+function linea(rango){
+  if (charts.pct) charts.pct.destroy();
+  const vals = rango.map(d => d.porcentaje), min = Math.max(0, Math.floor((Math.min(...vals) - 3) / 5) * 5);
+  const ult = rango.length - 1;
+  charts.pct = new Chart($('g-pct'), { type:'line',
+    data:{ labels: rango.map(d => etqC(d.periodo)), datasets:[{ label:'Porcentaje gestionado', data: vals, borderColor:C.azul,
+      backgroundColor:'rgba(79,68,154,.08)', fill:true, borderWidth:2, tension:.15,
+      pointRadius: rango.map((d, i) => i === ult ? 5 : (rango.length > 30 ? 0 : 2.5)),
+      pointBackgroundColor: rango.map((d, i) => i === ult ? C.ult : C.azul), pointHoverRadius:5 }] },
+    options:{ responsive:true, maintainAspectRatio:false, animation:false, interaction:{ mode:'index', intersect:false },
+      plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ title: it => etq(rango[it[0].dataIndex].periodo), label: c => ` ${pct(c.raw)}`,
+        afterLabel: c => ` ${fmt(rango[c.dataIndex].numerador)} de ${fmt(rango[c.dataIndex].denominador)} alertas vencidas` } } },
+      scales:{ y:{ min, max:100, grid:{ color:C.grid }, ticks:{ callback: v => v + ' %', color:'#6B7A90' } },
+               x:{ grid:{ display:false }, ticks:{ color:'#33415C', autoSkip:true, maxTicksLimit:12, maxRotation:0 } } } } });
+  $('sub-evol').textContent = `${rango.length} cortes · ${etq(rango[0].periodo)} – ${etq(rango[ult].periodo)}`;
+}
+
+function volumen(rango){
+  if (charts.vol) charts.vol.destroy();
+  const corto = v => Math.abs(v) >= 1e6 ? (v / 1e6).toLocaleString('es-EC', { maximumFractionDigits:1 }) + ' M' : Math.abs(v) >= 1e3 ? (v / 1e3).toLocaleString('es-EC', { maximumFractionDigits:0 }) + ' mil' : fmt(v);
+  charts.vol = new Chart($('g-vol'), { type:'bar',
+    data:{ labels: rango.map(d => etqC(d.periodo)), datasets:[
+      { label:'Gestionadas', data: rango.map(d => d.numerador), backgroundColor:C.azul, borderColor:'#fff', borderWidth:{ top:1 }, stack:'a' },
+      { label:'Sin gestión registrada', data: rango.map(d => d.no_gestionadas), backgroundColor:C.ambar, borderColor:'#fff', borderWidth:{ bottom:1 }, borderRadius:{ topLeft:3, topRight:3 }, stack:'a' }] },
+    options:{ responsive:true, maintainAspectRatio:false, animation:false, interaction:{ mode:'index', intersect:false },
+      plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ title: it => etq(rango[it[0].dataIndex].periodo), label: c => ` ${c.dataset.label}: ${fmt(c.raw)}`,
+        footer: it => `Total: ${fmt(rango[it[0].dataIndex].denominador)}` } } },
+      scales:{ x:{ stacked:true, grid:{ display:false }, ticks:{ color:'#33415C', autoSkip:true, maxTicksLimit:12, maxRotation:0 } },
+               y:{ stacked:true, beginAtZero:true, grid:{ color:C.grid }, ticks:{ callback: corto, color:'#6B7A90' } } } } });
+}
+
+function tabla(rango, p){
+  $('t-serie').innerHTML = '<thead><tr><th>Corte</th><th class="n">Gestionadas</th><th class="n">Total alertas vencidas</th><th class="n">Sin gestión registrada</th><th class="n">Porcentaje</th></tr></thead><tbody>' +
+    rango.slice().reverse().map(d => `<tr${d === p ? ' class="sel"' : ''}><td>${etq(d.periodo)}</td><td class="n">${fmt(d.numerador)}</td><td class="n">${fmt(d.denominador)}</td><td class="n">${fmt(d.no_gestionadas)}</td><td class="n"><b>${pct(d.porcentaje)}</b></td></tr>`).join('') + '</tbody>';
+  $('sub-tabla').textContent = `${rango.length} cortes · el más reciente primero`;
+}
+
+function render(){
+  const { rango, punto } = seleccion();
+  const a = $('f-anio').value;
+  $('activos').innerHTML = `Mostrando <b>${a === 'all' ? 'toda la serie' : a}</b> hasta <b>${etq(punto.periodo)}</b>.`;
+  renderKpis(punto); renderLectura(punto); linea(rango); volumen(rango); tabla(rango, punto);
+}
+
+fetch(PATH, { cache:'no-cache' })
+  .then(r => { if (!r.ok) throw Error('HTTP ' + r.status); return r.text(); })
+  .then(txt => {
+    S = parseCSV(txt.replace(/^﻿/, '')).map(d => ({ periodo:d.periodo, anio:String(d.periodo).slice(0, 4),
+      numerador:+d.numerador, denominador:+d.denominador, porcentaje:+d.porcentaje, no_gestionadas:+d.no_gestionadas }))
+      .filter(d => /^\d{4}-\d{2}$/.test(d.periodo) && d.denominador > 0).sort((x, y) => x.periodo.localeCompare(y.periodo));
+    if (!S.length) throw Error('serie vacía');
+    const u = S[S.length - 1];
+    $('interpretacion').innerHTML = `A ${etq(u.periodo)}, el <b>${pct(u.porcentaje)}</b> de las alertas vencidas tenía una gestión registrada (${fmt(u.numerador)} de ${fmt(u.denominador)}).`;
+    $('fbar').hidden = false; $('contenido').hidden = false;
+    montarFiltros(); render();
+  })
+  .catch(err => {
+    $('interpretacion').textContent = meta.queMide || '';
+    $('error').innerHTML = `<div class="aviso-err"><b>No se pudieron cargar los datos de alertas.</b><br>${err.message}<br>
+      <span style="font-size:12px">Revisa que exista <code>datos/kpis/suusen/serie_mensual.csv</code> y abre el portal mediante un servidor local o GitHub Pages (no con file://).</span></div>`;
+  });
+})();
+</script>
+</body>
+</html>
