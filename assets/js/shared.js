@@ -1689,7 +1689,7 @@ const itemLists = {
     desc:'Selecciona el componente que quieres consultar.',
     items:[
       { name:kpiMetadata['1'].nombre, href:'kpi_jubilados.html', badge:'● Disponible', sub:'Expedientes y montos 2023 – agosto 2026 · sexo, régimen y provincia' },
-      { name:'Contratos', href:'kpi_contratos.html', badge:'● Disponible', sub:'Serie mensual desde dic. 2015 · estado, territorio, actividad, tipo de contrato, sexo, edad, etnia, discapacidad y nacionalidad' }
+      { name:kpiMetadata['2'].nombre, href:'kpi_contratos.html', badge:'● Disponible', sub:'Contratos vigentes y finalizados registrados en el SUT · por provincia y cantón, actividad económica, tipo de contrato, sexo, grupo etario, etnia, discapacidad y nacionalidad' }
     ]
   },
   'trabajo-contratos': {

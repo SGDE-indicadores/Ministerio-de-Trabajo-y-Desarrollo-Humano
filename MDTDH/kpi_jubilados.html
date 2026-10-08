@@ -55,7 +55,7 @@
   .silueta .det{font-size:12px;color:var(--subtexto);margin-top:6px;line-height:1.55}
   /* mapa provincial (mismo módulo que PND) */
   .mapa-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;align-items:start}
-  #map-wrap{position:relative}
+  #map-wrap{position:relative;z-index:0;isolation:isolate}   /* el mapa no se monta sobre la cabecera fija */
   #ec-map{height:520px;border-radius:8px;background:#EAF2FB}
   .leaflet-container{font-family:Arial,sans-serif}
   .prov-tooltip{font-family:Arial,sans-serif;font-size:12px}.prov-tooltip b{color:var(--azul)}

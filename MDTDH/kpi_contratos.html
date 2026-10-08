@@ -13,7 +13,7 @@
 <style>
   :root{--hombre:#1A5FA8;--mujer:#C0395A;--neutro:#B9C0CE}   /* sexo: mismos colores y siluetas que PND y jubilados */
   /* filtros */
-  .fbar{position:sticky;top:0;z-index:1000;background:#fff;border:1px solid var(--gris-bd);border-radius:10px;padding:12px 14px;margin:0 0 16px;box-shadow:var(--shadow)}
+  .fbar{position:sticky;top:var(--fbar-top,148px);z-index:90;background:#fff;border:1px solid var(--gris-bd);border-radius:10px;padding:12px 14px;margin:0 0 16px;box-shadow:var(--shadow)}
   .fbar .fila{display:flex;gap:10px 14px;align-items:flex-end;flex-wrap:wrap}
   .fbar label{display:block;font-size:10.5px;font-weight:700;color:var(--subtexto);margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px}
   .fbar select{padding:7px 9px;border:1px solid var(--gris-bd);border-radius:7px;background:#fff;color:var(--texto);font-size:12.5px;min-width:120px}
@@ -63,7 +63,7 @@
   .aviso-err{background:#FDECEA;border:1px solid #F3A8AC;color:#C4262E;border-radius:8px;padding:12px 16px;margin:14px 0}
   /* mapa (mismo módulo que PND y jubilados) */
   .mapa-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;align-items:start}
-  #map-wrap{position:relative}
+  #map-wrap{position:relative;z-index:0;isolation:isolate}   /* el mapa no se monta sobre la cabecera fija */
   #ec-map{height:470px;border-radius:8px;background:#EAF2FB}
   .leaflet-container{font-family:Arial,sans-serif}
   .prov-tooltip{font-family:Arial,sans-serif;font-size:12px}.prov-tooltip b{color:var(--azul)}
@@ -210,6 +210,20 @@ const fecha = (iso, largo) => { const d = new Date(iso + 'T12:00:00');
   return largo ? `${d.getDate()} de ${MESES_L[d.getMonth()]} de ${d.getFullYear()}` : d.toLocaleDateString('es-EC', { day:'2-digit', month:'2-digit', year:'numeric' }); };
 
 initSidebar({ activeId:'kpis-trabajo', basePath:'../' });
+
+// La barra de filtros se fija JUSTO DEBAJO de la cabecera del portal (logo, menú y migas también son
+// fijos), en vez de en el borde superior, para no taparlos. Se recalcula al cambiar el tamaño.
+function ajustarFiltroFijo(){
+  let tope = 0;
+  document.querySelectorAll('.header, .mega-nav, .breadcrumb').forEach(el => {
+    const cs = getComputedStyle(el);
+    if (cs.position === 'sticky' || cs.position === 'fixed') tope = Math.max(tope, (parseFloat(cs.top) || 0) + el.offsetHeight);
+  });
+  document.documentElement.style.setProperty('--fbar-top', (tope + 8) + 'px');
+}
+window.addEventListener('resize', ajustarFiltroFijo);
+window.addEventListener('load', ajustarFiltroFijo);
+setTimeout(ajustarFiltroFijo, 300);
 const meta = kpiMetadata['2'];
 
 let D, F, charts = {}, mapa = null, ramaSel = null;

@@ -5,6 +5,46 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KPIs | MTDH</title>
 <link rel="stylesheet" href="../assets/css/shared.css">
+<style>
+  /* ── Panorama destacado · Contratos (diapositiva interactiva, datos de dashboard_data.json) ── */
+  .kc-fecha{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:700;color:var(--azul);background:var(--azul-pale);border-radius:20px;padding:4px 11px;margin-bottom:12px}
+  .kc-dot{width:8px;height:8px;border-radius:50%;background:#2E9E5B;box-shadow:0 0 0 0 rgba(46,158,91,.6);animation:kcPulso 1.8s infinite}
+  @keyframes kcPulso{0%{box-shadow:0 0 0 0 rgba(46,158,91,.55)}70%{box-shadow:0 0 0 9px rgba(46,158,91,0)}100%{box-shadow:0 0 0 0 rgba(46,158,91,0)}}
+  .kc-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+  .kc-chips span{font-size:11.5px;padding:4px 10px;border-radius:14px;background:var(--gris);color:var(--texto);border:1px solid var(--gris-bd)}
+  .kc-tabs{display:inline-flex;background:#fff;border:1px solid var(--gris-bd);border-radius:24px;padding:3px;gap:2px}
+  .kc-tab{border:0;background:none;padding:6px 13px;border-radius:20px;font-size:12px;font-weight:700;color:var(--subtexto);cursor:pointer;position:relative;overflow:hidden}
+  .kc-tab.active{background:var(--azul);color:#fff}
+  .kc-tab .kc-prog{position:absolute;left:0;bottom:0;height:2px;background:var(--amarillo);width:0}
+  .kc-tab.active.auto .kc-prog{animation:kcProg var(--kc-ciclo,4.5s) linear forwards}
+  @keyframes kcProg{from{width:0}to{width:100%}}
+  .kc-big{font-family:'Arial Black',Arial,sans-serif;font-size:38px;line-height:1.05;color:var(--azul);margin-top:14px;font-variant-numeric:tabular-nums}
+  .kc-big-sub{font-size:12px;color:var(--subtexto);margin-top:4px}
+  .kc-minis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+  .kc-mini{background:#fff;border:1px solid var(--gris-bd);border-radius:10px;padding:10px 12px;transition:transform .2s,box-shadow .2s}
+  .kc-mini:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+  .kc-mini .l{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--subtexto)}
+  .kc-mini .v{font-size:19px;font-weight:700;color:var(--azul);margin-top:3px;font-variant-numeric:tabular-nums}
+  .kc-lbl{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--subtexto);margin:18px 0 8px}
+  .kc-sexo{display:flex;align-items:center;gap:10px}
+  .kc-sexo img{width:30px;height:30px;object-fit:contain}
+  .kc-sexo-bar{flex:1;display:flex;height:22px;border-radius:11px;overflow:hidden;background:var(--gris-bd)}
+  .kc-sexo-bar div{height:100%;display:flex;align-items:center;font-size:11px;font-weight:700;color:#fff;white-space:nowrap;transition:width .9s cubic-bezier(.2,.8,.2,1);width:0}
+  .kc-sexo-bar .h{background:#1A5FA8;justify-content:flex-start;padding-left:8px}
+  .kc-sexo-bar .m{background:#C0395A;justify-content:flex-end;padding-right:8px;border-left:2px solid #fff}
+  .kc-prov{display:grid;grid-template-columns:118px 1fr 74px;align-items:center;gap:8px;font-size:12px;margin-bottom:6px}
+  .kc-prov .n{color:var(--texto);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .kc-prov .t{height:9px;background:rgba(79,68,154,.1);border-radius:5px;overflow:hidden}
+  .kc-prov .f{height:100%;background:var(--azul);border-radius:5px;width:0;transition:width .9s cubic-bezier(.2,.8,.2,1)}
+  .kc-prov .v{text-align:right;font-weight:700;color:var(--azul);font-variant-numeric:tabular-nums}
+  .kc-cta{display:inline-flex;align-items:center;gap:8px;margin-top:16px;padding:10px 18px;border-radius:24px;background:var(--amarillo);color:#2B2300;font-weight:700;font-size:13px;text-decoration:none;box-shadow:0 4px 14px rgba(241,182,32,.35);transition:transform .2s,box-shadow .2s}
+  .kc-cta:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(241,182,32,.5)}
+  .kc-cta span{transition:transform .2s}.kc-cta:hover span{transform:translateX(4px)}
+  .kc-entra{animation:kcEntra .5s ease both}
+  @keyframes kcEntra{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @media (max-width:560px){.kc-lg{display:none}.kc-minis{grid-template-columns:1fr 1fr}.kc-big{font-size:30px}.kc-prov{grid-template-columns:96px 1fr 64px}}
+  @media (prefers-reduced-motion: reduce){.kc-dot,.kc-entra,.kc-tab.active.auto .kc-prog{animation:none}.kc-sexo-bar div,.kc-prov .f{transition:none}}
+</style>
 </head>
 <body>
 
@@ -291,10 +331,139 @@ function goToAreaInfografia(areaKey, idx){
   renderAreaInfografia(areaKey);
 }
 
+// ---------- Panorama destacado · Contratos (registro 2 de Trabajo) ----------
+// Diapositiva interactiva: lee la misma foto que la página de Contratos
+// (datos/kpis/contratos/dashboard_data.json), alterna sola entre Registrados / Vigentes / Finalizados
+// hasta que la persona interactúa, y anima las cifras al cambiar.
+const KC_DATOS = '../datos/kpis/contratos/dashboard_data.json';
+const KC_MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const KC_REDUCIDO = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let kcPromesa = null, kcTimer = null, kcEstado = 'all', kcAuto = true;
+
+function kcCargar(){
+  if (!kcPromesa) kcPromesa = fetch(KC_DATOS, { cache:'no-cache' }).then(r => { if (!r.ok) throw Error('HTTP ' + r.status); return r.json(); });
+  return kcPromesa;
+}
+function kcResumen(D){
+  const out = {};
+  for (const e of ['all', 0, 1]){
+    const ok = r => e === 'all' || r[0] === e;
+    let total = 0; const sexo = [0, 0, 0]; const prov = {};
+    for (const r of D.t.base) if (ok(r)){ total += r[5]; sexo[r[1]] += r[5]; prov[r[4]] = (prov[r[4]] || 0) + r[5]; }
+    let extr = 0; for (const r of D.t.nac) if (ok(r)) extr += r[6];
+    const iInd = D.dic.tipo.findIndex(t => /^contrato indefinido$/i.test(t));
+    let indef = 0; if (iInd >= 0) for (const r of D.t.tipo) if (ok(r) && r[5] === iInd) indef += r[6];
+    const emp = (D.t.empresas.find(r => r[0] === (e === 'all' ? -1 : e) && r[1] === -1) || [0, 0, 0])[2];
+    const top = Object.entries(prov).map(([p, n]) => [D.dic.prov[+p], n]).filter(([p]) => p !== 'Sin provincia')
+      .sort((a, b) => b[1] - a[1]).slice(0, 5);
+    out[e] = { total, sexo, extr, indef, emp, top };
+  }
+  return out;
+}
+function kcContar(el, hasta, formato){
+  if (!el) return;
+  const desde = Number(el.dataset.v || 0); el.dataset.v = hasta;
+  if (KC_REDUCIDO){ el.textContent = formato(hasta); return; }
+  const t0 = performance.now(), dur = 900;
+  const paso = t => { const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+    el.textContent = formato(desde + (hasta - desde) * e); if (k < 1) requestAnimationFrame(paso); };
+  requestAnimationFrame(paso);
+}
+function kcPintar(R, e){
+  const x = R[e], f0 = n => Math.round(n).toLocaleString('es-EC'), f1 = n => n.toLocaleString('es-EC', { minimumFractionDigits:1, maximumFractionDigits:1 }) + ' %';
+  const etq = { all:'contratos registrados (vigentes y finalizados)', 0:'contratos vigentes', 1:'contratos finalizados' }[e];
+  document.querySelectorAll('.kc-tab').forEach(b => b.classList.toggle('active', b.dataset.e === String(e)));
+  kcContar(document.getElementById('kcBig'), x.total, f0);
+  document.getElementById('kcBigSub').textContent = etq;
+  kcContar(document.getElementById('kcEmp'), x.emp, f0);
+  kcContar(document.getElementById('kcIndef'), x.total ? 100 * x.indef / x.total : 0, f1);
+  kcContar(document.getElementById('kcExtr'), x.extr, f0);
+  const hm = x.sexo[0] + x.sexo[1], ph = hm ? 100 * x.sexo[0] / hm : 0;
+  const bh = document.getElementById('kcH'), bm = document.getElementById('kcM');
+  bh.style.width = ph + '%'; bm.style.width = (100 - ph) + '%';
+  bh.innerHTML = `<span class="kc-lg">Hombres&nbsp;</span>${f1(ph)}`; bm.innerHTML = `<span class="kc-lg">Mujeres&nbsp;</span>${f1(100 - ph)}`;
+  const max = x.top.length ? x.top[0][1] : 1;
+  document.getElementById('kcProv').innerHTML = x.top.map(([p, n]) =>
+    `<div class="kc-prov"><div class="n" title="${escHtml(p)}">${escHtml(p)}</div><div class="t"><div class="f" data-w="${(100 * n / max).toFixed(1)}"></div></div><div class="v">${f0(n)}</div></div>`).join('');
+  requestAnimationFrame(() => requestAnimationFrame(() => document.querySelectorAll('#kcProv .f').forEach(el => el.style.width = el.dataset.w + '%')));
+}
+function kcCiclo(R){
+  clearInterval(kcTimer);
+  if (!kcAuto || KC_REDUCIDO) return;
+  const orden = ['all', 0, 1];
+  document.querySelectorAll('.kc-tab').forEach(b => b.classList.add('auto'));
+  kcTimer = setInterval(() => {
+    if (!document.getElementById('kcBig')) { clearInterval(kcTimer); return; }
+    const i = orden.findIndex(v => String(v) === String(kcEstado));
+    kcEstado = orden[(i + 1) % orden.length];
+    document.querySelectorAll('.kc-tab .kc-prog').forEach(p => { p.style.animation = 'none'; p.offsetHeight; p.style.animation = ''; });
+    kcPintar(R, kcEstado);
+  }, 4500);
+}
+function renderContratosSlide(wrap, item, idx, total, navHtml, badgeInner, watermarkInner){
+  const m = kpiMetadata['2'] || {};
+  wrap.innerHTML = `
+    <div class="infog-card kc-entra" style="--accent:${item.color}; --accent-light:${item.light};">
+      <div class="infog-watermark">${watermarkInner}</div>
+      <div class="infog-grid">
+        <div class="infog-left">
+          <div class="infog-icon-badge">${badgeInner}</div>
+          <div class="infog-kicker">${escHtml(item.kicker)} · Indicador ${idx + 1} de ${total}</div>
+          <div class="infog-title">${escHtml(m.nombre || 'Contratos')}</div>
+          <div class="kc-fecha" id="kcFecha"><span class="kc-dot"></span><span>Cargando datos…</span></div>
+          ${m.definicion ? `<div class="infog-def-label">¿Qué mide?</div><div class="infog-def">${escHtml(m.definicion)}</div>` : ''}
+          ${m.decision ? `<div class="infog-def-label">Por qué importa</div><div class="infog-def">${escHtml(m.decision)}</div>` : ''}
+          <div class="infog-def-label">Puedes explorar por</div>
+          <div class="kc-chips"><span>Provincia y cantón</span><span>Actividad económica</span><span>Tipo de contrato</span><span>Sexo</span><span>Grupo etario</span><span>Etnia</span><span>Discapacidad</span><span>Nacionalidad</span></div>
+        </div>
+        <div class="infog-right">
+          <div class="kc-tabs" role="group" aria-label="Estado del contrato">
+            <button class="kc-tab active" data-e="all" type="button">Registrados<i class="kc-prog"></i></button>
+            <button class="kc-tab" data-e="0" type="button">Vigentes<i class="kc-prog"></i></button>
+            <button class="kc-tab" data-e="1" type="button">Finalizados<i class="kc-prog"></i></button>
+          </div>
+          <div class="kc-big" id="kcBig">–</div>
+          <div class="kc-big-sub" id="kcBigSub"></div>
+          <div class="kc-minis">
+            <div class="kc-mini"><div class="l">Empresas</div><div class="v" id="kcEmp">–</div></div>
+            <div class="kc-mini"><div class="l">Contrato indefinido</div><div class="v" id="kcIndef">–</div></div>
+            <div class="kc-mini"><div class="l">Extranjeros</div><div class="v" id="kcExtr">–</div></div>
+          </div>
+          <div class="kc-lbl">Por sexo</div>
+          <div class="kc-sexo"><img src="../imagenes/hombre.png" alt="Hombres"><div class="kc-sexo-bar"><div class="h" id="kcH"></div><div class="m" id="kcM"></div></div><img src="../imagenes/mujer.png" alt="Mujeres"></div>
+          <div class="kc-lbl">Provincias con más contratos</div>
+          <div id="kcProv"></div>
+          <a class="kc-cta" href="kpi_contratos.html">Explorar el tablero de contratos <span>→</span></a>
+        </div>
+      </div>
+    </div>
+    ${navHtml}`;
+  kcCargar().then(D => {
+    if (!document.getElementById('kcBig')) return;   // la persona ya cambió de diapositiva
+    const c = new Date(D.fecha_corte + 'T12:00:00');
+    document.getElementById('kcFecha').innerHTML = `<span class="kc-dot"></span><span>Datos al ${c.getDate()} de ${KC_MESES[c.getMonth()]} de ${c.getFullYear()}</span>`;
+    const R = kcResumen(D);
+    kcPintar(R, kcEstado);
+    document.querySelectorAll('.kc-tab').forEach(b => b.onclick = () => {
+      kcAuto = false; clearInterval(kcTimer);
+      document.querySelectorAll('.kc-tab').forEach(x => x.classList.remove('auto'));
+      kcEstado = b.dataset.e === 'all' ? 'all' : Number(b.dataset.e);
+      kcPintar(R, kcEstado);
+    });
+    const card = wrap.querySelector('.infog-card');
+    card.addEventListener('mouseenter', () => clearInterval(kcTimer));
+    card.addEventListener('mouseleave', () => kcCiclo(R));
+    kcCiclo(R);
+  }).catch(() => {
+    const f = document.getElementById('kcFecha'); if (f) f.innerHTML = '<span>No se pudieron cargar los datos</span>';
+  });
+}
+
 function renderAreaInfografia(areaKey){
   const containerId = AREA_INFOG_CONTAINER[areaKey];
   const wrap = containerId ? document.getElementById(containerId) : null;
   if(!wrap) return;
+  clearInterval(kcTimer);
   const slides = indicatorInfografiasByArea[areaKey] || [];
   if(!slides.length){ wrap.innerHTML = ''; return; }
 
@@ -348,6 +517,11 @@ function renderAreaInfografia(areaKey){
       <div class="infog-dots">${slides.map((x,i) => `<button class="infog-dot ${i === idx ? 'active' : ''}" type="button" onclick="goToAreaInfografia('${areaKey}', ${i})" aria-label="Ir al indicador ${i+1}"></button>`).join('')}</div>
       <button class="infog-arrow" type="button" onclick="changeAreaInfografia('${areaKey}', 1)" aria-label="Indicador siguiente">›</button>
     </div>` : '';
+
+  if(areaKey === 'kpis-trabajo' && String(item.registro) === '2'){
+    renderContratosSlide(wrap, item, idx, total, navHtml, badgeInner, watermarkInner);
+    return;
+  }
 
   if(item.construction){
     wrap.innerHTML = `
