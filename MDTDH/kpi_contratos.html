@@ -194,27 +194,9 @@
 <script>
 (function(){
 'use strict';
-// Origen de los datos:
-// - En GitHub Pages (usuario.github.io/repo/…) se leen los datos diarios desde la rama «datos-contratos»,
-//   que el script publicar_contratos.ps1 reemplaza cada día (sin acumular versiones).
-// - En local (python -m http.server) o si la rama no responde, se usa la copia de datos/.
-// Si el portal se publica con dominio propio, escribir aquí la URL completa en DATOS_REMOTOS.
-const RAMA_DATOS = 'datos-contratos';
-const PATH_LOCAL = '../datos/kpis/contratos/dashboard_data.json';
-const DATOS_REMOTOS = (() => {
-  const h = location.hostname;
-  if (!h.endsWith('.github.io')) return null;
-  const usuario = h.replace(/\.github\.io$/, '');
-  const repo = location.pathname.split('/').filter(Boolean)[0];
-  return repo ? `https://raw.githubusercontent.com/${usuario}/${repo}/${RAMA_DATOS}/dashboard_data.json` : null;
-})();
+const PATH = '../datos/kpis/contratos/dashboard_data.json';
 function cargarDatos(){
-  const pedir = url => fetch(url, { cache:'no-cache' }).then(r => { if (!r.ok) throw Error('HTTP ' + r.status + ' en ' + url); return r.json(); });
-  if (!DATOS_REMOTOS) return pedir(PATH_LOCAL);
-  return pedir(DATOS_REMOTOS).catch(err => {
-    console.warn('No se pudo leer la rama de datos, se usa la copia local:', err.message);
-    return pedir(PATH_LOCAL).then(d => { d._respaldo = true; return d; });
-  });
+  return fetch(PATH, { cache:'no-cache' }).then(r => { if (!r.ok) throw Error('HTTP ' + r.status); return r.json(); });
 }
 const C = { azul:'#4F449A', hom:'#1A5FA8', muj:'#C0395A', neutro:'#B9C0CE' };
 const MESES_L = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
@@ -469,15 +451,13 @@ cargarDatos()
   .then(d => {
     D = d; F = defaults();
     $('interpretacion').innerHTML = `Existen <b>${fmt(D.registrados)}</b> contratos registrados en el Sistema Único de Trabajo (SUT) al ${fecha(D.fecha_corte, true)}.`;
-    $('chips').innerHTML = D._respaldo ? '<span>⚠ No se pudieron cargar los datos más recientes</span>' : '';
     $('fbar').hidden = false; $('contenido').hidden = false;
     montarFiltros(); render();
   })
   .catch(err => {
     $('interpretacion').textContent = meta.definicion || '';
     $('error').innerHTML = `<div class="aviso-err"><b>No se pudieron cargar los datos de contratos.</b><br>${esc(err.message)}<br>
-      <span class="nota">Revisa que la rama <code>datos-contratos</code> exista (la crea <code>publicar_contratos.ps1</code>) o, en local, copia <code>data/dashboard_data.json</code> en <code>datos/kpis/contratos/</code>
-      y abre el portal mediante un servidor local o GitHub Pages (no con file://).</span></div>`;
+      <span class="nota">Revisa que exista <code>datos/kpis/contratos/dashboard_data.json</code> y abre el portal mediante un servidor local o GitHub Pages (no con file://).</span></div>`;
   });
 })();
 </script>
