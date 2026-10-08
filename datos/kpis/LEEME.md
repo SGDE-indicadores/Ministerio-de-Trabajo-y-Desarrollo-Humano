@@ -105,3 +105,20 @@ y luego se copia `data/dashboard_data.json` a `datos/kpis/contratos/`.
 
 Lo leen `MDTDH/jovenes_accion.html` y la diapositiva del carrusel de Incentivos Temporales (`MDTDH/kpis.html`).
 Para actualizar la ejecución o agregar un período, se edita solo este archivo.
+
+## Incentivos Temporales · Compensación de combustible
+
+| Archivo | Contenido |
+|---|---|
+| `combustibles/pagos_anuales.csv` | Una fila por componente (`gasolina`, `diesel`) y año: pagos (transferencias acreditadas), beneficiarios del año y monto en USD. La fila `anio = total` de cada componente lleva los beneficiarios **únicos** del período (no es la suma de los años) y el monto total |
+| `combustibles/plazos_diesel.csv` | Plazo del mecanismo de diésel por modalidad de transporte: fecha de inicio, meses de aplicación y prórroga máxima en meses |
+
+Lo leen `MDTDH/combustibles.html` y la diapositiva del carrusel. Para agregar un año se añade su fila y se actualiza la fila `total`.
+
+## Incentivos Temporales · Migrantes retornados
+
+| Archivo | Contenido |
+|---|---|
+| `migrantes_retornados/bono_migrantes.csv` | Una fila por año: pagos, beneficiarios, monto en USD, valor mensual de la transferencia y número de meses |
+
+Lo leen `MDTDH/migrantes_retornados.html` y la diapositiva del carrusel.

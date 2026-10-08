@@ -497,6 +497,53 @@ function renderAreaInfografia(areaKey){
     }).catch(() => {});
   }
 
+  // Compensación de combustible y Migrantes retornados: mismas fuentes que sus páginas.
+  if(areaKey === 'kpis-incentivos' && /Compensación de combustible/.test(item.kicker) && !item._cbCargado){
+    item._cbCargado = true;
+    fetchCSV('../datos/kpis/combustibles/pagos_anuales.csv').then(rows => {
+      const R = rows.map(r => ({ c:r.componente, a:r.anio, p:Number(r.pagos) || 0, b:Number(r.beneficiarios) || 0, m:Number(r.monto_usd) || 0 }));
+      const G = R.filter(r => r.c === 'gasolina' && r.a !== 'total').sort((x, y) => x.a - y.a);
+      const GT = R.find(r => r.c === 'gasolina' && r.a === 'total'), DT = R.find(r => r.c === 'diesel' && r.a === 'total');
+      if(!G.length || !GT || !DT) return;
+      const M = v => 'USD ' + (v / 1e6).toLocaleString('es-EC', { minimumFractionDigits:2, maximumFractionDigits:2 }) + ' M';
+      const n = v => v.toLocaleString('es-EC');
+      const total = GT.m + DT.m;
+      Object.assign(item, {
+        construction:false, real:true, color:'var(--azul)', light:'var(--azul-pale)',
+        headline: (total / 1e6).toLocaleString('es-EC', { minimumFractionDigits:1, maximumFractionDigits:1 }),
+        headlineSuffix: `millones de USD transferidos en compensaciones por gasolina y diésel (${G[0].a}–${G[G.length - 1].a})`,
+        trendDir: undefined,
+        trendText: `El diésel concentra el ${(100 * DT.m / total).toLocaleString('es-EC', { maximumFractionDigits:1 })} % del monto con ${n(DT.b)} propietarios de transporte público`,
+        impact: 'Transferencias monetarias temporales que compensan el efecto de la reforma de precios de los combustibles: gasolina Extra y Extra con Etanol, y diésel para los propietarios de vehículos de transporte público.',
+        serie: G.map(r => ({ y:r.a, v:Math.round(r.m) })),
+        serieReal:true, serieTitulo:'Gasolina · monto transferido por año (USD)', serieNota:'Compensación por gasolina Extra y Extra con Etanol.',
+        tabulado: [['Componente', 'Beneficiarios', 'Monto']].concat(G.map(r => [`Gasolina ${r.a}`, n(r.b), M(r.m)]), R.filter(r => r.c === 'diesel' && r.a !== 'total').map(r => [`Diésel ${r.a}`, n(r.b), M(r.m)]))
+      });
+      renderAreaInfografia(areaKey);
+    }).catch(() => {});
+  }
+  if(areaKey === 'kpis-incentivos' && /Migrantes retornados/.test(item.kicker) && !item._mrCargado){
+    item._mrCargado = true;
+    fetchCSV('../datos/kpis/migrantes_retornados/bono_migrantes.csv').then(rows => {
+      if(!rows.length) return;
+      const R = rows.map(r => ({ a:r.anio, p:Number(r.pagos) || 0, b:Number(r.beneficiarios) || 0, m:Number(r.monto_usd) || 0, mm:Number(r.monto_mensual_usd) || 0, k:Number(r.meses) || 0 }));
+      const b = R.reduce((s, r) => s + r.b, 0), m = R.reduce((s, r) => s + r.m, 0), p = R.reduce((s, r) => s + r.p, 0), u = R[R.length - 1];
+      const n = v => v.toLocaleString('es-EC');
+      Object.assign(item, {
+        construction:false, real:true, color:'var(--azul)', light:'var(--azul-pale)',
+        headline: n(b),
+        headlineSuffix: `personas retornadas recibieron la transferencia (${R.map(r => r.a).join(', ')})`,
+        trendDir: undefined,
+        trendText: `USD ${n(u.mm)} mensuales por ${u.k} meses · USD ${(m / 1e6).toLocaleString('es-EC', { minimumFractionDigits:2, maximumFractionDigits:2 })} M transferidos en ${n(p)} pagos`,
+        impact: 'Mecanismo para atender, proteger y facilitar la reintegración social y económica de las y los ecuatorianos retornados de forma forzosa desde los Estados Unidos, mediante una transferencia mensual, temporal y condicionada a actividades.',
+        serie: R.map(r => ({ y:r.a, v:r.b })),
+        serieReal:true, serieTitulo:'Beneficiarios por año', serieNota:'Personas retornadas con al menos un pago.',
+        tabulado: [['Año', 'Beneficiarios', 'Pagos', 'Monto (USD)']].concat(R.map(r => [r.a, n(r.b), n(r.p), n(r.m)]))
+      });
+      renderAreaInfografia(areaKey);
+    }).catch(() => {});
+  }
+
   // Para los cuatro servicios de Protección Social con serie histórica real
   // (datos/kpis/proteccion_social/series_historicas_servicios.csv, ahora mensual: enero-diciembre 2018-2025
   // y el año en curso hasta el último corte real), guardamos las filas crudas para el selector de año; por
@@ -642,6 +689,8 @@ function renderAreaInfografia(areaKey){
           ${tableBlock}
           ${areaKey === 'kpis-proteccion-social' && String(item.registro) === '16' ? '<a class="kc-cta" href="suusen.html">Explorar alertas SUUSEN <span>→</span></a>' : ''}
           ${areaKey === 'kpis-incentivos' && /Jóvenes en Acción/.test(item.kicker) && item.real ? '<a class="kc-cta" href="jovenes_accion.html">Explorar Jóvenes en Acción <span>→</span></a>' : ''}
+          ${areaKey === 'kpis-incentivos' && /Compensación de combustible/.test(item.kicker) && item.real ? '<a class="kc-cta" href="combustibles.html">Explorar Compensación de combustible <span>→</span></a>' : ''}
+          ${areaKey === 'kpis-incentivos' && /Migrantes retornados/.test(item.kicker) && item.real ? '<a class="kc-cta" href="migrantes_retornados.html">Explorar Migrantes retornados <span>→</span></a>' : ''}
         </div>
       </div>
     </div>

@@ -13,6 +13,7 @@
 <style>
   :root{--hombre:#1A5FA8;--mujer:#C0395A;--neutro:#B9C0CE}   /* sexo: mismos colores y siluetas que PND y jubilados */
   /* filtros */
+  .fbar::before{content:"";position:absolute;left:-2px;right:-2px;bottom:100%;height:10px;background:#EDF0F7}   /* tapa la franja entre migas y filtros */
   .fbar{position:sticky;top:var(--fbar-top,148px);z-index:90;background:#fff;border:1px solid var(--gris-bd);border-radius:10px;padding:12px 14px;margin:0 0 16px;box-shadow:var(--shadow)}
   .fbar .fila{display:flex;gap:10px 14px;align-items:flex-end;flex-wrap:wrap}
   .fbar label{display:block;font-size:10.5px;font-weight:700;color:var(--subtexto);margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px}

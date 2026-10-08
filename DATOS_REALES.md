@@ -22,9 +22,11 @@ Esta versión del portal aplica una regla estricta: **solo se muestran cifras re
 - PND · Protección Social: series de los 6 indicadores (datos/pnd/proteccion_social/<indicador>/).
 - ENEMDU anual (10 indicadores, 2018–2025) y trimestral (IV-2020 a I-2026) (datos/enemdu/).
 
+- Incentivos Temporales: Jóvenes en Acción (datos/kpis/jovenes_accion/), compensación de combustible
+  (datos/kpis/combustibles/) y migrantes retornados (datos/kpis/migrantes_retornados/).
+
 ## Secciones en construcción
 - Presupuesto general.
-- Incentivos Temporales: compensación de combustible y migrantes retornados (Jóvenes en Acción ya tiene datos).
 
 Estas secciones muestran únicamente «En construcción».
 

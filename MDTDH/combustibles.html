@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Compensación de combustible | KPIs MTDH</title>
+<link rel="stylesheet" href="../assets/css/shared.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="../assets/js/export-utils.js"></script>
+<style>
+  /* Plantilla de las páginas de KPI del portal (Contratos, SUUSEN, Jóvenes en Acción) */
+  :root{--gas:#4F449A;--die:#C99200;--gas-l:#E3DFF5;--die-l:#FCEFC7}
+  .k-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+  .k{background:#fff;border:1px solid var(--gris-bd);border-radius:10px;padding:14px 16px;border-top:3px solid var(--azul)}
+  .k.dest{border-top-color:var(--amarillo)}
+  .k.die{border-top-color:var(--die)}
+  .k .l{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--subtexto)}
+  .k .v{font-size:26px;font-weight:700;color:var(--azul);line-height:1.1;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+  .k .s{font-size:12px;color:var(--subtexto);line-height:1.45}
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .g2.r{grid-template-columns:1.25fr 1fr}
+  .card-b{background:#fff;border:1px solid var(--gris-bd);border-radius:10px;margin-bottom:16px;overflow:hidden}
+  .card-b .h{padding:12px 16px;border-bottom:1px solid var(--gris-bd);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+  .card-b .h b{color:var(--azul);font-size:13.5px}
+  .card-b .h .sub{font-size:12px;color:var(--subtexto);margin-top:2px}
+  .card-b .c{padding:16px}
+  .chart-box{position:relative;height:260px}
+  .nota{font-size:12px;color:var(--subtexto);line-height:1.55;margin-top:8px}
+  .dot{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+
+  /* Composición del monto y de los beneficiarios */
+  .comp-f{display:grid;grid-template-columns:120px 1fr;gap:10px;align-items:center;margin:10px 0}
+  .comp-f .t{font-size:12px;font-weight:700;color:var(--subtexto);text-transform:uppercase;letter-spacing:.4px}
+  .comp{display:flex;height:36px;border-radius:8px;overflow:hidden;background:var(--gris-bd)}
+  .comp div{display:flex;align-items:center;padding:0 10px;font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;width:0;transition:width 1s cubic-bezier(.2,.8,.2,1);cursor:default}
+  .comp .g{background:var(--gas);color:#fff}
+  .comp .d{background:var(--die);color:#fff}
+  .lectura{background:var(--gris);border-radius:8px;padding:12px 14px;font-size:13px;line-height:1.6;margin-top:12px}
+
+  /* Selector de métrica */
+  .seg{display:inline-flex;background:var(--gris);border-radius:8px;padding:3px;gap:2px;flex-wrap:wrap}
+  .seg button{border:0;background:none;font:inherit;font-size:12px;font-weight:600;color:var(--subtexto);padding:6px 10px;border-radius:6px;cursor:pointer}
+  .seg button.on{background:#fff;color:var(--azul);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+  .anios{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+  .anio{background:var(--gris);border-radius:8px;padding:10px 12px;border:2px solid transparent;cursor:pointer;text-align:left;font:inherit;color:inherit}
+  .anio.sel{border-color:var(--amarillo);background:#fff}
+  .anio .a{font-size:12px;font-weight:700;color:var(--subtexto)}
+  .anio .v{font-size:17px;font-weight:700;color:var(--azul);margin-top:2px;font-variant-numeric:tabular-nums}
+  .anio .s{font-size:11.5px;color:var(--subtexto)}
+  .var-up{color:#1E7B4C;font-weight:700}
+  .var-dn{color:#C4262E;font-weight:700}
+
+  /* Diésel */
+  .die-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .det-i{background:var(--gris);border-radius:8px;padding:10px 12px}
+  .det-i .l{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--subtexto)}
+  .det-i .v{font-size:18px;font-weight:700;color:var(--azul);margin-top:3px;font-variant-numeric:tabular-nums}
+  .det-i .s{font-size:11.5px;color:var(--subtexto);margin-top:2px}
+  .gantt{margin-top:6px}
+  .gantt-eje{display:grid;margin-left:var(--gl);font-size:10.5px;color:var(--subtexto);border-bottom:1px solid var(--gris-bd);padding-bottom:4px}
+  .gantt-eje span{text-align:left;white-space:nowrap;overflow:visible}
+  .gantt-f{display:grid;grid-template-columns:var(--gl) 1fr;align-items:center;margin-top:10px}
+  .gantt-f .n{font-size:12px;font-weight:600;color:var(--texto);padding-right:10px;line-height:1.3}
+  .gantt-p{position:relative;height:26px;background:#F6F7FB;border-radius:5px}
+  .gantt{padding-bottom:20px}
+  .gantt-b{position:absolute;top:3px;height:20px;border-radius:5px;background:var(--die);transform-origin:left;transform:scaleX(0);transition:transform .9s cubic-bezier(.2,.8,.2,1);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;white-space:nowrap}
+  .gantt-b.pro{background:repeating-linear-gradient(135deg,#FCEFC7 0 7px,#F6DF99 7px 14px);color:#7A5800;border:1px dashed #C99200;transition-delay:.5s}
+  .gantt.on .gantt-b{transform:scaleX(1)}
+  .hoy{position:absolute;top:-4px;bottom:-4px;width:2px;background:#C4262E}
+  .hoy span{position:absolute;bottom:-17px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:700;color:#C4262E;white-space:nowrap}
+  .ley{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--subtexto);margin-top:12px}
+
+  ul.lista{margin:0;padding:0 0 0 20px;font-size:13px;line-height:1.6;color:var(--texto)}
+  ul.lista li{margin:6px 0}
+  .bloque + .bloque{margin-top:14px;padding-top:14px;border-top:1px dashed var(--gris-bd)}
+  .bloque .t{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--subtexto);margin-bottom:5px}
+  .bloque p{margin:0;font-size:13px;line-height:1.6;color:var(--texto)}
+  ol.norma{list-style:none;margin:0;padding:0;position:relative}
+  ol.norma::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--gris-bd)}
+  ol.norma li{position:relative;padding:0 0 12px 26px;font-size:13px;line-height:1.5}
+  ol.norma li::before{content:"";position:absolute;left:2px;top:4px;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid var(--azul)}
+  ol.norma li.ult::before{background:var(--amarillo);border-color:var(--amarillo)}
+  ol.norma b{color:var(--azul)}
+  ol.norma span{display:block;font-size:12px;color:var(--subtexto)}
+  ul.notas{margin:0;padding:14px 18px 14px 34px;font-size:12.5px;line-height:1.65;color:var(--texto)}
+  .aviso-err{background:#FDECEA;border:1px solid #F3A8AC;color:#C4262E;border-radius:8px;padding:12px 16px;margin:14px 0}
+  @media(max-width:900px){.k-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.g2,.g2.r{grid-template-columns:1fr}.k .v{font-size:22px}}
+  @media(max-width:560px){.comp-f{grid-template-columns:1fr;gap:4px}.anios{grid-template-columns:1fr}.die-grid{grid-template-columns:1fr 1fr}.gantt{--gl:96px !important}}
+  @media(prefers-reduced-motion:reduce){.comp div,.gantt-b{transition:none}}
+</style>
+</head>
+<body>
+<div id="app-sidebar-mount"></div>
+<div class="logo-bar"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="El Nuevo Ecuador" style="height:34px;"></div>
+<header class="header"><div class="header-left"><div class="header-logo">MTDH</div><div><div class="header-title">Ministerio de Trabajo y Desarrollo Humano</div><div class="header-sub">Dirección de Estudios y Análisis · Subsecretaría de Gestión de Datos y Estudios</div></div></div><div class="header-badge">Incentivos Temporales</div></header>
+<nav class="breadcrumb"><a href="../index.html">Inicio</a><span class="bc-sep">›</span><a href="kpis.html#/kpis">KPIs</a><span class="bc-sep">›</span><a href="kpis.html#/kpis-incentivos">Incentivos Temporales</a><span class="bc-sep">›</span><span class="bc-current">Compensación de combustible</span></nav>
+<main class="main"><section class="page active">
+
+<div class="hero">
+  <div class="hero-eyebrow">KPIs · Incentivos Temporales · Compensación de combustible</div>
+  <h1>Compensación de combustible</h1>
+  <p>Transferencias monetarias temporales que compensan el efecto de la reforma de precios de los combustibles: gasolina Extra y Extra con Etanol, y diésel para los propietarios de vehículos de transporte público.</p>
+  <p id="interpretacion" style="margin-top:6px"></p>
+</div>
+
+<div id="error"></div>
+<div id="contenido" hidden>
+  <div class="k-grid" id="kpis"></div>
+
+  <div class="card-b">
+    <div class="h"><div><b>¿Cómo se reparte la compensación?</b><div class="sub">Participación de cada componente en el monto transferido y en los beneficiarios</div></div>
+      <div class="ley" style="margin:0"><span><i class="dot" style="background:var(--gas)"></i>Gasolina Extra y Extra con Etanol</span><span><i class="dot" style="background:var(--die)"></i>Diésel · transporte público</span></div></div>
+    <div class="c">
+      <div class="comp-f"><div class="t">Monto</div><div class="comp" id="comp-monto"></div></div>
+      <div class="comp-f"><div class="t">Beneficiarios</div><div class="comp" id="comp-benef"></div></div>
+      <div class="lectura" id="lectura-comp"></div>
+    </div>
+  </div>
+
+  <div class="g2 r">
+    <div class="card-b">
+      <div class="h"><div><b>Gasolina Extra y Extra con Etanol</b><div class="sub">Evolución anual · selecciona la medida o un año</div></div>
+        <div class="seg" id="seg">
+          <button type="button" data-m="monto" class="on">Monto</button>
+          <button type="button" data-m="beneficiarios">Beneficiarios</button>
+          <button type="button" data-m="promedio">Promedio por beneficiario</button>
+          <button type="button" data-m="frecuencia">Pagos por beneficiario</button>
+        </div></div>
+      <div class="c">
+        <div class="chart-box"><canvas id="g-gas" role="img" aria-label="Gasolina por año"></canvas></div>
+        <div class="anios" id="anios"></div>
+        <div class="nota" id="nota-gas"></div>
+      </div>
+    </div>
+    <div class="card-b">
+      <div class="h"><div><b>Diésel · transporte público</b><div class="sub">Compensación mensual a propietarios de vehículos</div></div></div>
+      <div class="c">
+        <div class="die-grid" id="die"></div>
+        <div class="bloque" style="margin-top:16px"><div class="t">Plazo del mecanismo por modalidad</div>
+          <div class="gantt" id="gantt" style="--gl:150px"></div>
+          <div class="ley"><span><i class="dot" style="background:var(--die)"></i>Plazo de aplicación</span><span><i class="dot" style="background:#FCEFC7;border:1px dashed #C99200"></i>Prórroga posible (máximo)</span><span><i class="dot" style="background:#C4262E;width:3px"></i>Hoy</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card-b">
+      <div class="h"><div><b>Cómo funciona</b><div class="sub">Compensación por el precio del diésel</div></div></div>
+      <div class="c">
+        <div class="bloque"><div class="t">Objetivo</div><p>Proteger al usuario del transporte y evitar el alza de las tarifas que la ciudadanía paga por el uso del transporte público, tras la reforma del precio del diésel automotriz.</p></div>
+        <div class="bloque"><div class="t">A quién se dirige</div><p>Propietarios de vehículos cuya modalidad de transporte público sea intracantonal (urbano, combinado o rural), intraprovincial o interprovincial, determinados por las entidades públicas competentes.</p></div>
+        <div class="bloque"><div class="t">Modalidad</div><p>Transferencia monetaria mensual, de carácter económico y temporal.</p></div>
+        <div class="bloque"><div class="t">Plazo</div><p id="plazo-txt"></p></div>
+      </div>
+    </div>
+    <div class="card-b">
+      <div class="h"><div><b>Marco normativo</b><div class="sub">Compensación por la reforma del precio del diésel</div></div></div>
+      <div class="c"><ol class="norma">
+        <li><b>Decreto Ejecutivo 125</b> · 12 de septiembre de 2025<span>Crea el mecanismo de compensación por la aplicación de la reforma del precio del diésel automotriz.</span></li>
+        <li><b>Decreto Ejecutivo 161</b> · 26 de septiembre de 2025<span>Reforma el Decreto Ejecutivo 125.</span></li>
+        <li><b>Decreto Ejecutivo 352</b> · 31 de marzo de 2026<span>Reforma el Decreto Ejecutivo 125.</span></li>
+        <li class="ult"><b>Decreto Ejecutivo 378</b> · 8 de mayo de 2026<span>Fija la aplicación en ocho meses para todas las modalidades, con posible prórroga de hasta cuatro meses para la intracantonal; los plazos se cuentan desde el 12 de septiembre de 2025.</span></li>
+      </ol></div>
+    </div>
+  </div>
+
+  <div class="card-b">
+    <div class="h"><div><b>Notas para la lectura</b><div class="sub">Consideraciones sobre las cifras</div></div></div>
+    <ul class="notas" id="notas"></ul>
+  </div>
+</div>
+
+<div class="gov-close"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="Gobierno del Ecuador"></div>
+</section></main>
+<footer class="dashboard-footer"><strong>Ministerio de Trabajo y Desarrollo Humano</strong> · Subsecretaría de Gestión de Datos y Estudios · Portal de Indicadores</footer>
+<script src="../assets/js/shared.js"></script>
+<script>
+(function(){
+'use strict';
+const PATH = '../datos/kpis/combustibles/';
+const MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const MESES_L = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const $ = id => document.getElementById(id);
+const fmt = (n, d = 0) => Number(n || 0).toLocaleString('es-EC', { minimumFractionDigits:d, maximumFractionDigits:d });
+const usd = (n, d = 2) => 'USD ' + fmt(n, d);
+const musd = n => 'USD ' + (n / 1e6).toLocaleString('es-EC', { minimumFractionDigits:2, maximumFractionDigits:2 }) + ' M';
+const pct = (a, b) => (100 * a / b).toLocaleString('es-EC', { minimumFractionDigits:1, maximumFractionDigits:1 }) + ' %';
+const corto = v => v >= 1e6 ? (v / 1e6).toLocaleString('es-EC', { maximumFractionDigits:1 }) + ' M' : v >= 1e3 ? (v / 1e3).toLocaleString('es-EC', { maximumFractionDigits:0 }) + ' mil' : fmt(v);
+const fechaL = d => `${d.getDate()} de ${MESES_L[d.getMonth()]} de ${d.getFullYear()}`;
+const REDUCIDO = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+initSidebar({ activeId:'kpis-incentivos', basePath:'../' });
+
+let G = [], GT = null, D = null, PL = [], metrica = 'monto', anioSel = null, chart = null;
+
+const MEDIDAS = {
+  monto:        { t:'Monto transferido',          v:r => r.monto,                     f:v => musd(v), eje:corto },
+  beneficiarios:{ t:'Beneficiarios',              v:r => r.beneficiarios,             f:v => fmt(v), eje:corto },
+  promedio:     { t:'Monto promedio por beneficiario', v:r => r.monto / r.beneficiarios, f:v => usd(v), eje:v => 'USD ' + fmt(v) },
+  frecuencia:   { t:'Pagos por beneficiario',     v:r => r.pagos / r.beneficiarios,   f:v => fmt(v, 2), eje:v => fmt(v, 0) }
+};
+
+function contar(el, hasta, f){
+  if (REDUCIDO){ el.textContent = f(hasta); return; }
+  const t0 = performance.now();
+  const paso = t => { const k = Math.min(1, (t - t0) / 1000), e = 1 - Math.pow(1 - k, 3); el.textContent = f(hasta * e); if (k < 1) requestAnimationFrame(paso); };
+  requestAnimationFrame(paso);
+}
+
+function kpis(){
+  const total = GT.monto + D.monto, pagos = GT.pagos + D.pagos;
+  const a0 = G[0].anio, a1 = G[G.length - 1].anio;
+  $('kpis').innerHTML = `
+    <div class="k dest"><div class="l">Monto total transferido</div><div class="v" id="k1">0</div><div class="s">gasolina y diésel · ${a0}–${a1}</div></div>
+    <div class="k"><div class="l">Beneficiarios · gasolina</div><div class="v" id="k2">0</div><div class="s">personas distintas entre ${a0} y ${a1}</div></div>
+    <div class="k die"><div class="l">Beneficiarios · diésel</div><div class="v" id="k3">0</div><div class="s">propietarios de transporte público · ${D.anio}</div></div>
+    <div class="k"><div class="l">Pagos realizados</div><div class="v" id="k4">0</div><div class="s">transferencias acreditadas en total</div></div>`;
+  contar($('k1'), total, musd); contar($('k2'), GT.beneficiarios, v => fmt(v)); contar($('k3'), D.beneficiarios, v => fmt(v)); contar($('k4'), pagos, v => fmt(v));
+  $('interpretacion').innerHTML = `Entre ${a0} y ${a1} se transfirieron <b>${musd(total)}</b> en compensaciones: ${musd(GT.monto)} por gasolina a ${fmt(GT.beneficiarios)} beneficiarios y ${musd(D.monto)} por diésel a ${fmt(D.beneficiarios)} propietarios de vehículos de transporte público.`;
+}
+
+function composicion(){
+  const fila = (id, g, d, f) => {
+    const t = g + d;
+    $(id).innerHTML = `<div class="g" data-w="${100 * g / t}" title="Gasolina: ${f(g)} (${pct(g, t)})">${pct(g, t)}</div><div class="d" data-w="${100 * d / t}" title="Diésel: ${f(d)} (${pct(d, t)})">${pct(d, t)}</div>`;
+  };
+  fila('comp-monto', GT.monto, D.monto, musd);
+  fila('comp-benef', GT.beneficiarios, D.beneficiarios, v => fmt(v) + ' personas');
+  const pg = GT.monto / GT.beneficiarios, pd = D.monto / D.beneficiarios;
+  $('lectura-comp').innerHTML = `El diésel concentra el <b>${pct(D.monto, GT.monto + D.monto)}</b> del monto con el ${pct(D.beneficiarios, GT.beneficiarios + D.beneficiarios)} de los beneficiarios. ` +
+    `Cada propietario de transporte público recibió en promedio <b>${usd(pd)}</b>, frente a <b>${usd(pg)}</b> acumulados por cada beneficiario de gasolina en todo el período (unas ${fmt(pd / pg, 1)} veces más).`;
+  const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ document.querySelectorAll('.comp div').forEach(x => x.style.width = x.dataset.w + '%'); obs.disconnect(); } }), { threshold:.3 });
+  obs.observe($('comp-monto'));
+}
+
+function grafico(){
+  const M = MEDIDAS[metrica];
+  const datos = G.map(M.v);
+  const colores = G.map(r => r.anio === anioSel ? '#C99200' : '#4F449A');
+  if (chart){ chart.data.datasets[0].data = datos; chart.data.datasets[0].backgroundColor = colores; chart.data.datasets[0].label = M.t;
+    chart.options.scales.y.ticks.callback = M.eje; chart.update(); return; }
+  chart = new Chart($('g-gas'), { type:'bar',
+    data:{ labels:G.map(r => r.anio), datasets:[{ label:M.t, data:datos, backgroundColor:colores, borderRadius:5, maxBarThickness:80 }] },
+    options:{ responsive:true, maintainAspectRatio:false, animation: REDUCIDO ? false : { duration:700 },
+      onClick:(e, el) => { if (el.length) setTimeout(() => elegirAnio(G[el[0].index].anio), 0); },
+      onHover:(e, el) => { e.native.target.style.cursor = el.length ? 'pointer' : 'default'; },
+      plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label: c => ` ${MEDIDAS[metrica].t}: ${MEDIDAS[metrica].f(c.raw)}` } } },
+      scales:{ y:{ beginAtZero:true, grid:{ color:'#EEF1F6' }, ticks:{ callback:M.eje, color:'#6B7A90' } }, x:{ grid:{ display:false }, ticks:{ color:'#33415C', font:{ weight:'600' } } } } } });
+}
+
+function variacion(i){
+  if (i === 0) return '';
+  const a = MEDIDAS[metrica].v(G[i - 1]), b = MEDIDAS[metrica].v(G[i]), v = 100 * (b - a) / a;
+  return `<span class="${v >= 0 ? 'var-up' : 'var-dn'}">${v >= 0 ? '▲' : '▼'} ${fmt(Math.abs(v), 1)} %</span> frente a ${G[i - 1].anio}`;
+}
+
+function anios(){
+  const M = MEDIDAS[metrica];
+  $('anios').innerHTML = G.map((r, i) => `<button type="button" class="anio${r.anio === anioSel ? ' sel' : ''}" data-a="${r.anio}" aria-pressed="${r.anio === anioSel}">
+    <div class="a">${r.anio}</div><div class="v">${M.f(M.v(r))}</div><div class="s">${variacion(i) || 'primer año con pagos'}</div></button>`).join('');
+  document.querySelectorAll('.anio').forEach(b => b.onclick = () => elegirAnio(b.dataset.a));
+  const r = G.find(x => x.anio === anioSel);
+  $('nota-gas').innerHTML = `<b>${r.anio}:</b> ${fmt(r.pagos)} pagos a ${fmt(r.beneficiarios)} beneficiarios por ${musd(r.monto)} · ${fmt(r.pagos / r.beneficiarios, 2)} pagos y ${usd(r.monto / r.beneficiarios)} por beneficiario; pago promedio de ${usd(r.monto / r.pagos)}.`;
+}
+
+function elegirAnio(a){ anioSel = a; grafico(); anios(); }
+
+function diesel(){
+  $('die').innerHTML = [
+    ['Propietarios beneficiarios', fmt(D.beneficiarios), String(D.anio)],
+    ['Monto transferido', musd(D.monto), String(D.anio)],
+    ['Promedio por propietario', usd(D.monto / D.beneficiarios), 'en el año'],
+    ['Pagos por propietario', fmt(D.pagos / D.beneficiarios, 2), `${fmt(D.pagos)} pagos en total`]
+  ].map(([l, v, s]) => `<div class="det-i"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${s}</div></div>`).join('');
+
+  // Línea de tiempo de los plazos (mes a mes)
+  const masMeses = (d, m) => { const x = new Date(d); x.setMonth(x.getMonth() + m); return x; };
+  const ini = new Date(PL[0].inicio + 'T00:00:00');
+  const finMax = PL.reduce((m, p) => Math.max(m, masMeses(ini, p.meses + p.prorroga).getTime()), 0);
+  const hoy = new Date();
+  const desde = new Date(ini.getFullYear(), ini.getMonth(), 1);
+  const ultimo = new Date(Math.max(finMax, hoy.getTime()));
+  const hasta = new Date(ultimo.getFullYear(), ultimo.getMonth() + 1, 1);
+  const nM = (hasta.getFullYear() - desde.getFullYear()) * 12 + hasta.getMonth() - desde.getMonth();
+  const pos = d => 100 * (d - desde) / (hasta - desde);
+  const eje = Array.from({ length:nM }, (_, i) => { const m = new Date(desde.getFullYear(), desde.getMonth() + i, 1);
+    return `<span>${i % 2 === 0 ? MESES[m.getMonth()] + (m.getMonth() === 0 || i === 0 ? ' ' + m.getFullYear() : '') : ''}</span>`; }).join('');
+  const hoyEn = hoy >= desde && hoy <= hasta;
+  $('gantt').style.setProperty('--m', nM);
+  $('gantt').innerHTML = `<div class="gantt-eje" style="grid-template-columns:repeat(${nM},1fr)">${eje}</div>` + PL.map((p, i) => {
+    const f = masMeses(ini, p.meses), fp = masMeses(ini, p.meses + p.prorroga);
+    return `<div class="gantt-f"><div class="n">${p.modalidad}</div><div class="gantt-p" style="--m:${nM}">
+      <div class="gantt-b" style="left:${pos(ini)}%;width:${pos(f) - pos(ini)}%" title="${fechaL(ini)} – ${fechaL(f)}">${p.meses} meses</div>
+      ${p.prorroga ? `<div class="gantt-b pro" style="left:${pos(f)}%;width:${pos(fp) - pos(f)}%" title="Prórroga posible hasta ${fechaL(fp)}">+${p.prorroga}</div>` : ''}
+      ${hoyEn ? `<div class="hoy" style="left:${pos(hoy)}%" title="Hoy: ${fechaL(hoy)}">${i === PL.length - 1 ? '<span>Hoy</span>' : ''}</div>` : ''}</div></div>`;
+  }).join('');
+  const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ $('gantt').classList.add('on'); obs.disconnect(); } }), { threshold:.3 });
+  obs.observe($('gantt'));
+
+  const conPro = PL.find(p => p.prorroga), sinPro = PL.filter(p => !p.prorroga);
+  const fin8 = masMeses(ini, PL[0].meses);
+  $('plazo-txt').innerHTML = `Desde el ${fechaL(ini)}: <b>${PL[0].meses} meses</b> para todas las modalidades, es decir, hasta el ${fechaL(fin8)}. ` +
+    (conPro ? `Para la modalidad intracantonal, el Comité de Optimización Energética puede prorrogarlo hasta ${conPro.prorroga} meses más (como máximo, hasta el ${fechaL(masMeses(ini, conPro.meses + conPro.prorroga))}).` : '');
+}
+
+function notas(){
+  const ult = G[G.length - 1].anio;
+  $('notas').innerHTML = [
+    'Los pagos corresponden a las transferencias acreditadas; un mismo beneficiario puede recibir varios pagos en el año.',
+    `Los beneficiarios de gasolina del período ${G[0].anio}–${ult} (${fmt(GT.beneficiarios)}) son personas distintas: no equivalen a la suma de los beneficiarios de cada año, porque una misma persona puede recibir la compensación en varios años.`,
+    `El promedio por beneficiario divide el monto del año para los beneficiarios de ese año; el pago promedio divide el monto para el número de pagos.`,
+    `Las cifras de ${ult} corresponden a los pagos registrados en lo que va del año.`,
+    `La compensación por diésel registra pagos en ${D.anio}.`,
+    'El plazo intracantonal con prórroga es el máximo posible; su aplicación depende de la evaluación del Comité de Optimización Energética.'
+  ].map(t => `<li>${t}</li>`).join('');
+}
+
+Promise.all(['pagos_anuales.csv', 'plazos_diesel.csv'].map(f => fetch(PATH + f, { cache:'no-cache' }).then(r => { if (!r.ok) throw Error(f + ': HTTP ' + r.status); return r.text(); })))
+  .then(([a, b]) => {
+    const R = parseCSV(a.replace(/^﻿/, '')).map(r => ({ comp:r.componente, anio:r.anio, pagos:+r.pagos || 0, beneficiarios:+r.beneficiarios || 0, monto:+r.monto_usd || 0 }));
+    G = R.filter(r => r.comp === 'gasolina' && r.anio !== 'total').sort((x, y) => x.anio - y.anio);
+    GT = R.find(r => r.comp === 'gasolina' && r.anio === 'total');
+    const DA = R.filter(r => r.comp === 'diesel' && r.anio !== 'total');
+    D = Object.assign({}, R.find(r => r.comp === 'diesel' && r.anio === 'total'), { anio:DA.map(r => r.anio).join(', ') });
+    PL = parseCSV(b.replace(/^﻿/, '')).map(r => ({ modalidad:r.modalidad, inicio:r.inicio, meses:+r.meses || 0, prorroga:+r.prorroga_max_meses || 0 }));
+    if (!G.length || !GT || !D.monto || !PL.length) throw Error('datos incompletos');
+    anioSel = G[G.length - 1].anio;
+    $('contenido').hidden = false;
+    kpis(); composicion(); grafico(); anios(); diesel(); notas();
+    document.querySelectorAll('#seg button').forEach(b => b.onclick = () => {
+      metrica = b.dataset.m; document.querySelectorAll('#seg button').forEach(x => x.classList.toggle('on', x === b)); grafico(); anios(); });
+  })
+  .catch(err => {
+    $('error').innerHTML = `<div class="aviso-err"><b>No se pudieron cargar los datos de compensación de combustible.</b><br>${err.message}<br>
+      <span style="font-size:12px">Revisa que existan los archivos en <code>datos/kpis/combustibles/</code> y abre el portal mediante un servidor local o GitHub Pages.</span></div>`;
+  });
+})();
+</script>
+</body>
+</html>

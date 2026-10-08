@@ -1757,8 +1757,8 @@ const itemLists = {
     desc:'Selecciona el componente que quieres consultar.',
     items:[
       { name:'Jóvenes en Acción', href:'jovenes_accion.html', badge:'● Disponible', sub:'Transferencias temporales para jóvenes de 18 a 29 años · beneficiarios, postulaciones, presupuesto y ejecución por período, y ampliación prevista para el cuarto trimestre de 2026' },
-      { name:'Compensación de combustible' },
-      { name:'Migrantes retornados' }
+      { name:'Compensación de combustible', href:'combustibles.html', badge:'● Disponible', sub:'Compensación por gasolina Extra y Extra con Etanol y por diésel para el transporte público · monto, beneficiarios y pagos por año, y plazos del mecanismo' },
+      { name:'Migrantes retornados', href:'migrantes_retornados.html', badge:'● Disponible', sub:'Transferencia de USD 470 mensuales por tres meses para ecuatorianos retornados de forma forzosa desde los Estados Unidos · beneficiarios, monto, criterios y ruta del beneficiario' }
     ]
   }
 };
@@ -1832,7 +1832,7 @@ const kpisAreas = [
   { key:'proteccion-social', label:'Protección Social e Inclusión Económica', icon:'familia', disponible:true, desc:'Servicios de desarrollo infantil, movilidad social, personas adultas mayores, discapacidad, protección especial y alertas SUUSEN.', route:'kpis-proteccion-social' },
   { key:'trabajo', label:'Trabajo', icon:'trabajo', disponible:true, desc:'Compensación jubilar de exservidores y extrabajadores; contratos de trabajo registrados en el SUT.', route:'kpis-trabajo' },
   { key:'pueblos', label:'Pueblos y Nacionalidades', icon:'pueblos', disponible:true, desc:'Economía comunitaria y productiva, y convenios de financiamiento no reembolsable.', route:'kpis-pueblos' },
-  { key:'incentivos', label:'Incentivos Temporales', icon:'incentivos', disponible:true, desc:'Jóvenes en Acción; compensación de combustible y migrantes retornados en construcción.', route:'kpis-incentivos' }
+  { key:'incentivos', label:'Incentivos Temporales', icon:'incentivos', disponible:true, desc:'Jóvenes en Acción, compensación de combustible y migrantes retornados.', route:'kpis-incentivos' }
 ];
 
 function renderKpisAreas(){
@@ -2124,4 +2124,23 @@ function initSidebar(opts) {
     `;
     document.head.appendChild(style);
   }
+  ajustarCabeceraFija();
+  if (!window._cabeceraFijaLista) {
+    window._cabeceraFijaLista = true;
+    window.addEventListener('resize', ajustarCabeceraFija);
+    window.addEventListener('load', ajustarCabeceraFija);
+  }
+}
+
+// Las migas (breadcrumb) se fijan JUSTO debajo de la cabecera y el menú, midiendo sus alturas reales.
+// Con el valor fijo anterior (105 px) quedaba una franja de ~6 px por la que se veía pasar el contenido.
+function ajustarCabeceraFija(){
+  const bc = document.querySelector('.breadcrumb');
+  if (!bc || getComputedStyle(bc).position !== 'sticky') return;
+  let tope = 0;
+  document.querySelectorAll('.header, .mega-nav').forEach(el => {
+    const cs = getComputedStyle(el);
+    if (cs.position === 'sticky' || cs.position === 'fixed') tope = Math.max(tope, (parseFloat(cs.top) || 0) + el.offsetHeight);
+  });
+  if (tope > 0) bc.style.setProperty('top', tope + 'px', 'important');
 }

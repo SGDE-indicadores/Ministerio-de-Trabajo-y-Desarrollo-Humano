@@ -8,6 +8,7 @@
 <script src="../assets/js/export-utils.js"></script>
 <style>
   /* Misma plantilla que las páginas de KPI del portal (Contratos, Compensación jubilar) */
+  .fbar::before{content:"";position:absolute;left:-2px;right:-2px;bottom:100%;height:10px;background:#EDF0F7}   /* tapa la franja entre migas y filtros */
   .fbar{position:sticky;top:var(--fbar-top,148px);z-index:90;background:#fff;border:1px solid var(--gris-bd);border-radius:10px;padding:12px 14px;margin:0 0 16px;box-shadow:var(--shadow)}
   .fbar .fila{display:flex;gap:10px 14px;align-items:flex-end;flex-wrap:wrap}
   .fbar label{display:block;font-size:10.5px;font-weight:700;color:var(--subtexto);margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px}
@@ -18,7 +19,7 @@
   .activos b{color:var(--azul)}
   .k-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
   .k{background:#fff;border:1px solid var(--gris-bd);border-radius:10px;padding:14px 16px;border-top:3px solid var(--azul)}
-  .k.main{border-top-color:var(--amarillo)}
+  .k.dest{border-top-color:var(--amarillo)}
   .k .l{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--subtexto)}
   .k .v{font-size:26px;font-weight:700;color:var(--azul);line-height:1.1;margin:6px 0 2px;font-variant-numeric:tabular-nums}
   .k .s{font-size:12px;color:var(--subtexto);line-height:1.45}
@@ -176,7 +177,7 @@ function renderKpis(p){
   const d = ant ? p.porcentaje - ant.porcentaje : null;
   const flecha = d === null ? '' : `<span class="${d >= 0 ? 'up' : 'down'}">${pp(d)}</span> frente a ${etq(ant.periodo)}`;
   $('kpis').innerHTML = `
-    <div class="k main"><div class="l">Alertas vencidas gestionadas</div><div class="v">${pct(p.porcentaje)}</div><div class="s">${flecha || 'Primer corte de la serie'}</div></div>
+    <div class="k dest"><div class="l">Alertas vencidas gestionadas</div><div class="v">${pct(p.porcentaje)}</div><div class="s">${flecha || 'Primer corte de la serie'}</div></div>
     <div class="k"><div class="l">Gestionadas</div><div class="v">${fmt(p.numerador)}</div><div class="s">Alertas vencidas con gestión registrada</div></div>
     <div class="k"><div class="l">Total de alertas vencidas</div><div class="v">${fmt(p.denominador)}</div><div class="s">Al corte de ${etq(p.periodo)}</div></div>
     <div class="k"><div class="l">Sin gestión registrada</div><div class="v">${fmt(p.no_gestionadas)}</div><div class="s">${pct(100 * p.no_gestionadas / p.denominador)} del total</div></div>`;
