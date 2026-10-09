@@ -1,4 +1,4 @@
 codigo,titulo,descripcion,archivo,archivo_alterno,version,fecha
 E-03,Manual de usuario,"Cómo navegar el portal, leer sus tableros, usar los filtros y descargar gráficos y tablas.",E-03_Manual_de_usuario.pdf,E-03_Manual_de_usuario.docx,Septiembre de 2026,
-E-04,Diccionario de datos e indicadores,"Variables de cada archivo de datos del portal y definición de cada indicador: fórmula, unidad, fuente y desagregaciones.",E-04_Diccionario_de_datos_e_indicadores.xlsx,,,
+E-04,Diccionario de datos e indicadores,"Catálogo de los indicadores del portal: nombre, tabla o entidad, descripción y detalle de cada indicador (unidad, fórmula, periodicidad, desagregación, fuente y responsable).",E-04_Diccionario_de_datos_e_indicadores.xlsx,,,
 E-05,Fichas metodológicas de los indicadores,"Archivo único con las 25 fichas metodológicas de los indicadores publicados en el portal, con índice y marcadores por sección.",E-05_Fichas_metodologicas.pdf,,,

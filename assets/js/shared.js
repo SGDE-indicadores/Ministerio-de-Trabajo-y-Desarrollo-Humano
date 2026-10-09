@@ -1292,6 +1292,9 @@ function renderTransferDetail(slug){
     : `<svg viewBox="0 0 24 24" fill="none" stroke="${getTransferCategoryStyle(meta.category).color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${TRANSFER_ICONS[meta.icon] || TRANSFER_ICONS.doc}</svg>`;
   document.getElementById('transferDetailTitle').textContent = record?.nombre || meta.name;
   document.getElementById('transferDetailDesc').textContent = record?.queMide || info.desc || meta.name;
+  // Los programas sin ficha metodológica (Orfandad por Femicidio, BCENA, Contingencias) no muestran la pestaña
+  const btnFicha = document.getElementById('btn-transfer-ficha');
+  if(btnFicha) btnFicha.style.display = record ? '' : 'none';
   selectTransferDetailTab('cobertura');
 }
 
@@ -1320,15 +1323,19 @@ function selectTransferDetailTab(tab){
   */
 
   if(tab === 'presupuesto'){
+    // Selector «Selección actual / Acumulado histórico» oculto por ahora: solo se muestra el acumulado histórico.
+    // Para volver a mostrarlo, descomentar el bloque y cambiar la llamada final a selectTransferBudgetPeriod('seleccion').
     el.innerHTML = `
+      <!--
       <div class="toggle-bar">
         <div class="toggle-group">
-          <button class="toggle-btn active" id="btn-transferbudget-seleccion" onclick="selectTransferBudgetPeriod('seleccion')">Selección actual</button>
-          <button class="toggle-btn" id="btn-transferbudget-historico" onclick="selectTransferBudgetPeriod('historico')">Acumulado histórico</button>
+          <button class="toggle-btn" id="btn-transferbudget-seleccion" onclick="selectTransferBudgetPeriod('seleccion')">Selección actual</button>
+          <button class="toggle-btn active" id="btn-transferbudget-historico" onclick="selectTransferBudgetPeriod('historico')">Acumulado histórico</button>
         </div>
       </div>
+      -->
       <div id="transferBudgetContent"></div>`;
-    selectTransferBudgetPeriod('seleccion');
+    selectTransferBudgetPeriod('historico');
     return;
   }
 
