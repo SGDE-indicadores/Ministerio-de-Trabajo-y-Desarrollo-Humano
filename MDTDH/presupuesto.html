@@ -1,40 +1,436 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Ejecución presupuestaria | MTDH</title>
 <link rel="stylesheet" href="../assets/css/shared.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="../assets/js/export-utils.js"></script>
+<style>
+  /* Plantilla de las páginas de KPI del portal (Contratos, SUUSEN, Jóvenes en Acción) */
+  :root{--dev:#4F449A;--com:#8E84C8;--cer:#F1B620;--res:#C4262E;--sal:#E3E6EE}
+  .fbar::before{content:"";position:absolute;left:-2px;right:-2px;bottom:100%;height:10px;background:#EDF0F7}
+  .fbar{position:sticky;top:var(--fbar-top,148px);z-index:90;background:#fff;border:1px solid var(--gris-bd);border-radius:10px;padding:12px 14px;margin:0 0 16px;box-shadow:var(--shadow)}
+  .fbar .fila{display:flex;gap:10px 14px;align-items:flex-end;flex-wrap:wrap}
+  .fbar label{display:block;font-size:10.5px;font-weight:700;color:var(--subtexto);margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px}
+  .fbar select{padding:7px 9px;border:1px solid var(--gris-bd);border-radius:7px;background:#fff;color:var(--texto);font-size:12.5px;width:190px;max-width:100%}
+  .fbar .limpiar{font:inherit;font-size:12px;font-weight:700;color:var(--azul);background:none;border:1px solid var(--gris-bd);border-radius:7px;padding:7px 12px;cursor:pointer}
+  .fbar .limpiar[disabled]{opacity:.45;cursor:default}
+  .fbar .corte{margin-left:auto;font-size:12px;color:var(--subtexto);align-self:center}
+  .fbar .corte b{color:var(--azul)}
+
+  .k-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-bottom:16px}
+  .k{background:#fff;border:1px solid var(--gris-bd);border-radius:10px;padding:14px 16px;border-top:3px solid var(--azul)}
+  .k.dest{border-top-color:var(--amarillo)}
+  .k .l{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--subtexto)}
+  .k .v{font-size:23px;font-weight:700;color:var(--azul);line-height:1.1;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+  .k .s{font-size:12px;color:var(--subtexto);line-height:1.45}
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .card-b{background:#fff;border:1px solid var(--gris-bd);border-radius:10px;margin-bottom:16px;overflow:hidden}
+  .card-b .h{padding:12px 16px;border-bottom:1px solid var(--gris-bd);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+  .card-b .h b{color:var(--azul);font-size:13.5px}
+  .card-b .h .sub{font-size:12px;color:var(--subtexto);margin-top:2px}
+  .card-b .c{padding:16px}
+  .nota{font-size:12px;color:var(--subtexto);line-height:1.55;margin-top:10px}
+  .ley{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:12px;color:var(--subtexto)}
+  .ley i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+
+  /* Medidores de ejecución */
+  .med + .med{margin-top:16px}
+  .med .t{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:6px}
+  .med .t span{font-size:13px;font-weight:600;color:var(--texto)}
+  .med .t b{font-size:20px;color:var(--azul);font-variant-numeric:tabular-nums}
+  .med .riel{position:relative;height:12px;background:var(--gris-bd);border-radius:6px;overflow:hidden}
+  .med .riel .n{position:absolute;inset:0 auto 0 0;background:#D2CCEE;width:0;transition:width 1s cubic-bezier(.2,.8,.2,1)}
+  .med .riel .e{position:absolute;inset:0 auto 0 0;background:var(--dev);width:0;border-radius:6px;transition:width 1s cubic-bezier(.2,.8,.2,1)}
+  .med .s{font-size:11.5px;color:var(--subtexto);margin-top:4px}
+  .med.vacio{opacity:.45}
+
+  /* Composición del codificado */
+  .comp{display:flex;height:40px;border-radius:8px;overflow:hidden;background:var(--sal);margin:6px 0 12px}
+  .comp div{display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;transition:width .8s cubic-bezier(.2,.8,.2,1)}
+  .comp .cer{color:#5B4300}.comp .sal{color:#33415C}
+  .comp-l{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 16px}
+  .comp-l div{font-size:12px;color:var(--subtexto);display:flex;justify-content:space-between;gap:8px;border-bottom:1px dashed var(--gris-bd);padding-bottom:5px}
+  .comp-l b{color:var(--texto);font-variant-numeric:tabular-nums}
+
+  .seg{display:inline-flex;background:var(--gris);border-radius:8px;padding:3px;gap:2px}
+  .seg button{border:0;background:none;font:inherit;font-size:12px;font-weight:600;color:var(--subtexto);padding:6px 10px;border-radius:6px;cursor:pointer}
+  .seg button.on{background:#fff;color:var(--azul);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+  .chart-box{position:relative}
+
+  /* Tablas */
+  .tabla-w{overflow-x:auto}
+  table.t{width:100%;border-collapse:collapse;font-size:12.5px;font-variant-numeric:tabular-nums}
+  table.t th{background:var(--gris);color:var(--subtexto);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;text-align:right;padding:9px 10px;border-bottom:1px solid var(--gris-bd);white-space:nowrap;cursor:pointer;user-select:none}
+  table.t th:first-child,table.t td:first-child{text-align:left}
+  table.t th.ord::after{content:" ▾"}table.t th.ord.asc::after{content:" ▴"}
+  table.t td{padding:8px 10px;border-bottom:1px solid #EEF1F6;text-align:right;white-space:nowrap}
+  table.t td:first-child{white-space:normal;min-width:220px;color:var(--texto)}
+  table.t tbody tr.clic{cursor:pointer}
+  table.t tbody tr.clic:hover{background:#F7F8FC}
+  table.t tbody tr.sel{background:var(--azul-pale)}
+  #t-unidad.corta tbody tr:nth-child(n+13){display:none}
+  table.t tfoot td{font-weight:700;background:#F7F8FC;border-top:2px solid var(--gris-bd)}
+  .pct{display:inline-flex;align-items:center;gap:6px;justify-content:flex-end}
+  .pct i{display:inline-block;width:46px;height:6px;border-radius:3px;background:var(--gris-bd);position:relative;overflow:hidden}
+  .pct i::after{content:"";position:absolute;inset:0 auto 0 0;width:var(--w);background:var(--c,var(--dev));border-radius:3px}
+  .cod{color:var(--subtexto);font-size:11.5px;margin-right:4px}
+  .chips{display:flex;gap:6px;flex-wrap:wrap}
+  .chips button{font:inherit;font-size:12px;font-weight:600;border:1px solid var(--gris-bd);background:#fff;color:var(--subtexto);border-radius:16px;padding:5px 11px;cursor:pointer}
+  .chips button.on{background:var(--azul);border-color:var(--azul);color:#fff}
+  .buscar{font:inherit;font-size:12.5px;padding:7px 10px;border:1px solid var(--gris-bd);border-radius:7px;min-width:200px}
+  ul.notas{margin:0;padding:14px 18px 14px 34px;font-size:12.5px;line-height:1.65;color:var(--texto)}
+  .aviso-err{background:#FDECEA;border:1px solid #F3A8AC;color:#C4262E;border-radius:8px;padding:12px 16px;margin:14px 0}
+  .vacio-msg{padding:22px;text-align:center;color:var(--subtexto);font-size:13px}
+  @media(max-width:1100px){.k-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  @media(max-width:900px){.k-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.g2{grid-template-columns:1fr}.k .v{font-size:21px}.fbar{position:static}.fbar select{width:100%}.fbar .fila>div{flex:1 1 150px}.fbar .corte{margin-left:0}}
+  @media(max-width:560px){.comp-l{grid-template-columns:1fr}}
+  @media(prefers-reduced-motion:reduce){.med .riel div,.comp div{transition:none}}
+</style>
 </head>
 <body>
 <div id="app-sidebar-mount"></div>
 <div class="logo-bar"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="El Nuevo Ecuador" style="height:34px;"></div>
-<header class="header">
-  <div class="header-left">
-    <div class="header-logo">MTDH</div>
-    <div>
-      <div class="header-title">Ministerio de Trabajo y Desarrollo Humano</div>
-      <div class="header-sub">Dirección de Estudios y Análisis · Subsecretaría de Gestión de Datos y Estudios</div>
+<header class="header"><div class="header-left"><div class="header-logo">MTDH</div><div><div class="header-title">Ministerio de Trabajo y Desarrollo Humano</div><div class="header-sub">Dirección de Estudios y Análisis · Subsecretaría de Gestión de Datos y Estudios</div></div></div><div class="header-badge">Presupuesto</div></header>
+<nav class="breadcrumb"><a href="../index.html">Inicio</a><span class="bc-sep">›</span><span>Presupuesto</span><span class="bc-sep">›</span><span class="bc-current">Año fiscal</span></nav>
+<main class="main"><section class="page active">
+
+<div class="hero">
+  <div class="hero-eyebrow">Presupuesto · Año fiscal</div>
+  <h1 id="titulo">Ejecución presupuestaria</h1>
+  <p>Seguimiento de la ejecución del presupuesto institucional: cuánto se ha certificado, comprometido y devengado del presupuesto codificado, por programa, grupo de gasto, subsecretaría, fuente de financiamiento y unidad ejecutora.</p>
+  <p id="interpretacion" style="margin-top:6px"></p>
+</div>
+
+<div id="error"></div>
+<div class="fbar" id="fbar" hidden>
+  <div class="fila">
+    <div><label for="f-programa">Programa</label><select id="f-programa"></select></div>
+    <div><label for="f-subsecretaria">Subsecretaría</label><select id="f-subsecretaria"></select></div>
+    <div><label for="f-tipo_gasto">Tipo de gasto</label><select id="f-tipo_gasto"></select></div>
+    <div><label for="f-fuente">Fuente</label><select id="f-fuente"></select></div>
+    <div><label for="f-unidad">Unidad ejecutora</label><select id="f-unidad"></select></div>
+    <button type="button" class="limpiar" id="limpiar" disabled>Limpiar filtros</button>
+    <div class="corte" id="corte"></div>
+  </div>
+</div>
+
+<div id="contenido" hidden>
+  <div class="k-grid" id="kpis"></div>
+
+  <div class="g2">
+    <div class="card-b">
+      <div class="h"><div><b>Avance de la ejecución</b><div class="sub">Devengado sobre codificado · en claro, lo comprometido</div></div></div>
+      <div class="c" id="medidores"></div>
+    </div>
+    <div class="card-b">
+      <div class="h"><div><b>¿En qué estado está el codificado?</b><div class="sub">Cada dólar codificado en una sola etapa</div></div></div>
+      <div class="c"><div class="comp" id="comp"></div><div class="comp-l" id="comp-l"></div></div>
     </div>
   </div>
-  <div class="header-badge">En construcción</div>
-</header>
-<nav class="breadcrumb"><a href="../index.html">Inicio</a><span class="bc-sep">›</span><span class="bc-current">Presupuesto</span></nav>
-<main class="main">
-  <section class="page active" id="page-construccion">
-    <div class="hero">
-      <div class="hero-eyebrow">Presupuesto</div>
-      <h1>Ejecución presupuestaria</h1>
+
+  <div class="card-b">
+    <div class="h"><div><b>Ejecución por programa</b><div class="sub">Haz clic en un programa para filtrar toda la página</div></div>
+      <div class="seg" id="seg-prog"><button type="button" data-m="pct" class="on">Porcentaje</button><button type="button" data-m="usd">Montos</button></div></div>
+    <div class="c">
+      <div class="ley" style="margin-bottom:8px"><span><i style="background:var(--dev)"></i>Devengado</span><span><i style="background:var(--com)"></i>Comprometido sin devengar</span><span><i style="background:var(--cer)"></i>Certificado</span><span><i style="background:var(--res)"></i>Reservado</span><span><i style="background:var(--sal);border:1px solid #CDD3DF"></i>Saldo disponible</span></div>
+      <div class="chart-box" id="box-prog"><canvas id="g-prog" role="img" aria-label="Ejecución por programa"></canvas></div>
+      <div class="tabla-w" style="margin-top:14px"><table class="t" id="t-prog"></table></div>
     </div>
-    <div class="placeholder-box" style="margin-top:20px;">
-      <div class="icon">🛠</div>
-      <div class="msg">En construcción</div>
+  </div>
+
+  <div class="card-b">
+    <div class="h"><div><b>Ejecución por grupo de gasto</b><div class="sub">Gestión bruta = (certificado + comprometido) / codificado · Gestión neta = comprometido / codificado · Ejecución = devengado / codificado</div></div></div>
+    <div class="c"><div class="tabla-w"><table class="t" id="t-grupo"></table></div></div>
+  </div>
+
+  <div class="g2">
+    <div class="card-b">
+      <div class="h"><div><b>Por subsecretaría</b><div class="sub">% de ejecución y codificado</div></div></div>
+      <div class="c"><div class="tabla-w"><table class="t" id="t-sub"></table></div></div>
     </div>
-    <div class="gov-close"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="Gobierno del Ecuador"></div>
-  </section>
-</main>
+    <div class="card-b">
+      <div class="h"><div><b>Por fuente de financiamiento</b><div class="sub">Origen de los recursos codificados</div></div></div>
+      <div class="c"><div class="tabla-w"><table class="t" id="t-fuente"></table></div></div>
+    </div>
+  </div>
+
+  <div class="card-b">
+    <div class="h"><div><b>Por unidad ejecutora</b><div class="sub">Planta central, direcciones regionales, provinciales y distritales</div></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><div class="chips" id="chips-unidad"></div><input class="buscar" id="q-unidad" type="search" placeholder="Buscar unidad…" aria-label="Buscar unidad ejecutora"></div></div>
+    <div class="c"><div class="tabla-w"><table class="t" id="t-unidad"></table></div>
+      <div style="text-align:center;margin-top:10px"><button type="button" class="limpiar" id="ver-unidades" hidden></button></div></div>
+  </div>
+
+  <div class="card-b">
+    <div class="h"><div><b>Notas para la lectura</b><div class="sub">Definiciones y consideraciones</div></div></div>
+    <ul class="notas" id="notas"></ul>
+  </div>
+</div>
+
+<div class="gov-close"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="Gobierno del Ecuador"></div>
+</section></main>
 <footer class="dashboard-footer"><strong>Ministerio de Trabajo y Desarrollo Humano</strong> · Subsecretaría de Gestión de Datos y Estudios · Portal de Indicadores</footer>
 <script src="../assets/js/shared.js"></script>
-<script>initSidebar({ activeId: 'presupuesto', basePath: '../' });</script>
+<script>
+(function(){
+'use strict';
+const PATH = '../datos/presupuesto/ejecucion_presupuestaria.json';
+const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const DIMS = ['programa', 'subsecretaria', 'tipo_gasto', 'grupo_gasto', 'fuente', 'unidad'];
+const FILTROS = ['programa', 'subsecretaria', 'tipo_gasto', 'fuente', 'unidad'];
+const $ = id => document.getElementById(id);
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = (n, d = 0) => Number(n || 0).toLocaleString('es-EC', { minimumFractionDigits:d, maximumFractionDigits:d });
+const usd = n => 'USD ' + fmt(n);
+const musd = n => 'USD ' + (n / 1e6).toLocaleString('es-EC', { minimumFractionDigits:2, maximumFractionDigits:2 }) + ' M';
+const corto = n => Math.abs(n) >= 1e6 ? (n / 1e6).toLocaleString('es-EC', { maximumFractionDigits:1 }) + ' M' : Math.abs(n) >= 1e3 ? (n / 1e3).toLocaleString('es-EC', { maximumFractionDigits:0 }) + ' mil' : fmt(n);
+const ratio = (a, b) => b > 0 ? a / b : null;
+const pctTxt = r => r == null ? '–' : (100 * r).toLocaleString('es-EC', { minimumFractionDigits:1, maximumFractionDigits:1 }) + ' %';
+const fechaL = f => `${+f.slice(8)} de ${MESES[+f.slice(5, 7) - 1]} de ${f.slice(0, 4)}`;
+const REDUCIDO = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+initSidebar({ activeId:'presupuesto-fiscal', basePath:'../' });
+
+function ajustarFiltroFijo(){
+  let tope = 0;
+  document.querySelectorAll('.header, .mega-nav, .breadcrumb').forEach(el => {
+    const cs = getComputedStyle(el);
+    if (cs.position === 'sticky' || cs.position === 'fixed') tope = Math.max(tope, (parseFloat(cs.top) || 0) + el.offsetHeight);
+  });
+  document.documentElement.style.setProperty('--fbar-top', (tope + 8) + 'px');
+}
+window.addEventListener('resize', ajustarFiltroFijo); window.addEventListener('load', ajustarFiltroFijo); setTimeout(ajustarFiltroFijo, 300);
+
+let J, CAT, R = [], M = {}, sel = {}, modoProg = 'pct', chartProg = null, tipoUnidad = 'Todas', verTodas = false;
+const orden = {};   // orden de cada tabla: { col, asc }
+
+// ---------- agregación ----------
+function vacio(){ return { codificado:0, certificado:0, comprometido:0, devengado:0, saldo_disponible:0, reservado:0 }; }
+function sumar(a, r){ J.medidas.forEach(m => a[m] += r[m]); return a; }
+function filtrar(excepto){ return R.filter(r => FILTROS.every(f => f === excepto || sel[f] == null || r[f] === sel[f])); }
+function agrupar(rows, dim){
+  const g = new Map();
+  rows.forEach(r => { const k = r[dim]; if (!g.has(k)) g.set(k, vacio()); sumar(g.get(k), r); });
+  return [...g.entries()].map(([k, v]) => Object.assign({ id:k, cat:CAT[dim][k] }, v));
+}
+function total(rows){ return rows.reduce(sumar, vacio()); }
+
+// ---------- filtros ----------
+function pintarFiltros(){
+  FILTROS.forEach(f => {
+    const disp = new Set(filtrar(f).filter(r => r.codificado || r.devengado).map(r => r[f]));
+    const ops = CAT[f].filter(c => disp.has(c.id)).sort((a, b) => f === 'programa' ? (a.codigo - b.codigo || a.nombre.localeCompare(b.nombre)) : a.nombre.localeCompare(b.nombre, 'es'));
+    if (sel[f] != null && !disp.has(sel[f])) sel[f] = null;
+    $('f-' + f).innerHTML = `<option value="">Todos</option>` + ops.map(c => `<option value="${c.id}"${sel[f] === c.id ? ' selected' : ''}>${esc(etiqueta(f, c))}</option>`).join('');
+  });
+  $('limpiar').disabled = FILTROS.every(f => sel[f] == null);
+}
+function etiqueta(dim, c){ return dim === 'programa' ? `${c.codigo} · ${c.nombre}` : dim === 'grupo_gasto' ? `${c.codigo} · ${c.nombre}` : c.nombre; }
+function filtroTexto(){
+  const t = FILTROS.filter(f => sel[f] != null).map(f => CAT[f][sel[f]].nombre);
+  return t.length ? ' · ' + t.join(' · ') : '';
+}
+
+// ---------- bloques ----------
+function contar(el, hasta, f){
+  if (REDUCIDO){ el.textContent = f(hasta); return; }
+  const t0 = performance.now(), desde = el._v || 0;
+  const paso = t => { const k = Math.min(1, (t - t0) / 700), e = 1 - Math.pow(1 - k, 3); el.textContent = f(desde + (hasta - desde) * e); if (k < 1) requestAnimationFrame(paso); else el._v = hasta; };
+  requestAnimationFrame(paso);
+}
+
+function kpis(T){
+  const tiles = [
+    ['codificado', 'Codificado', 'presupuesto vigente', true],
+    ['certificado', 'Certificado', 'del codificado'],
+    ['comprometido', 'Comprometido', 'del codificado'],
+    ['devengado', 'Devengado', 'del codificado · % de ejecución'],
+    ['saldo_disponible', 'Saldo disponible', 'del codificado']
+  ];
+  if (!$('kpis').children.length)
+    $('kpis').innerHTML = tiles.map(([k, l, s, d]) => `<div class="k${d ? ' dest' : ''}"><div class="l">${l}</div><div class="v" id="k-${k}">USD 0</div><div class="s" id="ks-${k}"></div></div>`).join('');
+  tiles.forEach(([k, , s]) => {
+    contar($('k-' + k), T[k], musd);
+    $('ks-' + k).textContent = k === 'codificado' ? s : `${pctTxt(ratio(T[k], T.codificado))} ${s}`;
+  });
+}
+
+function medidores(rows, T){
+  const porTipo = agrupar(rows, 'tipo_gasto');
+  const fila = (nombre, x) => {
+    const e = x ? ratio(x.devengado, x.codificado) : null, n = x ? ratio(x.comprometido, x.codificado) : null;
+    return `<div class="med${e == null ? ' vacio' : ''}"><div class="t"><span>${nombre}</span><b>${pctTxt(e)}</b></div>
+      <div class="riel"><div class="n" data-w="${n == null ? 0 : Math.min(100, 100 * n)}"></div><div class="e" data-w="${e == null ? 0 : Math.min(100, 100 * e)}"></div></div>
+      <div class="s">${x ? `Devengado ${musd(x.devengado)} de ${musd(x.codificado)} · comprometido ${pctTxt(n)}` : 'Sin presupuesto con los filtros elegidos'}</div></div>`;
+  };
+  const tipo = n => porTipo.find(x => x.cat.nombre === n && x.codificado > 0);
+  $('medidores').innerHTML = fila('Ejecución general', T.codificado > 0 ? T : null) + fila('Gasto corriente', tipo('Corriente')) + fila('Gasto de inversión', tipo('Inversión'));
+  requestAnimationFrame(() => requestAnimationFrame(() => document.querySelectorAll('.med .riel div').forEach(d => d.style.width = d.dataset.w + '%')));
+}
+
+const ETAPAS = [
+  ['dev', 'Devengado', T => T.devengado, 'var(--dev)'],
+  ['com', 'Comprometido sin devengar', T => T.comprometido - T.devengado, 'var(--com)'],
+  ['cer', 'Certificado', T => T.certificado, 'var(--cer)'],
+  ['res', 'Reservado', T => T.reservado, 'var(--res)'],
+  ['sal', 'Saldo disponible', T => T.saldo_disponible, 'var(--sal)']
+];
+function composicion(T){
+  const c = T.codificado || 1;
+  $('comp').innerHTML = ETAPAS.map(([k, l, f, col]) => { const v = Math.max(0, f(T)), w = 100 * v / c;
+    return `<div class="${k}" style="width:${w}%;background:${col}" title="${l}: ${usd(v)} (${pctTxt(v / c)})">${w >= 7 ? pctTxt(v / c) : ''}</div>`; }).join('');
+  $('comp-l').innerHTML = ETAPAS.filter(([k, , f]) => k !== 'res' || f(T) > 0.5).map(([k, l, f, col]) =>
+    `<div><span><i style="display:inline-block;width:9px;height:9px;border-radius:2px;background:${col};margin-right:6px;${k === 'sal' ? 'border:1px solid #CDD3DF' : ''}"></i>${l}</span><b>${musd(f(T))}</b></div>`).join('');
+}
+
+function graficoProgramas(rows){
+  const P = agrupar(rows, 'programa').filter(p => p.codificado > 0).sort((a, b) => b.codificado - a.codificado);
+  const pct = modoProg === 'pct';
+  const val = (p, f) => pct ? 100 * Math.max(0, f(p)) / p.codificado : Math.max(0, f(p));
+  const etiquetas = P.map(p => { const n = `${p.cat.codigo} · ${p.cat.nombre}`; return n.length > 46 ? n.slice(0, 44) + '…' : n; });
+  const datasets = ETAPAS.map(([k, l, f, col]) => ({ label:l, data:P.map(p => val(p, f)), backgroundColor:getComputedStyle(document.documentElement).getPropertyValue('--' + k).trim(),
+    borderWidth:0, barThickness:18, borderSkipped:false }));
+  $('box-prog').style.height = Math.max(160, 34 * P.length + 40) + 'px';
+  const opciones = { indexAxis:'y', responsive:true, maintainAspectRatio:false, animation: REDUCIDO ? false : { duration:600 },
+    onClick:(e, el) => { if (el.length){ const id = P[el[0].index].id; setTimeout(() => { sel.programa = sel.programa === id ? null : id; render(); }, 0); } },
+    onHover:(e, el) => { e.native.target.style.cursor = el.length ? 'pointer' : 'default'; },
+    plugins:{ legend:{ display:false }, tooltip:{ callbacks:{
+      title: it => `${P[it[0].dataIndex].cat.codigo} · ${P[it[0].dataIndex].cat.nombre}`,
+      label: c => { const p = P[c.dataIndex], v = Math.max(0, ETAPAS[c.datasetIndex][2](p)); return ` ${c.dataset.label}: ${usd(v)} (${pctTxt(v / p.codificado)})`; },
+      footer: it => `Codificado: ${usd(P[it[0].dataIndex].codificado)}` } } },
+    scales:{ x:{ stacked:true, max: pct ? 100 : undefined, grid:{ color:'#EEF1F6' }, ticks:{ color:'#6B7A90', callback: v => pct ? v + ' %' : corto(v) } },
+             y:{ stacked:true, grid:{ display:false }, ticks:{ color:'#33415C', font:{ size:11.5 } } } } };
+  if (chartProg){ chartProg.data.labels = etiquetas; chartProg.data.datasets.forEach((d, i) => d.data = datasets[i].data); chartProg.options.scales.x.max = opciones.scales.x.max;
+    chartProg.options.scales.x.ticks.callback = opciones.scales.x.ticks.callback; chartProg.options.onClick = opciones.onClick; chartProg.options.plugins.tooltip = opciones.plugins.tooltip; chartProg.resize(); chartProg.update(); }
+  else chartProg = new Chart($('g-prog'), { type:'bar', data:{ labels:etiquetas, datasets }, options:opciones });
+}
+
+// Tabla genérica ordenable
+function barraPct(r, color){ return r == null ? '–' : `<span class="pct">${pctTxt(r)}<i style="--w:${Math.max(0, Math.min(100, 100 * r))}%${color ? ';--c:' + color : ''}"></i></span>`; }
+function tabla(id, filas, cols, opts = {}){
+  const o = orden[id] || (orden[id] = { col:opts.ordenInicial ?? 1, asc:!!opts.asc });
+  const F = filas.slice().sort((a, b) => { const c = cols[o.col], va = c.v(a), vb = c.v(b);
+    const r = typeof va === 'string' ? va.localeCompare(vb, 'es', { numeric:true }) : (va ?? -1) - (vb ?? -1); return o.asc ? r : -r; });
+  const T = opts.total;
+  $(id).innerHTML = `<thead><tr>${cols.map((c, i) => `<th data-i="${i}" class="${i === o.col ? 'ord' + (o.asc ? ' asc' : '') : ''}" scope="col">${c.t}</th>`).join('')}</tr></thead>
+    <tbody>${F.length ? F.map(f => `<tr${opts.clic ? ` class="clic${opts.sel && opts.sel(f) ? ' sel' : ''}" data-id="${f.id}"` : ''}>${cols.map(c => `<td>${c.f(f)}</td>`).join('')}</tr>`).join('')
+      : `<tr><td colspan="${cols.length}" class="vacio-msg">Sin datos con los filtros elegidos.</td></tr>`}</tbody>
+    ${T && F.length > 1 ? `<tfoot><tr>${cols.map((c, i) => `<td>${i === 0 ? 'Total' : c.f(T)}</td>`).join('')}</tr></tfoot>` : ''}`;
+  $(id).querySelectorAll('th').forEach(th => th.onclick = () => { const i = +th.dataset.i; orden[id] = { col:i, asc: o.col === i ? !o.asc : i === 0 }; tabla(id, filas, cols, opts); });
+  if (opts.clic) $(id).querySelectorAll('tbody tr.clic').forEach(tr => tr.onclick = () => opts.clic(+tr.dataset.id));
+}
+const C = {
+  num: (t, k) => ({ t, v: f => f[k], f: f => usd(f[k]) }),
+  pctE: { t:'% Ejecución', v: f => ratio(f.devengado, f.codificado), f: f => barraPct(ratio(f.devengado, f.codificado)) }
+};
+
+function tablas(rows, T){
+  const P = agrupar(rows, 'programa').filter(p => p.codificado || p.devengado);
+  tabla('t-prog', P, [
+    { t:'Programa', v: f => f.cat.codigo.padStart(3, '0') + f.cat.nombre, f: f => `<span class="cod">${esc(f.cat.codigo)}</span>${esc(f.cat.nombre)}` },
+    C.num('Codificado', 'codificado'), C.num('Certificado', 'certificado'), C.num('Comprometido', 'comprometido'),
+    C.num('Devengado', 'devengado'), C.num('Saldo disponible', 'saldo_disponible'), C.pctE
+  ], { total:T, clic: id => { sel.programa = sel.programa === id ? null : id; render(); }, sel: f => sel.programa === f.id });
+
+  const G = agrupar(rows, 'grupo_gasto').filter(g => g.codificado || g.devengado).map(g => Object.assign(g, {
+    bruta: ratio(g.certificado + g.comprometido, g.codificado), neta: ratio(g.comprometido, g.codificado) }));
+  const TG = Object.assign({}, T, { bruta: ratio(T.certificado + T.comprometido, T.codificado), neta: ratio(T.comprometido, T.codificado) });
+  tabla('t-grupo', G, [
+    { t:'Grupo de gasto', v: f => f.cat.codigo, f: f => `<span class="cod">${esc(f.cat.codigo)}</span>${esc(f.cat.nombre)}` },
+    C.num('Codificado', 'codificado'), C.num('Certificado', 'certificado'), C.num('Devengado', 'devengado'), C.num('Comprometido', 'comprometido'),
+    { t:'Comprometido - Devengado', v: f => f.comprometido - f.devengado, f: f => usd(f.comprometido - f.devengado) },
+    { t:'Codificado - Certificado', v: f => f.codificado - f.certificado, f: f => usd(f.codificado - f.certificado) },
+    C.num('Saldo disponible', 'saldo_disponible'),
+    { t:'% Gestión bruta', v: f => f.bruta, f: f => barraPct(f.bruta, 'var(--cer)') },
+    { t:'% Gestión neta', v: f => f.neta, f: f => barraPct(f.neta, 'var(--com)') },
+    C.pctE
+  ], { total:TG, ordenInicial:0, asc:true });
+
+  const S = agrupar(rows, 'subsecretaria').filter(x => x.codificado > 0);
+  tabla('t-sub', S, [
+    { t:'Subsecretaría', v: f => f.cat.nombre, f: f => esc(f.cat.nombre) },
+    C.num('Codificado', 'codificado'), C.num('Devengado', 'devengado'), C.pctE
+  ], { total:T, clic: id => { sel.subsecretaria = sel.subsecretaria === id ? null : id; render(); }, sel: f => sel.subsecretaria === f.id });
+
+  const Fu = agrupar(rows, 'fuente').filter(x => x.codificado > 0);
+  tabla('t-fuente', Fu, [
+    { t:'Fuente', v: f => f.cat.nombre, f: f => `<span class="cod">${esc(f.cat.codigo)}</span>${esc(f.cat.nombre)}` },
+    C.num('Codificado', 'codificado'),
+    { t:'% del total', v: f => ratio(f.codificado, T.codificado), f: f => barraPct(ratio(f.codificado, T.codificado), 'var(--cer)') },
+    C.pctE
+  ], { total:T, clic: id => { sel.fuente = sel.fuente === id ? null : id; render(); }, sel: f => sel.fuente === f.id });
+
+  unidades(rows, T);
+}
+
+function unidades(rows, T){
+  const tipos = ['Todas', 'Planta Central', 'Dirección regional', 'Dirección provincial', 'Dirección distrital'];
+  const NOMBRE = { 'Todas':'Todas', 'Planta Central':'Planta Central', 'Dirección regional':'Regionales', 'Dirección provincial':'Provinciales', 'Dirección distrital':'Distritales' };
+  $('chips-unidad').innerHTML = tipos.map(t => `<button type="button" class="${t === tipoUnidad ? 'on' : ''}" data-t="${t}" aria-pressed="${t === tipoUnidad}">${NOMBRE[t]}</button>`).join('');
+  $('chips-unidad').querySelectorAll('button').forEach(b => b.onclick = () => { tipoUnidad = b.dataset.t; unidades(rows, T); });
+  const q = $('q-unidad').value.trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const U = agrupar(rows, 'unidad').filter(x => (x.codificado || x.devengado) && (tipoUnidad === 'Todas' || x.cat.tipo === tipoUnidad)
+    && (!q || x.cat.nombre.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').includes(q)));
+  const TU = total(U);
+  tabla('t-unidad', U, [
+    { t:'Unidad ejecutora', v: f => f.cat.nombre, f: f => `${esc(f.cat.nombre)}<div style="font-size:11px;color:var(--subtexto)">${esc(f.cat.tipo)}</div>` },
+    C.num('Codificado', 'codificado'), C.num('Certificado', 'certificado'), C.num('Comprometido', 'comprometido'),
+    C.num('Devengado', 'devengado'), C.num('Saldo disponible', 'saldo_disponible'), C.pctE
+  ], { total:TU, clic: id => { sel.unidad = sel.unidad === id ? null : id; render(); }, sel: f => sel.unidad === f.id });
+  const b = $('ver-unidades'), largo = U.length > 12;
+  $('t-unidad').classList.toggle('corta', largo && !verTodas);
+  b.hidden = !largo; b.textContent = verTodas ? 'Mostrar menos' : `Ver las ${U.length} unidades`;
+  b.onclick = () => { verTodas = !verTodas; unidades(rows, T); };
+}
+
+function render(){
+  pintarFiltros();
+  const rows = filtrar(null), T = total(rows);
+  kpis(T); medidores(rows, T); composicion(T); graficoProgramas(rows); tablas(rows, T);
+  const e = ratio(T.devengado, T.codificado);
+  $('interpretacion').innerHTML = T.codificado > 0
+    ? `Al ${fechaL(J.fecha_corte)}${filtroTexto() ? ' <span style="opacity:.85">(' + esc(filtroTexto().slice(3)) + ')</span>' : ''}, se ha devengado <b>${musd(T.devengado)}</b> de un codificado de <b>${musd(T.codificado)}</b>: una ejecución del <b>${pctTxt(e)}</b>. Queda un saldo disponible de ${musd(T.saldo_disponible)}.`
+    : 'No hay presupuesto codificado con los filtros elegidos.';
+}
+
+function notas(){
+  $('notas').innerHTML = [
+    '<b>Codificado:</b> presupuesto vigente, es decir, el asignado inicialmente más las reformas del año.',
+    '<b>Certificado:</b> valores con certificación presupuestaria que aún no se han comprometido.',
+    '<b>Comprometido:</b> valores con obligación adquirida (contrato, orden de compra o nómina). Incluye lo devengado.',
+    '<b>Devengado:</b> obligaciones reconocidas por bienes, servicios o transferencias recibidos. El % de ejecución es devengado / codificado.',
+    '<b>Saldo disponible:</b> codificado que aún no se ha certificado ni comprometido. <b>Reservado</b> corresponde a valores bloqueados del codificado.',
+    'En la composición del codificado, cada dólar está en una sola etapa: devengado + comprometido sin devengar + certificado + reservado + saldo disponible = codificado.',
+    'El programa 57 se presenta en dos partes, SANCCO y Emprendimiento, como en el reporte institucional.',
+    'Las cifras se presentan hasta grupo de gasto. Los montos de las tablas están redondeados al dólar.',
+    `Cifras acumuladas del ejercicio ${J.ejercicio} al ${fechaL(J.fecha_corte)}.`
+  ].map(t => `<li>${t}</li>`).join('');
+}
+
+fetch(PATH, { cache:'no-cache' })
+  .then(r => { if (!r.ok) throw Error('HTTP ' + r.status); return r.json(); })
+  .then(j => {
+    J = j; CAT = j.catalogos;
+    const nd = j.dimensiones.length;
+    R = j.registros.map(a => { const o = {}; j.dimensiones.forEach((d, i) => o[d] = a[i]); j.medidas.forEach((m, i) => o[m] = a[nd + i]); return o; });
+    FILTROS.forEach(f => sel[f] = null);
+    $('titulo').textContent = `Ejecución presupuestaria ${j.ejercicio}`;
+    $('corte').innerHTML = `Corte al <b>${fechaL(j.fecha_corte)}</b>`;
+    $('fbar').hidden = false; $('contenido').hidden = false;
+    FILTROS.forEach(f => $('f-' + f).onchange = e => { sel[f] = e.target.value === '' ? null : +e.target.value; render(); });
+    $('limpiar').onclick = () => { FILTROS.forEach(f => sel[f] = null); render(); };
+    document.querySelectorAll('#seg-prog button').forEach(b => b.onclick = () => { modoProg = b.dataset.m;
+      document.querySelectorAll('#seg-prog button').forEach(x => x.classList.toggle('on', x === b)); graficoProgramas(filtrar(null)); });
+    $('q-unidad').oninput = () => { const rows = filtrar(null); unidades(rows, total(rows)); };
+    notas(); render(); ajustarFiltroFijo();
+  })
+  .catch(err => {
+    $('error').innerHTML = `<div class="aviso-err"><b>No se pudieron cargar los datos de ejecución presupuestaria.</b><br>${esc(err.message)}<br>
+      <span style="font-size:12px">Revisa que exista <code>datos/presupuesto/ejecucion_presupuestaria.json</code> y abre el portal mediante un servidor local o GitHub Pages.</span></div>`;
+  });
+})();
+</script>
 </body>
 </html>

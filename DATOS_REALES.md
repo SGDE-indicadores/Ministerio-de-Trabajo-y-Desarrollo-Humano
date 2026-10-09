@@ -25,10 +25,11 @@ Esta versión del portal aplica una regla estricta: **solo se muestran cifras re
 - Incentivos Temporales: Jóvenes en Acción (datos/kpis/jovenes_accion/), compensación de combustible
   (datos/kpis/combustibles/) y migrantes retornados (datos/kpis/migrantes_retornados/).
 
-## Secciones en construcción
-- Presupuesto general.
+- Presupuesto · Año fiscal: ejecución presupuestaria institucional hasta grupo de gasto
+  (datos/presupuesto/ejecucion_presupuestaria.json, `scripts/actualizar_presupuesto.py`; página MDTDH/presupuesto.html).
 
-Estas secciones muestran únicamente «En construcción».
+## Secciones ocultas
+- Presupuesto · Periodo de gobierno (oculta en el menú hasta contar con los cierres de años anteriores).
 
 Los valores ilustrativos, de prototipo o incrustados directamente en HTML/JS fueron retirados de la visualización.
 Dónde va cada archivo y cómo se actualiza: `datos/LEEME.md`.

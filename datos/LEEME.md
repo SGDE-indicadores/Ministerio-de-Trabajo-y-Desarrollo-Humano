@@ -20,9 +20,10 @@ de su código qué archivos lee (`cargarDatos({...})` o `fetchCSV(...)`). Para a
 | `pnd/trabajo/` | PND · Trabajo y Oportunidades: 5 indicadores, series, desagregaciones y acciones | `PND/indicador.html?id=…`, `MDTDH/pnd.html` | Scripts (ver `pnd/trabajo/LEEME.md`) | Mensual / anual |
 | `enemdu/anual/` | ENEMDU anual: 1 archivo por indicador | `ENEMDU/<indicador>_anual.html` | A mano o desde el pipeline ENEMDU | Anual |
 | `enemdu/trimestral/` | ENEMDU trimestral: poblaciones, tasas, caracterización y sectorización | `ENEMDU/<tema>_trimestral.html` | A mano o desde el pipeline ENEMDU | Trimestral |
+| `presupuesto/` | Ejecución presupuestaria del año fiscal, hasta grupo de gasto (JSON) | `MDTDH/presupuesto.html` | `scripts/actualizar_presupuesto.py` (ver `presupuesto/LEEME.md`) | En cada corte |
 | `_archivo/` | Archivos antiguos que ninguna página usa. Se guardan solo como respaldo | — | No se tocan | — |
 
-Secciones que **aún no tienen archivo** (Presupuesto general) muestran solo «En construcción».
+La vista «Periodo de gobierno» de Presupuesto está oculta en el menú hasta contar con los cierres de años anteriores.
 
 ## Reglas para todos los CSV
 

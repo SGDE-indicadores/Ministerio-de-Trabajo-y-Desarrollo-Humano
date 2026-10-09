@@ -2017,7 +2017,7 @@ const SIDEBAR_NAV = [
     ] },
   { id: 'presupuesto', label: 'Presupuesto', icon: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M3 10h18"/><circle cx="8" cy="14.5" r="1.2"/>',
     children: [
-      { id: 'presupuesto-gobierno', label: 'Periodo de gobierno', href: 'MDTDH/presupuesto.html#/presupuesto-gobierno' },
+      // { id: 'presupuesto-gobierno', label: 'Periodo de gobierno', href: 'MDTDH/presupuesto.html#/presupuesto-gobierno' },  // oculto por ahora
       { id: 'presupuesto-fiscal', label: 'Año fiscal', href: 'MDTDH/presupuesto.html#/presupuesto-fiscal' }
     ] },
   { id: 'documentacion', label: 'Documentación', href: 'MDTDH/documentacion.html',
