@@ -91,10 +91,14 @@ def fecha(v):
 
 
 def solo_cargo(v):
-    """'Nombre Apellido — Cargo' -> 'Cargo' (no se publican nombres de personas)."""
-    s = str(v or "").strip()
-    partes = re.split(r"\s+[—–-]\s+", s, maxsplit=1)
-    return partes[1].strip() if len(partes) == 2 else ""
+    """'Nombre Apellido — Cargo' -> 'Cargo' (no se publican nombres de personas).
+    Si la celda trae varias personas (una por línea), conserva solo el cargo de cada una."""
+    cargos = []
+    for linea in str(v or "").splitlines():
+        partes = re.split(r"\s+[—–-]\s+", linea.strip(), maxsplit=1)
+        if len(partes) == 2 and partes[1].strip():
+            cargos.append(partes[1].strip())
+    return " / ".join(cargos)
 
 
 def fnum(x, d=2):
