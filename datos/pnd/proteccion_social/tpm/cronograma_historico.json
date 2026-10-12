@@ -4,7 +4,8 @@
   "2026-02": "Febrero 2026",
   "2026-03": "Marzo 2026",
   "2026-04": "Abril 2026",
-  "2026-05": "Mayo 2026"
+  "2026-05": "Mayo 2026",
+  "2026-09": "Septiembre 2026"
  },
  "CRON_DATA": {
   "MTDH": {
@@ -269,6 +270,63 @@
        "pct": 50,
        "estado": "En ejecución",
        "justificacion": "Riesgo: crisis penitenciarias de seguridad podrían disminuir el número de PPL participantes.",
+       "enlace": ""
+      }
+     }
+    },
+    "2026-09": {
+     "datos": {
+      "1": {
+       "resultados": "141 becas adjudicadas para estudios de cuarto nivel en el sector hidrocarburos (ACTA-CBAE-008, 26 de junio de 2026). Presupuesto corriente reprogramado: USD 899.870,10; devengado: USD 864.662,40.",
+       "pct": 100,
+       "estado": "Finalizada",
+       "justificacion": "La acción se ejecutó conforme a lo planificado, alcanzando el 100 % de la meta establecida para el período 2026. Riesgo: si los adjudicatarios no suscriben los contratos de financiamiento, el monto planificado podría no ejecutarse en su integridad.",
+       "enlace": ""
+      },
+      "2": {
+       "fecha_ini": "Sep 2026",
+       "fecha_fin": "Nov 2026",
+       "resultados": "Mintel transfirió los recursos a Minedec; se obtuvieron la certificación POA y presupuestaria, y el Comité de Becas y Ayudas Económicas aprobó el lanzamiento de las bases del programa el 14 de septiembre de 2026 (ACTA-MINEDEC-CBAE-015-2026). Aún no hay becas adjudicadas.",
+       "pct": 75,
+       "estado": "En ejecución",
+       "justificacion": "Cronograma reprogramado: la ejecución se inicia el 14 de septiembre y concluye el 30 de noviembre de 2026. Riesgo: que las personas adjudicatarias no suscriban el contrato de financiamiento del beneficio otorgado.",
+       "enlace": ""
+      },
+      "3": {
+       "fecha_ini": "Oct 2026",
+       "fecha_fin": "Nov 2026",
+       "resultados": "Se emitió el Dictamen de Prioridad y se cuenta con disponibilidad presupuestaria. Programa «Mujeres que Transforman»: lanzamiento aprobado el 12 de agosto de 2026 (ACTA MINEDEC-CBAE-012-2026) y 1.023 ayudas económicas adjudicadas el 4 de septiembre. Programa de becas «Desarrollando el Talento Humano para el Nuevo Ecuador»: lanzamiento aprobado el 3 de septiembre de 2026 (ACTA MINEDEC-CBAE-013-2026). Becas de tercer nivel en ITT particulares y de cuarto nivel en IES: con aval y certificación presupuestaria para su oferta. Inversión reprogramada: USD 10.093.392,67; devengado: USD 401.646,62.",
+       "pct": 50,
+       "estado": "En ejecución",
+       "justificacion": "Riesgo: que las personas adjudicatarias de los programas de becas y ayudas económicas no suscriban el contrato de financiamiento del beneficio otorgado.",
+       "enlace": ""
+      },
+      "4": {
+       "resultados": "3.967 estudiantes en el curso de nivelación IMPÚLSAT en el Primer Período Académico 2026 (52,46 % de avance respecto a la meta anual).",
+       "pct": 52.46,
+       "estado": "En ejecución",
+       "justificacion": "La información corresponde al Primer Período Académico 2026; los resultados se consolidan al concluir el proceso de nivelación y aceptación de cupos, por lo que se reportan por período académico. Riesgo: baja difusión podría reducir la participación de aspirantes.",
+       "enlace": ""
+      },
+      "5": {
+       "resultados": "455.116 postulantes beneficiados con políticas de acción afirmativa en 2026: 216.678 en el primer período académico y 238.438 en el segundo (100 % de avance).",
+       "pct": 100,
+       "estado": "En ejecución",
+       "justificacion": "Los procesos de acceso a la educación superior pública se ejecutan en dos períodos académicos al año (regímenes Sierra-Amazonía y Costa-Galápagos) y se reportan semestralmente. Riesgo: inconsistencias en la información de las carteras de Estado pueden afectar la identificación de beneficiarios.",
+       "enlace": ""
+      },
+      "6": {
+       "resultados": "285.115 cupos ofertados en 2026: 141.424 en el primer período académico y 143.691 en el segundo (100 % de avance).",
+       "pct": 100,
+       "estado": "Finalizada",
+       "justificacion": "La oferta de cupos se realiza semestralmente y refleja la coordinación con las instituciones de educación superior, con un incremento frente al mismo período de 2025. Riesgo: una disminución del presupuesto a la educación superior podría reducir los cupos ofertados.",
+       "enlace": ""
+      },
+      "7": {
+       "resultados": "128 personas privadas de la libertad (PPL) postulantes al proceso de acceso a la educación superior en el Primer Período Académico 2026 (50 % de avance).",
+       "pct": 50,
+       "estado": "En ejecución",
+       "justificacion": "La información corresponde al Primer Período Académico 2026 y evidencia la coordinación con el SNAI. Riesgo: crisis penitenciarias de seguridad podrían disminuir el número de PPL participantes.",
        "enlace": ""
       }
      }
