@@ -128,7 +128,9 @@
   const per = p => `${MES[+p.slice(5, 7) - 1]} ${p.slice(0, 4)}`;
   const perC = p => `${MESC[+p.slice(5, 7) - 1]} ${p.slice(0, 4)}`;
   const estado = e => { const x = EST[e] || ['na', '·']; return `<span class="est ${x[0]}">${x[1]} ${esc(e || 'Sin estado')}</span>`; };
-  let cat, filas, charts = [];
+  let cat, filas, charts = [], PCT = false;
+  // KPI en porcentaje (unidad «Porcentaje»): meta programada = denominador y meta alcanzada = numerador del mes.
+  const NUM_L = () => cat.etiqueta_numerador || 'Numerador', DEN_L = () => cat.etiqueta_denominador || 'Denominador';
 
   initSidebar({ activeId: AREAS[AREA].ruta, basePath: '../' });
 
@@ -136,6 +138,7 @@
     .then(([C, S]) => {
       cat = C.find(c => c.id_kpi === ID) || C[0];
       if (!cat) throw new Error('no hay KPI en el catálogo');
+      PCT = /porcentaje|%/i.test(cat.unidad || '');
       filas = S.filter(r => r.id_kpi === cat.id_kpi).sort((a, b) => a.periodo.localeCompare(b.periodo));
       if (!filas.length) throw new Error('el KPI aún no tiene meses reportados');
       encabezado(); ficha();
@@ -163,7 +166,8 @@
     document.getElementById('titulo').textContent = cat.indicador;
     document.getElementById('resultado').textContent = cat.resultado_esperado;
     document.getElementById('chips').innerHTML =
-      `<span class="hero-chip">Meta anual ${esc(cat.anio_meta)}: <strong>${fN(num(cat.meta_anual))}</strong></span>` +
+      (PCT ? `<span class="hero-chip">Unidad: <strong>${esc(cat.unidad)}</strong></span>`
+           : `<span class="hero-chip">Meta anual ${esc(cat.anio_meta)}: <strong>${fN(num(cat.meta_anual))}</strong></span>`) +
       `<span class="hero-chip">Periodicidad: <strong>${esc(cat.periodicidad)}</strong></span>` +
       `<span class="hero-chip">Responsable: <strong>${esc(cat.responsable)}</strong></span>`;
     document.getElementById('breadcrumb').innerHTML = `<a href="../index.html">Inicio</a><span class="bc-sep">›</span><a href="kpis.html#/kpis">KPIs</a><span class="bc-sep">›</span>` +
@@ -171,6 +175,7 @@
   }
 
   function pintar(p){
+    if (PCT) return pintarPct(p);
     const u = filas.find(f => f.periodo === p);
     const anio = p.slice(0, 4);
     const delAnio = filas.filter(f => f.periodo.slice(0, 4) === anio && f.periodo <= p);
@@ -205,6 +210,10 @@
     document.getElementById('g1-sub').textContent = `${cat.unidad || 'Unidades'} por mes · ${anio}`;
     document.getElementById('g2-sub').textContent = `Meta anual ${anio}: ${fN(meta)} · lo logrado frente a lo programado mes a mes`;
 
+    relatoYTabla(p, u, anio);
+  }
+
+  function relatoYTabla(p, u, anio){
     document.getElementById('relato-titulo').textContent = 'Reporte de ' + per(p);
     const bloque = (t, v, cls) => v ? `<h5>${t}</h5><p class="${cls || ''}">${esc(v)}</p>` : '';
     const firma = [u.elaborado_cargo && 'Elaborado: ' + u.elaborado_cargo, u.revisado_cargo && 'Revisado y aprobado: ' + u.revisado_cargo,
@@ -215,6 +224,13 @@
          ${u.enlace ? `<h5>Soporte</h5><p><a href="${esc(u.enlace)}" target="_blank" rel="noopener noreferrer">${esc(u.enlace)}</a></p>` : ''}
          ${firma ? `<h5>Registro</h5><p style="font-size:12px;color:var(--subtexto)">${esc(firma)}</p>` : ''}</div>`;
 
+    if (PCT) {
+      document.getElementById('historial').innerHTML = `<thead><tr><th>Mes</th><th class="n">${esc(NUM_L())}</th><th class="n">${esc(DEN_L())}</th>
+        <th class="n">Resultado del mes</th><th class="n">Acumulado del año</th></tr></thead><tbody>` +
+        filas.slice().reverse().map(f => `<tr data-p="${f.periodo}" class="${f.periodo === p ? 'sel' : ''}"><td>${per(f.periodo)}</td>
+          <td class="n">${fN(num(f.meta_alcanzada))}</td><td class="n">${fN(num(f.meta_programada))}</td>
+          <td class="n"><b>${fP(num(f.cumplimiento_mensual_pct))}</b></td><td class="n">${fP(num(f.cumplimiento_fecha_pct))}</td></tr>`).join('') + '</tbody>';
+    } else
     document.getElementById('historial').innerHTML = `<thead><tr><th>Mes</th><th class="n">Programada</th><th class="n">Alcanzada</th><th class="n">% del mes</th>
       <th class="n">Acumulado</th><th class="n">% meta anual</th><th>Estado</th></tr></thead><tbody>` +
       filas.slice().reverse().map(f => `<tr data-p="${f.periodo}" class="${f.periodo === p ? 'sel' : ''}"><td>${per(f.periodo)}</td>
@@ -223,23 +239,71 @@
     document.querySelectorAll('#historial tbody tr').forEach(tr => tr.addEventListener('click', () => {
       document.getElementById('corte').value = tr.dataset.p; irA('seguimiento'); pintar(tr.dataset.p); }));
     const primero = filas.filter(f => f.periodo.slice(0, 4) === anio)[0];
+    if (PCT) {
+      document.getElementById('nota-hist').innerHTML = `<b>Cómo se calcula:</b> resultado del mes = ${esc(NUM_L().toLowerCase())} ÷ ${esc(DEN_L().toLowerCase())} × 100. ` +
+        `El acumulado del año suma los numeradores y los denominadores de los meses reportados (se reinicia cada año).` +
+        (primero && primero.periodo.slice(5) !== '01' ? ` El histórico de ${anio} comienza en ${per(primero.periodo)}.` : '');
+      return;
+    }
     document.getElementById('nota-hist').innerHTML = '<b>Cómo se calcula:</b> los porcentajes y acumulados se calculan a partir de la meta programada y la meta alcanzada de cada mes; el acumulado se reinicia cada año. ' +
       (primero && primero.periodo.slice(5) !== '01' ? `El histórico de ${anio} comienza en ${per(primero.periodo)}: el acumulado solo suma desde ese mes.` : '');
+  }
+
+  function pintarPct(p){
+    const u = filas.find(f => f.periodo === p);
+    const anio = p.slice(0, 4);
+    const delAnio = filas.filter(f => f.periodo.slice(0, 4) === anio && f.periodo <= p);
+    const n = num(u.meta_alcanzada), d = num(u.meta_programada), r = num(u.cumplimiento_mensual_pct), ac = num(u.cumplimiento_fecha_pct);
+    const primero = delAnio[0];
+    document.getElementById('kpis').innerHTML = `
+      <div class="k" style="border-top-color:var(--amarillo)"><div class="l">Resultado · ${per(p)}</div><div class="v">${fP(r)}</div>
+        <div class="s">${fN(n)} de ${fN(d)} ${esc(DEN_L().toLowerCase())}</div><div class="prog"><i style="width:${Math.min(r || 0, 100)}%"></i></div></div>
+      <div class="k"><div class="l">${esc(NUM_L())}</div><div class="v">${fN(n)}</div>
+        <div class="s">dentro del periodo de referencia</div></div>
+      <div class="k" style="border-top-color:#9AA5B4"><div class="l">${esc(DEN_L())}</div><div class="v">${fN(d)}</div>
+        <div class="s">${d != null && n != null ? fN(d - n) + ' fuera del periodo de referencia' : ''}</div></div>
+      <div class="k" style="border-top-color:#8C84D6"><div class="l">Acumulado ${anio}</div><div class="v">${fP(ac)}</div>
+        <div class="s">${fN(num(u.avance_acumulado))} de ${fN(num(u.programado_acumulado))} desde ${primero ? per(primero.periodo) : ''}</div></div>`;
+
+    charts.forEach(c => c.destroy()); charts = [];
+    const lbl = delAnio.map(f => perC(f.periodo));
+    const base = { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { position: 'top', align: 'end', labels: { boxWidth: 14, font: { size: 11.5 } } },
+                 tooltip: { callbacks: { label: it => ` ${it.dataset.label}: ${fN(it.raw)}` } } },
+      scales: { y: { beginAtZero: true, ticks: { precision: 0, color: '#446381' }, grid: { color: 'rgba(0,0,0,0.06)' } }, x: { grid: { display: false }, ticks: { color: '#446381' } } } };
+    charts.push(new Chart(document.getElementById('g-mensual'), { type: 'bar',
+      data: { labels: lbl, datasets: [
+        { label: DEN_L(), data: delAnio.map(f => num(f.meta_programada)), backgroundColor: '#C9C4EA', borderRadius: 4, maxBarThickness: 38 },
+        { label: NUM_L(), data: delAnio.map(f => num(f.meta_alcanzada)), backgroundColor: '#4F449A', borderRadius: 4, maxBarThickness: 38 }] },
+      options: base }));
+    const pctOpts = JSON.parse(JSON.stringify(base));
+    pctOpts.scales.y.max = 100; pctOpts.scales.y.ticks = { color: '#446381', callback: v => v + ' %' };
+    pctOpts.plugins.tooltip = { callbacks: { label: it => ` ${it.dataset.label}: ${fP(it.raw)}` } };
+    charts.push(new Chart(document.getElementById('g-acumulado'), { type: 'line',
+      data: { labels: lbl, datasets: [
+        { label: 'Acumulado del año', data: delAnio.map(f => num(f.cumplimiento_fecha_pct)), borderColor: '#9B93D6', borderDash: [6, 4], borderWidth: 2, pointRadius: 4, pointBackgroundColor: '#9B93D6' },
+        { label: 'Resultado del mes', data: delAnio.map(f => num(f.cumplimiento_mensual_pct)), borderColor: '#4F449A', borderWidth: 2.5, pointRadius: 5, pointBackgroundColor: '#4F449A' }] },
+      options: pctOpts }));
+    document.querySelector('#g-mensual').closest('.card-b').querySelector('.h b').textContent = 'Resoluciones por mes';
+    document.querySelector('#g-acumulado').closest('.card-b').querySelector('.h b').textContent = 'Porcentaje mensual y acumulado';
+    document.getElementById('g1-sub').textContent = `${NUM_L()} frente al total · ${anio}`;
+    document.getElementById('g2-sub').textContent = `Resultado de cada mes y acumulado del año · ${anio}`;
+    relatoYTabla(p, u, anio);
   }
 
   function ficha(){
     const nd = v => (!v || /^n\/?a$/i.test(v.trim())) ? '' : v;
     document.getElementById('ficha').innerHTML = renderFichaIndicador({
-      queMide: cat.indicador,
+      queMide: nd(cat.definicion) || cat.indicador,
       paraQue: cat.resultado_esperado,
-      formula: 'Avance acumulado = suma de la meta alcanzada de cada mes del año. Avance anual = avance acumulado ÷ meta anual.',
-      unidad: cat.unidad, tipo: (cat.tipo || '').toUpperCase(), periodicidad: (cat.periodicidad || '').toUpperCase(), desagregacion: '',
-      fuente: 'Formato de Seguimiento de KPI MTDH (reporte mensual de la dirección responsable).',
-      sistema: 'FORMATO DE SEGUIMIENTO DE KPI (EXCEL)', recurso: 'ARCHIVO EXCEL/CSV', acceso: 'INSTITUCIONAL',
+      formula: nd(cat.formula) || 'Avance acumulado = suma de la meta alcanzada de cada mes del año. Avance anual = avance acumulado ÷ meta anual.',
+      unidad: cat.unidad, tipo: (cat.tipo || '').toUpperCase(), periodicidad: (cat.periodicidad || '').toUpperCase(), desagregacion: nd(cat.desagregacion),
+      fuente: nd(cat.fuente) || 'Formato de Seguimiento de KPI MTDH (reporte mensual de la dirección responsable).',
+      sistema: nd(cat.fuente) ? 'REGISTRO ADMINISTRATIVO' : 'FORMATO DE SEGUIMIENTO DE KPI (EXCEL)', recurso: 'ARCHIVO EXCEL/CSV', acceso: 'INSTITUCIONAL',
       filasEstado: [
         ['Línea base', nd(cat.linea_base) || 'No aplica'],
-        [`Meta anual ${cat.anio_meta}`, fN(num(cat.meta_anual))],
-        ['Disponibilidad', 'DISPONIBLE', true],
+        [`Meta anual ${cat.anio_meta}`, num(cat.meta_anual) == null ? 'No definida' : fN(num(cat.meta_anual))],
+        ['Disponibilidad', nd(cat.disponibilidad) ? cat.disponibilidad.toUpperCase() : 'DISPONIBLE', true],
         ['Genera', cat.responsable],
         ['Institución', cat.institucion]
       ],

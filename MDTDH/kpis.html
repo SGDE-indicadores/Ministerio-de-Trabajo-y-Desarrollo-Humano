@@ -750,7 +750,9 @@ function fetchKpiSeguimiento(){
           const u = rs[rs.length - 1];
           return { name: c.indicador, href: `kpi.html?area=${area}&id=${encodeURIComponent(c.id_kpi)}`,
                    badge: u ? '● ' + (u.estado || 'Disponible') : '● Sin reporte',
-                   sub: u ? `${MES[+u.periodo.slice(5, 7) - 1]} ${u.periodo.slice(0, 4)} · avance ${u.avance_acumulado} de ${c.meta_anual}` : '' };
+                   sub: !u ? '' : /porcentaje|%/i.test(c.unidad || '')
+                     ? `${MES[+u.periodo.slice(5, 7) - 1]} ${u.periodo.slice(0, 4)} · ${String(Number(u.cumplimiento_mensual_pct).toFixed(1)).replace('.', ',')} % (${u.meta_alcanzada} de ${u.meta_programada} a tiempo)`
+                     : `${MES[+u.periodo.slice(5, 7) - 1]} ${u.periodo.slice(0, 4)} · avance ${u.avance_acumulado} de ${c.meta_anual}` };
         });
         itemLists[ruta].items = nuevos;   // solo los KPI del formato de seguimiento
       })

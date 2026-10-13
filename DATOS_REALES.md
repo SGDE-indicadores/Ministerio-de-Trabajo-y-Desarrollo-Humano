@@ -14,7 +14,8 @@ Esta versión del portal aplica una regla estricta: **solo se muestran cifras re
 
 - KPIs · Trabajo · Compensación jubilar: expedientes y montos 2023 – agosto 2026 por sexo, régimen y provincia
   (datos/kpis/jubilados/, `scripts/actualizar_jubilados.py`; página MDTDH/kpi_jubilados.html).
-- KPIs · Pueblos y Nacionalidades: subproyectos comunitarios activados y convenios suscritos, seguimiento mensual
+- KPIs · Pueblos y Nacionalidades: porcentaje de resoluciones de personería jurídica y registro de directiva emitidas a tiempo
+  (desde septiembre 2026) y convenios suscritos, seguimiento mensual
   desde agosto 2026 (datos/kpis/pueblos/, `scripts/actualizar_kpis.py`).
 - KPIs · Trabajo · Contratos registrados (SUT): foto diaria de vigentes y finalizados por provincia, cantón,
   actividad, tipo de contrato, sexo, grupo etario, discapacidad, etnia y nacionalidad

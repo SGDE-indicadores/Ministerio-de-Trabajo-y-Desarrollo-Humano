@@ -60,6 +60,20 @@ Páginas: `MDTDH/kpis.html#/kpis-pueblos` (tarjetas y carrusel) y `MDTDH/kpi.htm
   Resumen solo mira las filas 3–10); recalcula todo desde la meta programada y la meta alcanzada del mes.
 - No se publican nombres de personas (solo el cargo) ni rutas de red (solo enlaces http/https).
 - Revisar `reportes/kpis/validacion_pueblos_<AAAA-MM>.md` antes de publicar.
+- El script conserva los KPI del catálogo publicado que no vengan en el archivo (cada KPI puede llegar en su propio Excel).
+
+### Pueblos y Nacionalidades: qué KPI llega en qué archivo
+| ID | Indicador | Archivo mensual | Comando |
+|---|---|---|---|
+| KPI-2026-01 | Porcentaje de resoluciones de personería jurídica y registros de directiva emitidos oportunamente (PRPJRD) | `KPI_<Mes>_<Año>_PRPJRD.xlsx` (hoja de cálculo con periodo, numerador y denominador) | `python scripts/actualizar_kpis.py --archivo "KPI_Octubre_2026_PRPJRD.xlsx" --area pueblos --kpi KPI-2026-01` |
+| KPI-2026-02 | Número de convenios de financiamiento no reembolsable suscritos | `Seguimiento_KPI_Pueblos_Nacionalidades_<Mes>.xlsx` (formato de seguimiento; en el archivo debe ir con el ID KPI-2026-02) | `python scripts/actualizar_kpis.py --archivo "Seguimiento_KPI_Pueblos_Nacionalidades_Octubre.xlsx" --area pueblos` |
+
+KPI en **porcentaje** (unidad «Porcentaje» en `catalogo.csv`): en `seguimiento.csv` la meta programada es el
+denominador y la meta alcanzada el numerador del mes. Resultado del mes = numerador ÷ denominador × 100; acumulado
+del año = Σ numeradores ÷ Σ denominadores × 100; no tiene meta anual. Las columnas `definicion`, `formula`, `fuente`,
+`desagregacion`, `disponibilidad`, `etiqueta_numerador` y `etiqueta_denominador` del catálogo alimentan la ficha y
+las etiquetas de la página. El KPI-2026-01 reemplazó en octubre de 2026 al indicador «Fortalecimiento de la Economía
+Comunitaria y Productiva» (subproyectos), que dejó de publicarse.
 
 ## Trabajo · Compensación jubilar (jubilados)
 

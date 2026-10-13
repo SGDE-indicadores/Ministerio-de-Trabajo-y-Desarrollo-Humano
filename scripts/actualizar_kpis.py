@@ -8,6 +8,10 @@ Seguimiento_Mensual) hacia los CSV que lee el portal.
 
     python scripts/actualizar_kpis.py --archivo "Seguimiento_KPI_septiembre_2026.xlsx" --area pueblos
 
+    # Indicadores en porcentaje que llegan como hoja de cálculo del mes (numerador / denominador),
+    # p. ej. KPI_Septiembre_2026_PRPJRD.xlsx -> se indica a qué KPI del catálogo corresponde:
+    python scripts/actualizar_kpis.py --archivo "KPI_Septiembre_2026_PRPJRD.xlsx" --area pueblos --kpi KPI-2026-01
+
 Qué hace:
   1. Lee el catálogo (una fila por KPI) y el seguimiento (una fila por KPI y mes).
   2. NO usa las fórmulas del Excel: recalcula % mensual, acumulados y % de avance a partir
@@ -15,6 +19,10 @@ Qué hace:
      afectan la clave auxiliar TEXT(...,"YYYYMM") ni los rangos fijos del Resumen.
   3. Agrega o reemplaza los meses del archivo sin duplicar: funciona igual si el Excel trae
      todo el histórico o solo el mes nuevo. Si un mes viene repetido, gana la versión más alta.
+  3b. Conserva los KPI del catálogo publicado que no vengan en el archivo (no los borra).
+  3c. KPI con unidad «Porcentaje»: la meta programada es el denominador y la meta alcanzada el numerador
+      del mes; el resultado del mes es numerador ÷ denominador × 100 y el acumulado del año es
+      Σ numeradores ÷ Σ denominadores × 100 (no se usa meta anual).
   4. No publica nombres de personas (de "Elaborado por" / "Revisado por" conserva solo el cargo)
      ni rutas de red (solo enlaces http/https).
   5. Escribe:
@@ -43,7 +51,8 @@ AREAS = {  # área del portal -> archivo del panorama de kpis.html y ruta de la 
     "pueblos": {"panorama": "kpi_pueblos_nacionalidades.csv", "area_kpis": "kpis-pueblos", "nombre": "Pueblos y Nacionalidades"},
 }
 CAMPOS_CAT = ["id_kpi", "institucion", "tipo", "resultado_esperado", "indicador", "periodicidad", "unidad",
-              "linea_base", "meta_anual", "anio_meta", "responsable", "observaciones"]
+              "linea_base", "meta_anual", "anio_meta", "responsable", "observaciones",
+              "definicion", "formula", "fuente", "desagregacion", "disponibilidad", "etiqueta_numerador", "etiqueta_denominador"]
 CAMPOS_SEG = ["id_kpi", "periodo", "meta_programada", "meta_alcanzada", "cumplimiento_mensual_pct",
               "programado_acumulado", "avance_acumulado", "avance_anual_pct", "cumplimiento_fecha_pct",
               "estado", "logros", "alertas", "medios_verificacion", "enlace", "detalle_casos",
@@ -144,6 +153,45 @@ def col(h, *claves):
     return None
 
 
+def es_pct(c):
+    return bool(re.search(r"porcentaje|%", str(c.get("unidad") or ""), re.I))
+
+
+def leer_calculo(ruta, id_kpi):
+    """Hoja «CÁLCULO DEL INDICADOR — <MES> <AÑO>»: filas etiqueta | valor con Periodo, Numerador, Denominador
+    e Interpretación. Devuelve una fila de seguimiento (numerador -> meta alcanzada, denominador -> programada)."""
+    wb = openpyxl.load_workbook(ruta, data_only=True)
+    pares, textos = {}, []
+    for ws in wb.worksheets:
+        for fila in ws.iter_rows(values_only=True):
+            celdas = [c for c in fila if c not in (None, "")]
+            if not celdas:
+                continue
+            etq = str(celdas[0]).strip().lower()
+            if len(celdas) >= 2:
+                pares.setdefault(etq, celdas[1])
+            elif etq.startswith("interpretaci"):
+                textos.append(str(celdas[0]).strip())
+    def buscar(*claves):
+        for k, v in pares.items():
+            if any(k.startswith(c) for c in claves):
+                return v
+        return None
+    interp = next((str(v) for k, v in pares.items() if k.startswith("interpretaci")), None) or (textos[0] if textos else "")
+    interp = re.sub(r"^interpretaci[oó]n\s*:\s*", "", interp, flags=re.I).strip()
+    p = periodo(buscar("periodo", "período"))
+    nu, de = num(buscar("numerador")), num(buscar("denominador"))
+    if interp and nu is not None and de:
+        # El porcentaje del texto viene de TEXT(...;"0.00"), que en Excel en español sale mal (p. ej. «070 %»):
+        # se reemplaza por el valor recalculado.
+        interp = re.sub(r"\bel\s+[\d.,]+\s*%", "el " + f"{nu / de * 100:.1f}".replace(".", ",") + " %", interp, count=1)
+        interp = interp[:1].upper() + interp[1:]
+    return [{"fila": 0, "id_kpi": id_kpi, "periodo": p, "periodo_raw": buscar("periodo", "período"),
+             "meta_programada": de, "meta_alcanzada": nu,
+             "estado": "", "logros": interp, "alertas": "", "medios_verificacion": "", "enlace": "", "detalle_casos": "",
+             "elaborado": "", "revisado": "", "fecha_elaboracion": "", "version": 1, "fecha_actualizacion": ""}]
+
+
 def leer_excel(ruta):
     wb = openpyxl.load_workbook(ruta, data_only=True)
     C, S = wb["Catálogo_KPIs"], wb["Seguimiento_Mensual"]
@@ -188,14 +236,27 @@ def main():
     ap.add_argument("--area", default="pueblos", choices=list(AREAS))
     ap.add_argument("--datos", default=os.path.join(REPO, "datos"))
     ap.add_argument("--reportes", default=os.path.join(REPO, "reportes", "kpis"))
+    ap.add_argument("--kpi", help="ID del KPI del catálogo publicado al que corresponde una hoja de cálculo mensual "
+                                   "(numerador / denominador) que no trae el formato de seguimiento")
     args = ap.parse_args()
     cfg = AREAS[args.area]
     dir_area = os.path.join(args.datos, "kpis", args.area)
 
-    cat, seg_xls = leer_excel(args.archivo)
     hall = []
     H = lambda sev, cod, donde, txt: hall.append((sev, cod, donde, txt))
-    ids = {c["id_kpi"]: c for c in cat}
+    cat_pub = leer_csv(os.path.join(dir_area, "catalogo.csv"))
+    if args.kpi:
+        if args.kpi not in {c["id_kpi"] for c in cat_pub}:
+            sys.exit(f"{args.kpi} no existe en datos/kpis/{args.area}/catalogo.csv: agréguelo primero al catálogo.")
+        cat, seg_xls = [], leer_calculo(args.archivo, args.kpi)
+    else:
+        cat, seg_xls = leer_excel(args.archivo)
+    # Catálogo = el publicado, actualizado con lo que trae el Excel (los KPI que no vienen se conservan)
+    ids = {c["id_kpi"]: {**c, "meta_anual": num(c.get("meta_anual"))} for c in cat_pub}
+    for c in cat:
+        ids[c["id_kpi"]] = {**ids.get(c["id_kpi"], {}), **{k: v for k, v in c.items() if v not in (None, "")}}
+    ids = dict(sorted(ids.items()))          # orden estable por código de KPI
+    cat = list(ids.values())
     if not cat:
         sys.exit("El catálogo está vacío.")
 
@@ -260,13 +321,16 @@ def main():
             r["cumplimiento_mensual_pct"] = fnum(a / p * 100) if p else ""
             r["programado_acumulado"] = fnum(prog)
             r["avance_acumulado"] = fnum(acum)
-            r["avance_anual_pct"] = fnum(acum / meta * 100) if meta else ""
+            r["avance_anual_pct"] = fnum(acum / meta * 100) if (meta and not es_pct(c)) else ""
             r["cumplimiento_fecha_pct"] = fnum(acum / prog * 100) if prog else ""
             cods = []
+            if es_pct(c) and a > p:
+                H("ERROR", "K12", f"{idk} · {r['periodo']}", f"El numerador ({fnum(a)}) es mayor que el denominador ({fnum(p)}).")
+                cods.append("K12")
             if r["estado"] and r["estado"] not in ESTADOS:
                 H("ADVERTENCIA", "K6", f"{idk} · {r['periodo']}", f"Estado «{r['estado']}» fuera de la lista ({', '.join(ESTADOS)}).")
                 cods.append("K6")
-            if meta and acum > meta:
+            if meta and acum > meta and not es_pct(c):
                 H("ADVERTENCIA", "K7", f"{idk} · {r['periodo']}", f"El avance acumulado ({fnum(acum)}) supera la meta anual ({fnum(meta)}).")
                 cods.append("K7")
             if r["estado"] == "Cumplido" and p and a < p:
@@ -281,14 +345,14 @@ def main():
         faltan = [p for p in esperados if p not in pers]
         if faltan:
             H("ADVERTENCIA", "K10", idk, "Meses sin reporte entre el primero y el último: " + ", ".join(faltan) + ".")
-        if m0 != 1:
+        if m0 != 1 and not es_pct(c):
             H("INFO", "K11", idk, f"El histórico empieza en {per_txt(pers[0])}: el avance acumulado {pers[0][:4]} solo suma desde ese mes "
               "(si hubo logros antes, falta cargarlos o registrar el acumulado inicial).")
         ultimo[idk] = rs[-1]
 
     # ---- escribir datos
     escribir_csv(os.path.join(dir_area, "catalogo.csv"),
-                 [{**c, "meta_anual": fnum(c["meta_anual"])} for c in cat], CAMPOS_CAT)
+                 [{**c, "meta_anual": fnum(c.get("meta_anual"))} for c in cat], CAMPOS_CAT)
     filas.sort(key=lambda r: (r["id_kpi"], r["periodo"]))
     escribir_csv(os.path.join(dir_area, "seguimiento.csv"), filas, CAMPOS_SEG)
 
@@ -318,6 +382,16 @@ def main():
         tab = [("Meta programada del mes", u["meta_programada"]), ("Meta alcanzada del mes", u["meta_alcanzada"]),
                ("Cumplimiento del mes", (u["cumplimiento_mensual_pct"].replace(".", ",") + " %") if u["cumplimiento_mensual_pct"] else "No aplica"),
                ("Avance acumulado", f"{u['avance_acumulado']} de {fnum(c['meta_anual'])}")]
+        if es_pct(c):
+            pc = lambda v: f"{float(v):.1f}".replace(".", ",") + " %" if v not in ("", None) else "No aplica"
+            num_l, den_l = c.get("etiqueta_numerador") or "Numerador", c.get("etiqueta_denominador") or "Denominador"
+            base.update({"headline": pc(u["cumplimiento_mensual_pct"]), "unidad": "percent",
+                         "headline_sufijo": f"{num_l.lower()} sobre el total del mes · {per_txt(u['periodo'])}",
+                         "tendencia_direccion": "", "tendencia_texto": f"{fnum(u['meta_alcanzada'])} de {fnum(u['meta_programada'])} {den_l.lower()}",
+                         "meta_pct": "", "meta_label": ""})
+            tab = [(num_l, u["meta_alcanzada"]), (den_l, u["meta_programada"]),
+                   ("Resultado del mes", pc(u["cumplimiento_mensual_pct"])),
+                   (f"Acumulado {u['periodo'][:4]}", pc(u["cumplimiento_fecha_pct"]))]
         for cat_, val in tab:
             pan.append({**base, "desagregacion_categoria": cat_, "desagregacion_valor": val})
     if campos_pan:
@@ -338,8 +412,12 @@ def main():
     L += [f"| {s} | {c} | {d} | {t.replace('|', '/')} |" for s, c, d, t in sorted(hall, key=lambda h: (orden[h[0]], h[1]))] or ["| — | — | — | Sin hallazgos |"]
     L += ["", "## Último corte por KPI", "", "| KPI | Periodo | Programado | Logrado | % mes | Acumulado | % meta anual | Estado |", "|---|---|---:|---:|---:|---:|---:|---|"]
     for idk, u in ultimo.items():
-        L.append(f"| {idk} | {u['periodo']} | {u['meta_programada']} | {u['meta_alcanzada']} | {u['cumplimiento_mensual_pct'] or '—'} | "
-                 f"{u['avance_acumulado']} / {fnum(ids[idk]['meta_anual'])} | {u['avance_anual_pct']} % | {u['estado']} |")
+        if es_pct(ids[idk]):
+            L.append(f"| {idk} (porcentaje) | {u['periodo']} | {u['meta_programada']} (denominador) | {u['meta_alcanzada']} (numerador) | "
+                     f"{u['cumplimiento_mensual_pct'] or '—'} | acumulado del año: {u['cumplimiento_fecha_pct'] or '—'} % | — | {u['estado'] or '—'} |")
+        else:
+            L.append(f"| {idk} | {u['periodo']} | {u['meta_programada']} | {u['meta_alcanzada']} | {u['cumplimiento_mensual_pct'] or '—'} | "
+                     f"{u['avance_acumulado']} / {fnum(ids[idk]['meta_anual'])} | {u['avance_anual_pct']} % | {u['estado']} |")
     with open(rep, "w", encoding="utf-8") as fh:
         fh.write("\n".join(L) + "\n")
     print(f"{cfg['nombre']}: {len(cat)} KPI · {nuevos} mes(es) nuevo(s), {reemplazados} reemplazado(s) · histórico {len(filas)} filas. "

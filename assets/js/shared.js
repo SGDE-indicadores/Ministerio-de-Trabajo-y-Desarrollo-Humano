@@ -1755,7 +1755,7 @@ const itemLists = {
     eyebrow:'KPIs · Pueblos y Nacionalidades', title:'Pueblos y Nacionalidades',
     desc:'Indicadores con seguimiento mensual (formato de seguimiento de KPI MTDH).',
     items:[
-      { name:'Fortalecimiento de la Economía Comunitaria y Productiva de Pueblos y Nacionalidades', badge:'● Cargando…' },
+      { name:'Porcentaje de resoluciones de personería jurídica y registros de directiva emitidos oportunamente para el fortalecimiento organizativo de comunas, comunidades y organizaciones de pueblos y nacionalidades', badge:'● Cargando…' },
       { name:'Número de convenios de financiamiento no reembolsable suscritos para el fortalecimiento de la economía de comunas, comunidades y organizaciones de pueblos y nacionalidades', badge:'● Cargando…' }
     ]
   },
@@ -1838,7 +1838,7 @@ const ICONS = {
 const kpisAreas = [
   { key:'proteccion-social', label:'Protección Social e Inclusión Económica', icon:'familia', disponible:true, desc:'Servicios de desarrollo infantil, movilidad social, personas adultas mayores, discapacidad, protección especial y alertas SUUSEN.', route:'kpis-proteccion-social' },
   { key:'trabajo', label:'Trabajo', icon:'trabajo', disponible:true, desc:'Compensación jubilar de exservidores y extrabajadores; contratos de trabajo registrados en el SUT.', route:'kpis-trabajo' },
-  { key:'pueblos', label:'Pueblos y Nacionalidades', icon:'pueblos', disponible:true, desc:'Economía comunitaria y productiva, y convenios de financiamiento no reembolsable.', route:'kpis-pueblos' },
+  { key:'pueblos', label:'Pueblos y Nacionalidades', icon:'pueblos', disponible:true, desc:'Resoluciones de personería jurídica y registro de directiva emitidas a tiempo, y convenios de financiamiento no reembolsable.', route:'kpis-pueblos' },
   { key:'incentivos', label:'Incentivos Temporales', icon:'incentivos', disponible:true, desc:'Jóvenes en Acción, compensación de combustible y migrantes retornados.', route:'kpis-incentivos' }
 ];
 
