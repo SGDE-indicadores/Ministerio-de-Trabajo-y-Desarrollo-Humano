@@ -128,7 +128,10 @@
   const per = p => `${MES[+p.slice(5, 7) - 1]} ${p.slice(0, 4)}`;
   const perC = p => `${MESC[+p.slice(5, 7) - 1]} ${p.slice(0, 4)}`;
   const estado = e => { const x = EST[e] || ['na', '·']; return `<span class="est ${x[0]}">${x[1]} ${esc(e || 'Sin estado')}</span>`; };
-  let cat, filas, charts = [], PCT = false;
+  // KPI en los que no se muestra el «Estado reportado» (tarjeta ni columna del histórico).
+  // El estado se conserva en datos/kpis/<area>/seguimiento.csv; solo se oculta en la página.
+  const SIN_ESTADO = ['KPI-2026-02'];
+  let cat, filas, charts = [], PCT = false, VER_ESTADO = true;
   // KPI en porcentaje (unidad «Porcentaje»): meta programada = denominador y meta alcanzada = numerador del mes.
   const NUM_L = () => cat.etiqueta_numerador || 'Numerador', DEN_L = () => cat.etiqueta_denominador || 'Denominador';
 
@@ -139,6 +142,7 @@
       cat = C.find(c => c.id_kpi === ID) || C[0];
       if (!cat) throw new Error('no hay KPI en el catálogo');
       PCT = /porcentaje|%/i.test(cat.unidad || '');
+      VER_ESTADO = !SIN_ESTADO.includes(cat.id_kpi);
       filas = S.filter(r => r.id_kpi === cat.id_kpi).sort((a, b) => a.periodo.localeCompare(b.periodo));
       if (!filas.length) throw new Error('el KPI aún no tiene meses reportados');
       encabezado(); ficha();
@@ -186,9 +190,10 @@
       <div class="k" style="border-top-color:var(--amarillo)"><div class="l">Avance acumulado ${anio}</div><div class="v">${fN(acum)} <small>de ${fN(meta)}</small></div>
         <div class="s">${fP(pa)} de la meta anual</div><div class="prog"><i style="width:${Math.min(pa || 0, 100)}%"></i></div></div>
       <div class="k" style="border-top-color:#8C84D6"><div class="l">Cumplimiento a la fecha</div><div class="v">${fP(num(u.cumplimiento_fecha_pct))}</div>
-        <div class="s">${fN(acum)} logrado(s) de ${fN(num(u.programado_acumulado))} programado(s) hasta ${per(p)}</div></div>
+        <div class="s">${fN(acum)} logrado(s) de ${fN(num(u.programado_acumulado))} programado(s) hasta ${per(p)}</div></div>` +
+      (VER_ESTADO ? `
       <div class="k" style="border-top-color:#9AA5B4"><div class="l">Estado reportado</div><div>${estado(u.estado)}</div>
-        <div class="s" style="margin-top:8px">Calificación de la dirección responsable</div></div>`;
+        <div class="s" style="margin-top:8px">Calificación de la dirección responsable</div></div>` : '');
 
     // gráficos (se rehacen al cambiar de corte)
     charts.forEach(c => c.destroy()); charts = [];
@@ -232,10 +237,10 @@
           <td class="n"><b>${fP(num(f.cumplimiento_mensual_pct))}</b></td><td class="n">${fP(num(f.cumplimiento_fecha_pct))}</td></tr>`).join('') + '</tbody>';
     } else
     document.getElementById('historial').innerHTML = `<thead><tr><th>Mes</th><th class="n">Programada</th><th class="n">Alcanzada</th><th class="n">% del mes</th>
-      <th class="n">Acumulado</th><th class="n">% meta anual</th><th>Estado</th></tr></thead><tbody>` +
+      <th class="n">Acumulado</th><th class="n">% meta anual</th>${VER_ESTADO ? '<th>Estado</th>' : ''}</tr></thead><tbody>` +
       filas.slice().reverse().map(f => `<tr data-p="${f.periodo}" class="${f.periodo === p ? 'sel' : ''}"><td>${per(f.periodo)}</td>
         <td class="n">${fN(num(f.meta_programada))}</td><td class="n"><b>${fN(num(f.meta_alcanzada))}</b></td><td class="n">${fP(num(f.cumplimiento_mensual_pct))}</td>
-        <td class="n">${fN(num(f.avance_acumulado))}</td><td class="n">${fP(num(f.avance_anual_pct))}</td><td>${estado(f.estado).replace('class="est', 'style="margin:0" class="est')}</td></tr>`).join('') + '</tbody>';
+        <td class="n">${fN(num(f.avance_acumulado))}</td><td class="n">${fP(num(f.avance_anual_pct))}</td>${VER_ESTADO ? `<td>${estado(f.estado).replace('class="est', 'style="margin:0" class="est')}</td>` : ''}</tr>`).join('') + '</tbody>';
     document.querySelectorAll('#historial tbody tr').forEach(tr => tr.addEventListener('click', () => {
       document.getElementById('corte').value = tr.dataset.p; irA('seguimiento'); pintar(tr.dataset.p); }));
     const primero = filas.filter(f => f.periodo.slice(0, 4) === anio)[0];

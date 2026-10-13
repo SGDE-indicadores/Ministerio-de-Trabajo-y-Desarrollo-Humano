@@ -206,8 +206,8 @@ function parseKpiAreaRows(rawRows){
         headline: r.headline || '',
         headlineSuffix: r.headline_sufijo || '',
         unit: r.unidad || undefined,
-        trendDir: r.tendencia_direccion || undefined,
-        trendText: r.tendencia_texto || undefined,
+        trendDir: KPI_SIN_ESTADO.includes(key) ? undefined : (r.tendencia_direccion || undefined),
+        trendText: KPI_SIN_ESTADO.includes(key) ? undefined : (r.tendencia_texto || undefined),
         metaPct: r.meta_pct ? Number(r.meta_pct) : undefined,
         metaLabel: r.meta_label || undefined,
         impact: r.impacto_texto || '',
@@ -740,6 +740,9 @@ coberturas12.forEach(c => {
 // KPIs con formato de seguimiento mensual (datos/kpis/<area>/, generados por scripts/actualizar_kpis.py):
 // sus tarjetas se arman desde el catálogo y enlazan a kpi.html (detalle con histórico mensual).
 const KPI_SEGUIMIENTO_AREAS = { 'kpis-pueblos': 'pueblos' };
+// KPI con el estado reportado (Cumplido / Incumplido…) oculto de momento; misma lista que SIN_ESTADO en kpi.html.
+// Para volver a mostrarlo, quitar el ID de ambas listas.
+const KPI_SIN_ESTADO = ['KPI-2026-02'];
 function fetchKpiSeguimiento(){
   return Promise.all(Object.entries(KPI_SEGUIMIENTO_AREAS).map(([ruta, area]) =>
     Promise.all([fetchCSV('../datos/kpis/' + area + '/catalogo.csv'), fetchCSV('../datos/kpis/' + area + '/seguimiento.csv')])
@@ -749,7 +752,7 @@ function fetchKpiSeguimiento(){
           const rs = seg.filter(r => r.id_kpi === c.id_kpi).sort((a, b) => a.periodo.localeCompare(b.periodo));
           const u = rs[rs.length - 1];
           return { name: c.indicador, href: `kpi.html?area=${area}&id=${encodeURIComponent(c.id_kpi)}`,
-                   badge: u ? '● ' + (u.estado || 'Disponible') : '● Sin reporte',
+                   badge: u ? '● ' + ((!KPI_SIN_ESTADO.includes(c.id_kpi) && u.estado) || 'Disponible') : '● Sin reporte',
                    sub: !u ? '' : /porcentaje|%/i.test(c.unidad || '')
                      ? `${MES[+u.periodo.slice(5, 7) - 1]} ${u.periodo.slice(0, 4)} · ${String(Number(u.cumplimiento_mensual_pct).toFixed(1)).replace('.', ',')} % (${u.meta_alcanzada} de ${u.meta_programada} a tiempo)`
                      : `${MES[+u.periodo.slice(5, 7) - 1]} ${u.periodo.slice(0, 4)} · avance ${u.avance_acumulado} de ${c.meta_anual}` };
