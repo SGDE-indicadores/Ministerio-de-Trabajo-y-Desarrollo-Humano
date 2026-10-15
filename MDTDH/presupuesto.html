@@ -99,7 +99,7 @@
 <div class="hero">
   <div class="hero-eyebrow">Presupuesto · Año fiscal</div>
   <h1 id="titulo">Ejecución presupuestaria</h1>
-  <p>Seguimiento de la ejecución del presupuesto institucional: cuánto se ha certificado, comprometido y devengado del presupuesto codificado, por programa, grupo de gasto, subsecretaría, fuente de financiamiento y unidad ejecutora.</p>
+  <p>Seguimiento de la ejecución del presupuesto institucional: cuánto se ha certificado, comprometido y devengado del presupuesto codificado, por programa, grupo de gasto, <span id="txt-subsecretaria">subsecretaría, </span>fuente de financiamiento y unidad ejecutora.</p>
   <p id="interpretacion" style="margin-top:6px"></p>
 </div>
 
@@ -107,7 +107,7 @@
 <div class="fbar" id="fbar" hidden>
   <div class="fila">
     <div><label for="f-programa">Programa</label><select id="f-programa"></select></div>
-    <div><label for="f-subsecretaria">Subsecretaría</label><select id="f-subsecretaria"></select></div>
+    <div id="fil-subsecretaria"><label for="f-subsecretaria">Subsecretaría</label><select id="f-subsecretaria"></select></div>
     <div><label for="f-tipo_gasto">Tipo de gasto</label><select id="f-tipo_gasto"></select></div>
     <div><label for="f-fuente">Fuente</label><select id="f-fuente"></select></div>
     <div><label for="f-unidad">Unidad ejecutora</label><select id="f-unidad"></select></div>
@@ -145,8 +145,8 @@
     <div class="c"><div class="tabla-w"><table class="t" id="t-grupo"></table></div></div>
   </div>
 
-  <div class="g2">
-    <div class="card-b">
+  <div class="g2" id="g2-sub-fuente">
+    <div class="card-b" id="card-subsecretaria">
       <div class="h"><div><b>Por subsecretaría</b><div class="sub">% de ejecución y codificado</div></div></div>
       <div class="c"><div class="tabla-w"><table class="t" id="t-sub"></table></div></div>
     </div>
@@ -179,7 +179,13 @@
 const PATH = '../datos/presupuesto/ejecucion_presupuestaria.json';
 const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 const DIMS = ['programa', 'subsecretaria', 'tipo_gasto', 'grupo_gasto', 'fuente', 'unidad'];
-const FILTROS = ['programa', 'subsecretaria', 'tipo_gasto', 'fuente', 'unidad'];
+// Vista por subsecretaría (tabla y filtro) oculta de momento. Para volver a mostrarla: true.
+const VER_SUBSECRETARIA = false;
+const FILTROS = ['programa', 'subsecretaria', 'tipo_gasto', 'fuente', 'unidad'].filter(f => VER_SUBSECRETARIA || f !== 'subsecretaria');
+if (!VER_SUBSECRETARIA) {
+  ['fil-subsecretaria', 'card-subsecretaria', 'txt-subsecretaria'].forEach(id => document.getElementById(id).style.display = 'none');
+  document.getElementById('g2-sub-fuente').style.gridTemplateColumns = '1fr';
+}
 const $ = id => document.getElementById(id);
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = (n, d = 0) => Number(n || 0).toLocaleString('es-EC', { minimumFractionDigits:d, maximumFractionDigits:d });
