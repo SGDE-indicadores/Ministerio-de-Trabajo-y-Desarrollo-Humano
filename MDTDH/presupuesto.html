@@ -17,6 +17,18 @@
   .fbar .limpiar[disabled]{opacity:.45;cursor:default}
   .fbar .corte{margin-left:auto;font-size:12px;color:var(--subtexto);align-self:center}
   .fbar .corte b{color:var(--azul)}
+  /* Selector múltiple (programa y fuente) */
+  .ms{position:relative;width:230px;max-width:100%}
+  .ms-btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:6px;padding:7px 9px;border:1px solid var(--gris-bd);border-radius:7px;background:#fff;color:var(--texto);font:inherit;font-size:12.5px;cursor:pointer;text-align:left}
+  .ms-btn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ms-btn::after{content:"▾";color:var(--subtexto);font-size:11px}
+  .ms-btn.act{border-color:var(--azul);color:var(--azul);font-weight:600}
+  .ms-pan{position:absolute;top:calc(100% + 4px);left:0;z-index:120;min-width:100%;width:max-content;max-width:min(440px,90vw);max-height:320px;overflow:auto;background:#fff;border:1px solid var(--gris-bd);border-radius:8px;box-shadow:0 8px 24px rgba(20,30,60,.16);padding:6px}
+  .ms-acc{display:flex;gap:12px;padding:4px 6px 8px;border-bottom:1px solid #EEF1F6;margin-bottom:4px}
+  .ms-acc button{font:inherit;font-size:11.5px;font-weight:700;color:var(--azul);background:none;border:0;padding:0;cursor:pointer}
+  .ms-pan label{display:flex;gap:8px;align-items:flex-start;padding:5px 6px;border-radius:5px;font-size:12.5px;font-weight:400;color:var(--texto);text-transform:none;letter-spacing:0;margin:0;cursor:pointer;line-height:1.35}
+  .ms-pan label:hover{background:#F4F6FB}
+  .ms-pan input{margin-top:2px;accent-color:var(--azul)}
 
   /* KPI del reporte institucional: Ejecución general, Gasto corriente, Gasto inversión, Saldo disponible */
   .k-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
@@ -53,7 +65,7 @@
   .cod{color:var(--subtexto);font-size:11.5px;margin-right:4px}
   .aviso-err{background:#FDECEA;border:1px solid #F3A8AC;color:#C4262E;border-radius:8px;padding:12px 16px;margin:14px 0}
   .vacio-msg{padding:22px;text-align:center;color:var(--subtexto);font-size:13px}
-  @media(max-width:900px){.k-grid,.k-grid.kg{grid-template-columns:repeat(2,minmax(0,1fr))}.k .v{font-size:21px}.fbar{position:static}.fbar select{width:100%}.fbar .fila>div{flex:1 1 150px}.fbar .corte{margin-left:0}}
+  @media(max-width:900px){.k-grid,.k-grid.kg{grid-template-columns:repeat(2,minmax(0,1fr))}.k .v{font-size:21px}.fbar{position:static}.fbar select,.ms{width:100%}.fbar .fila>div{flex:1 1 150px}.fbar .corte{margin-left:0}}
   @media(max-width:480px){.k-grid,.k-grid.kg{grid-template-columns:1fr}}
 </style>
 </head>
@@ -73,9 +85,9 @@
 <div id="error"></div>
 <div class="fbar" id="fbar" hidden>
   <div class="fila">
-    <div><label for="f-programa">Programa</label><select id="f-programa"></select></div>
+    <div><label id="lb-programa">Programa</label><div class="ms" id="f-programa"></div></div>
     <div><label for="f-tipo_gasto">Tipo de gasto</label><select id="f-tipo_gasto"></select></div>
-    <div><label for="f-fuente">Fuente de financiamiento</label><select id="f-fuente"></select></div>
+    <div><label id="lb-fuente">Fuente de financiamiento</label><div class="ms" id="f-fuente"></div></div>
     <button type="button" class="limpiar" id="limpiar" disabled>Limpiar filtros</button>
     <div class="corte" id="corte"></div>
   </div>
@@ -109,13 +121,16 @@
 // Muestra solo lo que tiene el reporte institucional «DASHBOARD CON CORTE AL …» (hoja DASHBOARD del .xlsm):
 // KPI de ejecución general / gasto corriente / gasto inversión / saldo disponible, filtros de programa,
 // tipo de gasto y fuente, y las tablas por programa y por grupo de gasto.
-// Los datos son los de siempre (datos/presupuesto/ejecucion_presupuestaria.json, hoja BASE del .xlsm);
-// el JSON trae además subsecretaría, unidad y reservado, que esta página no usa.
+// Datos: datos/presupuesto/ejecucion_presupuestaria.json (scripts/actualizar_presupuesto.py, hoja BASE del .xlsm),
+// solo con programa, tipo de gasto, grupo de gasto y fuente, y las 5 medidas que se muestran.
+// El programa 57 (Protección Social) va en un solo programa.
 const PATH = '../datos/presupuesto/ejecucion_presupuestaria.json';
 const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 const FILTROS = ['programa', 'tipo_gasto', 'fuente'];
-// Orden de los programas en el reporte institucional (código o «código nombre» para el 57)
-const ORDEN_PROG = ['1', '55', '56', '57 EMPRENDIMIENTO', '57 SANCCO', '58', '59', '61', '62', '71', '63', '26'];
+const MULTI = ['programa', 'fuente'];   // filtros de selección múltiple (tipo de gasto es de uno solo)
+const NOMBRE_FILTRO = { programa:['programa', 'programas'], fuente:['fuente', 'fuentes'] };
+// Orden de los programas en el reporte institucional
+const ORDEN_PROG = ['1', '55', '56', '57', '58', '59', '61', '62', '71', '63', '26'];
 const $ = id => document.getElementById(id);
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = (n, d = 0) => Number(n || 0).toLocaleString('es-EC', { minimumFractionDigits:d, maximumFractionDigits:d });
@@ -141,9 +156,10 @@ let selGrupo = null;   // grupo de gasto elegido en la tabla: solo cambia los KP
 const orden = {};   // orden de cada tabla: { col, asc }
 
 // ---------- agregación ----------
-function vacio(){ return { codificado:0, certificado:0, comprometido:0, devengado:0, saldo_disponible:0, reservado:0 }; }
+function vacio(){ return { codificado:0, certificado:0, comprometido:0, devengado:0, saldo_disponible:0 }; }
 function sumar(a, r){ J.medidas.forEach(m => a[m] += r[m]); return a; }
-function filtrar(excepto){ return R.filter(r => FILTROS.every(f => f === excepto || sel[f] == null || r[f] === sel[f])); }
+// sel[f] es un Set con los ids elegidos; vacío = todos
+function filtrar(excepto){ return R.filter(r => FILTROS.every(f => f === excepto || !sel[f].size || sel[f].has(r[f]))); }
 function agrupar(rows, dim){
   const g = new Map();
   rows.forEach(r => { const k = r[dim]; if (!g.has(k)) g.set(k, vacio()); sumar(g.get(k), r); });
@@ -151,20 +167,49 @@ function agrupar(rows, dim){
 }
 function total(rows){ return rows.reduce(sumar, vacio()); }
 function posPrograma(c){
-  const n = c.nombre.toUpperCase(), i = ORDEN_PROG.findIndex(o => { const [cod, ...p] = o.split(' '); return cod === c.codigo && (!p.length || n.includes(p.join(' '))); });
+  const i = ORDEN_PROG.indexOf(c.codigo);
   return i < 0 ? 99 : i;
 }
 
 // ---------- filtros ----------
+const etiquetaOp = (f, c) => f === 'programa' ? `${c.codigo} · ${c.nombre}` : c.nombre;
 function pintarFiltros(){
   FILTROS.forEach(f => {
     const disp = new Set(filtrar(f).filter(r => r.codificado || r.devengado).map(r => r[f]));
     const ops = CAT[f].filter(c => disp.has(c.id)).sort((a, b) => f === 'programa' ? posPrograma(a) - posPrograma(b) : a.nombre.localeCompare(b.nombre, 'es'));
-    if (sel[f] != null && !disp.has(sel[f])) sel[f] = null;
-    $('f-' + f).innerHTML = `<option value="">Todos</option>` + ops.map(c => `<option value="${c.id}"${sel[f] === c.id ? ' selected' : ''}>${esc(f === 'programa' ? `${c.codigo} · ${c.nombre}` : c.nombre)}</option>`).join('');
+    [...sel[f]].forEach(id => { if (id >= 0 && !disp.has(id)) sel[f].delete(id); });
+    if (MULTI.includes(f)) pintarMulti(f, ops);
+    else $('f-' + f).innerHTML = `<option value="">Todos</option>` + ops.map(c => `<option value="${c.id}"${sel[f].has(c.id) ? ' selected' : ''}>${esc(etiquetaOp(f, c))}</option>`).join('');
   });
-  $('limpiar').disabled = FILTROS.every(f => sel[f] == null);
+  $('limpiar').disabled = FILTROS.every(f => !sel[f].size);
 }
+
+// Selector múltiple: botón con el resumen de lo elegido + panel con casillas (ninguna marcada = todos)
+const abierto = {};
+function pintarMulti(f, ops){
+  const el = $('f-' + f), S = sel[f], [, varios] = NOMBRE_FILTRO[f];
+  const n = [...S].filter(id => id >= 0).length;
+  const txt = !S.size ? 'Todos' : !n ? 'Ninguno' : n === 1 ? etiquetaOp(f, CAT[f][[...S].find(id => id >= 0)]) : `${n} ${varios}`;
+  const foco = document.activeElement && el.contains(document.activeElement) ? document.activeElement.dataset.id : null;
+  el.innerHTML = `<button type="button" class="ms-btn${S.size ? ' act' : ''}" aria-haspopup="true" aria-expanded="${!!abierto[f]}" aria-labelledby="lb-${f}" title="${esc(txt)}"><span>${esc(txt)}</span></button>
+    <div class="ms-pan" role="group" aria-labelledby="lb-${f}"${abierto[f] ? '' : ' hidden'}>
+      <div class="ms-acc"><button type="button" data-acc="todos" data-id="__todos">Todos</button><button type="button" data-acc="solo" data-id="__solo">Desmarcar todos</button></div>
+      ${ops.map(c => `<label><input type="checkbox" data-id="${c.id}" value="${c.id}"${!S.size || S.has(c.id) ? ' checked' : ''}>${esc(etiquetaOp(f, c))}</label>`).join('')}
+    </div>`;
+  el.querySelector('.ms-btn').onclick = e => { e.stopPropagation(); MULTI.forEach(o => { if (o !== f) abierto[o] = false; }); abierto[f] = !abierto[f]; render(); if (abierto[f]) el.querySelector('.ms-pan input, .ms-pan button')?.focus(); };
+  // Todos marcados = sin filtro (Set vacío). Al desmarcar uno desde «todos», quedan marcados los demás.
+  el.querySelectorAll('input').forEach(i => i.onchange = () => { const id = +i.value;
+    if (!S.size) ops.forEach(c => S.add(c.id));
+    S.delete(-1); i.checked ? S.add(id) : S.delete(id);
+    if (S.size === ops.length) S.clear();
+    else if (!S.size) S.add(-1);   // ninguno marcado: no hay datos que mostrar
+    render(); });
+  el.querySelectorAll('[data-acc]').forEach(b => b.onclick = () => { S.clear(); if (b.dataset.acc === 'solo') S.add(-1); render(); });
+  if (foco != null) el.querySelector(`[data-id="${foco}"]`)?.focus();
+}
+document.addEventListener('click', e => { if (MULTI.some(f => abierto[f]) && !e.composedPath().some(n => n.classList && n.classList.contains('ms'))) { MULTI.forEach(f => abierto[f] = false); render(); } });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && MULTI.some(f => abierto[f])) { const f = MULTI.find(x => abierto[x]); MULTI.forEach(x => abierto[x] = false); render(); $('f-' + f).querySelector('.ms-btn').focus(); } });
+function textoSel(f){ const S = sel[f]; return !S.size ? 'todos' : [...S].filter(id => id >= 0).map(id => CAT[f][id]).sort((a, b) => posPrograma(a) - posPrograma(b)).map(c => f === 'programa' ? c.codigo : c.nombre).join(', '); }
 
 // ---------- KPI ----------
 function kpis(rows, T){
@@ -223,21 +268,23 @@ const MONTOS = [['Codificado', 'codificado'], ['Certificado', 'certificado'], ['
 const PCT_E = { t:'% Ejecución', v: f => ratio(f.devengado, f.codificado), f: f => barraPct(ratio(f.devengado, f.codificado)) };
 
 function tablas(rows, T){
-  // Por programa: como en el reporte, se listan todos los programas (también los que están en cero, p. ej. 26)
-  const datos = new Map(agrupar(rows, 'programa').map(p => [p.id, p]));
-  const P = CAT.programa.filter(c => sel.programa == null || c.id === sel.programa)
+    const datos = new Map(agrupar(rows, 'programa').map(p => [p.id, p]));
+  // Sin filtros se listan todos los programas, como el reporte (incluido el 26 en cero); con filtros, solo los que tienen datos
+  const sinFiltros = FILTROS.every(f => !sel[f].size);
+  const P = CAT.programa.filter(c => sinFiltros ? true : datos.has(c.id) && (!sel.programa.size || sel.programa.has(c.id)))
     .map(c => datos.get(c.id) || Object.assign({ id:c.id, cat:c }, vacio()));
   tabla('t-prog', P, [
     { t:'Programa', v: f => String(posPrograma(f.cat)).padStart(3, '0'), f: f => `<span class="cod">${esc(f.cat.codigo)}</span>${esc(f.cat.nombre)}` },
     ...MONTOS, PCT_E
-  ], { total:T, ordenInicial:0, asc:true, clic: id => { sel.programa = sel.programa === id ? null : id; render(); }, sel: f => sel.programa === f.id });
+  ], { total:T, ordenInicial:0, asc:true, clic: id => { sel.programa.delete(-1); sel.programa.has(id) ? sel.programa.delete(id) : sel.programa.add(id); render(); }, sel: f => sel.programa.has(f.id) });
 
   const G = agrupar(rows, 'grupo_gasto').filter(g => g.codificado || g.devengado);
   tabla('t-grupo', G, [
     { t:'Grupo de gasto', v: f => f.cat.codigo, f: f => `<span class="cod">${esc(f.cat.codigo)}</span>${esc(f.cat.nombre)}` },
     ...MONTOS, PCT_E
   ], { total:T, ordenInicial:0, asc:true, clic: id => { selGrupo = selGrupo === id ? null : id; render(); }, sel: f => selGrupo === f.id });
-  $('sub-grupo').textContent = 'Valores en dólares · programa: ' + (sel.programa == null ? 'todos' : `${CAT.programa[sel.programa].codigo} · ${CAT.programa[sel.programa].nombre}`);
+  const sp = [...sel.programa].filter(id => id >= 0);
+  $('sub-grupo').textContent = 'Valores en dólares · programa: ' + (sel.programa.size && !sp.length ? 'ninguno' : sp.length === 1 ? etiquetaOp('programa', CAT.programa[sp[0]]) : textoSel('programa'));
 }
 
 function render(){
@@ -252,12 +299,12 @@ fetch(PATH, { cache:'no-cache' })
     J = j; CAT = j.catalogos;
     const nd = j.dimensiones.length;
     R = j.registros.map(a => { const o = {}; j.dimensiones.forEach((d, i) => o[d] = a[i]); j.medidas.forEach((m, i) => o[m] = a[nd + i]); return o; });
-    FILTROS.forEach(f => sel[f] = null);
+    FILTROS.forEach(f => sel[f] = new Set());
     $('titulo').textContent = `Ejecución presupuestaria ${j.ejercicio}`;
     $('corte').innerHTML = `Corte al <b>${fechaL(j.fecha_corte)}</b>`;
     $('fbar').hidden = false; $('contenido').hidden = false;
-    FILTROS.forEach(f => $('f-' + f).onchange = e => { sel[f] = e.target.value === '' ? null : +e.target.value; render(); });
-    $('limpiar').onclick = () => { FILTROS.forEach(f => sel[f] = null); render(); };
+    FILTROS.filter(f => !MULTI.includes(f)).forEach(f => $('f-' + f).onchange = e => { sel[f] = e.target.value === '' ? new Set() : new Set([+e.target.value]); render(); });
+    $('limpiar').onclick = () => { FILTROS.forEach(f => sel[f].clear()); render(); };
     render(); ajustarFiltroFijo();
   })
   .catch(err => {

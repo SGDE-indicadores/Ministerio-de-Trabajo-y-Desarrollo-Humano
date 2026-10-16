@@ -12,12 +12,13 @@ Escribe datos/presupuesto/ejecucion_presupuestaria.json dentro del portal (se pu
 
 - Lee SOLO la hoja BASE (los datos crudos). No usa las tablas dinámicas de la hoja
   DASHBOARD, porque pueden no estar actualizadas.
-- Agrega hasta GRUPO DE GASTO (no publica actividad ni ítem).
-- Dimensiones: programa (el 57 separado en SANCCO y Emprendimiento), subsecretaría,
-  tipo de gasto, grupo de gasto, fuente de financiamiento y unidad ejecutora.
-- Medidas con los nombres del archivo: Codificado, Certificado (PRECOMPROMISO),
-  Comprometido (COMPROMISO), Devengado, Saldo disponible y Reservado (RESERVADO_NEGATIVO,
-  en positivo).
+- El JSON lleva solo lo que usa la página MDTDH/presupuesto.html:
+    dimensiones: programa (el 57 en un solo programa, Protección Social), tipo de gasto,
+                 grupo de gasto y fuente de financiamiento;
+    medidas:     Codificado, Certificado (PRECOMPROMISO), Comprometido (COMPROMISO),
+                 Devengado y Saldo disponible (SALDO_DISPONIBLE).
+- RESERVADO_NEGATIVO se lee solo para el control de cuadre; no se publica
+  (SALDO_DISPONIBLE ya viene con el reservado descontado).
 - Controla que los totales del JSON cuadren al centavo con la hoja BASE; si no cuadran,
   no escribe nada. Reemplaza el JSON anterior (no guarda historial).
 
@@ -40,10 +41,10 @@ MEDIDAS = [  # (clave en el JSON, columna en BASE)
     ("comprometido", "COMPROMISO"),
     ("devengado", "DEVENGADO"),
     ("saldo_disponible", "SALDO_DISPONIBLE"),
-    ("reservado", "RESERVADO_NEGATIVO"),  # se publica en positivo
 ]
-# Identidad que se controla en cada corte:
-#   Codificado = Certificado + Comprometido + Saldo disponible + Reservado
+COL_RESERVADO = "RESERVADO_NEGATIVO"  # solo para el control:
+#   Codificado = Certificado + Comprometido + Saldo disponible + |Reservado|
+DIMENSIONES = ["programa", "tipo_gasto", "grupo_gasto", "fuente"]
 
 # Clasificador presupuestario: nombre de cada grupo de gasto
 GRUPOS = {
@@ -62,8 +63,7 @@ PROGRAMAS = {
     "26": "Protección de la Niñez",
     "55": "Promoción de empleo, verificación y control de derechos y obligaciones laborales",
     "56": "Desarrollo Infantil",
-    "57-SANCCO": "Protección Social - SANCCO",
-    "57-EMPRENDIMIENTO": "Protección Social - Emprendimiento",
+    "57": "Protección Social",
     "58": "Servicios de atención gerontológica",
     "59": "Atención integral a personas con discapacidades",
     "61": "Articulación territorial y participación",
@@ -71,20 +71,6 @@ PROGRAMAS = {
     "63": "Fomento y desarrollo de los pueblos y nacionalidades",
     "71": "Coordinación en la formulación, ejecución, seguimiento y evaluación de las políticas públicas",
 }
-
-TILDES = {
-    "DIRECCION": "Dirección", "PUBLICO": "Público", "GALAPAGOS": "Galápagos", "AMAZONIA": "Amazonía",
-    "BOLIVAR": "Bolívar", "CANAR": "Cañar", "MANABI": "Manabí", "SUCUMBIOS": "Sucumbíos", "RIOS": "Ríos",
-    "PINAS": "Piñas", "CRISTOBAL": "Cristóbal", "NO": "N.º",
-}
-AJUSTES_UNIDAD = [  # retoques de redacción de los nombres de unidades ejecutoras
-    (r"^Regional (\d)", r"Dirección Regional \1"),
-    (r"Dirección Regional del N\.º 7 Loja el Oro y Zamora", "Dirección Regional de Trabajo 7 Loja, El Oro y Zamora"),
-    (r"Servicio Público - Dirección Regional Manta", "Servicio Público de Manta"),
-    (r"de Cuenca Regional 6", "de Cuenca (Regional 6)"),
-    (r" de los Ríos$", " de Los Ríos"), (r" de el Oro$", " de El Oro"),
-]
-MINUSCULAS = {"DE", "DEL", "LA", "LAS", "LOS", "Y", "EL", "EN"}
 
 
 def texto(v):
@@ -106,41 +92,6 @@ def numero(v):
 def codigo(v):
     s = texto(v)
     return s[:-2] if s.endswith(".0") else s
-
-
-def nombre_unidad(cod, desc):
-    """Limpia el nombre de la unidad ejecutora y la clasifica."""
-    d = re.sub(r"\s*-?\s*MINISTERIO DE TRABAJO Y DESARROLLO HUMANO\s*", " ", desc.upper()).strip(" -")
-    d = re.sub(r"^MTDH\s+", "", d)
-    if cod == "9999" or "PLANTA CENTRAL" in desc.upper():
-        return "Planta Central", "Planta Central"
-    palabras = []
-    for i, p in enumerate(re.split(r"(\s+|-)", d)):
-        if not p.strip() or p == "-":
-            palabras.append(p)
-            continue
-        if p in TILDES:
-            palabras.append(TILDES[p])
-        elif p in MINUSCULAS and i > 0:
-            palabras.append(p.lower())
-        elif re.fullmatch(r"\d+", p):
-            palabras.append(p)
-        else:
-            palabras.append(p.capitalize())
-    n = re.sub(r"\s+", " ", "".join(palabras)).strip(" -")
-    n = n.replace("Ministerio del Trabajo ", "").replace("Ministerio del Trabajo", "").strip()
-    for a, b in AJUSTES_UNIDAD:
-        n = re.sub(a, b, n)
-    u = desc.upper()
-    if "TRANSFERENCIAS" in u:
-        tipo = "Planta Central"
-    elif "PROVINCIAL" in u:
-        tipo = "Dirección provincial"
-    elif "DISTRITAL" in u:
-        tipo = "Dirección distrital"
-    else:
-        tipo = "Dirección regional"
-    return n[0].upper() + n[1:], tipo
 
 
 def fecha_corte(wb, ruta):
@@ -171,13 +122,13 @@ def main():
     filas = wb["BASE"].iter_rows(values_only=True)
     enc = [texto(c) for c in next(filas)]
     idx = {c: i for i, c in enumerate(enc) if c}
-    faltan = [c for c in ["EJERCICIO", "PROGRAMA", "DESCRIPCIÓN", "SUBSECRETARÍA", "TIPO DE GASTO", "GRUPO DE GASTO",
-                          "FUENTE", "NOMBRE FUENTE", "COD.UNIDAD_EJECUTORA", "DESCRIPCIÓN REGIONAL"] + [m[1] for m in MEDIDAS]
+    faltan = [c for c in ["EJERCICIO", "PROGRAMA", "TIPO DE GASTO", "GRUPO DE GASTO", "FUENTE", "NOMBRE FUENTE",
+                          COL_RESERVADO] + [m[1] for m in MEDIDAS]
               if c not in idx]
     if faltan:
         sys.exit("Faltan columnas en BASE: " + ", ".join(faltan))
 
-    cat = {k: {} for k in ["programa", "subsecretaria", "tipo_gasto", "grupo_gasto", "fuente", "unidad"]}
+    cat = {k: {} for k in DIMENSIONES}
 
     def ref(dim, clave, valor):
         d = cat[dim]
@@ -187,6 +138,7 @@ def main():
 
     agg = defaultdict(lambda: [0.0] * len(MEDIDAS))
     control = [0.0] * len(MEDIDAS)
+    reservado = 0.0
     ejercicios, n = set(), 0
     for r in filas:
         if r is None or all(v is None for v in r):
@@ -196,22 +148,15 @@ def main():
             continue
         n += 1
         ejercicios.add(codigo(g("EJERCICIO")))
-        valores = [abs(numero(g(col))) if col == "RESERVADO_NEGATIVO" else numero(g(col)) for _, col in MEDIDAS]
+        valores = [numero(g(col)) for _, col in MEDIDAS]
         for i, v in enumerate(valores):
             control[i] += v
+        reservado += abs(numero(g(COL_RESERVADO)))
 
         prog = codigo(g("PROGRAMA"))
-        desc = texto(g("DESCRIPCIÓN")).upper()
-        clave_p = prog
-        if prog == "57":
-            clave_p = "57-SANCCO" if "SANCCO" in desc else "57-EMPRENDIMIENTO"
-        ip = ref("programa", clave_p, {"codigo": prog, "nombre": PROGRAMAS.get(clave_p, texto(g("DESCRIPCIÓN")).capitalize())})
+        ip = ref("programa", prog, {"codigo": prog, "nombre": PROGRAMAS.get(prog, "Programa " + prog)})
 
-        sub = texto(g("SUBSECRETARÍA"))
-        sub = "Sin subsecretaría asignada" if sub in ("", "#N/A") else sub
-        isub = ref("subsecretaria", sub, {"nombre": sub})
-
-        tipo = texto(g("TIPO DE GASTO")).capitalize().replace("Inversión", "Inversión")
+        tipo = texto(g("TIPO DE GASTO")).capitalize()
         it = ref("tipo_gasto", tipo, {"nombre": tipo})
 
         gr = codigo(g("GRUPO DE GASTO"))
@@ -220,49 +165,39 @@ def main():
         fu = codigo(g("FUENTE"))
         nf = texto(g("NOMBRE FUENTE"))
         nf = nf[:1].upper() + nf[1:].lower() if nf.isupper() else nf
-        ifu = ref("fuente", fu, {"codigo": fu, "nombre": nf.replace("Prestamos", "Préstamos").replace("Tecnica", "Técnica")})
+        ifu = ref("fuente", fu, {"nombre": nf.replace("Prestamos", "Préstamos").replace("Tecnica", "Técnica")})
 
-        cu = codigo(g("COD.UNIDAD_EJECUTORA"))
-        nu, tu = nombre_unidad(cu, texto(g("DESCRIPCIÓN REGIONAL")))
-        iu = ref("unidad", cu, {"codigo": cu, "nombre": nu, "tipo": tu})
-
-        acc = agg[(ip, isub, it, ig, ifu, iu)]
+        acc = agg[(ip, it, ig, ifu)]
         for i, v in enumerate(valores):
             acc[i] += v
 
     if len(ejercicios) != 1:
         sys.exit(f"Se esperaba un solo ejercicio en BASE y hay: {sorted(ejercicios)}")
 
-    # Se descartan las combinaciones con todas las medidas en cero (p. ej. programa 26)
+    # Se descartan las combinaciones con todas las medidas en cero (p. ej. programa 26);
+    # el programa sigue en el catálogo para que la página lo muestre en cero, como el reporte.
+    nd = len(DIMENSIONES)
     registros = [list(k) + [round(v, 2) for v in vals] for k, vals in agg.items() if any(abs(v) > 0.004 for v in vals)]
     registros.sort()
 
     # Control: los totales del JSON deben cuadrar con la hoja BASE
     for i, (clave, col) in enumerate(MEDIDAS):
-        tj = sum(r[6 + i] for r in registros)
+        tj = sum(r[nd + i] for r in registros)
         if abs(tj - control[i]) > 0.05:
             sys.exit(f"Los totales no cuadran en {col}: JSON {tj:,.2f} vs BASE {control[i]:,.2f}. No se escribe el archivo.")
 
     t = dict(zip([m[0] for m in MEDIDAS], control))
-    dif = t["codificado"] - t["certificado"] - t["comprometido"] - t["saldo_disponible"] - t["reservado"]
+    dif = t["codificado"] - t["certificado"] - t["comprometido"] - t["saldo_disponible"] - reservado
     if abs(dif) > 1:
         print(f"AVISO: Codificado ≠ Certificado + Comprometido + Saldo + Reservado (diferencia {dif:,.2f}). Revisar la hoja BASE.")
-
-    usados = {d: set() for d in cat}
-    for r in registros:
-        for j, d in enumerate(["programa", "subsecretaria", "tipo_gasto", "grupo_gasto", "fuente", "unidad"]):
-            usados[d].add(r[j])
 
     salida = {
         "ejercicio": int(ejercicios.pop()),
         "fecha_corte": corte,
-        "generado": dt.datetime.now().strftime("%Y-%m-%d %H:%M"),
-        "nivel": "grupo de gasto",
         "medidas": [m[0] for m in MEDIDAS],
-        "dimensiones": ["programa", "subsecretaria", "tipo_gasto", "grupo_gasto", "fuente", "unidad"],
+        "dimensiones": DIMENSIONES,
         "catalogos": {d: sorted(v.values(), key=lambda x: x["id"]) for d, v in cat.items()},
         "registros": registros,
-        "totales": {clave: round(control[i], 2) for i, (clave, _) in enumerate(MEDIDAS)},
     }
 
     os.makedirs(os.path.dirname(os.path.abspath(a.salida)), exist_ok=True)
@@ -271,7 +206,6 @@ def main():
         json.dump(salida, fh, ensure_ascii=False, separators=(",", ":"))
     os.replace(tmp, a.salida)  # reemplaza el anterior sin dejar un archivo a medias
 
-    t = salida["totales"]
     print(f"Corte {corte} · {n:,} filas de BASE → {len(registros):,} registros ({os.path.getsize(a.salida)/1024:,.0f} KB)")
     print(f"Codificado {t['codificado']:,.2f} · Devengado {t['devengado']:,.2f} · Ejecución {100*t['devengado']/t['codificado']:.2f} %")
     print(f"Archivo: {a.salida}")
