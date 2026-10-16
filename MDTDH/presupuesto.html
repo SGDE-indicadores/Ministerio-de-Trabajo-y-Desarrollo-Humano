@@ -25,6 +25,10 @@
   .k .l{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--subtexto)}
   .k .v{font-size:23px;font-weight:700;color:var(--azul);line-height:1.1;margin:6px 0 2px;font-variant-numeric:tabular-nums}
   .k .s{font-size:12px;color:var(--subtexto);line-height:1.45}
+  /* KPI por grupo de gasto (sección «Por programa - grupo de gasto» del reporte) */
+  .k-grid.kg{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .kg-tit{font-size:12.5px;font-weight:700;color:var(--azul);margin:0 0 10px;display:flex;gap:8px 12px;align-items:center;flex-wrap:wrap}
+  .kg-tit button{font:inherit;font-size:12px;font-weight:700;color:var(--azul);background:none;border:1px solid var(--gris-bd);border-radius:7px;padding:4px 10px;cursor:pointer}
   .card-b{background:#fff;border:1px solid var(--gris-bd);border-radius:10px;margin-bottom:16px;overflow:hidden}
   .card-b .h{padding:12px 16px;border-bottom:1px solid var(--gris-bd);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
   .card-b .h b{color:var(--azul);font-size:13.5px}
@@ -49,8 +53,8 @@
   .cod{color:var(--subtexto);font-size:11.5px;margin-right:4px}
   .aviso-err{background:#FDECEA;border:1px solid #F3A8AC;color:#C4262E;border-radius:8px;padding:12px 16px;margin:14px 0}
   .vacio-msg{padding:22px;text-align:center;color:var(--subtexto);font-size:13px}
-  @media(max-width:900px){.k-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.k .v{font-size:21px}.fbar{position:static}.fbar select{width:100%}.fbar .fila>div{flex:1 1 150px}.fbar .corte{margin-left:0}}
-  @media(max-width:480px){.k-grid{grid-template-columns:1fr}}
+  @media(max-width:900px){.k-grid,.k-grid.kg{grid-template-columns:repeat(2,minmax(0,1fr))}.k .v{font-size:21px}.fbar{position:static}.fbar select{width:100%}.fbar .fila>div{flex:1 1 150px}.fbar .corte{margin-left:0}}
+  @media(max-width:480px){.k-grid,.k-grid.kg{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -87,7 +91,11 @@
 
   <div class="card-b">
     <div class="h"><div><b>Ejecución presupuestaria por grupo de gasto</b><div class="sub" id="sub-grupo">Valores en dólares</div></div></div>
-    <div class="c"><div class="tabla-w"><table class="t" id="t-grupo"></table></div></div>
+    <div class="c">
+      <div class="kg-tit" id="kg-tit"></div>
+      <div class="k-grid kg" id="kpis-grupo"></div>
+      <div class="tabla-w"><table class="t" id="t-grupo"></table></div>
+    </div>
   </div>
 </div>
 
@@ -129,6 +137,7 @@ function ajustarFiltroFijo(){
 window.addEventListener('resize', ajustarFiltroFijo); window.addEventListener('load', ajustarFiltroFijo); setTimeout(ajustarFiltroFijo, 300);
 
 let J, CAT, R = [], sel = {};
+let selGrupo = null;   // grupo de gasto elegido en la tabla: solo cambia los KPI de esa sección (como el filtro de MATRICES!A84)
 const orden = {};   // orden de cada tabla: { col, asc }
 
 // ---------- agregación ----------
@@ -167,17 +176,32 @@ function kpis(rows, T){
   ];
   if (!$('kpis').children.length)
     $('kpis').innerHTML = tiles.map(([k, l, d]) => `<div class="k${d ? ' dest' : ''}"><div class="l">${l}</div><div class="v" id="k-${k}">–</div><div class="s" id="ks-${k}"></div></div>`).join('');
+  ejecucionPorTipo(rows, T, 'k-');
+  $('k-saldo').textContent = 'USD ' + usd2(T.saldo_disponible);
+  $('ks-saldo').textContent = 'Codificado aún no certificado ni comprometido';
+}
+// Ejecución general / gasto corriente / gasto inversión de un conjunto de registros
+function ejecucionPorTipo(rows, T, pre){
   const porTipo = agrupar(rows, 'tipo_gasto');
   const tipo = n => porTipo.find(x => x.cat.nombre === n && x.codificado > 0);
   const pon = (k, x) => {
-    $('k-' + k).textContent = x ? pctTxt(ratio(x.devengado, x.codificado)) : '–';
-    $('ks-' + k).textContent = x ? `Devengado / codificado` : 'Sin presupuesto con los filtros elegidos';
+    $(pre + k).textContent = x ? pctTxt(ratio(x.devengado, x.codificado)) : '–';
+    $(pre.replace('-', 's-') + k).textContent = x ? `Devengado / codificado` : 'Sin presupuesto con los filtros elegidos';
   };
   pon('general', T.codificado > 0 ? T : null);
   pon('corriente', tipo('Corriente'));
   pon('inversion', tipo('Inversión'));
-  $('k-saldo').textContent = 'USD ' + usd2(T.saldo_disponible);
-  $('ks-saldo').textContent = 'Codificado aún no certificado ni comprometido';
+}
+function kpisGrupo(rows){
+  if (!$('kpis-grupo').children.length)
+    $('kpis-grupo').innerHTML = [['general', 'Ejecución general', true], ['corriente', 'Gasto corriente'], ['inversion', 'Gasto inversión']]
+      .map(([k, l, d]) => `<div class="k${d ? ' dest' : ''}"><div class="l">${l}</div><div class="v" id="kg-${k}">–</div><div class="s" id="kgs-${k}"></div></div>`).join('');
+  if (selGrupo != null && !rows.some(r => r.grupo_gasto === selGrupo)) selGrupo = null;
+  const R2 = selGrupo == null ? rows : rows.filter(r => r.grupo_gasto === selGrupo);
+  ejecucionPorTipo(R2, total(R2), 'kg-');
+  const g = selGrupo == null ? null : CAT.grupo_gasto[selGrupo];
+  $('kg-tit').innerHTML = `Grupo de gasto: ${g ? `${esc(g.codigo)} · ${esc(g.nombre)} <button type="button" id="kg-todos">Ver todos</button>` : 'todos <span style="font-weight:400;color:var(--subtexto)">· haz clic en un grupo de gasto para ver su ejecución</span>'}`;
+  if (g) $('kg-todos').onclick = () => { selGrupo = null; render(); };
 }
 
 // ---------- tablas ----------
@@ -212,14 +236,14 @@ function tablas(rows, T){
   tabla('t-grupo', G, [
     { t:'Grupo de gasto', v: f => f.cat.codigo, f: f => `<span class="cod">${esc(f.cat.codigo)}</span>${esc(f.cat.nombre)}` },
     ...MONTOS, PCT_E
-  ], { total:T, ordenInicial:0, asc:true });
+  ], { total:T, ordenInicial:0, asc:true, clic: id => { selGrupo = selGrupo === id ? null : id; render(); }, sel: f => selGrupo === f.id });
   $('sub-grupo').textContent = 'Valores en dólares · programa: ' + (sel.programa == null ? 'todos' : `${CAT.programa[sel.programa].codigo} · ${CAT.programa[sel.programa].nombre}`);
 }
 
 function render(){
   pintarFiltros();
   const rows = filtrar(null), T = total(rows);
-  kpis(rows, T); tablas(rows, T);
+  kpis(rows, T); kpisGrupo(rows); tablas(rows, T);
 }
 
 fetch(PATH, { cache:'no-cache' })
