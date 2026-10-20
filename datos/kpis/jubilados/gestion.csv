@@ -90,34 +90,34 @@ anio,mes_inicio,mes_fin,parcial,dimension,categoria,codigo,expedientes,monto_usd
 2025,1,12,FALSE,provincia,Orellana,22,21,989660.20
 2025,1,12,FALSE,provincia,Santo Domingo de los Tsáchilas,23,94,4759036.04
 2025,1,12,FALSE,provincia,Santa Elena,24,61,2845771.00
-2026,1,8,TRUE,total,Total,,4686,229841799.89
-2026,1,8,TRUE,sexo,Mujeres,,2603,127426028.41
-2026,1,8,TRUE,sexo,Hombres,,2083,102415771.48
-2026,1,8,TRUE,regimen,Código del Trabajo,,1102,60014458.22
-2026,1,8,TRUE,regimen,LOEI,,2738,129713241.67
-2026,1,8,TRUE,regimen,LOSEP,,840,39807447.50
-2026,1,8,TRUE,regimen,LOSE,,6,306652.50
-2026,1,8,TRUE,provincia,Azuay,01,167,8221900.24
-2026,1,8,TRUE,provincia,Bolívar,02,105,5498889.29
-2026,1,8,TRUE,provincia,Cañar,03,93,4682363.86
-2026,1,8,TRUE,provincia,Carchi,04,79,4040436.63
-2026,1,8,TRUE,provincia,Cotopaxi,05,147,7873236.66
-2026,1,8,TRUE,provincia,Chimborazo,06,219,11053634.75
-2026,1,8,TRUE,provincia,El Oro,07,288,14639036.00
-2026,1,8,TRUE,provincia,Esmeraldas,08,239,11690485.17
-2026,1,8,TRUE,provincia,Guayas,09,722,33487620.87
-2026,1,8,TRUE,provincia,Imbabura,10,164,8371929.77
-2026,1,8,TRUE,provincia,Loja,11,271,13722249.44
-2026,1,8,TRUE,provincia,Los Ríos,12,220,10398933.85
-2026,1,8,TRUE,provincia,Manabí,13,470,22768191.31
-2026,1,8,TRUE,provincia,Morona Santiago,14,66,3456408.12
-2026,1,8,TRUE,provincia,Napo,15,55,2799392.12
-2026,1,8,TRUE,provincia,Pastaza,16,50,2544783.50
-2026,1,8,TRUE,provincia,Pichincha,17,872,42060625.85
-2026,1,8,TRUE,provincia,Tungurahua,18,160,7950788.96
-2026,1,8,TRUE,provincia,Zamora Chinchipe,19,50,2673086.99
-2026,1,8,TRUE,provincia,Galápagos,20,20,962857.30
-2026,1,8,TRUE,provincia,Sucumbíos,21,51,2456293.93
-2026,1,8,TRUE,provincia,Orellana,22,25,1171814.23
-2026,1,8,TRUE,provincia,Santo Domingo de los Tsáchilas,23,104,4947353.25
-2026,1,8,TRUE,provincia,Santa Elena,24,49,2369487.80
+2026,1,9,TRUE,total,Total,,4686,229841799.89
+2026,1,9,TRUE,sexo,Mujeres,,2603,127426028.41
+2026,1,9,TRUE,sexo,Hombres,,2083,102415771.48
+2026,1,9,TRUE,regimen,Código del Trabajo,,1102,60014458.22
+2026,1,9,TRUE,regimen,LOEI,,2738,129713241.67
+2026,1,9,TRUE,regimen,LOSEP,,840,39807447.50
+2026,1,9,TRUE,regimen,LOSE,,6,306652.50
+2026,1,9,TRUE,provincia,Azuay,01,167,8221900.24
+2026,1,9,TRUE,provincia,Bolívar,02,105,5498889.29
+2026,1,9,TRUE,provincia,Cañar,03,93,4682363.86
+2026,1,9,TRUE,provincia,Carchi,04,79,4040436.63
+2026,1,9,TRUE,provincia,Cotopaxi,05,147,7873236.66
+2026,1,9,TRUE,provincia,Chimborazo,06,219,11053634.75
+2026,1,9,TRUE,provincia,El Oro,07,288,14639036.00
+2026,1,9,TRUE,provincia,Esmeraldas,08,239,11690485.17
+2026,1,9,TRUE,provincia,Guayas,09,722,33487620.87
+2026,1,9,TRUE,provincia,Imbabura,10,164,8371929.77
+2026,1,9,TRUE,provincia,Loja,11,271,13722249.44
+2026,1,9,TRUE,provincia,Los Ríos,12,220,10398933.85
+2026,1,9,TRUE,provincia,Manabí,13,470,22768191.31
+2026,1,9,TRUE,provincia,Morona Santiago,14,66,3456408.12
+2026,1,9,TRUE,provincia,Napo,15,55,2799392.12
+2026,1,9,TRUE,provincia,Pastaza,16,50,2544783.50
+2026,1,9,TRUE,provincia,Pichincha,17,872,42060625.85
+2026,1,9,TRUE,provincia,Tungurahua,18,160,7950788.96
+2026,1,9,TRUE,provincia,Zamora Chinchipe,19,50,2673086.99
+2026,1,9,TRUE,provincia,Galápagos,20,20,962857.30
+2026,1,9,TRUE,provincia,Sucumbíos,21,51,2456293.93
+2026,1,9,TRUE,provincia,Orellana,22,25,1171814.23
+2026,1,9,TRUE,provincia,Santo Domingo de los Tsáchilas,23,104,4947353.25
+2026,1,9,TRUE,provincia,Santa Elena,24,49,2369487.80
