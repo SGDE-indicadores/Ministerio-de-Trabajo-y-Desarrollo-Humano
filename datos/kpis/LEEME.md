@@ -81,16 +81,23 @@ Comunitaria y Productiva» (subproyectos), que dejó de publicarse.
 |---|---|
 | `jubilados/gestion.csv` | Tabla larga: año × dimensión (total, sexo, régimen, provincia) con expedientes y monto |
 | `jubilados/mensual.csv` | Serie mensual (solo con el formato de entrega nuevo, opciones A o B) |
-| `jubilados/corte.csv` | Corte cargado, archivo de origen y fecha de carga |
+| `jubilados/corte.csv` | Corte cargado (AAAA-MM o fecha exacta AAAA-MM-DD), archivo de origen y fecha de carga |
 
-Cada mes (el archivo trae el histórico completo; la carga reemplaza la anterior):
+Cada mes (el archivo trae el histórico completo; la carga reemplaza la anterior). El corte puede ser
+el mes (`2026-09`) o la fecha exacta de la información (`2026-09-18`); con fecha exacta la página
+muestra «Corte: 18 de septiembre de 2026» y el año en curso como «1 de enero – 18 de septiembre»:
 
-    python scripts/actualizar_jubilados.py --archivo "C:/jubilados/JUBILADOS_2026-09.xlsx" --corte 2026-09
+    python scripts/actualizar_jubilados.py --archivo "C:/jubilados/GESTION_POR_GENERO_PROVINCIA_REGIMEN.xlsx" --corte 2026-09-18
+
+Variables y catálogos según el «Diccionario de datos · Gestión de Compensación Jubilar 2023-2026»:
+género (Femenino → Mujeres, Masculino → Hombres), régimen laboral (Código del Trabajo; LOEI, Ley
+Orgánica de Educación Intercultural; LOSEP, Ley Orgánica del Servicio Público; LOSE, Ley Orgánica
+de Servicio Exterior) y 24 provincias. Cada expediente corresponde a una persona.
 
 Lee el formato actual (hojas POR PROVINCIA / POR REGIMEN / GENERO con bloques por año) y el formato
 de entrega nuevo (`Formato_entrega_jubilados_MTDH.xlsx`, hojas Expedientes o Agregado). Si los totales
-de sexo, régimen y provincia no cuadran en algún año, no escribe nada. Revisar
-`reportes/kpis/validacion_jubilados_<AAAA-MM>.md`. Página: `MDTDH/kpi_jubilados.html`.
+de género, régimen y provincia no cuadran en algún año, no escribe nada. Revisar
+`reportes/kpis/validacion_jubilados_<corte>.md`. Página: `MDTDH/kpi_jubilados.html`.
 
 ## Trabajo · Contratos registrados (SUT)
 
