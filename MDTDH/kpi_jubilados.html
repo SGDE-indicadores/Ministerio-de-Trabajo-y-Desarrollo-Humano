@@ -108,7 +108,7 @@
     <div class="toggle-bar">
       <div class="toggle-group" role="tablist" aria-label="Secciones del indicador">
         <button class="toggle-btn active" data-tab="resumen" role="tab">Resumen y evolución</button>
-        <button class="toggle-btn" data-tab="sexo" role="tab">Por sexo</button>
+        <button class="toggle-btn" data-tab="sexo" role="tab">Por género</button>
         <button class="toggle-btn" data-tab="regimen" role="tab">Por régimen laboral</button>
         <button class="toggle-btn" data-tab="provincial" role="tab">Provincial</button>
         <button class="toggle-btn" data-tab="ficha" role="tab">Ficha del indicador</button>
@@ -131,9 +131,9 @@
         <ul class="notas" id="notas"></ul></div>
     </div>
 
-    <!-- ───────── Por sexo ───────── -->
+    <!-- ───────── Por género ───────── -->
     <div class="panel" id="p-sexo" hidden>
-      <div class="card-b"><div class="h"><div><b id="tit-sexo">Expedientes por sexo</b><div class="sub">Número de expedientes, participación y monto</div></div></div>
+      <div class="card-b"><div class="h"><div><b id="tit-sexo">Expedientes por género</b><div class="sub">Número de expedientes, participación y monto</div></div></div>
         <div class="c"><div class="siluetas" id="siluetas"></div></div></div>
       <div class="g2">
         <div class="card-b"><div class="h"><div><b>Participación por año</b><div class="sub">Porcentaje de los expedientes de cada año</div></div></div>
@@ -153,6 +153,8 @@
       </div>
       <div class="card-b"><div class="h"><div><b>Detalle del año</b><div class="sub" id="sub-treg"></div></div></div>
         <div style="overflow-x:auto"><table class="t" id="t-reg"></table></div></div>
+      <div class="card-b"><div class="h"><div><b>Regímenes laborales</b><div class="sub">Marco legal que rige la relación laboral del beneficiario y determina cómo se calcula su compensación</div></div></div>
+        <ul class="notas" id="def-reg"></ul></div>
     </div>
 
     <!-- ───────── Provincial ───────── -->
@@ -197,6 +199,14 @@
   const C = { azul: '#4F449A', parcial: css('--parcial'), hombre: css('--hombre'), mujer: css('--mujer'),
               reg: { 'Código del Trabajo': css('--r1'), 'LOEI': css('--r2'), 'LOSEP': css('--r3'), 'LOSE': css('--r4') } };
   const ORD_REG = ['Código del Trabajo', 'LOEI', 'LOSEP', 'LOSE'];
+  // Catálogo de régimen laboral (Diccionario de datos · Gestión de Compensación Jubilar 2023-2026)
+  const REG = {
+    'Código del Trabajo': ['Código del Trabajo', 'Régimen de los trabajadores (obreros) del sector público con relación de dependencia regida por el Código del Trabajo.'],
+    'LOEI': ['Ley Orgánica de Educación Intercultural', 'Régimen de los docentes del magisterio fiscal.'],
+    'LOSEP': ['Ley Orgánica del Servicio Público', 'Régimen de los servidores públicos administrativos.'],
+    'LOSE': ['Ley Orgánica de Servicio Exterior', 'Régimen del personal del servicio exterior: Ministerio de Relaciones Exteriores y Movilidad Humana, embajadas y consulados del Ecuador.']
+  };
+  const nomReg = c => REG[c] && REG[c][0] !== c ? `${c} · ${REG[c][0]}` : c;
   const SEXO = [['Hombres', 'Hombre', C.hombre, '../imagenes/hombre.png'], ['Mujeres', 'Mujer', C.mujer, '../imagenes/mujer.png']];
   const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const fI = v => Math.round(v).toLocaleString('es-EC');
@@ -204,6 +214,9 @@
   const fM = v => '$' + (v / 1e6).toLocaleString('es-EC', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' M';
   const fP = v => v.toLocaleString('es-EC', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' %';
   let G = [], corte, anios, sel, tab = 'resumen', medida = 'expedientes', charts = {}, mapa = null, filasProv = [];
+  // Corte: mes (AAAA-MM) o fecha exacta (AAAA-MM-DD, p. ej. 2026-09-18)
+  let cA, cM, cD;
+  const fechaCorte = () => cD ? `${cD} de ${MES[cM - 1]} de ${cA}` : `${MES[cM - 1]} ${cA}`;
 
   initSidebar({ activeId: 'kpis-trabajo', basePath: '../' });
 
@@ -211,6 +224,7 @@
     .then(([g, c, m]) => {
       G = g.map(r => ({ ...r, anio: +r.anio, mes_fin: +r.mes_fin, parcial: r.parcial === 'TRUE', expedientes: +r.expedientes, monto: +r.monto_usd }));
       corte = c[0]; anios = [...new Set(G.map(r => r.anio))].sort();
+      [cA, cM, cD] = String(corte.corte).split('-').map(Number);
       sel = anios[anios.length - 1];
       encabezado(); evolucion(); mensual(m); notas(); ficha();
       const s = document.getElementById('anio');
@@ -237,8 +251,11 @@
   const tot = a => G.find(r => r.anio === a && r.dimension === 'total');
   const dim = (a, d) => G.filter(r => r.anio === a && r.dimension === d);
   const esParcial = a => (tot(a) || {}).parcial;
-  const etiqueta = a => esParcial(a) ? `${a} (enero–${MES[tot(a).mes_fin - 1]})` : String(a);
-  const corto = a => esParcial(a) ? `${a} (ene–${MESC[tot(a).mes_fin - 1].toLowerCase()})` : String(a);
+  // Año en curso: «2026 (1 de enero – 18 de septiembre)» con corte de fecha exacta; «2026 (enero–agosto)» con corte mensual
+  const tramo = a => cD && a === cA ? `1 de enero – ${cD} de ${MES[cM - 1]}` : `enero–${MES[tot(a).mes_fin - 1]}`;
+  const tramoFrase = a => cD && a === cA ? `del 1 de enero al ${cD} de ${MES[cM - 1]}` : `enero–${MES[tot(a).mes_fin - 1]}`;
+  const etiqueta = a => esParcial(a) ? `${a} (${tramo(a)})` : String(a);
+  const corto = a => esParcial(a) ? (cD && a === cA ? `${a} (al ${cD} ${MESC[cM - 1].toLowerCase()})` : `${a} (ene–${MESC[tot(a).mes_fin - 1].toLowerCase()})`) : String(a);
   const bajo = a => a === anios[0] && anios.length > 1 && tot(a).expedientes < 0.3 * Math.max(...anios.map(x => tot(x).expedientes));
   const ejes = (y = {}, x = {}) => ({ x: { grid: { display: false }, ticks: { color: '#446381' }, ...x }, y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { color: '#446381' }, ...y } });
   const opc = (extra = {}) => ({ responsive: true, maintainAspectRatio: false, animation: false,
@@ -250,9 +267,9 @@
     document.getElementById('titulo').textContent = m.nombre;
     document.getElementById('quemide').textContent = m.queMide;
     document.getElementById('chips').innerHTML =
-      `<span class="hero-chip">Corte: <strong>${MES[+corte.corte.slice(5) - 1]} ${corte.corte.slice(0, 4)}</strong></span>` +
-      `<span class="hero-chip">Periodo: <strong>${anios[0]} – ${etiqueta(anios[anios.length - 1])}</strong></span>` +
-      `<span class="hero-chip">Desagregación: <strong>sexo, régimen y provincia</strong></span>`;
+      `<span class="hero-chip">Corte: <strong>${fechaCorte()}</strong></span>` +
+      `<span class="hero-chip">Periodo: <strong>${anios[0]} – ${esParcial(anios[anios.length - 1]) && cD ? fechaCorte() : etiqueta(anios[anios.length - 1])}</strong></span>` +
+      `<span class="hero-chip">Desagregación: <strong>género, régimen laboral y provincia</strong></span>`;
   }
 
   function pintarAnio(){
@@ -260,7 +277,7 @@
     const acE = anios.reduce((s, a) => s + tot(a).expedientes, 0), acM = anios.reduce((s, a) => s + tot(a).monto, 0);
     const comp = prev && !t.parcial ? (bajo(sel - 1) ? `${fI(prev.expedientes)} en ${sel - 1} (cobertura de ${sel - 1} por confirmar)`
                : `${t.expedientes >= prev.expedientes ? '▲' : '▼'} ${fP(Math.abs(t.expedientes / prev.expedientes - 1) * 100)} frente a ${sel - 1}`)
-               : t.parcial ? `Año en curso: enero–${MES[t.mes_fin - 1]} (no comparable con años completos)` : 'Primer año de la serie';
+               : t.parcial ? `Año en curso: ${tramoFrase(sel)} (no comparable con años completos)` : 'Primer año de la serie';
     document.getElementById('kpis').innerHTML = `
       <div class="k"><div class="l">Expedientes · ${esc(etiqueta(sel))}</div><div class="v">${fI(t.expedientes)}</div><div class="s">${comp}</div></div>
       <div class="k" style="border-top-color:var(--amarillo)"><div class="l">Monto · ${esc(etiqueta(sel))}</div><div class="v">${fM(t.monto)}</div><div class="s">${fUSD(t.monto)}</div></div>
@@ -289,7 +306,7 @@
 
     // régimen: expedientes por año
     const regs = ORD_REG.filter(r => G.some(x => x.dimension === 'regimen' && x.categoria === r));
-    document.getElementById('ley-reg').innerHTML = regs.map(r => `<span><i style="background:${C.reg[r]}"></i>${esc(r)}</span>`).join('');
+    document.getElementById('ley-reg').innerHTML = regs.map(r => `<span title="${esc(REG[r] ? REG[r][0] : r)}"><i style="background:${C.reg[r]}"></i>${esc(r)}</span>`).join('');
     nuevo('g-reg', { type: 'bar', data: { labels: lbl, datasets: regs.map(r => ({ label: r,
         data: anios.map(a => (dim(a, 'regimen').find(x => x.categoria === r) || {}).expedientes || 0),
         backgroundColor: C.reg[r], borderColor: '#fff', borderWidth: { top: 2 }, borderSkipped: false, maxBarThickness: 56 })) },
@@ -298,10 +315,10 @@
         scales: { x: { stacked: true, grid: { display: false }, ticks: { color: '#446381' } }, y: { stacked: true, grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { color: '#446381', callback: v => fI(v) } } } }) });
   }
 
-  function tabla(id, filas, color, icono){
+  function tabla(id, filas, color, icono, nombre = c => c){
     const t = tot(sel);
     document.getElementById(id).innerHTML = `<thead><tr><th>${esc(etiqueta(sel))}</th><th class="n">Expedientes</th><th class="n">%</th><th class="n">Monto</th><th class="n">Promedio</th></tr></thead><tbody>` +
-      filas.map(r => `<tr><td>${icono ? icono(r.categoria) : `<span class="sw" style="background:${color(r.categoria)}"></span>`}${esc(r.categoria)}</td><td class="n">${fI(r.expedientes)}</td>
+      filas.map(r => `<tr><td>${icono ? icono(r.categoria) : `<span class="sw" style="background:${color(r.categoria)}"></span>`}${esc(nombre(r.categoria))}</td><td class="n">${fI(r.expedientes)}</td>
         <td class="n">${fP(r.expedientes / t.expedientes * 100)}</td><td class="n">${fM(r.monto)}</td><td class="n">${fUSD(r.monto / r.expedientes)}</td></tr>`).join('') +
       `<tr class="tot"><td>Total</td><td class="n">${fI(t.expedientes)}</td><td class="n">100,0 %</td><td class="n">${fM(t.monto)}</td><td class="n">${fUSD(t.monto / t.expedientes)}</td></tr></tbody>`;
   }
@@ -309,7 +326,7 @@
   // ─────────── Por sexo
   function sexo(){
     const t = tot(sel), filas = dim(sel, 'sexo');
-    document.getElementById('tit-sexo').textContent = 'Expedientes por sexo · ' + etiqueta(sel);
+    document.getElementById('tit-sexo').textContent = 'Expedientes por género · ' + etiqueta(sel);
     document.getElementById('sub-tsexo').textContent = etiqueta(sel);
     document.getElementById('siluetas').innerHTML = SEXO.map(([k, l, c, img]) => {
       const r = filas.find(x => x.categoria === k); if (!r) return '';
@@ -325,10 +342,12 @@
     const filas = dim(sel, 'regimen').sort((a, b) => ORD_REG.indexOf(a.categoria) - ORD_REG.indexOf(b.categoria));
     document.getElementById('sub-treg').textContent = etiqueta(sel);
     document.getElementById('sub-preg').textContent = etiqueta(sel) + ' · dólares por expediente';
-    tabla('t-reg', filas, c => C.reg[c] || '#9AA5B4');
+    tabla('t-reg', filas, c => C.reg[c] || '#9AA5B4', null, nomReg);
+    document.getElementById('def-reg').innerHTML = ORD_REG.filter(r => G.some(x => x.dimension === 'regimen' && x.categoria === r))
+      .map(r => `<li><b>${esc(nomReg(r))}:</b> ${esc(REG[r][1])}</li>`).join('');
     nuevo('g-preg', { type: 'bar', data: { labels: filas.map(r => r.categoria), datasets: [{ label: 'Promedio', data: filas.map(r => r.monto / r.expedientes),
         backgroundColor: filas.map(r => C.reg[r.categoria] || '#9AA5B4'), borderRadius: 4, barPercentage: 0.6 }] },
-      options: opc({ indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { callbacks: { label: it => { const r = filas[it.dataIndex]; return [` Promedio: ${fUSD(it.raw)}`, ` Expedientes: ${fI(r.expedientes)}`]; } } } },
+      options: opc({ indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { callbacks: { title: it => nomReg(filas[it[0].dataIndex].categoria), label: it => { const r = filas[it.dataIndex]; return [` Promedio: ${fUSD(it.raw)}`, ` Expedientes: ${fI(r.expedientes)}`]; } } } },
         scales: { x: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { color: '#446381', callback: v => fUSD(v) } }, y: { grid: { display: false }, ticks: { color: '#1A1E2E' } } } }) });
   }
 
@@ -383,9 +402,10 @@
 
   function notas(){
     const ult = anios[anios.length - 1], n = [];
-    if (esParcial(ult)) n.push(`<b>${ult} es un año en curso</b> (enero–${MES[tot(ult).mes_fin - 1]}); sus cifras no son comparables con los años completos.`);
-    n.push('Las cifras corresponden a <b>expedientes</b> del reporte de gestión.');
-    n.push('Montos en dólares corrientes, sin ajuste por inflación. Sexo, régimen y provincia vienen como totales separados: no se pueden cruzar entre sí (por ejemplo, mujeres por provincia).');
+    if (esParcial(ult)) n.push(`<b>${ult} es un año en curso</b> (${tramoFrase(ult)}); sus cifras no son comparables con los años completos.`);
+    n.push('<b>Expediente:</b> trámite individual de un beneficiario que solicita la compensación jubilar; cada expediente corresponde a una persona.');
+    n.push('<b>Monto:</b> valor en dólares asignado o pagado por los expedientes de una categoría en un año (dólares corrientes, sin ajuste por inflación). <b>Monto promedio por expediente</b> = monto ÷ expedientes.');
+    n.push('Género, régimen laboral y provincia vienen como totales separados: no se pueden cruzar entre sí (por ejemplo, mujeres por provincia).');
     document.getElementById('notas').innerHTML = n.map(x => `<li>${x}</li>`).join('');
   }
 
@@ -393,8 +413,8 @@
     const m = kpiMetadata['1'];
     document.getElementById('ficha').innerHTML = renderFichaIndicador({
       queMide: m.queMide, paraQue: m.decision, formula: m.formula,
-      unidad: m.unidad, tipo: m.tipo, periodicidad: m.periodicidad, desagregacion: 'NACIONAL, PROVINCIAL, SEXO Y RÉGIMEN',
-      fuente: `Reporte de gestión de compensación jubilar por género, provincia y régimen, corte ${MES[+corte.corte.slice(5) - 1]} ${corte.corte.slice(0, 4)}.`,
+      unidad: m.unidad, tipo: m.tipo, periodicidad: m.periodicidad, desagregacion: 'NACIONAL, PROVINCIAL, GÉNERO Y RÉGIMEN LABORAL',
+      fuente: `Reporte de gestión de compensación jubilar por género, provincia y régimen laboral, corte al ${fechaCorte()}.`,
       sistema: m.sistema, recurso: m.recurso, acceso: m.acceso,
       calidad: m.calidad, prioridad: m.prioridad, disponibilidad: m.estado, genera: m.responsable, valida: m.validacion,
       observacion: m.observacion
