@@ -20,10 +20,17 @@ Acepta dos formatos de entrada (se detectan solos):
      (opción A, una fila por expediente) o «Agregado» (opción B). Solo cuenta estado = Pagado.
 
 El archivo trae siempre el histórico completo: cada corte reemplaza la carga anterior
-(idempotente). El año del corte se marca como parcial (enero–mes de corte).
+(idempotente). El año del corte se marca como parcial (del 1 de enero a la fecha de corte).
+
+El corte puede ser un mes (AAAA-MM) o una fecha exacta (AAAA-MM-DD); con fecha exacta los
+textos del portal dicen «1 de enero – 18 de septiembre de 2026» en lugar de «enero–septiembre».
+
+Catálogo de régimen laboral según el «Diccionario de datos · Gestión de Compensación Jubilar
+2023-2026»: Código del Trabajo, LOEI (Ley Orgánica de Educación Intercultural), LOSEP (Ley
+Orgánica del Servicio Público) y LOSE (Ley Orgánica de Servicio Exterior).
 
 Uso:
-  python scripts/actualizar_jubilados.py --archivo "C:/jubilados/JUBILADOS_2026-08.xlsx" --corte 2026-08
+  python scripts/actualizar_jubilados.py --archivo "C:/jubilados/GESTION_POR_GENERO_PROVINCIA_REGIMEN.xlsx" --corte 2026-09-18
 """
 import argparse
 import csv
@@ -76,8 +83,6 @@ def categoria(dim, valor, log, donde):
         if k not in REGIMENES:
             log.a.append(f"{donde}: régimen fuera de catálogo «{valor}» (se publica tal cual).")
             return "", str(valor).strip()
-        if k == "LOSE":
-            log.a.append(f"{donde}: régimen «LOSE» pendiente de confirmar (¿Ley Orgánica del Servicio Exterior o LOSEP?).")
         if str(valor) != str(valor).strip():
             log.i.append(f"{donde}: «{valor}» traía espacios al final; se normalizó.")
         return "", REGIMENES[k]
@@ -215,13 +220,19 @@ def agregar_plantilla(regs, log):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--archivo", required=True, help="Excel entregado por el área")
-    ap.add_argument("--corte", required=True, help="Mes de corte AAAA-MM (ej. 2026-08)")
+    ap.add_argument("--corte", required=True, help="Corte: mes AAAA-MM (ej. 2026-08) o fecha exacta AAAA-MM-DD (ej. 2026-09-18)")
     ap.add_argument("--datos", default=os.path.join(REPO, "datos"))
     ap.add_argument("--reportes", default=os.path.join(REPO, "reportes", "kpis"))
     args = ap.parse_args()
-    if not re.match(r"^\d{4}-(0[1-9]|1[0-2])$", args.corte):
-        sys.exit("--corte debe tener formato AAAA-MM")
-    ya, ma = int(args.corte[:4]), int(args.corte[5:])
+    if not re.match(r"^\d{4}-(0[1-9]|1[0-2])(-(0[1-9]|[12]\d|3[01]))?$", args.corte):
+        sys.exit("--corte debe tener formato AAAA-MM o AAAA-MM-DD")
+    ya, ma = int(args.corte[:4]), int(args.corte[5:7])
+    da = int(args.corte[8:]) if len(args.corte) == 10 else None
+    try:
+        if da:
+            date(ya, ma, da)
+    except ValueError:
+        sys.exit(f"--corte {args.corte} no es una fecha válida")
 
     log = Log()
     wb = openpyxl.load_workbook(args.archivo, data_only=True)
@@ -259,7 +270,7 @@ def main():
             elif abs(m - ref[1]) > 0.004:
                 log.i.append(f"{anio}: el total por {dim} difiere en ${abs(m - ref[1]):.2f} (redondeo).")
         totales[anio] = ref
-        parcial = anio == ya and ma < 12
+        parcial = anio == ya and (ma < 12 or (da is not None and da < 31))
         base = {"anio": anio, "mes_inicio": 1, "mes_fin": ma if anio == ya else 12, "parcial": "TRUE" if parcial else "FALSE"}
         filas.append({**base, "dimension": "total", "categoria": "Total", "codigo": "", "expedientes": ref[0], "monto_usd": f"{ref[1]:.2f}"})
         orden = {"sexo": ["Mujeres", "Hombres"], "regimen": list(REGIMENES.values())}
@@ -269,7 +280,7 @@ def main():
             for cat, (cod, e, m) in sel:
                 filas.append({**base, "dimension": dim, "categoria": cat, "codigo": cod, "expedientes": e, "monto_usd": f"{m:.2f}"})
     if ya in anios and min(anios) < ya:
-        log.i.append(f"{ya} comprende enero–{MESES[ma - 1]} ({ma} meses): no es comparable directamente con años completos.")
+        log.i.append(f"{ya} comprende {periodo_frase(ma, da)}: no es comparable directamente con años completos.")
     if min(anios) in totales and len(anios) > 1 and totales[min(anios)][0] < 0.3 * max(v[0] for v in totales.values()):
         log.a.append(f"{min(anios)} tiene muchos menos expedientes que los demás años ({totales[min(anios)][0]}): "
                      "confirmar si es un año parcial o el inicio del proyecto.")
@@ -289,7 +300,7 @@ def main():
              [{"corte": args.corte, "archivo": os.path.basename(args.archivo), "formato": formato,
                "fecha_carga": date.today().isoformat(), "anio_inicio": min(anios), "anio_fin": max(anios)}],
              ["corte", "archivo", "formato", "fecha_carga", "anio_inicio", "anio_fin"])
-    panorama(args, filas, totales, anios, ya, ma)
+    panorama(args, filas, totales, anios, ya, ma, da)
     escribir_reporte(args, formato, anios, totales, log)
     print(f"Jubilados: corte {args.corte} · formato {formato} · {len(anios)} años · {len(filas)} filas. "
           f"Errores 0 · Advertencias {len(log.a)} · Info {len(log.i)}")
@@ -314,7 +325,17 @@ def cuota(x, total):
     return f"{miles(x)} ({x / total * 100:.1f} %)".replace(".", "#").replace("#", ".", miles(x).count(".")).replace("#", ",") if total else ""
 
 
-def panorama(args, filas, totales, anios, ya, ma):
+def periodo_parcial(ma, da):
+    """«1 de enero – 18 de septiembre» (corte con día) o «enero–septiembre» (corte mensual)."""
+    return f"1 de enero – {da} de {MESES[ma - 1]}" if da else f"enero–{MESES[ma - 1]}"
+
+
+def periodo_frase(ma, da):
+    """Para oraciones: «del 1 de enero al 18 de septiembre» o «enero–septiembre»."""
+    return f"del 1 de enero al {da} de {MESES[ma - 1]}" if da else f"enero–{MESES[ma - 1]}"
+
+
+def panorama(args, filas, totales, anios, ya, ma, da=None):
     """Reemplaza las filas del registro 1 en datos/kpis/kpi_trabajo.csv (carrusel de KPIs · Trabajo)."""
     ruta = os.path.join(args.datos, "kpis", "kpi_trabajo.csv")
     with open(ruta, encoding="utf-8") as fh:
@@ -326,13 +347,15 @@ def panorama(args, filas, totales, anios, ya, ma):
     otras = [r for r in previas if r.get("registro_id") != "1"]
     ult = max(anios)
     e, m = totales[ult]
-    per = f"enero–{MESES[ma - 1]} {ult}" if ult == ya and ma < 12 else str(ult)
+    parcial = ult == ya and (ma < 12 or (da is not None and da < 31))
+    per = (f"1 de enero – {da} de {MESES[ma - 1]} de {ult}" if da else f"enero–{MESES[ma - 1]} {ult}") if parcial else str(ult)
     sx = {r["categoria"]: int(r["expedientes"]) for r in filas if r["anio"] == ult and r["dimension"] == "sexo"}
     rg = sorted([r for r in filas if r["anio"] == ult and r["dimension"] == "regimen"], key=lambda r: -int(r["expedientes"]))
     base = {k: "" for k in campos}
     base.update({"area": "kpis-trabajo", "registro_id": "1", "indicador": "Trabajo", "icono": "doc",
                  "color": "var(--azul)", "color_claro": "var(--azul-pale)", "es_dato_real": "TRUE",
                  "nota": f"Dato real: reporte de gestión de compensación jubilar ({os.path.basename(args.archivo)}), corte {args.corte}."})
+    etq_parcial = (f" (al {da} {MESES[ma - 1][:3]})" if da else f" (ene–{MESES[ma - 1][:3]})") if parcial else ""
     pan = [{**base, "tipo_registro": "desagregacion_actual", "headline": miles(e),
             "headline_sufijo": f"expedientes · {per} · {mill(m)}",
             "tendencia_direccion": "", "tendencia_texto": f"Acumulado {min(anios)}–{ult}: {miles(sum(v[0] for v in totales.values()))} expedientes · "
@@ -346,9 +369,9 @@ def panorama(args, filas, totales, anios, ya, ma):
         pan.append({**base, "tipo_registro": "desagregacion_actual", "desagregacion_categoria": "Régimen " + r["categoria"],
                     "desagregacion_valor": miles(int(r["expedientes"]))})
     for a in anios:
-        pan.append({**base, "tipo_registro": "serie_historica", "anio": str(a) + (" (ene–" + MESES[ma - 1][:3] + ")" if a == ya and ma < 12 else ""),
+        pan.append({**base, "tipo_registro": "serie_historica", "anio": str(a) + (etq_parcial if a == ya else ""),
                     "valor": totales[a][0], "serie_titulo": "Expedientes por año",
-                    "serie_nota": f"{ya} comprende enero–{MESES[ma - 1]}; los demás años son completos." if ma < 12 else ""})
+                    "serie_nota": f"{ya} comprende {periodo_frase(ma, da)}; los demás años son completos." if parcial else ""})
     escribir(ruta, pan + otras, campos)
 
 
