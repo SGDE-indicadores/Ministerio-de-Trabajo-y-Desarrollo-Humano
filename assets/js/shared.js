@@ -220,9 +220,13 @@ function fetchTransferData() {
     // solo diciembre, inflando "Año 2025" y dejando 2023/2024 en cero.
     // Se marca aparte (periodo no coincide con /^\d{4}-\d{2}$/) para que quede
     // FUERA de los filtros por año/mes y solo aparezca en la vista histórica.
+    // Filas de un mes cuyo monto es el acumulado del año hasta ese mes (nota «acumulado enero-julio 2026»):
+    // siguen contando en el mes, el año y el período, pero al elegir ese mes las tarjetas lo indican.
     const filasProvinciales = provincial.map(r => {
       const esAcumuladoLump = /Acumulado real/i.test(r.nota || '');
+      const ac = /acumulado (enero)-(\w+) (\d{4})/i.exec(r.nota || '');
       return {
+        acumuladoLabel: ac ? `acumulado ${ac[1].toLowerCase()}–${ac[2].toLowerCase()} ${ac[3]}` : null,
         slug: r.programa_slug,
         nombre: r.programa_nombre,
         zona: r.zona,
@@ -321,11 +325,19 @@ function buildMonthDataset(period) {
   const programas = aggregateTransferRows(rows);
   const totalM = programas.reduce((s, p) => s + p.budgetM, 0);
   const rangeLabel = formatTransferPeriodLong(period);
+  // Programas cuyo monto de este mes es en realidad el acumulado del año hasta este mes
+  const acumulados = {};
+  rows.forEach(r => { if (r.acumuladoLabel) acumulados[r.nombre] = r.acumuladoLabel; });
+  programas.forEach(p => { if (acumulados[p.name]) p.acumuladoLabel = acumulados[p.name]; });
+  const nAcum = programas.filter(p => p.acumuladoLabel).length;
+  const acumuladoNota = nAcum
+    ? `En ${rangeLabel}, el monto ejecutado de ${nAcum} programa${nAcum > 1 ? 's' : ''} corresponde al ${programas.find(p => p.acumuladoLabel).acumuladoLabel}, porque la fuente no desagrega esos meses; el total y la participación de este mes lo incluyen.`
+    : '';
   return {
     key: `month:${period}`, mode: 'month', year, month, isMock: false, rangeLabel,
     label: `Total ejecutado en ${rangeLabel}.`,
     totalLabel: `Presupuesto ejecutado (${rangeLabel})`,
-    total: `USD ${fmtMoneyM(totalM)}`, totalM, programas
+    total: `USD ${fmtMoneyM(totalM)}`, totalM, programas, acumuladoNota
   };
 }
 function buildHistoricalDataset() {
@@ -1128,6 +1140,7 @@ function renderTransferencias(periodKey){
       <div class="tm-card-category" style="color:${style.color};">${categoryLabel}</div>
       <div class="tm-metric-row"><span class="tm-metric-label">Beneficiarios</span><span class="tm-metric-value">${fmtInt(p.users)}</span></div>
       <div class="tm-metric-row"><span class="tm-metric-label">Ejecutado</span><span class="tm-metric-value money">USD ${p.budget}</span></div>
+      ${p.acumuladoLabel ? `<div class="tm-card-acum" style="font-size:11.5px;font-weight:600;color:#8A5A00;background:#FFF6DB;border:1px solid #F1D48A;border-radius:6px;padding:3px 8px;margin:4px 0 2px;text-align:right;">Monto ${escHtml(p.acumuladoLabel)}</div>` : ''}
       <div class="tm-card-bar-track"><div class="tm-card-bar-fill" style="width:${(p.budgetM/maxBudget*100).toFixed(1)}%; background:${style.color};"></div></div>
     </div>`;
   }).join('');
@@ -1142,7 +1155,7 @@ function renderTransferencias(periodKey){
   if(summaryNote){
     summaryNote.innerHTML = d.mode === 'historical'
       ? `Vista acumulada del período disponible (${d.rangeLabel}).`
-      : `Vista del período seleccionado (${d.rangeLabel}).`;
+      : `Vista del período seleccionado (${d.rangeLabel}).` + (d.acumuladoNota ? `<br><span style="color:#8A5A00;">${escHtml(d.acumuladoNota)}</span>` : '');
   }
   const status = document.getElementById('tmFilterStatus');
   if(status) status.innerHTML = `Mostrando: <b>${d.mode === 'historical' ? 'período de gobierno' : (d.mode === 'year' ? d.rangeLabel : 'mes seleccionado (' + d.rangeLabel + ')')}</b>`;
@@ -1384,7 +1397,7 @@ function selectTransferBudgetPeriod(periodo){
   const share = (program.budgetM / dataset.totalM) * 100;
   el.innerHTML = `
     <div class="ind-grid">
-      <div class="ind-card"><div class="ind-stripe"></div><div class="ind-body"><div class="ind-tag">Presupuesto</div><div class="ind-nombre">Ejecutado</div><div class="ind-metric-row"><span class="ind-metric-label">Monto</span><span class="ind-metric-value money">USD ${program.budget}</span></div><div class="ind-metric-row"><span class="ind-metric-label">Periodo</span><span class="ind-metric-value" style="font-size:12px;">${dataset.rangeLabel}</span></div></div></div>
+      <div class="ind-card"><div class="ind-stripe"></div><div class="ind-body"><div class="ind-tag">Presupuesto</div><div class="ind-nombre">Ejecutado</div><div class="ind-metric-row"><span class="ind-metric-label">Monto</span><span class="ind-metric-value money">USD ${program.budget}</span></div><div class="ind-metric-row"><span class="ind-metric-label">Periodo</span><span class="ind-metric-value" style="font-size:12px;">${program.acumuladoLabel ? escHtml(program.acumuladoLabel.charAt(0).toUpperCase() + program.acumuladoLabel.slice(1)) : dataset.rangeLabel}</span></div></div></div>
       <div class="ind-card"><div class="ind-stripe"></div><div class="ind-body"><div class="ind-tag">Participación</div><div class="ind-nombre">Peso dentro del total</div><div class="ind-metric-row"><span class="ind-metric-label">Participación</span><span class="ind-metric-value">${share.toFixed(2)}%</span></div><div class="ind-bar-track"><div class="ind-bar-fill" style="width:${Math.max(share,1)}%;"></div></div></div></div>
       <div class="ind-card"><div class="ind-stripe"></div><div class="ind-body"><div class="ind-tag">Contexto</div><div class="ind-nombre">Total del corte</div><div class="ind-metric-row"><span class="ind-metric-label">Total agregado</span><span class="ind-metric-value money">${dataset.total}</span></div></div></div>
     </div>`;
@@ -1742,7 +1755,7 @@ const itemLists = {
     eyebrow:'KPIs · Trabajo', title:'Trabajo',
     desc:'Selecciona el componente que quieres consultar.',
     items:[
-      { name:kpiMetadata['1'].nombre, href:'kpi_jubilados.html', badge:'● Disponible', sub:'Expedientes y montos 2023 – agosto 2026 · sexo, régimen y provincia' },
+      { name:kpiMetadata['1'].nombre, href:'kpi_jubilados.html', badge:'● Disponible', sub:'Expedientes y montos desde 2023 · género, régimen laboral y provincia' },
       { name:kpiMetadata['2'].nombre, href:'kpi_contratos.html', badge:'● Disponible', sub:'Contratos vigentes y finalizados registrados en el SUT · por provincia y cantón, actividad económica, tipo de contrato, sexo, grupo etario, etnia, discapacidad y nacionalidad' }
     ]
   },
