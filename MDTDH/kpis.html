@@ -595,8 +595,11 @@ function renderAreaInfografia(areaKey){
 
   if(areaKey === 'kpis-proteccion-social' && String(item.registro) === '16'){
     // Serie nacional real y enlace al módulo específico.
-    item.serieTitulo = 'Porcentaje gestionado · diciembre de cada año y julio de 2026*';
-    item.serieNota = '* 2026 representa julio, no diciembre. Los cortes históricos no deben sumarse.';
+    // El mes del último corte se toma de los datos (headline_sufijo: «… · septiembre 2026»)
+    const ultCorte = /·\s*([a-záéíóúñ]+)\s+(\d{4})\s*$/i.exec(item.headlineSuffix || '');
+    const mesUlt = ultCorte ? ultCorte[1].toLowerCase() : 'julio', anioUlt = ultCorte ? ultCorte[2] : '2026';
+    item.serieTitulo = `Porcentaje gestionado · diciembre de cada año y ${mesUlt} de ${anioUlt}*`;
+    item.serieNota = `* ${anioUlt} representa ${mesUlt}, no diciembre. Los cortes históricos no deben sumarse.`;
   }
   if(item.construction){
     wrap.innerHTML = `
