@@ -22,6 +22,8 @@ El programa 57 va en un solo programa, **Protección Social** (no se separa en S
 ```
 python scripts/actualizar_presupuesto.py --archivo "C:/ruta/DASHBOARD CON CORTE AL dd-mm-aaaa - Datos.xlsm"
 ```
+- Si la celda K3 de la hoja DASHBOARD trae otra fecha (p. ej. la de elaboración del reporte), se fija el
+  corte con `--corte AAAA-MM-DD` (ej. `--corte 2026-10-31`).
 - Lee solo la hoja **BASE** (no las tablas dinámicas de la hoja DASHBOARD, que pueden estar sin actualizar).
 - Columnas que necesita en BASE: EJERCICIO, PROGRAMA, TIPO DE GASTO, GRUPO DE GASTO, FUENTE, NOMBRE FUENTE,
   CODIFICADO, PRECOMPROMISO, COMPROMISO, DEVENGADO, SALDO_DISPONIBLE y RESERVADO_NEGATIVO (control).
