@@ -66,7 +66,7 @@ Páginas: `MDTDH/kpis.html#/kpis-pueblos` (tarjetas y carrusel) y `MDTDH/kpi.htm
 | ID | Indicador | Archivo mensual | Comando |
 |---|---|---|---|
 | KPI-2026-01 | Porcentaje de resoluciones de personería jurídica y registros de directiva emitidos oportunamente (PRPJRD) | `KPI_<Mes>_<Año>_PRPJRD.xlsx` (hoja de cálculo con periodo, numerador y denominador) | `python scripts/actualizar_kpis.py --archivo "KPI_Octubre_2026_PRPJRD.xlsx" --area pueblos --kpi KPI-2026-01` |
-| KPI-2026-02 | Número de convenios de financiamiento no reembolsable suscritos | `Seguimiento_KPI_Pueblos_Nacionalidades_<Mes>.xlsx` (formato de seguimiento; en el archivo debe ir con el ID KPI-2026-02) | `python scripts/actualizar_kpis.py --archivo "Seguimiento_KPI_Pueblos_Nacionalidades_Octubre.xlsx" --area pueblos` |
+| KPI-2026-02 | Número de convenios de financiamiento no reembolsable suscritos | `KPI-2026-01_Convenios_Dir_Desarrollo_Pueblos_Nacionalidades.xlsx` (formato por indicador de la Dirección de Desarrollo: hojas Ficha_Indicador y Seguimiento_Mensual con todo el histórico). La dirección lo numera KPI-2026-01; el script lo reconoce por el nombre del indicador y lo publica como KPI-2026-02. Las filas con Vigente = «No» no se cargan | `python scripts/actualizar_kpis.py --archivo "KPI-2026-01_Convenios_Dir_Desarrollo_Pueblos_Nacionalidades.xlsx" --area pueblos` |
 
 KPI en **porcentaje** (unidad «Porcentaje» en `catalogo.csv`): en `seguimiento.csv` la meta programada es el
 denominador y la meta alcanzada el numerador del mes. Resultado del mes = numerador ÷ denominador × 100; acumulado
