@@ -8,6 +8,11 @@ Genera el JSON de ejecución presupuestaria del portal MTDH a partir del archivo
 
     python scripts/actualizar_presupuesto.py --archivo "C:/presupuesto/DASHBOARD CON CORTE AL 08-10-2026 - Datos.xlsm"
 
+La fecha de corte se toma de la celda K3 de la hoja DASHBOARD o, si no está, del nombre del archivo.
+Si K3 trae otra fecha (p. ej. la de elaboración del reporte), se fija con --corte AAAA-MM-DD:
+
+    python scripts/actualizar_presupuesto.py --archivo "C:/presupuesto/DASHBOARD CON CORTE AL 31-10-2026 FINAL OCTUBRE.xlsm" --corte 2026-10-31
+
 Escribe datos/presupuesto/ejecucion_presupuestaria.json dentro del portal (se puede cambiar con --salida).
 
 - Lee SOLO la hoja BASE (los datos crudos). No usa las tablas dinámicas de la hoja
@@ -111,13 +116,20 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     raiz = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     ap.add_argument("--archivo", required=True, help="Archivo .xlsm/.xlsx con la hoja BASE")
+    ap.add_argument("--corte", help="Fecha de corte AAAA-MM-DD (opcional; reemplaza la de la celda K3 / nombre del archivo)")
     ap.add_argument("--salida", default=os.path.join(raiz, "datos", "presupuesto", "ejecucion_presupuestaria.json"))
     a = ap.parse_args()
 
     wb = openpyxl.load_workbook(a.archivo, read_only=True, data_only=True)
     if "BASE" not in wb.sheetnames:
         sys.exit("El archivo no tiene la hoja BASE.")
-    corte = fecha_corte(wb, a.archivo)
+    if a.corte:
+        try:
+            corte = dt.date.fromisoformat(a.corte).isoformat()
+        except ValueError:
+            sys.exit("--corte debe tener formato AAAA-MM-DD")
+    else:
+        corte = fecha_corte(wb, a.archivo)
 
     filas = wb["BASE"].iter_rows(values_only=True)
     enc = [texto(c) for c in next(filas)]
