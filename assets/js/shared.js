@@ -1922,7 +1922,8 @@ const CROSS_FILE_ROUTES = {
   'presupuesto': { file: 'presupuesto.html', base: 'mdtdh' },
   'presupuesto-gobierno': { file: 'presupuesto.html', base: 'mdtdh' },
   'presupuesto-fiscal': { file: 'presupuesto.html', base: 'mdtdh' },
-  'documentacion': { file: 'documentacion.html', base: 'mdtdh' }
+  'documentacion': { file: 'documentacion.html', base: 'mdtdh' },
+  'fuentes': { file: 'fuentes.html', base: 'mdtdh' }
 };
 
 function nav(route){
@@ -2041,7 +2042,13 @@ const SIDEBAR_NAV = [
       { id: 'presupuesto-fiscal', label: 'Año fiscal', href: 'MDTDH/presupuesto.html#/presupuesto-fiscal' }
     ] },
   { id: 'documentacion', label: 'Documentación', href: 'MDTDH/documentacion.html',
-    icon: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/>' }
+    icon: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/>' },
+  { id: 'fuentes-datos', label: 'Fuentes y diccionario', icon: '<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/>',
+    children: [
+      { id: 'fuentes', label: 'Fuentes de información', href: 'MDTDH/fuentes.html' },
+      // Pendiente hasta tener toda la información mapeada: se muestra sin enlace (estático)
+      { id: 'diccionario', label: 'Diccionario de datos', disabled: true, nota: 'Próximamente' }
+    ] }
 ];
 
 // Prefijo relativo hacia la raíz del sitio, recordado por si otra rutina
@@ -2060,6 +2067,10 @@ function sidebarItemContainsActive(item, activeId){
 // Inclusión Económica" con sus 6 indicadores), un grupo con encabezado propio
 // dentro del mismo desplegable (todo visible de una vez, sin un segundo clic).
 function renderMegaChild(child, activeId, basePath){
+  // Opción aún no disponible: se muestra en el menú pero no lleva a ninguna página
+  if(child.disabled){
+    return `<span class="mega-disabled" aria-disabled="true">${child.label}${child.nota ? ` <small>${child.nota}</small>` : ''}</span>`;
+  }
   if(child.children && child.children.length){
     const subHtml = child.children.map(g => renderMegaChild(g, activeId, basePath)).join('');
     return `
