@@ -103,6 +103,13 @@
   }
   .mega-dropdown a:hover { background: var(--azul-pale); color: var(--azul); }
   .mega-dropdown a.active { background: var(--azul-pale); color: var(--azul); font-weight: 700; }
+  .mega-dropdown .mega-disabled {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px; color: var(--subtexto); font-size: 12.5px;
+    padding: 7px 10px; border-radius: 6px; cursor: default; opacity: .75;
+  }
+  .mega-dropdown .mega-disabled small {
+    font-size: 10px; font-weight: 700; color: var(--subtexto); background: var(--gris); padding: 2px 7px; border-radius: 20px; white-space: nowrap;
+  }
   .mega-item.active { color: var(--amarillo); }
   .mega-dropdown-group { margin-bottom: 6px; }
   .mega-dropdown-group:last-child { margin-bottom: 0; }
