@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fuentes de información | MTDH</title>
+<link rel="stylesheet" href="../assets/css/shared.css">
+<style>
+  /* Fuentes de información del portal. Los datos están en documentacion/fuentes.json (ver documentacion/LEEME.md). */
+  .src-bar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:0 0 16px}
+  .src-bar input,.src-bar select{font:inherit;font-size:13.5px;padding:10px 14px;border:1px solid var(--gris-bd);border-radius:8px;background:#fff;color:var(--texto)}
+  .src-bar input{flex:1;min-width:220px}
+  .src-bar select{min-width:240px;max-width:100%}
+  .src-bar input:focus,.src-bar select:focus{outline:2px solid var(--azul);outline-offset:1px}
+  .src-bar .n{font-size:12.5px;color:var(--subtexto)}
+  .blk{background:#fff;border:1px solid var(--gris-bd);border-radius:12px;box-shadow:var(--shadow);margin-bottom:16px;overflow:hidden}
+  .blk>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:14px 18px;font-weight:700;color:var(--azul);font-size:14px}
+  .blk>summary::-webkit-details-marker{display:none}
+  .blk>summary::before{content:"+";width:16px;text-align:center;font-size:16px;line-height:1}
+  .blk[open]>summary::before{content:"−"}
+  .blk>summary:focus-visible{outline:3px solid var(--amarillo);outline-offset:-3px}
+  .blk .cnt{font-size:11px;font-weight:700;color:var(--subtexto);background:var(--gris);padding:3px 9px;border-radius:20px}
+  .tw{overflow-x:auto;border-top:1px solid var(--gris-bd)}
+  table.src{width:100%;border-collapse:collapse;font-size:12.5px;table-layout:fixed;min-width:760px}
+  table.src th{background:#F4F2FA;color:var(--subtexto);font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;text-align:left;padding:10px 14px;white-space:nowrap}
+  table.src td{padding:11px 14px;border-top:1px solid #EEF0F5;vertical-align:top;color:var(--texto);line-height:1.45}
+  table.src td.ind{font-weight:700;color:var(--azul)}
+  table.src td,table.src th{overflow-wrap:anywhere}
+  .fue-l{display:block}
+  .fue-l+.fue-l{margin-top:4px}
+  .fue-l b{color:var(--subtexto);font-weight:700}
+  .fue-a{display:inline-block;margin-top:4px;font-size:12px;font-weight:700;color:var(--azul)}
+  .fue-a:focus-visible{outline:3px solid var(--amarillo);outline-offset:2px}
+  .src-vacio{font-size:13px;color:var(--subtexto);padding:14px 2px}
+  .src-act{font-size:12px;color:var(--subtexto);margin:-4px 0 14px}
+  .aviso-err{background:#FDECEA;border:1px solid #F3A8AC;color:#C4262E;border-radius:8px;padding:12px 16px;margin:14px 0}
+  @media (max-width:640px){.src-bar select{min-width:0;width:100%}}
+</style>
+</head>
+<body>
+<div id="app-sidebar-mount"></div>
+<div class="logo-bar"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="El Nuevo Ecuador" style="height:34px;"></div>
+<header class="header">
+  <div class="header-left">
+    <div class="header-logo">MTDH</div>
+    <div>
+      <div class="header-title">Ministerio de Trabajo y Desarrollo Humano</div>
+      <div class="header-sub">Dirección de Estudios y Análisis · Subsecretaría de Gestión de Datos y Estudios</div>
+    </div>
+  </div>
+  <div class="header-badge">Fuentes y diccionario</div>
+</header>
+<nav class="breadcrumb"><a href="../index.html">Inicio</a><span class="bc-sep">›</span><span>Fuentes y diccionario</span><span class="bc-sep">›</span><span class="bc-current">Fuentes de información</span></nav>
+<main class="main">
+  <section class="page active">
+    <div class="hero">
+      <div class="hero-eyebrow">Portal de Indicadores</div>
+      <h1>Fuentes de información</h1>
+      <p>Origen de la información de cada módulo e indicador del portal, con su periodicidad y el plazo en el que se actualiza.</p>
+    </div>
+    <div class="src-bar">
+      <input id="q" type="search" placeholder="Buscar indicador o fuente…" aria-label="Buscar indicador o fuente">
+      <select id="mod" aria-label="Filtrar por módulo"><option value="">Todos los módulos</option></select>
+      <span class="n" id="n" aria-live="polite"></span>
+    </div>
+    <div class="src-act" id="act"></div>
+    <div id="lista" aria-live="polite"></div>
+    <div class="gov-close"><img src="../imagenes/EL_NUEVO_ECUADOR_LOGO.png" alt="Gobierno del Ecuador"></div>
+  </section>
+</main>
+<footer class="dashboard-footer"><strong>Ministerio de Trabajo y Desarrollo Humano</strong> · Subsecretaría de Gestión de Datos y Estudios · Portal de Indicadores</footer>
+<script src="../assets/js/shared.js"></script>
+<script>
+(function(){
+  'use strict';
+  initSidebar({ activeId: 'fuentes', basePath: '../' });
+  const DATOS = '../documentacion/fuentes.json';
+  const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const $ = id => document.getElementById(id);
+  const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const norm = t => String(t || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+  // «Usuarios: …» / «Presupuesto: …» -> el rótulo en negrita
+  const lineaFuente = l => { const m = /^([^:]{3,20}):\s*(.+)$/.exec(l); return `<span class="fue-l">${m ? `<b>${esc(m[1])}:</b> ${esc(m[2])}` : esc(l)}</span>`; };
+  const celdaFuente = it => (it.fuente || []).map(lineaFuente).join('') +
+    (it.enlace && /^https?:\/\//.test(it.enlace) ? `<a class="fue-a" href="${esc(it.enlace)}" target="_blank" rel="noopener">Ver tablero ↗</a>` : '');
+
+  fetch(DATOS, { cache: 'no-cache' })
+    .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(d => {
+      const M = d.modulos || [];
+      M.forEach(m => m.indicadores.forEach(it => { it._k = norm([m.modulo, it.indicador, it.periodicidad, it.actualizacion, ...(it.fuente || [])].join(' ')); }));
+      $('mod').innerHTML += M.map((m, i) => `<option value="${i}">${esc(m.modulo)}</option>`).join('');
+      if (d.actualizado && /^\d{4}-\d{2}-\d{2}$/.test(d.actualizado))
+        $('act').textContent = `Información revisada al ${+d.actualizado.slice(8)} de ${MESES[+d.actualizado.slice(5, 7) - 1]} de ${d.actualizado.slice(0, 4)}.`;
+      const total = M.reduce((s, m) => s + m.indicadores.length, 0);
+      const pinta = () => {
+        const q = norm($('q').value.trim()), sel = $('mod').value;
+        const palabras = q ? q.split(/\s+/) : [];
+        let n = 0;
+        const html = M.map((m, i) => {
+          if (sel !== '' && +sel !== i) return '';
+          const L = m.indicadores.filter(it => palabras.every(w => it._k.includes(w)));
+          if (!L.length) return '';
+          n += L.length;
+          return `<details class="blk" open><summary>${esc(m.modulo)} <span class="cnt">${L.length} indicador${L.length === 1 ? '' : 'es'}</span></summary>
+            <div class="tw"><table class="src"><colgroup><col style="width:33%"><col style="width:12%"><col style="width:23%"><col style="width:32%"></colgroup><thead><tr><th scope="col">Indicador</th><th scope="col">Periodicidad</th><th scope="col">Actualización en el portal</th><th scope="col">Fuente</th></tr></thead><tbody>` +
+            L.map(it => `<tr><td class="ind">${esc(it.indicador)}</td><td class="per">${esc(it.periodicidad)}</td><td>${esc(it.actualizacion)}</td><td class="fue">${celdaFuente(it)}</td></tr>`).join('') +
+            `</tbody></table></div></details>`;
+        }).join('');
+        $('lista').innerHTML = html || '<div class="src-vacio">Ningún indicador coincide con la búsqueda.</div>';
+        $('n').textContent = `${n} de ${total} indicadores`;
+      };
+      $('q').addEventListener('input', pinta);
+      $('mod').addEventListener('change', pinta);
+      pinta();
+    })
+    .catch(err => {
+      $('lista').innerHTML = `<div class="aviso-err"><b>No se pudo cargar la información de fuentes.</b><br>${esc(err.message)}<br>
+        <span style="font-size:12px">Revisa que exista <code>documentacion/fuentes.json</code> y abre el portal mediante un servidor local o GitHub Pages.</span></div>`;
+    });
+})();
+</script>
+</body>
+</html>
