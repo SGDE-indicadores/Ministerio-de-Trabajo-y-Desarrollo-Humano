@@ -4,9 +4,10 @@
   "modulos": [
     {
       "modulo": "PND · Protección social e inclusión económica (indicadores)",
-      "indicadores": [
+      "registros": [
         {
-          "indicador": "Tasa de pobreza extrema por ingresos",
+          "codigo": "PND-01",
+          "nombre": "Tasa de pobreza extrema por ingresos",
           "periodicidad": "Anual y trimestral",
           "actualizacion": "Al publicarse la ENEMDU anual / trimestral (INEC)",
           "fuente": [
@@ -14,7 +15,8 @@
           ]
         },
         {
-          "indicador": "Tasa de pobreza multidimensional",
+          "codigo": "PND-02",
+          "nombre": "Tasa de pobreza multidimensional",
           "periodicidad": "Anual y trimestral",
           "actualizacion": "Al publicarse la ENEMDU anual / trimestral (INEC)",
           "fuente": [
@@ -22,7 +24,8 @@
           ]
         },
         {
-          "indicador": "Porcentaje de usuarios de los servicios de protección social que se encuentran en condición de pobreza y pobreza extrema",
+          "codigo": "PND-03",
+          "nombre": "Porcentaje de usuarios de los servicios de protección social que se encuentran en condición de pobreza y pobreza extrema",
           "periodicidad": "Trimestral",
           "actualizacion": "Al 15 de cada mes siguiente al trimestre reportado",
           "fuente": [
@@ -30,7 +33,8 @@
           ]
         },
         {
-          "indicador": "Servicios gerontológicos públicos no médicos",
+          "codigo": "PND-04",
+          "nombre": "Servicios gerontológicos públicos no médicos",
           "periodicidad": "Anual",
           "actualizacion": "Hasta 15 días después de la publicación oficial de los resultados.",
           "fuente": [
@@ -38,7 +42,8 @@
           ]
         },
         {
-          "indicador": "Porcentaje de gestantes, niñas y niños menores de 6 años que reciben servicios para la primera infancia",
+          "codigo": "PND-05",
+          "nombre": "Porcentaje de gestantes, niñas y niños menores de 6 años que reciben servicios para la primera infancia",
           "periodicidad": "Anual",
           "actualizacion": "Hasta 15 días después de la publicación oficial de los resultados.",
           "fuente": [
@@ -46,7 +51,8 @@
           ]
         },
         {
-          "indicador": "Prevalencia de desnutrición crónica en niñas y niños menores de 2 años",
+          "codigo": "PND-06",
+          "nombre": "Prevalencia de desnutrición crónica en niñas y niños menores de 2 años",
           "periodicidad": "Anual",
           "actualizacion": "Hasta 15 días después de la publicación oficial de los resultados.",
           "fuente": [
@@ -57,9 +63,10 @@
     },
     {
       "modulo": "PND · Protección social · Cronograma de acciones",
-      "indicadores": [
+      "registros": [
         {
-          "indicador": "Pobreza extrema por ingresos",
+          "codigo": "PND-07",
+          "nombre": "Pobreza extrema por ingresos",
           "periodicidad": "Trimestral",
           "actualizacion": "Al recibir el reporte de los actores clave",
           "fuente": [
@@ -67,7 +74,8 @@
           ]
         },
         {
-          "indicador": "Tasa de pobreza multidimensional",
+          "codigo": "PND-08",
+          "nombre": "Tasa de pobreza multidimensional",
           "periodicidad": "Trimestral",
           "actualizacion": "Al recibir el reporte de los actores clave",
           "fuente": [
@@ -75,7 +83,8 @@
           ]
         },
         {
-          "indicador": "Porcentaje de usuarios de los servicios de protección social que se encuentran en condición de pobreza y pobreza extrema",
+          "codigo": "PND-09",
+          "nombre": "Porcentaje de usuarios de los servicios de protección social que se encuentran en condición de pobreza y pobreza extrema",
           "periodicidad": "Trimestral",
           "actualizacion": "Al recibir el reporte de los actores clave",
           "fuente": [
@@ -83,7 +92,8 @@
           ]
         },
         {
-          "indicador": "Porcentaje de gestantes, niñas y niños menores de 6 años que reciben servicios para la primera infancia",
+          "codigo": "PND-10",
+          "nombre": "Porcentaje de gestantes, niñas y niños menores de 6 años que reciben servicios para la primera infancia",
           "periodicidad": "Trimestral",
           "actualizacion": "Al recibir el reporte de los actores clave",
           "fuente": [
@@ -91,7 +101,8 @@
           ]
         },
         {
-          "indicador": "Prevalencia de desnutrición crónica en niñas y niños menores de 2 años",
+          "codigo": "PND-11",
+          "nombre": "Prevalencia de desnutrición crónica en niñas y niños menores de 2 años",
           "periodicidad": "Trimestral",
           "actualizacion": "Al recibir el reporte de los actores clave",
           "fuente": [
@@ -99,7 +110,8 @@
           ]
         },
         {
-          "indicador": "Servicios gerontológicos públicos no médicos",
+          "codigo": "PND-12",
+          "nombre": "Servicios gerontológicos públicos no médicos",
           "periodicidad": "Trimestral",
           "actualizacion": "Al recibir el reporte de los actores clave",
           "fuente": [
@@ -110,9 +122,10 @@
     },
     {
       "modulo": "PND · Trabajo y oportunidades",
-      "indicadores": [
+      "registros": [
         {
-          "indicador": "Brecha salarial entre hombres y mujeres",
+          "codigo": "PND-13",
+          "nombre": "Brecha salarial entre hombres y mujeres",
           "periodicidad": "Anual y trimestral",
           "actualizacion": "Al publicarse la ENEMDU anual",
           "fuente": [
@@ -120,7 +133,8 @@
           ]
         },
         {
-          "indicador": "Tasa de desempleo juvenil (18 a 29 años)",
+          "codigo": "PND-14",
+          "nombre": "Tasa de desempleo juvenil (18 a 29 años)",
           "periodicidad": "Anual y trimestral",
           "actualizacion": "Al publicarse la ENEMDU anual",
           "fuente": [
@@ -128,7 +142,8 @@
           ]
         },
         {
-          "indicador": "Tasa de empleo adecuado (15 años y más)",
+          "codigo": "PND-15",
+          "nombre": "Tasa de empleo adecuado (15 años y más)",
           "periodicidad": "Anual y trimestral",
           "actualizacion": "Al publicarse la ENEMDU anual",
           "fuente": [
@@ -136,7 +151,8 @@
           ]
         },
         {
-          "indicador": "Trabajo infantil (5 a 14 años)",
+          "codigo": "PND-16",
+          "nombre": "Trabajo infantil (5 a 14 años)",
           "periodicidad": "Anual y trimestral",
           "actualizacion": "Al publicarse la ENEMDU anual",
           "fuente": [
@@ -144,7 +160,8 @@
           ]
         },
         {
-          "indicador": "Índice de percepción de la calidad de los servicios públicos en general",
+          "codigo": "PND-17",
+          "nombre": "Índice de percepción de la calidad de los servicios públicos en general",
           "periodicidad": "Anual",
           "actualizacion": "Al publicarse la ENEMDU anual",
           "fuente": [
@@ -155,9 +172,10 @@
     },
     {
       "modulo": "PND · ENEMDU",
-      "indicadores": [
+      "registros": [
         {
-          "indicador": "Panel de Indicadores del Mercado Laboral",
+          "codigo": "PND-18",
+          "nombre": "Panel de Indicadores del Mercado Laboral",
           "periodicidad": "Anual y trimestral",
           "actualizacion": "Al publicarse cada edición de la ENEMDU",
           "fuente": [
@@ -168,9 +186,10 @@
     },
     {
       "modulo": "KPIs · Protección Social e Inclusión Económica",
-      "indicadores": [
+      "registros": [
         {
-          "indicador": "Número de beneficiarios del servicio de desarrollo infantil",
+          "codigo": "KPI-01",
+          "nombre": "Número de beneficiarios del servicio de desarrollo infantil",
           "periodicidad": "Mensual",
           "actualizacion": "Después del día 8 de cada mes",
           "fuente": [
@@ -178,7 +197,8 @@
           ]
         },
         {
-          "indicador": "Número de beneficiarios del servicio a personas adultas mayores",
+          "codigo": "KPI-02",
+          "nombre": "Número de beneficiarios del servicio a personas adultas mayores",
           "periodicidad": "Mensual",
           "actualizacion": "Después del día 8 de cada mes",
           "fuente": [
@@ -186,7 +206,8 @@
           ]
         },
         {
-          "indicador": "Número de beneficiarios del servicio a personas con discapacidad",
+          "codigo": "KPI-03",
+          "nombre": "Número de beneficiarios del servicio a personas con discapacidad",
           "periodicidad": "Mensual",
           "actualizacion": "Después del día 8 de cada mes",
           "fuente": [
@@ -194,7 +215,8 @@
           ]
         },
         {
-          "indicador": "Número de beneficiarios del servicio de protección especial",
+          "codigo": "KPI-04",
+          "nombre": "Número de beneficiarios del servicio de protección especial",
           "periodicidad": "Mensual",
           "actualizacion": "Después del día 8 de cada mes",
           "fuente": [
@@ -205,9 +227,10 @@
     },
     {
       "modulo": "KPIs · Alertas SUUSEN",
-      "indicadores": [
+      "registros": [
         {
-          "indicador": "Porcentaje de alertas gestionadas en el SUUSEN",
+          "codigo": "KPI-05",
+          "nombre": "Porcentaje de alertas gestionadas en el SUUSEN",
           "periodicidad": "Mensual",
           "actualizacion": "Después del día 15 de cada mes",
           "fuente": [
@@ -219,9 +242,10 @@
     },
     {
       "modulo": "KPIs · Movilidad Social (CDH)",
-      "indicadores": [
+      "registros": [
         {
-          "indicador": "Número de créditos de Desarrollo Humano otorgados",
+          "codigo": "KPI-06",
+          "nombre": "Número de créditos de Desarrollo Humano otorgados",
           "periodicidad": "Mensual",
           "actualizacion": "Al recibir la base de desembolsos",
           "fuente": [
@@ -232,9 +256,10 @@
     },
     {
       "modulo": "KPIs · Trabajo",
-      "indicadores": [
+      "registros": [
         {
-          "indicador": "Número de exservidores y extrabajadores jubilados compensados económicamente",
+          "codigo": "KPI-07",
+          "nombre": "Número de exservidores y extrabajadores jubilados compensados económicamente",
           "periodicidad": "Mensual",
           "actualizacion": "Hasta el día 15 de cada mes",
           "fuente": [
@@ -242,7 +267,8 @@
           ]
         },
         {
-          "indicador": "Número de contratos a nivel nacional",
+          "codigo": "KPI-08",
+          "nombre": "Número de contratos a nivel nacional",
           "periodicidad": "Diaria",
           "actualizacion": "Todos los días a las 10h00",
           "fuente": [
@@ -253,9 +279,10 @@
     },
     {
       "modulo": "KPIs · Pueblos y Nacionalidades",
-      "indicadores": [
+      "registros": [
         {
-          "indicador": "Porcentaje de resoluciones de personería jurídica y registros de directiva emitidos oportunamente para el fortalecimiento organizativo de comunas, comunidades y organizaciones de pueblos y nacionalidades",
+          "codigo": "KPI-09",
+          "nombre": "Porcentaje de resoluciones de personería jurídica y registros de directiva emitidos oportunamente para el fortalecimiento organizativo de comunas, comunidades y organizaciones de pueblos y nacionalidades",
           "periodicidad": "Mensual",
           "actualizacion": "Hasta el día 15 (insumo hasta el día 5)",
           "fuente": [
@@ -263,7 +290,8 @@
           ]
         },
         {
-          "indicador": "Número de convenios de financiamiento no reembolsable suscritos para el fortalecimiento de la economía de comunas, comunidades y organizaciones de pueblos y nacionalidades",
+          "codigo": "KPI-10",
+          "nombre": "Número de convenios de financiamiento no reembolsable suscritos para el fortalecimiento de la economía de comunas, comunidades y organizaciones de pueblos y nacionalidades",
           "periodicidad": "Mensual",
           "actualizacion": "Hasta el día 15 (insumo hasta el día 5)",
           "fuente": [
@@ -274,9 +302,10 @@
     },
     {
       "modulo": "KPIs · Incentivos Temporales",
-      "indicadores": [
+      "registros": [
         {
-          "indicador": "Jóvenes en Acción",
+          "codigo": "KPI-11",
+          "nombre": "Jóvenes en Acción",
           "periodicidad": "Por periodo",
           "actualizacion": "Cada vez que inicia una nueva cohorte",
           "fuente": [
@@ -284,7 +313,8 @@
           ]
         },
         {
-          "indicador": "Compensación de combustibles",
+          "codigo": "KPI-12",
+          "nombre": "Compensación de combustibles",
           "periodicidad": "Mensual",
           "actualizacion": "Hasta el día 15 (insumo hasta el día 5)",
           "fuente": [
@@ -293,7 +323,8 @@
           ]
         },
         {
-          "indicador": "Migrantes retornados",
+          "codigo": "KPI-13",
+          "nombre": "Migrantes retornados",
           "periodicidad": "Mensual",
           "actualizacion": "Hasta el día 15 (insumo hasta el día 5)",
           "fuente": [
@@ -305,9 +336,10 @@
     },
     {
       "modulo": "Transferencias no contributivas",
-      "indicadores": [
+      "registros": [
         {
-          "indicador": "Bonos regulares",
+          "codigo": "TNC-01",
+          "nombre": "Bonos regulares",
           "periodicidad": "Mensual",
           "actualizacion": "Según disponibilidad del reporte Acumulado VIS-VIE",
           "fuente": [
@@ -315,7 +347,8 @@
           ]
         },
         {
-          "indicador": "Bono de Contingencia Eventos Origen Natural (BCENA)",
+          "codigo": "TNC-02",
+          "nombre": "Bono de Contingencia Eventos Origen Natural (BCENA)",
           "periodicidad": "Mensual",
           "actualizacion": "Al recibir la base del presupuesto VIE",
           "fuente": [
@@ -324,7 +357,8 @@
           ]
         },
         {
-          "indicador": "Bono de Orfandad por Femicidio",
+          "codigo": "TNC-03",
+          "nombre": "Bono de Orfandad por Femicidio",
           "periodicidad": "Mensual",
           "actualizacion": "Al recibir la base del presupuesto VIE",
           "fuente": [
@@ -333,7 +367,8 @@
           ]
         },
         {
-          "indicador": "Cobertura de Contingencias",
+          "codigo": "TNC-04",
+          "nombre": "Cobertura de Contingencias",
           "periodicidad": "Mensual",
           "actualizacion": "Al recibir la base del presupuesto VIE",
           "fuente": [
@@ -345,9 +380,10 @@
     },
     {
       "modulo": "Presupuesto",
-      "indicadores": [
+      "registros": [
         {
-          "indicador": "Año fiscal",
+          "codigo": "PRE-01",
+          "nombre": "Año fiscal",
           "periodicidad": "Mensual",
           "actualizacion": "Hasta el día 15 de cada mes",
           "fuente": [

@@ -32,14 +32,18 @@ Menú **Fuentes y diccionario › Fuentes de información**. Los datos están en
   "actualizado": "AAAA-MM-DD",            // fecha de la última revisión del mapeo (se muestra en la página)
   "modulos": [
     { "modulo": "KPIs · Trabajo",
-      "indicadores": [
-        { "indicador": "…", "periodicidad": "Mensual", "actualizacion": "Hasta el día 15 de cada mes",
+      "registros": [
+        { "codigo": "KPI-07",                            // etiqueta de color: PND, KPI, TNC (transferencias), PRE (presupuesto)
+          "nombre": "…",                                 // indicador, dato o sección que se publica
+          "periodicidad": "Mensual", "actualizacion": "Hasta el día 15 de cada mes",
           "fuente": ["Usuarios: …", "Presupuesto: …"],   // una línea por elemento
           "enlace": "https://…" }                         // opcional: solo enlaces públicos
       ] }
   ]
 }
 ```
+El color de la etiqueta depende del prefijo del código (antes del guion). Un código nuevo sigue la numeración
+de su grupo (p. ej. después de `KPI-13` va `KPI-14`).
 
 No escribir en este archivo IPs de servidores, rutas de red (X:\…), nombres de archivos ni nombres de personas:
 la página es pública. «Diccionario de datos» aparece en el menú sin enlace («Próximamente») hasta tener
