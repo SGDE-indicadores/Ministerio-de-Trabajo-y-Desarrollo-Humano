@@ -14,22 +14,24 @@
   .src-bar input:focus,.src-bar select:focus{outline:2px solid var(--azul);outline-offset:1px}
   .src-bar .n{font-size:12.5px;color:var(--subtexto)}
   .blk{background:#fff;border:1px solid var(--gris-bd);border-radius:12px;box-shadow:var(--shadow);margin-bottom:16px;overflow:hidden}
-  .blk>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:14px 18px;font-weight:700;color:var(--azul);font-size:14px}
+  .blk>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:13px 18px;font-weight:700;color:var(--azul);font-size:14px}
   .blk>summary::-webkit-details-marker{display:none}
   .blk>summary::before{content:"+";width:16px;text-align:center;font-size:16px;line-height:1}
   .blk[open]>summary::before{content:"−"}
   .blk>summary:focus-visible{outline:3px solid var(--amarillo);outline-offset:-3px}
-  .blk .cnt{font-size:11px;font-weight:700;color:var(--subtexto);background:var(--gris);padding:3px 9px;border-radius:20px}
   .tw{overflow-x:auto;border-top:1px solid var(--gris-bd)}
-  table.src{width:100%;border-collapse:collapse;font-size:12.5px;table-layout:fixed;min-width:760px}
-  table.src th{background:#F4F2FA;color:var(--subtexto);font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;text-align:left;padding:10px 14px;white-space:nowrap}
-  table.src td{padding:11px 14px;border-top:1px solid #EEF0F5;vertical-align:top;color:var(--texto);line-height:1.45}
-  table.src td.ind{font-weight:700;color:var(--azul)}
+  table.src{width:100%;border-collapse:collapse;font-size:12.5px;table-layout:fixed;min-width:780px}
+  table.src th{background:#F6F5FB;color:#5C6478;font-size:10.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;text-align:left;padding:11px 16px;white-space:nowrap}
+  table.src td{padding:14px 16px;border-top:1px solid #ECEEF4;vertical-align:top;color:var(--texto);line-height:1.5}
   table.src td,table.src th{overflow-wrap:anywhere}
+  .nom{display:flex;gap:12px;align-items:flex-start}
+  .cod{flex:0 0 auto;min-width:58px;text-align:center;color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.3px;padding:4px 8px;border-radius:5px;line-height:1.3;margin-top:1px}
+  .cod.g-PND{background:#2350C9}.cod.g-KPI{background:#5B2A9E}.cod.g-TNC{background:#2F6F73}.cod.g-PRE{background:#7A4BC2}
+  .nom-t{font-weight:700;color:var(--azul);font-size:13px;line-height:1.4}
   .fue-l{display:block}
   .fue-l+.fue-l{margin-top:4px}
   .fue-l b{color:var(--subtexto);font-weight:700}
-  .fue-a{display:inline-block;margin-top:4px;font-size:12px;font-weight:700;color:var(--azul)}
+  .fue-a{display:inline-block;margin-top:5px;font-size:12px;font-weight:700;color:var(--azul)}
   .fue-a:focus-visible{outline:3px solid var(--amarillo);outline-offset:2px}
   .src-vacio{font-size:13px;color:var(--subtexto);padding:14px 2px}
   .src-act{font-size:12px;color:var(--subtexto);margin:-4px 0 14px}
@@ -56,10 +58,10 @@
     <div class="hero">
       <div class="hero-eyebrow">Portal de Indicadores</div>
       <h1>Fuentes de información</h1>
-      <p>Origen de la información de cada módulo e indicador del portal, con su periodicidad y el plazo en el que se actualiza.</p>
+      <p>Origen de la información que publica cada módulo del portal, con su periodicidad y el plazo en el que se actualiza.</p>
     </div>
     <div class="src-bar">
-      <input id="q" type="search" placeholder="Buscar indicador o fuente…" aria-label="Buscar indicador o fuente">
+      <input id="q" type="search" placeholder="Buscar por nombre o fuente…" aria-label="Buscar por nombre o fuente">
       <select id="mod" aria-label="Filtrar por módulo"><option value="">Todos los módulos</option></select>
       <span class="n" id="n" aria-live="polite"></span>
     </div>
@@ -89,27 +91,27 @@
     .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
     .then(d => {
       const M = d.modulos || [];
-      M.forEach(m => m.indicadores.forEach(it => { it._k = norm([m.modulo, it.indicador, it.periodicidad, it.actualizacion, ...(it.fuente || [])].join(' ')); }));
+      M.forEach(m => (m.registros || []).forEach(it => { it._k = norm([m.modulo, it.codigo, it.nombre, it.periodicidad, it.actualizacion, ...(it.fuente || [])].join(' ')); }));
       $('mod').innerHTML += M.map((m, i) => `<option value="${i}">${esc(m.modulo)}</option>`).join('');
       if (d.actualizado && /^\d{4}-\d{2}-\d{2}$/.test(d.actualizado))
         $('act').textContent = `Información revisada al ${+d.actualizado.slice(8)} de ${MESES[+d.actualizado.slice(5, 7) - 1]} de ${d.actualizado.slice(0, 4)}.`;
-      const total = M.reduce((s, m) => s + m.indicadores.length, 0);
+      const total = M.reduce((s, m) => s + (m.registros || []).length, 0);
       const pinta = () => {
         const q = norm($('q').value.trim()), sel = $('mod').value;
         const palabras = q ? q.split(/\s+/) : [];
         let n = 0;
         const html = M.map((m, i) => {
           if (sel !== '' && +sel !== i) return '';
-          const L = m.indicadores.filter(it => palabras.every(w => it._k.includes(w)));
+          const L = (m.registros || []).filter(it => palabras.every(w => it._k.includes(w)));
           if (!L.length) return '';
           n += L.length;
-          return `<details class="blk" open><summary>${esc(m.modulo)} <span class="cnt">${L.length} indicador${L.length === 1 ? '' : 'es'}</span></summary>
-            <div class="tw"><table class="src"><colgroup><col style="width:33%"><col style="width:12%"><col style="width:23%"><col style="width:32%"></colgroup><thead><tr><th scope="col">Indicador</th><th scope="col">Periodicidad</th><th scope="col">Actualización en el portal</th><th scope="col">Fuente</th></tr></thead><tbody>` +
-            L.map(it => `<tr><td class="ind">${esc(it.indicador)}</td><td class="per">${esc(it.periodicidad)}</td><td>${esc(it.actualizacion)}</td><td class="fue">${celdaFuente(it)}</td></tr>`).join('') +
+          return `<details class="blk" open><summary>${esc(m.modulo)}</summary>
+            <div class="tw"><table class="src"><colgroup><col style="width:36%"><col style="width:28%"><col style="width:13%"><col style="width:23%"></colgroup><thead><tr><th scope="col">Información publicada</th><th scope="col">Fuente</th><th scope="col">Periodicidad</th><th scope="col">Actualización programada</th></tr></thead><tbody>` +
+            L.map(it => `<tr><td><div class="nom">${it.codigo ? `<span class="cod g-${esc(String(it.codigo).split('-')[0])}">${esc(it.codigo)}</span>` : ''}<span class="nom-t">${esc(it.nombre)}</span></div></td><td>${celdaFuente(it)}</td><td>${esc(it.periodicidad)}</td><td>${esc(it.actualizacion)}</td></tr>`).join('') +
             `</tbody></table></div></details>`;
         }).join('');
-        $('lista').innerHTML = html || '<div class="src-vacio">Ningún indicador coincide con la búsqueda.</div>';
-        $('n').textContent = `${n} de ${total} indicadores`;
+        $('lista').innerHTML = html || '<div class="src-vacio">Ningún registro coincide con la búsqueda.</div>';
+        $('n').textContent = n === total ? `${total} registros` : `${n} de ${total} registros`;
       };
       $('q').addEventListener('input', pinta);
       $('mod').addEventListener('change', pinta);
