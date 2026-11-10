@@ -1,0 +1,360 @@
+{
+  "titulo": "Fuentes de información",
+  "actualizado": "2026-11-10",
+  "modulos": [
+    {
+      "modulo": "PND · Protección social e inclusión económica (indicadores)",
+      "indicadores": [
+        {
+          "indicador": "Tasa de pobreza extrema por ingresos",
+          "periodicidad": "Anual y trimestral",
+          "actualizacion": "Al publicarse la ENEMDU anual / trimestral (INEC)",
+          "fuente": [
+            "ENEMDU – INEC (Reporte consolidado)"
+          ]
+        },
+        {
+          "indicador": "Tasa de pobreza multidimensional",
+          "periodicidad": "Anual y trimestral",
+          "actualizacion": "Al publicarse la ENEMDU anual / trimestral (INEC)",
+          "fuente": [
+            "ENEMDU – INEC"
+          ]
+        },
+        {
+          "indicador": "Porcentaje de usuarios de los servicios de protección social que se encuentran en condición de pobreza y pobreza extrema",
+          "periodicidad": "Trimestral",
+          "actualizacion": "Al 15 de cada mes siguiente al trimestre reportado",
+          "fuente": [
+            "Base de usuarios de servicios de desarrollo social - SIIMTDH"
+          ]
+        },
+        {
+          "indicador": "Servicios gerontológicos públicos no médicos",
+          "periodicidad": "Anual",
+          "actualizacion": "Hasta 15 días después de la publicación oficial de los resultados.",
+          "fuente": [
+            "Registros Administrativos: Registro de Prestaciones y Programas Especiales - Programa CAAM-IESS Y Registro de Bienestar Social, Programa PAMI-ISSFA"
+          ]
+        },
+        {
+          "indicador": "Porcentaje de gestantes, niñas y niños menores de 6 años que reciben servicios para la primera infancia",
+          "periodicidad": "Anual",
+          "actualizacion": "Hasta 15 días después de la publicación oficial de los resultados.",
+          "fuente": [
+            "Registros Administrativos: Registros de Servicios de Identificación y Cedulación, Registro de Nacidos Vivos, Plataforma de Registro de Atenciones de Salud, Registro Diario Automatizado de Consultas y Atenciones Ambulatorias, Registro Social, Registro del Servicio de Desarrollo Infantil Integral, Registro del Archivo Maestro de Instituciones Educativas, Registro de beneficiarios de transferencias monetarias no contributivas"
+          ]
+        },
+        {
+          "indicador": "Prevalencia de desnutrición crónica en niñas y niños menores de 2 años",
+          "periodicidad": "Anual",
+          "actualizacion": "Hasta 15 días después de la publicación oficial de los resultados.",
+          "fuente": [
+            "Encuesta Nacional sobre Desnutrición Infantil (ENDI)"
+          ]
+        }
+      ]
+    },
+    {
+      "modulo": "PND · Protección social · Cronograma de acciones",
+      "indicadores": [
+        {
+          "indicador": "Pobreza extrema por ingresos",
+          "periodicidad": "Trimestral",
+          "actualizacion": "Al recibir el reporte de los actores clave",
+          "fuente": [
+            "Coordinación General de Planificación y Gestión Estratégica"
+          ]
+        },
+        {
+          "indicador": "Tasa de pobreza multidimensional",
+          "periodicidad": "Trimestral",
+          "actualizacion": "Al recibir el reporte de los actores clave",
+          "fuente": [
+            "Coordinación General de Planificación y Gestión Estratégica"
+          ]
+        },
+        {
+          "indicador": "Porcentaje de usuarios de los servicios de protección social que se encuentran en condición de pobreza y pobreza extrema",
+          "periodicidad": "Trimestral",
+          "actualizacion": "Al recibir el reporte de los actores clave",
+          "fuente": [
+            "Coordinación General de Planificación y Gestión Estratégica"
+          ]
+        },
+        {
+          "indicador": "Porcentaje de gestantes, niñas y niños menores de 6 años que reciben servicios para la primera infancia",
+          "periodicidad": "Trimestral",
+          "actualizacion": "Al recibir el reporte de los actores clave",
+          "fuente": [
+            "Coordinación General de Planificación y Gestión Estratégica"
+          ]
+        },
+        {
+          "indicador": "Prevalencia de desnutrición crónica en niñas y niños menores de 2 años",
+          "periodicidad": "Trimestral",
+          "actualizacion": "Al recibir el reporte de los actores clave",
+          "fuente": [
+            "Coordinación General de Planificación y Gestión Estratégica"
+          ]
+        },
+        {
+          "indicador": "Servicios gerontológicos públicos no médicos",
+          "periodicidad": "Trimestral",
+          "actualizacion": "Al recibir el reporte de los actores clave",
+          "fuente": [
+            "Coordinación General de Planificación y Gestión Estratégica"
+          ]
+        }
+      ]
+    },
+    {
+      "modulo": "PND · Trabajo y oportunidades",
+      "indicadores": [
+        {
+          "indicador": "Brecha salarial entre hombres y mujeres",
+          "periodicidad": "Anual y trimestral",
+          "actualizacion": "Al publicarse la ENEMDU anual",
+          "fuente": [
+            "ENEMDU – INEC"
+          ]
+        },
+        {
+          "indicador": "Tasa de desempleo juvenil (18 a 29 años)",
+          "periodicidad": "Anual y trimestral",
+          "actualizacion": "Al publicarse la ENEMDU anual",
+          "fuente": [
+            "ENEMDU – INEC"
+          ]
+        },
+        {
+          "indicador": "Tasa de empleo adecuado (15 años y más)",
+          "periodicidad": "Anual y trimestral",
+          "actualizacion": "Al publicarse la ENEMDU anual",
+          "fuente": [
+            "ENEMDU – INEC"
+          ]
+        },
+        {
+          "indicador": "Trabajo infantil (5 a 14 años)",
+          "periodicidad": "Anual y trimestral",
+          "actualizacion": "Al publicarse la ENEMDU anual",
+          "fuente": [
+            "ENEMDU – INEC"
+          ]
+        },
+        {
+          "indicador": "Índice de percepción de la calidad de los servicios públicos en general",
+          "periodicidad": "Anual",
+          "actualizacion": "Al publicarse la ENEMDU anual",
+          "fuente": [
+            "ENEMDU – INEC"
+          ]
+        }
+      ]
+    },
+    {
+      "modulo": "PND · ENEMDU",
+      "indicadores": [
+        {
+          "indicador": "Panel de Indicadores del Mercado Laboral",
+          "periodicidad": "Anual y trimestral",
+          "actualizacion": "Al publicarse cada edición de la ENEMDU",
+          "fuente": [
+            "ENEMDU – INEC"
+          ]
+        }
+      ]
+    },
+    {
+      "modulo": "KPIs · Protección Social e Inclusión Económica",
+      "indicadores": [
+        {
+          "indicador": "Número de beneficiarios del servicio de desarrollo infantil",
+          "periodicidad": "Mensual",
+          "actualizacion": "Después del día 8 de cada mes",
+          "fuente": [
+            "Base VIS"
+          ]
+        },
+        {
+          "indicador": "Número de beneficiarios del servicio a personas adultas mayores",
+          "periodicidad": "Mensual",
+          "actualizacion": "Después del día 8 de cada mes",
+          "fuente": [
+            "Base VIS"
+          ]
+        },
+        {
+          "indicador": "Número de beneficiarios del servicio a personas con discapacidad",
+          "periodicidad": "Mensual",
+          "actualizacion": "Después del día 8 de cada mes",
+          "fuente": [
+            "Base VIS"
+          ]
+        },
+        {
+          "indicador": "Número de beneficiarios del servicio de protección especial",
+          "periodicidad": "Mensual",
+          "actualizacion": "Después del día 8 de cada mes",
+          "fuente": [
+            "Base VIS"
+          ]
+        }
+      ]
+    },
+    {
+      "modulo": "KPIs · Alertas SUUSEN",
+      "indicadores": [
+        {
+          "indicador": "Porcentaje de alertas gestionadas en el SUUSEN",
+          "periodicidad": "Mensual",
+          "actualizacion": "Después del día 15 de cada mes",
+          "fuente": [
+            "SUUSEN – tablero público gerencial"
+          ],
+          "enlace": "https://suusen.desarrollohumano.gob.ec/dashboard-publico/44/gerencial"
+        }
+      ]
+    },
+    {
+      "modulo": "KPIs · Movilidad Social (CDH)",
+      "indicadores": [
+        {
+          "indicador": "Número de créditos de Desarrollo Humano otorgados",
+          "periodicidad": "Mensual",
+          "actualizacion": "Al recibir la base de desembolsos",
+          "fuente": [
+            "Base de desembolsos del Crédito de Desarrollo Humano"
+          ]
+        }
+      ]
+    },
+    {
+      "modulo": "KPIs · Trabajo",
+      "indicadores": [
+        {
+          "indicador": "Número de exservidores y extrabajadores jubilados compensados económicamente",
+          "periodicidad": "Mensual",
+          "actualizacion": "Hasta el día 15 de cada mes",
+          "fuente": [
+            "Reporte de gestión de compensación jubilar – DGID"
+          ]
+        },
+        {
+          "indicador": "Número de contratos a nivel nacional",
+          "periodicidad": "Diaria",
+          "actualizacion": "Todos los días a las 10h00",
+          "fuente": [
+            "Registros administrativos del Sistema Único de Trabajo (SUT)"
+          ]
+        }
+      ]
+    },
+    {
+      "modulo": "KPIs · Pueblos y Nacionalidades",
+      "indicadores": [
+        {
+          "indicador": "Porcentaje de resoluciones de personería jurídica y registros de directiva emitidos oportunamente para el fortalecimiento organizativo de comunas, comunidades y organizaciones de pueblos y nacionalidades",
+          "periodicidad": "Mensual",
+          "actualizacion": "Hasta el día 15 (insumo hasta el día 5)",
+          "fuente": [
+            "Direcciones de Registro y de Desarrollo de Pueblos y Nacionalidades, Fundaciones y Organizaciones sin Fines de Lucro"
+          ]
+        },
+        {
+          "indicador": "Número de convenios de financiamiento no reembolsable suscritos para el fortalecimiento de la economía de comunas, comunidades y organizaciones de pueblos y nacionalidades",
+          "periodicidad": "Mensual",
+          "actualizacion": "Hasta el día 15 (insumo hasta el día 5)",
+          "fuente": [
+            "Dirección de Desarrollo de Pueblos y Nacionalidades"
+          ]
+        }
+      ]
+    },
+    {
+      "modulo": "KPIs · Incentivos Temporales",
+      "indicadores": [
+        {
+          "indicador": "Jóvenes en Acción",
+          "periodicidad": "Por periodo",
+          "actualizacion": "Cada vez que inicia una nueva cohorte",
+          "fuente": [
+            "Gerencia del Proyecto Jóvenes en Acción"
+          ]
+        },
+        {
+          "indicador": "Compensación de combustibles",
+          "periodicidad": "Mensual",
+          "actualizacion": "Hasta el día 15 (insumo hasta el día 5)",
+          "fuente": [
+            "Usuarios: SANC – base de beneficiarios de incentivos",
+            "Presupuesto: reporte mensual de ejecución"
+          ]
+        },
+        {
+          "indicador": "Migrantes retornados",
+          "periodicidad": "Mensual",
+          "actualizacion": "Hasta el día 15 (insumo hasta el día 5)",
+          "fuente": [
+            "Usuarios: SANC – base de beneficiarios de incentivos",
+            "Presupuesto: reporte mensual de ejecución"
+          ]
+        }
+      ]
+    },
+    {
+      "modulo": "Transferencias no contributivas",
+      "indicadores": [
+        {
+          "indicador": "Bonos regulares",
+          "periodicidad": "Mensual",
+          "actualizacion": "Según disponibilidad del reporte Acumulado VIS-VIE",
+          "fuente": [
+            "Reporte Acumulado VIS-VIE"
+          ]
+        },
+        {
+          "indicador": "Bono de Contingencia Eventos Origen Natural (BCENA)",
+          "periodicidad": "Mensual",
+          "actualizacion": "Al recibir la base del presupuesto VIE",
+          "fuente": [
+            "Usuarios: bases SANC",
+            "Presupuesto: reporte mensual del presupuesto VIE"
+          ]
+        },
+        {
+          "indicador": "Bono de Orfandad por Femicidio",
+          "periodicidad": "Mensual",
+          "actualizacion": "Al recibir la base del presupuesto VIE",
+          "fuente": [
+            "Usuarios: bases SANC",
+            "Presupuesto: reporte mensual del presupuesto VIE"
+          ]
+        },
+        {
+          "indicador": "Cobertura de Contingencias",
+          "periodicidad": "Mensual",
+          "actualizacion": "Al recibir la base del presupuesto VIE",
+          "fuente": [
+            "Usuarios: bases SANC",
+            "Presupuesto: reporte mensual del presupuesto VIE"
+          ]
+        }
+      ]
+    },
+    {
+      "modulo": "Presupuesto",
+      "indicadores": [
+        {
+          "indicador": "Año fiscal",
+          "periodicidad": "Mensual",
+          "actualizacion": "Hasta el día 15 de cada mes",
+          "fuente": [
+            "Coordinación General de Planificación y Gestión Estratégica"
+          ]
+        }
+      ]
+    }
+  ]
+}

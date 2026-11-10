@@ -21,3 +21,27 @@ Página: `MDTDH/documentacion.html` (menú principal → Documentación).
   y permite buscarlas por nombre o número.
 - Para agregar o reemplazar una ficha: copiar el PDF en `fichas/`, agregar o editar su fila en
   `fichas.csv` y regenerar `E-05_Fichas_metodologicas.pdf` para que el archivo único siga completo.
+
+## Fuentes de información (`MDTDH/fuentes.html`)
+
+Menú **Fuentes y diccionario › Fuentes de información**. Los datos están en `fuentes.json`:
+
+```json
+{
+  "titulo": "Fuentes de información",
+  "actualizado": "AAAA-MM-DD",            // fecha de la última revisión del mapeo (se muestra en la página)
+  "modulos": [
+    { "modulo": "KPIs · Trabajo",
+      "indicadores": [
+        { "indicador": "…", "periodicidad": "Mensual", "actualizacion": "Hasta el día 15 de cada mes",
+          "fuente": ["Usuarios: …", "Presupuesto: …"],   // una línea por elemento
+          "enlace": "https://…" }                         // opcional: solo enlaces públicos
+      ] }
+  ]
+}
+```
+
+No escribir en este archivo IPs de servidores, rutas de red (X:\…), nombres de archivos ni nombres de personas:
+la página es pública. «Diccionario de datos» aparece en el menú sin enlace («Próximamente») hasta tener
+toda la información mapeada; para activarlo, en `assets/js/shared.js` (SIDEBAR_NAV) se reemplaza
+`disabled: true, nota: 'Próximamente'` por `href: 'MDTDH/<página>.html'`.
