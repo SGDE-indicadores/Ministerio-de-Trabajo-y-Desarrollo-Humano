@@ -191,3 +191,99 @@ registro_id,indicador,anio,mes,zona,provincia,presupuesto_musd,es_dato_real,nota
 6,Bienestar Social · Protección Especial (PE),2026,07,Zona 3,Tungurahua,0.755594,TRUE,Dato real de julio 2026 (columna 'Presupuesto_hasta_julio_2026' del Excel VIS-VIE).
 6,Bienestar Social · Protección Especial (PE),2025,12,Zona 7,Zamora Chinchipe,0.824459,TRUE,"Acumulado real nov 2023-dic 2025 (columna 'acumulado 2023-2025' del Excel VIS-VIE), colocado como un solo bloque en dic-2025 porque el archivo no permite desagregar por mes."
 6,Bienestar Social · Protección Especial (PE),2026,07,Zona 7,Zamora Chinchipe,0.245182,TRUE,Dato real de julio 2026 (columna 'Presupuesto_hasta_julio_2026' del Excel VIS-VIE).
+5,Bienestar Social · Desarrollo Infantil Integral (DII),2026,10,Zona 6,Azuay,1.252703,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+5,Bienestar Social · Desarrollo Infantil Integral (DII),2026,10,Zona 5,Bolívar,0.633884,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+5,Bienestar Social · Desarrollo Infantil Integral (DII),2026,10,Zona 6,Cañar,0.411157,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+5,Bienestar Social · Desarrollo Infantil Integral (DII),2026,10,Zona 1,Carchi,0.388853,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+5,Bienestar Social · Desarrollo Infantil Integral (DII),2026,10,Zona 3,Chimborazo,1.317957,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+5,Bienestar Social · Desarrollo Infantil Integral (DII),2026,10,Zona 3,Cotopaxi,2.307946,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+5,Bienestar Social · Desarrollo Infantil Integral (DII),2026,10,Zona 7,El Oro,1.189085,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+5,Bienestar Social · Desarrollo Infantil Integral (DII),2026,10,Zona 1,Esmeraldas,1.849715,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+5,Bienestar Social · Desarrollo Infantil Integral (DII),2026,10,Zona 5,Galápagos,0.132022,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+5,Bienestar Social · Desarrollo Infantil Integral (DII),2026,10,Zona 5,Guayas,11.178496,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+5,Bienestar Social · Desarrollo Infantil Integral (DII),2026,10,Zona 1,Imbabura,1.271671,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+5,Bienestar Social · Desarrollo Infantil Integral (DII),2026,10,Zona 7,Loja,0.728921,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+5,Bienestar Social · Desarrollo Infantil Integral (DII),2026,10,Zona 5,Los Ríos,1.160619,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+5,Bienestar Social · Desarrollo Infantil Integral (DII),2026,10,Zona 4,Manabí,5.158524,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+5,Bienestar Social · Desarrollo Infantil Integral (DII),2026,10,Zona 6,Morona Santiago,0.861399,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+5,Bienestar Social · Desarrollo Infantil Integral (DII),2026,10,Zona 2,Napo,0.437420,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+5,Bienestar Social · Desarrollo Infantil Integral (DII),2026,10,Zona 2,Orellana,0.432841,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+5,Bienestar Social · Desarrollo Infantil Integral (DII),2026,10,Zona 3,Pastaza,0.252262,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+5,Bienestar Social · Desarrollo Infantil Integral (DII),2026,10,Zona 2,Pichincha,5.595671,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+5,Bienestar Social · Desarrollo Infantil Integral (DII),2026,10,Zona 5,Santa Elena,1.240067,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+5,Bienestar Social · Desarrollo Infantil Integral (DII),2026,10,Zona 4,Santo Domingo de los Tsáchilas,0.691149,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+5,Bienestar Social · Desarrollo Infantil Integral (DII),2026,10,Zona 1,Sucumbíos,0.580561,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+5,Bienestar Social · Desarrollo Infantil Integral (DII),2026,10,Zona 3,Tungurahua,1.220867,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+5,Bienestar Social · Desarrollo Infantil Integral (DII),2026,10,Zona 7,Zamora Chinchipe,0.152001,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+8,Bienestar Social · Personas Adultas Mayores (PAM),2026,10,Zona 6,Azuay,1.054852,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+8,Bienestar Social · Personas Adultas Mayores (PAM),2026,10,Zona 5,Bolívar,0.852721,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+8,Bienestar Social · Personas Adultas Mayores (PAM),2026,10,Zona 6,Cañar,0.403383,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+8,Bienestar Social · Personas Adultas Mayores (PAM),2026,10,Zona 1,Carchi,0.070315,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+8,Bienestar Social · Personas Adultas Mayores (PAM),2026,10,Zona 3,Chimborazo,1.177392,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+8,Bienestar Social · Personas Adultas Mayores (PAM),2026,10,Zona 3,Cotopaxi,0.622635,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+8,Bienestar Social · Personas Adultas Mayores (PAM),2026,10,Zona 7,El Oro,0.415995,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+8,Bienestar Social · Personas Adultas Mayores (PAM),2026,10,Zona 1,Esmeraldas,0.341757,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+8,Bienestar Social · Personas Adultas Mayores (PAM),2026,10,Zona 5,Galápagos,0.000000,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+8,Bienestar Social · Personas Adultas Mayores (PAM),2026,10,Zona 5,Guayas,1.390970,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+8,Bienestar Social · Personas Adultas Mayores (PAM),2026,10,Zona 1,Imbabura,1.110868,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+8,Bienestar Social · Personas Adultas Mayores (PAM),2026,10,Zona 7,Loja,0.406455,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+8,Bienestar Social · Personas Adultas Mayores (PAM),2026,10,Zona 5,Los Ríos,0.592195,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+8,Bienestar Social · Personas Adultas Mayores (PAM),2026,10,Zona 4,Manabí,1.674447,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+8,Bienestar Social · Personas Adultas Mayores (PAM),2026,10,Zona 6,Morona Santiago,0.302449,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+8,Bienestar Social · Personas Adultas Mayores (PAM),2026,10,Zona 2,Napo,0.151829,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+8,Bienestar Social · Personas Adultas Mayores (PAM),2026,10,Zona 2,Orellana,0.245004,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+8,Bienestar Social · Personas Adultas Mayores (PAM),2026,10,Zona 3,Pastaza,0.219447,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+8,Bienestar Social · Personas Adultas Mayores (PAM),2026,10,Zona 2,Pichincha,0.669685,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+8,Bienestar Social · Personas Adultas Mayores (PAM),2026,10,Zona 5,Santa Elena,0.180231,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+8,Bienestar Social · Personas Adultas Mayores (PAM),2026,10,Zona 4,Santo Domingo de los Tsáchilas,0.193316,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+8,Bienestar Social · Personas Adultas Mayores (PAM),2026,10,Zona 1,Sucumbíos,0.125698,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+8,Bienestar Social · Personas Adultas Mayores (PAM),2026,10,Zona 3,Tungurahua,0.418043,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+8,Bienestar Social · Personas Adultas Mayores (PAM),2026,10,Zona 7,Zamora Chinchipe,0.108886,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+7,Bienestar Social · Personas con Discapacidad (PCD),2026,10,Zona 6,Azuay,0.297282,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+7,Bienestar Social · Personas con Discapacidad (PCD),2026,10,Zona 5,Bolívar,0.132848,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+7,Bienestar Social · Personas con Discapacidad (PCD),2026,10,Zona 6,Cañar,0.000000,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+7,Bienestar Social · Personas con Discapacidad (PCD),2026,10,Zona 1,Carchi,0.018895,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+7,Bienestar Social · Personas con Discapacidad (PCD),2026,10,Zona 3,Chimborazo,0.374480,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+7,Bienestar Social · Personas con Discapacidad (PCD),2026,10,Zona 3,Cotopaxi,0.107477,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+7,Bienestar Social · Personas con Discapacidad (PCD),2026,10,Zona 7,El Oro,0.377728,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+7,Bienestar Social · Personas con Discapacidad (PCD),2026,10,Zona 1,Esmeraldas,0.050944,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+7,Bienestar Social · Personas con Discapacidad (PCD),2026,10,Zona 5,Galápagos,0.000000,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+7,Bienestar Social · Personas con Discapacidad (PCD),2026,10,Zona 5,Guayas,1.102662,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+7,Bienestar Social · Personas con Discapacidad (PCD),2026,10,Zona 1,Imbabura,0.072348,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+7,Bienestar Social · Personas con Discapacidad (PCD),2026,10,Zona 7,Loja,0.295107,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+7,Bienestar Social · Personas con Discapacidad (PCD),2026,10,Zona 5,Los Ríos,0.213033,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+7,Bienestar Social · Personas con Discapacidad (PCD),2026,10,Zona 4,Manabí,0.800426,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+7,Bienestar Social · Personas con Discapacidad (PCD),2026,10,Zona 6,Morona Santiago,0.017347,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+7,Bienestar Social · Personas con Discapacidad (PCD),2026,10,Zona 2,Napo,0.000000,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+7,Bienestar Social · Personas con Discapacidad (PCD),2026,10,Zona 2,Orellana,0.091211,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+7,Bienestar Social · Personas con Discapacidad (PCD),2026,10,Zona 3,Pastaza,0.069849,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+7,Bienestar Social · Personas con Discapacidad (PCD),2026,10,Zona 2,Pichincha,0.256979,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+7,Bienestar Social · Personas con Discapacidad (PCD),2026,10,Zona 5,Santa Elena,0.144214,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+7,Bienestar Social · Personas con Discapacidad (PCD),2026,10,Zona 4,Santo Domingo de los Tsáchilas,0.127372,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+7,Bienestar Social · Personas con Discapacidad (PCD),2026,10,Zona 1,Sucumbíos,0.032269,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+7,Bienestar Social · Personas con Discapacidad (PCD),2026,10,Zona 3,Tungurahua,0.178701,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+7,Bienestar Social · Personas con Discapacidad (PCD),2026,10,Zona 7,Zamora Chinchipe,0.000000,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+6,Bienestar Social · Protección Especial (PE),2026,10,Zona 6,Azuay,0.529498,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+6,Bienestar Social · Protección Especial (PE),2026,10,Zona 5,Bolívar,0.280677,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+6,Bienestar Social · Protección Especial (PE),2026,10,Zona 6,Cañar,0.035629,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+6,Bienestar Social · Protección Especial (PE),2026,10,Zona 1,Carchi,0.029453,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+6,Bienestar Social · Protección Especial (PE),2026,10,Zona 3,Chimborazo,0.130858,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+6,Bienestar Social · Protección Especial (PE),2026,10,Zona 3,Cotopaxi,0.182895,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+6,Bienestar Social · Protección Especial (PE),2026,10,Zona 7,El Oro,0.233535,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+6,Bienestar Social · Protección Especial (PE),2026,10,Zona 1,Esmeraldas,0.223174,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+6,Bienestar Social · Protección Especial (PE),2026,10,Zona 5,Galápagos,0.000000,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+6,Bienestar Social · Protección Especial (PE),2026,10,Zona 5,Guayas,1.390400,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+6,Bienestar Social · Protección Especial (PE),2026,10,Zona 1,Imbabura,0.426736,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+6,Bienestar Social · Protección Especial (PE),2026,10,Zona 7,Loja,0.466783,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+6,Bienestar Social · Protección Especial (PE),2026,10,Zona 5,Los Ríos,0.250405,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+6,Bienestar Social · Protección Especial (PE),2026,10,Zona 4,Manabí,0.511017,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+6,Bienestar Social · Protección Especial (PE),2026,10,Zona 6,Morona Santiago,0.022594,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+6,Bienestar Social · Protección Especial (PE),2026,10,Zona 2,Napo,0.000000,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+6,Bienestar Social · Protección Especial (PE),2026,10,Zona 2,Orellana,0.041238,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+6,Bienestar Social · Protección Especial (PE),2026,10,Zona 3,Pastaza,0.158627,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+6,Bienestar Social · Protección Especial (PE),2026,10,Zona 2,Pichincha,0.308370,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+6,Bienestar Social · Protección Especial (PE),2026,10,Zona 5,Santa Elena,0.095361,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+6,Bienestar Social · Protección Especial (PE),2026,10,Zona 4,Santo Domingo de los Tsáchilas,0.293542,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+6,Bienestar Social · Protección Especial (PE),2026,10,Zona 1,Sucumbíos,0.039198,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+6,Bienestar Social · Protección Especial (PE),2026,10,Zona 3,Tungurahua,0.234950,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
+6,Bienestar Social · Protección Especial (PE),2026,10,Zona 7,Zamora Chinchipe,0.028159,TRUE,Dato real de agosto-octubre 2026 (columna 'Presupuesto ago-oct2026' del Excel VIS-VIE).
