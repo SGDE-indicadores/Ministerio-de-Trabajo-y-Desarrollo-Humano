@@ -46,13 +46,14 @@ function fetchCSV(path) {
 // PROTECCIÓN SOCIAL — 4 componentes (DII, PAM, PCD, Protección Especial)
 // Datos reales:
 // - caracterizacion_proteccion_social.csv: último corte (columnas anio_corte/mes_corte).
-// - presupuesto_proteccion_social.csv: acumulado 2023-2025 + julio 2026.
+// - presupuesto_proteccion_social.csv: acumulado 2023-2025 + bloques de 2026 (ene-jul, ago-oct, …).
 // - series_historicas_servicios.csv: usuarios atendidos en diciembre de 2018 a 2025.
 // La serie histórica anual usa el corte de diciembre; el último corte mensual se
 // muestra por separado para no mezclarlo con los diciembres.
 // ============================================================
 let PS_CARACTERIZACION = {};      // registro -> { total, sexo:[...], rango_edad:[...], etnia:[...], pobreza_2018:[...], pobreza_2025:[...] }
 let PS_PRESUPUESTO = {};          // registro -> { gobierno: musd, fiscal: musd }
+let PS_PRESUPUESTO_CORTE = null;  // último mes cargado { anio, mes }, para los rótulos
 let PS_COBERTURA_HISTORICA = {};  // registro -> [{anio, mes, usuarios, esReal}]
 let psDataPromise = null;
 
@@ -75,13 +76,18 @@ function fetchProteccionSocialData(){
         PS_CARACTERIZACION[reg][r.grupo].push({ categoria: r.categoria, usuarios: Number(r.usuarios) || 0 });
       }
     });
+    // "gobierno" = todo lo que hay (acumulado 2023-2025 + bloques del año en curso);
+    // "fiscal" = suma de los bloques del último año cargado (enero hasta el último mes).
+    pres.forEach(r => {
+      const p = { anio: String(r.anio), mes: String(r.mes).padStart(2, '0') };
+      if (!PS_PRESUPUESTO_CORTE || p.anio + p.mes > PS_PRESUPUESTO_CORTE.anio + PS_PRESUPUESTO_CORTE.mes) PS_PRESUPUESTO_CORTE = p;
+    });
     pres.forEach(r => {
       const reg = r.registro_id;
       if (!PS_PRESUPUESTO[reg]) PS_PRESUPUESTO[reg] = { gobierno: 0, fiscal: 0 };
       const musd = Number(r.presupuesto_musd) || 0;
-      // "gobierno" = todo lo que hay (acumulado 2023-2025 + julio 2026); "fiscal" = solo julio 2026
       PS_PRESUPUESTO[reg].gobierno += musd;
-      if (r.anio === '2026' && r.mes === '07') PS_PRESUPUESTO[reg].fiscal += musd;
+      if (PS_PRESUPUESTO_CORTE && String(r.anio) === PS_PRESUPUESTO_CORTE.anio) PS_PRESUPUESTO[reg].fiscal += musd;
     });
     hist.forEach(r => {
       const reg = r.registro_id;
@@ -1764,7 +1770,10 @@ function selectCovPeriodo(periodo){
   if(pres){
     const isFiscal = periodo === 'fiscal';
     const value = isFiscal ? pres.fiscal : pres.gobierno;
-    const title = isFiscal ? 'Julio 2026' : 'Periodo disponible 2023–julio 2026';
+    const k = PS_PRESUPUESTO_CORTE;
+    const mesTxt = k ? (TRANSFER_MONTHS[k.mes] || k.mes) : '';
+    const title = !k ? 'Presupuesto ejecutado'
+      : isFiscal ? `Enero–${mesTxt} ${k.anio}` : `Periodo disponible 2023–${mesTxt} ${k.anio}`;
     el.innerHTML = `
       <div class="ind-card">
         <div class="ind-stripe" style="background:var(--verde);"></div>
