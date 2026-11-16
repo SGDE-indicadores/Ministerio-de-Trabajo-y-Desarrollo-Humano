@@ -187,12 +187,18 @@ function fmtMoneyM(value){
   return `${Number(value).toLocaleString('es-EC',{minimumFractionDigits:1,maximumFractionDigits:1})} millones`;
 }
 
+function fmtMoneyFull(valueM){
+  return (Math.round(Number(valueM) * 1e8) / 100).toLocaleString('es-EC',{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+
 function fetchTransferData() {
   if (transferDataPromise) return transferDataPromise;
   // Dos archivos separados (no se mezclan en el CSV): transferencias_mensual.csv trae
   // desagregación provincial (6 programas), transferencias_nacional.csv trae solo el
-  // total nacional por mes (3 programas: Femicidio, Contingencias, BCENA). Se combinan
+  // total nacional por mes (3 programas: Femicidio, Contingencias, BCENA; y los meses de los
+  // 6 programas provinciales que aún solo tienen total nacional, p. ej. octubre 2026). Se combinan
   // aquí, en memoria, en la misma forma que el resto del código ya sabe leer.
+  // Beneficiarios vacíos = sin dato (null), distinto de 0: las vistas toman los del último mes con dato.
   transferDataPromise = Promise.all([
     fetchCSV('../datos/transferencias/transferencias_mensual.csv'),
     fetchCSV('../datos/transferencias/transferencias_nacional.csv'),
@@ -235,7 +241,7 @@ function fetchTransferData() {
         mes: esAcumuladoLump ? null : r.mes,
         periodo: esAcumuladoLump ? 'historico-nov2023-dic2025' : (r.anio + '-' + r.mes),
         fechaDesembolso: r.fecha_desembolso,
-        beneficiarios: Number(r.beneficiarios) || 0,
+        beneficiarios: transferBenef(r.beneficiarios),
         montoM: Number(r.monto_ejecutado_musd) || 0,
       };
     });
@@ -248,7 +254,7 @@ function fetchTransferData() {
       mes: r.mes,
       periodo: r.anio + '-' + r.mes,
       fechaDesembolso: r.fecha_corte,
-      beneficiarios: Number(r.beneficiarios) || 0,
+      beneficiarios: transferBenef(r.beneficiarios),
       montoM: Number(r.monto_devengado_musd) || 0,
     }));
     TRANSFER_ROWS = filasProvinciales.concat(filasNacionales);
@@ -280,13 +286,24 @@ function transferPeriodMax() {
 // que el resto del código ya sabe dibujar: {name, users, budget, budgetM, icon}.
 // budgetM se SUMA (el dinero se acumula); users toma el mes MÁS RECIENTE del
 // rango filtrado (una caja monetaria no "acumula" beneficiarios entre meses).
+// Celda de beneficiarios vacía = sin dato (null); un 0 escrito sí es cero.
+function transferBenef(v) {
+  return (v === undefined || v === null || String(v).trim() === '') ? null : (Number(v) || 0);
+}
+// Último mes (AAAA-MM, hasta «hasta» inclusive) en que el programa tiene beneficiarios registrados.
+function transferUltimoMesConBenef(slug, hasta) {
+  const meses = [...new Set(TRANSFER_ROWS.filter(r => r.slug === slug && r.beneficiarios !== null &&
+    /^\d{4}-\d{2}$/.test(r.periodo) && (!hasta || r.periodo <= hasta)).map(r => r.periodo))].sort();
+  return meses.length ? meses[meses.length - 1] : null;
+}
 function aggregateTransferRows(rows) {
   const bySlug = {};
   rows.forEach(r => {
-    if (!bySlug[r.slug]) bySlug[r.slug] = { slug: r.slug, name: r.nombre, montoM: 0, porMes: {} };
+    if (!bySlug[r.slug]) bySlug[r.slug] = { slug: r.slug, name: r.nombre, montoM: 0, porMes: {}, periodos: new Set() };
     const g = bySlug[r.slug];
     g.montoM += r.montoM;
-    g.porMes[r.periodo] = (g.porMes[r.periodo] || 0) + r.beneficiarios;
+    g.periodos.add(r.periodo);
+    if (r.beneficiarios !== null) g.porMes[r.periodo] = (g.porMes[r.periodo] || 0) + r.beneficiarios;
   });
   // conserva el orden de TRANSFER_PROGRAM_META para que las tarjetas salgan siempre igual
   return TRANSFER_PROGRAM_META.map(meta => {
@@ -295,9 +312,22 @@ function aggregateTransferRows(rows) {
     // Solo periodos AAAA-MM reales cuentan para "mes más reciente"; el pseudo-periodo
     // 'historico-nov2023-dic2025' (sin beneficiarios propios) ordena después
     // alfabéticamente y no debe pisar el dato real más reciente.
-    const meses = Object.keys(g.porMes).filter(p => /^\d{4}-\d{2}$/.test(p)).sort();
-    const users = meses.length ? (g.porMes[meses[meses.length - 1]] || 0) : 0;
-    return { name: g.name, users, budgetM: g.montoM, budget: fmtMoneyM(g.montoM), icon: meta.icon };
+    const meses = [...g.periodos].filter(p => /^\d{4}-\d{2}$/.test(p)).sort();
+    const ultimo = meses.length ? meses[meses.length - 1] : null;
+    // Si el último mes de la selección no tiene beneficiarios (p. ej. octubre 2026, solo montos),
+    // se toman los del último mes con dato.
+    let users = 0, usersPeriodo = null;
+    if (ultimo && g.porMes[ultimo] !== undefined) {
+      users = g.porMes[ultimo];
+    } else if (ultimo) {
+      const conDato = transferUltimoMesConBenef(g.slug, ultimo);
+      if (conDato) {
+        users = TRANSFER_ROWS.filter(r => r.slug === g.slug && r.periodo === conDato && r.beneficiarios !== null)
+                             .reduce((s, r) => s + r.beneficiarios, 0);
+        usersPeriodo = conDato;
+      }
+    }
+    return { name: g.name, users, usersPeriodo, budgetM: g.montoM, budget: fmtMoneyM(g.montoM), icon: meta.icon };
   });
 }
 
@@ -874,14 +904,15 @@ function describirCoberturasDesdeDatos(nacional){
                  .sort((x, y) => (x.anio + x.mes).localeCompare(y.anio + y.mes));
     const conPago = filas.filter(r => r.b > 0 && r.m > 0);
     if (!conPago.length) return;
-    const ini = conPago[0], ult = filas[filas.length - 1], ultPago = conPago[conPago.length - 1];
+    const conBenef = filas.filter(r => transferBenef(r.beneficiarios) !== null);   // un mes con solo montos no cuenta
+    const ini = conPago[0], ult = conBenef[conBenef.length - 1] || filas[filas.length - 1], ultPago = conPago[conPago.length - 1];
     const doce = conPago.slice(-12);
     const prom = doce.reduce((s, r) => s + r.m, 0) / doce.reduce((s, r) => s + r.b, 0);
     const montoTotal = filas.reduce((s, r) => s + r.m, 0);
     transferProgramInfo[meta.name] = {
       desc: `Transferencia monetaria no contributiva de cobertura, registrada a nivel nacional. ` +
-            `El portal cuenta con pagos desde ${mesTxt(ini)} hasta ${mesTxt(ult)}; en ${mesTxt(ult)} se registraron ` +
-            `${ult.b.toLocaleString('es-EC')} beneficiarios.`,
+            `El portal cuenta con pagos desde ${mesTxt(ini)} hasta ${mesTxt(filas[filas.length - 1])}; en ${mesTxt(ult)} ` +
+            `se registraron ${ult.b.toLocaleString('es-EC')} beneficiarios.`,
       amount: `Los pagos se registran por mes. En los últimos ${doce.length} meses con pago, el monto devengado ` +
               `promedio fue de ${usd(prom)} por beneficiario (monto devengado ÷ beneficiarios); el valor varía entre meses.`,
       reqs: [],
@@ -989,7 +1020,7 @@ function buildCoverageSnapshot(period, slug){
   if(!meta || !/^\d{4}-\d{2}$/.test(String(period || ''))) return null;
   const rows = TRANSFER_ROWS.filter(r => r.slug === slug && r.periodo === String(period));
   if(!rows.length) return null;
-  const users = rows.reduce((s,r)=>s+r.beneficiarios,0);
+  const users = rows.reduce((s,r)=>s+(r.beneficiarios || 0),0);
   const budgetM = rows.reduce((s,r)=>s+r.montoM,0);
   return { name: meta.name, icon: meta.icon, users, budgetM, budget: fmtMoneyM(budgetM) };
 }
@@ -1139,7 +1170,7 @@ function renderTransferencias(periodKey){
       <div class="tm-card-name">${p.name}</div>
       <div class="tm-card-category" style="color:${style.color};">${categoryLabel}</div>
       <div class="tm-metric-row"><span class="tm-metric-label">Beneficiarios</span><span class="tm-metric-value">${fmtInt(p.users)}</span></div>
-      <div class="tm-metric-row"><span class="tm-metric-label">Ejecutado</span><span class="tm-metric-value money">USD ${p.budget}</span></div>
+      <div class="tm-metric-row"><span class="tm-metric-label">Ejecutado</span><span class="tm-metric-value money">USD ${fmtMoneyFull(p.budgetM)}</span></div>
       ${p.acumuladoLabel ? `<div class="tm-card-acum" style="font-size:11.5px;font-weight:600;color:#8A5A00;background:#FFF6DB;border:1px solid #F1D48A;border-radius:6px;padding:3px 8px;margin:4px 0 2px;text-align:right;">Monto ${escHtml(p.acumuladoLabel)}</div>` : ''}
       <div class="tm-card-bar-track"><div class="tm-card-bar-fill" style="width:${(p.budgetM/maxBudget*100).toFixed(1)}%; background:${style.color};"></div></div>
     </div>`;
@@ -1361,8 +1392,8 @@ function renderTransferCoverageByPeriod(){
   const el = document.getElementById('transferDetailContent');
   const meta = getTransferProgramMetaBySlug(currentTransferDetailSlug);
   if(!el || !meta) return;
-  const periodosPrograma = TRANSFER_ROWS.filter(r => r.slug === currentTransferDetailSlug && /^\d{4}-\d{2}$/.test(r.periodo)).map(r => r.periodo).sort();
-  currentTransferCoveragePeriod = periodosPrograma.length ? periodosPrograma[periodosPrograma.length - 1] : PERIOD_MAX;
+  // Se usa el último mes con beneficiarios registrados (un mes con solo montos no cuenta aquí).
+  currentTransferCoveragePeriod = transferUltimoMesConBenef(currentTransferDetailSlug) || PERIOD_MAX;
   const data = buildCoverageSnapshot(currentTransferCoveragePeriod, currentTransferDetailSlug);
   const style = getTransferCategoryStyle(meta.category);
   const periodLabel = coveragePeriodLabel(currentTransferCoveragePeriod);
@@ -1923,7 +1954,8 @@ const CROSS_FILE_ROUTES = {
   'presupuesto-gobierno': { file: 'presupuesto.html', base: 'mdtdh' },
   'presupuesto-fiscal': { file: 'presupuesto.html', base: 'mdtdh' },
   'documentacion': { file: 'documentacion.html', base: 'mdtdh' },
-  'fuentes': { file: 'fuentes.html', base: 'mdtdh' }
+  'fuentes': { file: 'fuentes.html', base: 'mdtdh' },
+  'diccionario': { file: 'diccionario.html', base: 'mdtdh' }
 };
 
 function nav(route){
@@ -2046,8 +2078,7 @@ const SIDEBAR_NAV = [
   { id: 'fuentes-datos', label: 'Fuentes y diccionario', icon: '<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/>',
     children: [
       { id: 'fuentes', label: 'Fuentes de información', href: 'MDTDH/fuentes.html' },
-      // Pendiente hasta tener toda la información mapeada: se muestra sin enlace (estático)
-      { id: 'diccionario', label: 'Diccionario de datos', disabled: true, nota: 'Próximamente' }
+      { id: 'diccionario', label: 'Diccionario de datos', href: 'MDTDH/diccionario.html' }
     ] }
 ];
 
