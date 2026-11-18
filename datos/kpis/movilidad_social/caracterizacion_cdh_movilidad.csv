@@ -83,5 +83,3 @@ registro_id,anio,mes,tipo_credito,grupo,categoria,registros,monto_total_usd,es_d
 12,2026,10,24 MESES,etnia,Montuvio(a),826,971045.12,TRUE,Dato real (resumen_CDH_octubre_2026.xlsx).
 12,2026,10,24 MESES,etnia,Mulato(a),79,94360.62,TRUE,Dato real (resumen_CDH_octubre_2026.xlsx).
 12,2026,10,24 MESES,etnia,Otro,7,8427.29,TRUE,Dato real (resumen_CDH_octubre_2026.xlsx).
-12,2026,10,12 MESES,pobreza,No definido,920,566315.4,TRUE,Dato real (resumen_CDH_octubre_2026.xlsx).
-12,2026,10,24 MESES,pobreza,No definido,4721,5606960.27,TRUE,Dato real (resumen_CDH_octubre_2026.xlsx).
